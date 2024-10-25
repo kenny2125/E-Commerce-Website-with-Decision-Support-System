@@ -90,10 +90,12 @@ p {
 }
 
 a {
-    color: #000000;
     font-size: 13px;
 }
 
 .no-underline {
     text-decoration: none;
+    position: relative;
+    display: block;
+    margin-top: 10px;
 }
