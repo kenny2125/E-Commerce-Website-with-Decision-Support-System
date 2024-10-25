@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+img {
+    width: 150px;
+    height: 120px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.left {
+    flex: 1;
+    background: url('registration.png') no-repeat center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+.left h1 {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.right {
+    flex: 1;
+    background-color: white;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right h2 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.right p {
+    margin-bottom: 20px;
+}
+
+.right form {
+    display: flex;
+    flex-direction: column;
+}
+
+.right form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.right form .row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.right form .row input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.right form .row input:last-child {
+    margin-right: 0;
+}
+
+.right form .password-container {
+    position: relative;
+}
+
+.right form .password-container input {
+    width: 100%;
+}
+
+.right form .password-container .fa-eye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.right form .terms {
+    margin-bottom: 20px;
+}
+
+.right form .terms a {
+    color: #000;
+    text-decoration: none;
+}
+
+.right form button {
+    padding: 10px;
+    font-size: 1em;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
