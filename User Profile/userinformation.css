@@ -1,0 +1,66 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #3b1d6b;
+}
+
+.profile-card {
+    width: 400px;
+    background-color: #e5e5e5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-card h2 {
+    font-size: 1.5em;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.profile-card h2 .edit-icon {
+    font-style: normal;
+    font-weight: bold;
+    color: #000;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.field label {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.field .value {
+    font-size: 1em;
+    color: #000;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.flex-container {
+    display: flex;
+    gap: 10px;
+}
+
+.flex-container .field {
+    flex: 1;
+}
