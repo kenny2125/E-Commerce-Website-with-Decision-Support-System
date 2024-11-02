@@ -8,7 +8,7 @@ html {
 }
 
 body {
-    background: url('login.png');
+    background: url('/assets/images/login.png');
     background-size: 110%;
     background-repeat: no-repeat;
     background-position: center;

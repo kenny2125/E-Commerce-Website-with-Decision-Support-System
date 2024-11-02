@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     togglePasswordIcon.addEventListener('click', () => {
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
-            togglePasswordIcon.src = 'closed.png'; 
+            togglePasswordIcon.src = '/assets/images/view.png'; 
         } else {
             passwordField.type = 'password';
-            togglePasswordIcon.src = 'view.png'; 
+            togglePasswordIcon.src = '/assets/images/closed.png'; 
         }
     }); 
 

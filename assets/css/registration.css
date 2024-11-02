@@ -17,7 +17,7 @@ img {
 
 .left {
     flex: 1;
-    background: url('registration.png') no-repeat center center;
+    background: url('/assets/images/registration.png') no-repeat center center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,7 +42,7 @@ img {
 .right h2 {
     font-size: 2em;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .right p {

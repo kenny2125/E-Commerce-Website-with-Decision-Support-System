@@ -6,35 +6,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const togglePasswordIcon1 = document.getElementById('togglePasswordIcon1');
     const togglePasswordIcon2 = document.getElementById('togglePasswordIcon2');
 
+    let requirements = [];
+
     togglePasswordIcon1.addEventListener('click', () => {
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
-            togglePasswordIcon1.src = 'closed.png'; 
+            togglePasswordIcon1.src = '/assets/images/view.png'; 
         } else {
             passwordField.type = 'password';
-            togglePasswordIcon1.src = 'view.png'; 
+            togglePasswordIcon1.src = '/assets/images/closed.png'; 
         }
     });
 
     togglePasswordIcon2.addEventListener('click', () => {
         if (confirmPasswordField.type === 'password') {
             confirmPasswordField.type = 'text';
-            togglePasswordIcon2.src = 'closed.png'; 
+            togglePasswordIcon2.src = '/assets/images/view.png'; 
         } else {
             confirmPasswordField.type = 'password';
-            togglePasswordIcon2.src = 'view.png'; 
+            togglePasswordIcon2.src = '/assets/images/closed.png'; 
         }
     }); 
 
     passwordField.addEventListener('input', () => {
         const password = passwordField.value;
-        const requirements = [
+        requirements = [
             /[A-Z]/.test(password), 
             /[a-z]/.test(password), 
             /[0-9]/.test(password), 
-            /[!@#$%^&*(),.?":{}|<>]/.test(password)
+            /[`~!@#$%^&*()\-_=+{};:'",<.>|\\[\]\/?]/.test(password)
         ];
-
+        
         passwordFeedback.textContent = requirements.filter(Boolean).length === 4 
             ? 'Password meets all requirements!' 
             : 'Password must include uppercase, lowercase, number, and special character.';
@@ -51,15 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmPasswordFeedback.style.color = 'red';
             return;
         } else {
-            confirmPasswordFeedback.textContent = '';
+            confirmPasswordFeedback.textContent = 'Password match!';
+            confirmPasswordFeedback.style.color = 'green';
         }
-
-        const requirements = [
-            /[A-Z]/.test(password), 
-            /[a-z]/.test(password), 
-            /[0-9]/.test(password), 
-            /[!@#$%^&*(),.?":{}|<>]/.test(password)
-        ];
 
         if (requirements.filter(Boolean).length !== 4) {
             alert('Password does not meet the requirements!');
