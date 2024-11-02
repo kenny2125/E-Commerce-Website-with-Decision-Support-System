@@ -9,7 +9,7 @@
     <div class="form-box">
         <h1>WELCOME TO</h1>
         <img src="logo.png" alt="RPC Computer Store">
-        <form>
+        <form>  
             <div class="input-group">
                 <div class="input-field">
                     <i class="fa-solid fa-user"></i>
@@ -17,9 +17,11 @@
                 </div>
 
                 <div class="input-field">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" placeholder="Password">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Password" id="password">
+                    <img src="view.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
                 </div>
+                <a href="../Forgot Password/forgot-password.html" class="no-underline">Forgot Password?</a>
                 <p>Don't have an account yet? <a href="../Registration/registration.html">Create an account.</a></p>
                 <button class="button">Login</button>
                 <a href="#" class="no-underline">ADMIN</a>
@@ -27,5 +29,6 @@
         </form>
     </div>
 </div>
+<script src="login.js"></script>
 </body>
 </html>

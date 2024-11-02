@@ -17,28 +17,31 @@
             <p>Already have an account? <a href="../Login/login.html">Log In</a></p>
             <form>
                 <div class="row">
-                    <input type="text" placeholder="First Name"/>
-                    <input type="text" placeholder="Last Name"/>
-                    <input type="text" placeholder="M.I (Optional)"/>
+                    <input type="text" placeholder="First Name" name="firstName" required/>
+                    <input type="text" placeholder="Last Name" name="lastName" required/>
+                    <input type="text" placeholder="M.I (Optional)" name="middleInitial"/>
                 </div>
-                    <input type="text" placeholder="Username"/>
-                    <input type="text" placeholder="Address"/>
-                    <input type="text" placeholder="Contact Number"/>
-                    <input type="email" placeholder="Email Address"/>
+                <input type="text" placeholder="Username" name="username" required/>
+                <input type="text" placeholder="Address" name="address" required/>
+                <input type="text" placeholder="Contact Number" name="contactNumber" required/>
+                <input type="email" placeholder="Email Address" name="email" required/>
                 <div class="password-container">
-                    <input type="password" placeholder="Password"/>
-                    <i class="fas fa-eye"></i>
+                    <input type="password" placeholder="Password" required id="password" name="password" required/>
+                    <img src="view.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
+                    <div id="passwordFeedback" class="feedback"></div>
                 </div>
-                <div class="password-container">
-                    <input placeholder="Confirm your password" type="password"/>
-                    <i class="fas fa-eye"></i>
+                <div class="confirmpassword-container">
+                    <input type="password" placeholder="Confirm your password" id="confirmPassword" name="confirmPassword" required/>
+                    <img src="view.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
+                    <div id="confirmPasswordFeedback" class="feedback"></div>
                 </div>
                 <div class="terms">
-                    <input type="checkbox"/>Agree on<a href="#">Terms and Conditions</a>
+                    <input type="checkbox" name="terms" required/>Agree on <a href="#">Terms and Conditions</a>
                 </div>
                 <button type="submit">SIGN UP</button>
             </form>
         </div>
     </div>
+    <script src="registration.js"></script>
 </body>
 </html>

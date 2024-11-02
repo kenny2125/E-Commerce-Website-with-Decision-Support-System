@@ -81,15 +81,44 @@ img {
 }
 
 .right form .password-container input {
-    width: 100%;
+    width: 1000px; 
+    padding-right: 30px; 
 }
 
-.right form .password-container .fa-eye {
+.right form .password-container img {
     position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 20px; /* Adjust this value to position the image */
+    top: 19px; /* Center the image vertically */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    width: 18px;
+    height: 18px;
     cursor: pointer;
+}
+
+.right form .confirmpassword-container {
+    position: relative;
+}
+
+.right form .confirmpassword-container input {
+    width: 1000px;
+    padding-right: 30px; 
+}
+
+.right form .confirmpassword-container img {
+    position: absolute;
+    right: 20px; /* Adjust this value to position the image */
+    top: 19px; /* Center the image vertically */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.feedback {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 5px;
 }
 
 .right form .terms {
