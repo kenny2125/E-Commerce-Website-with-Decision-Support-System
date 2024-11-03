@@ -4,16 +4,32 @@
     box-sizing: border-box;
 }
 
-body {
+body, html {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    padding: 20px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.page-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
 }
 
 .profile-container {
-    max-width: 800px;
+    width: 90%;
+    max-width: 1200px;
     margin: auto;
     display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
@@ -22,6 +38,10 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card {
+    grid-column: span 2;
 }
 
 .profile-card h2, .order-history h3, .wishlist h3, .payment-methods h3 {
