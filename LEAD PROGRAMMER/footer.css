@@ -1,203 +1,343 @@
 body {
-    font-family: Arial, sans-serif;
+    position: relative;
     margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+    line-height: normal;
 }
 
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px;
-    text-align: center;
+.background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    background-color: #122448;
 }
-
-nav {
-    background-color: #333;
-    overflow: hidden;
-}
-
-nav ul {
+.rpc-tech-computer {
     margin: 0;
-    padding: 0;
-    list-style: none;
-    text-align: center;
 }
-
-nav ul li {
+.rpc-tech-computer-container {
+    position: absolute;
+    height: 14.1%;
+    width: 10.99%;
+    top: 90.33%;
+    left: 44.48%;
+    font-size: 8px;
+    line-height: 133.17%;
+    font-family: 'Work Sans';
+    text-align: center;
     display: inline-block;
 }
-
-nav ul li a {
-    color: white;
-    padding: 14px 20px;
-    text-decoration: none;
-    display: block;
-}
-
-nav ul li a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
-main {
-    max-width: 1000px;
-    margin: 20px auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-section {
-    margin-bottom: 30px;
-}
-
-h2 {
-    color: #4CAF50;
-}
-
-ul {
-    padding-left: 20px;
-}
-
-ul li {
-    margin-bottom: 10px;
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
-
-.step {
-    background-color: #f9f9f9;
-    padding: 10px;
-    margin: 10px 0;
-    border-left: 5px solid #4CAF50;
-}
-
-.step h3 {
-    margin-top: 0;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.form-group input, .form-group select, .form-group textarea {
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-.btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
+.terms-conditions {
+    position: absolute;
+    height: 24.8%;
+    width: 27.66%;
+    top: 1.98%;
+    left: 37.68%;
+    line-height: 133.17%;
+    font-weight: 300;
+    display: inline-block;
     cursor: pointer;
-    border-radius: 4px;
 }
-
-.btn:hover {
-    background-color: #45a049;
+.purchasing-guides {
+    position: absolute;
+    height: 24.8%;
+    width: 27.66%;
+    top: 2.64%;
+    left: 72.34%;
+    line-height: 133.17%;
+    font-weight: 300;
+    display: inline-block;
+    cursor: pointer;
 }
-
-.suggestions {
-    margin-top: 20px;
-}
-
-.suggestions h3 {
-    margin-bottom: 15px;
-}
-
-.suggestions ul {
-    padding-left: 20px;
-}
-
-.suggestions ul li {
-    margin-bottom: 10px;
-}
-
-.suggestions a {
-    color: #4CAF50;
-    text-decoration: none;
-}
-
-.suggestions a:hover {
-    text-decoration: underline;
-}
-
-/* FAQ Section Styling */
 .faq {
-    margin-top: 30px;
-}
-
-.faq h3 {
+    position: absolute;
+    height: 24.8%;
+    width: 27.66%;
+    top: 36.87%;
+    left: 0%;
+    line-height: 133.17%;
+    font-weight: 300;
+    display: inline-block;
     cursor: pointer;
-    padding: 10px;
-    background-color: #f1f1f1;
-    border: 1px solid #ddd;
-    margin: 0;
-    font-size: 18px;
-    transition: background-color 0.3s ease;
 }
-
-.faq h3:hover {
-    background-color: #e9e9e9;
+.privacy-policy {
+    position: absolute;
+    height: 24.8%;
+    width: 27.66%;
+    top: 38.86%;
+    left: 37.68%;
+    line-height: 133.17%;
+    font-weight: 300;
+    display: inline-block;
+    cursor: pointer;
 }
-
-.faq-content {
-    display: none;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-top: none;
+.contact-us {
+    position: absolute;
+    height: 24.8%;
+    width: 27.66%;
+    top: 75.18%;
+    left: 0%;
+    line-height: 133.17%;
+    font-weight: 300;
+    display: inline-block;
+    cursor: pointer;
 }
-
-/* Search Bar Styling */
-.search-bar {
-    margin: 20px 0;
+.about-us {
+    position: absolute;
+    height: 24.8%;
+    width: 27.66%;
+    top: 0%;
+    left: 0%;
+    line-height: 133.17%;
+    font-weight: 300;
+    display: inline-block;
+    cursor: pointer;
 }
-
-.search-bar input {
+.legallinks {
+    position: absolute;
+    height: 70.18%;
     width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    top: 29.82%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    font-size: 14px;
 }
-
-/* Contact Section */
-.contact-section {
-    margin-top: 30px;
+.who-are-we {
+    position: absolute;
+    height: 24.76%;
+    width: 27.66%;
+    top: 0%;
+    left: 0%;
+    line-height: 181.1%;
+    font-weight: 600;
+    display: inline-block;
 }
-
-.contact-info {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
+.legal-terms {
+    position: absolute;
+    height: 24.76%;
+    width: 27.66%;
+    top: 0%;
+    left: 37.68%;
+    line-height: 181.1%;
+    font-weight: 600;
+    display: inline-block;
 }
-
-.map {
-    margin-top: 20px;
+.guides {
+    position: absolute;
+    height: 24.76%;
+    width: 27.66%;
+    top: 0%;
+    left: 72.34%;
+    line-height: 181.1%;
+    font-weight: 600;
+    display: inline-block;
 }
-
-.map iframe {
-    width: 100%;
+.legal {
+    position: absolute;
+    height: 48.07%;
+    width: 25.99%;
+    top: 17.33%;
+    right: 13.54%;
+    bottom: 34.6%;
+    left: 60.47%;
+}
+.branches1 {
+    position: absolute;
+    height: 17.15%;
+    width: 41.82%;
+    top: 0%;
+    left: 0%;
+    line-height: 181.1%;
+    font-weight: 600;
+    display: inline-block;
+}
+.branchaddresses {
+    position: absolute;
+    height: 81.27%;
+    width: 99.39%;
+    top: 18.73%;
+    left: 0.61%;
+    font-size: 12px;
+    line-height: 133.17%;
+    font-weight: 500;
+    display: inline-block;
+}
+.branches {
+    position: absolute;
+    height: 69.4%;
+    width: 17.19%;
+    top: 17.33%;
+    right: 42.24%;
+    bottom: 13.27%;
+    left: 40.57%;
+}
+.follow-us {
+    position: absolute;
+    top: 2.74%;
+    left: 0%;
+    line-height: 144.88%;
+    font-weight: 600;
+}
+.div {
+    position: absolute;
+    height: 28.77%;
+    width: 29.19%;
+    top: 39.73%;
+    left: 64.21%;
+    font-size: 12px;
+    line-height: 133.17%;
+    font-weight: 500;
+    display: inline-block;
+}
+.homelabsolgmailcom {
+    position: absolute;
+    height: 28.77%;
+    width: 35.28%;
+    top: 71.23%;
+    left: 64.72%;
+    font-size: 12px;
+    line-height: 133.17%;
+    font-weight: 500;
+    display: inline-block;
+}
+.contact-us1 {
+    position: absolute;
+    top: 0%;
+    left: 58.88%;
+    line-height: 133.17%;
+    font-weight: 600;
+}
+.companyinfo {
+    position: absolute;
+    height: 24.33%;
+    width: 20.52%;
+    top: 57%;
+    right: 63.18%;
+    bottom: 18.67%;
+    left: 16.3%;
+    font-size: 13px;
+}
+.rpc-logo-1 {
+    position: relative;
+    top: -25px;
+    left: 242px;
+    width: 517px;
+    height: 253px;
+    object-fit: contain;
+}
+.rpc-logo-1 text {
+    fill: white;
+}
+.footer-child {
+    position: absolute;
+    height: 8.67%;
+    width: 5.65%;
+    top: 66.33%;
+    right: 78.05%;
+    bottom: 25%;
+    left: 16.3%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.gmail-icon {
+    position: absolute;
+    height: 5.03%;
+    width: 1.04%;
+    top: 74.33%;
+    right: 70.63%;
+    bottom: 20.63%;
+    left: 28.33%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.call-icon {
+    position: absolute;
+    top: 197px;
+    left: 542px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.bx-location-plus-icon {
+    position: absolute;
+    top: 91px;
+    left: 755px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.footer {
+    position: relative;
+    top: 2061px;
+    left: 0px;
+    width: 1920px;
     height: 300px;
-    border: none;
-    border-radius: 5px;
+    text-align: left;
+    color: #fff;
+}
+
+.step-1-determine-your-needs {
+    margin: 0;
+    font-size: 20px;
+}
+.step-3-lorem-ipsum-choose-t {
+    margin: 0;
+    font-size: 20px;
+}
+.step-1-determine-container {
+    position: absolute;
+    top: 463px;
+    left: 211px;
+    text-align: justify;
+    display: inline-block;
+    width: 1490px;
+    font-size: 18px;
+}
+.purchasing-guide {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    width: 288px;
+}
+.welcome-to-our {
+    position: absolute;
+    top: 53px;
+    left: 29px;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: justify;
+    display: inline-block;
+    width: 1471px;
+    height: 88px;
+}
+.purchasing-guide-parent {
+    position: absolute;
+    top: 302px;
+    left: 211px;
+    width: 1500px;
+    height: 141px;
+    font-size: 36px;
+}
+.back {
+    position: absolute;
+    top: 280px;
+    left: 1681px;
+    font-size: 16px;
+    color: #8b8b8b;
+}
+.footer-purchasing-guide {
+    width: 100%;
+    position: relative;
+    background-color: #fff;
+    height: 2360px;
+    text-align: center;
+    font-size: 20px;
+    color: #000;
+    font-family: Lato;
 }
