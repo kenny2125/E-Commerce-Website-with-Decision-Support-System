@@ -9,21 +9,19 @@
 <div class="search-container">
     <div class="form-box">
         <img src="../assets/images/logo.png" alt="RPC Computer Store">
-        <form> 
+        <form action="register.php" method="post">
             <div class="input-group">
                 <label for="username">USERNAME</label>
                 <div class="input-field">
-                    <i class="fa-solid fa-user"></i>
                     <input type="text" placeholder="eg.jeondanel">
                 </div>
                 <label for="password">PASSWORD</label>
                 <div class="input-field">
-                    <i class="fa-solid fa-lock"></i>
                     <input type="password" placeholder="••••••••" id="password">
                     <img src="../assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
                 </div>
                 <p>Don't have an account? <a href="../pages/registration.html" class="create-account"> Create account.</a></p>
-                <button class="button">LOG IN</button>
+                <button class="button" name="logIn">LOG IN</button>
                 <a href="../pages/forgot-password.html" class="forgot-password">Forgot Password?</a>
             </div>
         </form>

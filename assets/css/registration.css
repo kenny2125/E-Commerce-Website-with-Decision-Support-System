@@ -117,7 +117,7 @@ input[type="password"] {
 .confirmpassword-container img {
     position: absolute;
     right: 15px;
-    top: 60%;
+    top: 50%;
     transform: translateY(-50%);
     width: 18px;
     height: 18px;
