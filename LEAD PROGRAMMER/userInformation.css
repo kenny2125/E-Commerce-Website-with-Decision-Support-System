@@ -1,106 +1,112 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body, html {
+body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
-}
-
-.page-container {
-    width: 100vw;
-    height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: #f4f4f4;
 }
 
-.profile-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.profile-card, .order-history, .payment-methods {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.profile-card {
-    grid-column: span 2;
-}
-
-.profile-card h2, .order-history h3, .wishlist h3, .payment-methods h3 {
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.field {
-    margin-bottom: 15px;
-}
-
-.field label {
-    font-size: 0.9em;
-    color: #666;
-}
-
-.field .value {
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
-
-.flex-container {
+.container {
     display: flex;
-    gap: 10px;
+    padding: 20px;
+    margin-top: 50px;
 }
 
-.flex-container .field {
-    flex: 1;
+.sidebar {
+    width: 220px;
+    background-color: #d8d8d8;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px; /* Adds more space between items */
 }
 
-.order-history ul, .wishlist ul, .payment-methods ul {
-    list-style: none;
-    margin-top: 10px;
-}
-
-.order-history ul li, .wishlist ul li, .payment-methods ul li {
+.menu-item {
+    width: 100%;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
-    color: #555;
-}
-
-.order-history ul li:last-child, .wishlist ul li:last-child, .payment-methods ul li:last-child {
-    border-bottom: none;
-}
-
-/* Save Button */
-.save-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    background-color: #f0f0f0;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
-    margin-top: 10px;
 }
 
-.save-button:hover {
-    background-color: #45a049;
+.menu-item:hover {
+    background-color: #ccc;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background-color: #2f61b5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #1e49a3;
+}
+
+.content {
+    background-color: #fff;
+    padding: 20px;
+    width: 800px;
+    border-radius: 10px;
+}
+
+.order-history, .profile-container {
+    display: none; /* Hidden by default; toggle with JavaScript */
+}
+
+.order-history.active, .profile-container.active {
+    display: block; /* Display when active */
+}
+
+.section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.info-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #2f61b5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #1e49a3;
 }
