@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Profile</title>
+    <link rel="stylesheet" href="userInformation.css">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-card">
+            <h2>My Profile</h2>
+            
+            <div class="flex-container">
+                <div class="field">
+                    <label>First Name</label>
+                    <div class="value" contenteditable="true" id="firstName">Mikylla</div>
+                </div>
+                <div class="field">
+                    <label>Last Name</label>
+                    <div class="value" contenteditable="true" id="lastName">Nova</div>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label>Email Address</label>
+                <div class="value" contenteditable="true" id="email">mikylla.podiotan@gmail.com</div>
+            </div>
+            
+            <div class="flex-container">
+                <div class="field">
+                    <label>Birthdate</label>
+                    <div class="value" id="birthdateDisplay">04-10-2005</div>
+                    <input type="date" id="birthdateInput" onchange="updateBirthdate()">
+                </div>
+                <div class="field">
+                    <label>Phone Number</label>
+                    <div class="value" contenteditable="true" id="phoneNumber">091234567890</div>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label>Shipping Address</label>
+                <div class="value" contenteditable="true" id="address">Home</div>
+            </div>
+            
+            <!-- Save Button -->
+            <button class="save-button" onclick="saveProfileData()">Save</button>
+        </div>
+
+        <!-- Order History Section -->
+        <div class="order-history">
+            <h3>Order History</h3>
+            <ul id="orderList">
+                <li>Order #12345 - Delivered</li>
+                <li>Order #12346 - In Transit</li>
+                <li>Order #12347 - Processing</li>
+            </ul>
+        
+
+        <!-- Payment Methods Section -->
+        <div class="payment-methods">
+            <h3>Payment Methods</h3>
+            <ul id="paymentMethods">
+                <li>Visa **** 1234</li>
+                <li>Mastercard **** 5678</li>
+                <li>PayPal - email@example.com</li>
+            </ul>
+        </div>
+    </div>
+    <script src="userInformation.js"></script>
+</body>
+</html>
