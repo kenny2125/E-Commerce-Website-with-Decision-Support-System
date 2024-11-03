@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let requirements = [];
 
+    // Set static feedback for password requirements
+    passwordFeedback.textContent = 'Password must include uppercase, lowercase, number, and special character.';
+    passwordFeedback.style.color = 'red';
+
     togglePasswordIcon1.addEventListener('click', () => {
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
@@ -49,11 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const confirmPassword = confirmPasswordField.value;
 
         if (password !== confirmPassword) {
-            confirmPasswordFeedback.textContent = 'Password do not match!';
+            confirmPasswordFeedback.textContent = 'Passwords do not match!';
             confirmPasswordFeedback.style.color = 'red';
             return;
         } else {
-            confirmPasswordFeedback.textContent = 'Password match!';
+            confirmPasswordFeedback.textContent = 'Passwords match!';
             confirmPasswordFeedback.style.color = 'green';
         }
 
@@ -63,10 +67,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         alert('Registration successful!');
-    });
-
-    passwordField.addEventListener('input', () => {
-        const fakePassword = passwordField.value.split('').map(() => Math.floor(Math.random() * 10)).join('');
-        passwordField.setAttribute('data-fake-password', fakePassword);
     });
 });

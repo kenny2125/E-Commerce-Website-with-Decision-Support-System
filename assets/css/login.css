@@ -31,7 +31,7 @@ body {
 }
 
 img {
-    width: 150px;
+    width: 350px;
     height: 120px;
     margin: 0 auto;
     display: flex;
@@ -49,7 +49,7 @@ img {
     border-radius: 20px;
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 input[type="password"],
@@ -109,7 +109,7 @@ p {
     display: block;
     margin-top: 15px;
     color: #1A54c0;
-    font-size: 16px;
+    font-size: 14px;
     text-decoration: none;
 }
 
