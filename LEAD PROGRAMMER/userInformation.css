@@ -1,4 +1,4 @@
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -33,7 +33,7 @@ body, html {
     gap: 20px;
 }
 
-.profile-card, .order-history, .wishlist, .payment-methods {
+.profile-card, .order-history, .payment-methods {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
