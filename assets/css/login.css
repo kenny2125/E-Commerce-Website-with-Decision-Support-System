@@ -4,14 +4,11 @@ html {
     margin: 0;
     padding: 0;
     overflow: hidden; 
-    font-family: 'Arial', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 body {
-    background: url('/assets/images/login.png');
-    background-size: 110%;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-color: #000000;
 }
 
 .search-container {
@@ -21,25 +18,16 @@ body {
 }
 
 .form-box {
-    width: 400px;
+    width: 500px;
     height: 450px;
-    max-width: 450px;
     position: absolute;
     top: 50%;
     left: 50%;
-    border-radius: 40px; 
+    border-radius: 20px; 
     transform: translate(-50%,-50%);
     background: #FFFFFF;
     padding: 40px 50px 30px;
     text-align: center;
-}
-
-.form-box h1 {
-    font-family: sans-serif;
-    font-size: 30px;
-    margin-bottom: 20px;
-    color: #000;
-    position: relative;
 }
 
 img {
@@ -49,13 +37,19 @@ img {
     display: flex;
 }
 
+.input-group label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
 .input-field {
     position: relative;
     background: #D9D9D9;
-    margin: 15px 0;
     border-radius: 20px;
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 input[type="password"],
@@ -74,7 +68,6 @@ input[type="text"] {
     height: 18px;
 }
 
-
 input {
     width: 100%;
     background: transparent;
@@ -88,32 +81,39 @@ input {
     color: #999;
 }
 
+p {
+    margin-top: 40px;
+    font-size: 16px;
+    color: #000000;
+}
+
+.create-account {
+    color: #000000;
+    font-size: 16px;
+}
+
 .button {
-    background-color: #000000;
+    background-color: #1A54c0;
     border: none;
     color: #ffffff;
     border-radius: 20px;
-    padding: 10px 27px;
+    padding: 10px 60px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 13px;
-    margin: 4px 2px;
+    font-size: 30px;
     cursor: pointer;
 }
 
-p {
-    color: #000000;
-    font-size: 13px;
+.forgot-password {
+    display: block;
+    margin-top: 15px;
+    color: #1A54c0;
+    font-size: 16px;
+    text-decoration: none;
 }
 
 a {
-    font-size: 13px;
-}
-
-.no-underline {
-    text-decoration: none;
-    position: relative;
-    display: block;
-    margin-top: 10px;
+    color: #000000;
+    font-weight: bold;
 }
