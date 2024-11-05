@@ -1,0 +1,112 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.sidebar {
+    width: 220px;
+    background-color: #d8d8d8;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px; /* Adds more space between items */
+}
+
+.menu-item {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background-color: #ccc;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background-color: #2f61b5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #1e49a3;
+}
+
+.content {
+    background-color: #fff;
+    padding: 20px;
+    width: 800px;
+    border-radius: 10px;
+}
+
+.order-history, .profile-container {
+    display: none; /* Hidden by default; toggle with JavaScript */
+}
+
+.order-history.active, .profile-container.active {
+    display: block; /* Display when active */
+}
+
+.section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.info-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #2f61b5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #1e49a3;
+}
