@@ -25,7 +25,7 @@ input[type="email"] {
     font-size: 1rem;
 }
 
-button {
+.button {
     background: #ff7e5f;
     color: white;
     border: none;
@@ -34,8 +34,9 @@ button {
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s ease;
+    margin-top: 1rem;
 }
 
-button:hover {
+.button:hover {
     background: #feb47b;
 }
