@@ -21,6 +21,7 @@
         background-color: #fff; /* White background */
         line-height: 1.5;
         padding-bottom: 300px;
+        padding-top: 90px;
     }
 
     /* Main container for Terms and Conditions */
@@ -60,6 +61,7 @@
         font-size: 16px;
         color: #8b8b8b;
         cursor: pointer;
+        padding-top: 80px;
     }
 
     /* Responsive Styles */
@@ -158,10 +160,12 @@
                 window.history.back();
             } else {
                 // Redirect to the main page if there's no history
-                window.location.href = "footer.html"; // Change to your main page URL
+                window.location.href = "index.php"; // Change to your main page URL
             }
         });
     </script>
+
+<?php include 'includes/footer.php'; ?>
 
 </body>
 </html>
