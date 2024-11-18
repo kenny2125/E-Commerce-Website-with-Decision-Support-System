@@ -12,7 +12,7 @@
 
 .brand-logo-wrapper {
     display: flex;
-    animation: marquee 60s linear infinite;
+    animation: marquee 120s linear infinite;
 }
 
 @keyframes marquee {
@@ -24,3 +24,34 @@
     }
 }
 
+/* Optional: Add custom styles if needed */
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 218px; height: 268px;
+    color: #000;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: Lato;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-title {
+    font-size: 16px;
+  }
+  
+  .card-text {
+    font-size: 14px;
+    color: #888;
+  }
