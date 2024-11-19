@@ -3,6 +3,10 @@
     margin-right: 100px; /* Add spacing between logos */
 }
 
+body {
+  background-color: #EFEFEF;
+}
+
 .brand-logo-container {
     padding: 25px;
     display: flex;

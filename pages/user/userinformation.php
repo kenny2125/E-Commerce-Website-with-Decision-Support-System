@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Card</title>
-    <link rel="stylesheet" href="userInformation.css">
+    <link rel="stylesheet" href="../../assets/css/userinformation.css">
 </head>
 <body>
     <div class="profile-card">

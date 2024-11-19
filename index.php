@@ -8,21 +8,10 @@
     <title>RPC Tech Computer Store</title>
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="icon" href="assets/images/rpc-favicon.png">
-</head>
+  <!-- Assigned to Kenny -->  
+  </head>
 <body>
- 
-    <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"></a>
-                <img src="assets\images\rpc-logo-black.png" alt="" width="245" height="81" class="d-inline-block align-text-top">
-            </a>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <button class="btn btn-primary" onclick="window.location.href='pages/user/login.php'">Log In</button>
-        </div>
-    </nav>
+<?php include 'includes\header.php'; ?> 
     
 
     <div id="carouselWithInterval" class="carousel slide" data-bs-ride="carousel" >
@@ -219,52 +208,13 @@
   </div>
 </div>
 
- <!-- Footer -->
-      <div class="container">
-        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
-          <div class="col mb-3">
-            <a href="/" class="d-flex align-items-center mb-3 link-dark text-decoration-none">
-              
-              <img src="assets\images\logos\RPC Relogo-Wide.png" class="bi me-2" width="100" height="32">
-            </a>
-            <p class="text-muted">© 2022</p>
-          </div>
-      
-         
-      
-          <div class="col mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-            </ul>
-          </div>
-      
-          <div class="col mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-            </ul>
-          </div>
-      
-          <div class="col mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-            </ul>
-          </div>
-        </footer>
-      </div>
+<br>
+<br>
+<br>
+<br>
+<br><br><br><br><br><br><br>
+
+<?php include 'includes/footer.php'; ?>
+ 
 </body>
 </html>
