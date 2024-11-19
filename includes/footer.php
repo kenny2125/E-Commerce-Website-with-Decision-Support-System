@@ -1,10 +1,13 @@
 <!-- Footer -->
-<div class="container">
-        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
+ <!--Dadul -->
+ <!-- Palitan to ng current content na meron ka pati href kung saan man dadalhin yung user pag click nya sa link -->
+ 
+<div class="container" >
+        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top" style="background-color: #014cb1;">
           <div class="col mb-3">
             <a href="/" class="d-flex align-items-center mb-3 link-dark text-decoration-none">
               
-              <img src="assets\images\logos\RPC Relogo-Wide.png" class="bi me-2" width="100" height="32">
+              <img src="../assets\images\rpc-logo-white.png" class="bi me-2" width="100" height="32">
             </a>
             <p class="text-muted">© 2022</p>
           </div>
