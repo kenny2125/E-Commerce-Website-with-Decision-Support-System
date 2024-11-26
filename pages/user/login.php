@@ -1,32 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>RPC Computer Store</title>
-    <link rel="stylesheet" href="../../assets/css/login.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-<div class="search-container">
-    <div class="form-box">
-        <img src="../assets/images/logo.png" alt="RPC Computer Store">
-        <form action="register.php" method="post">
-            <div class="input-group">
-                <label for="username">USERNAME</label>
-                <div class="input-field">
-                    <input type="text" id="username" placeholder="eg.jeondanel" name="username">
-                </div>
-                <label for="password">PASSWORD</label>
-                <div class="input-field">
-                    <input type="password" placeholder="••••••••" id="password" name="password">
-                    <img src="../assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
-                </div>
-                <p>Don't have an account? <a href="../pages/registration.php" class="create-account"> Create account.</a></p>
-                <button class="button" name="logIn">LOG IN</button>
-                <a href="../pages/forgot-password.html" class="forgot-password">Forgot Password?</a>
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Log In</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </form>
+            <div class="modal-body">
+                <div class="form-box">
+                    <img src="assets/images/logo.png" alt="RPC Computer Store">
+                    <form action="register.php" method="post">
+                        <div class="input-group">
+                            <label for="username">USERNAME</label>
+                            <input type="text" id="username" placeholder="eg.jeondanel" name="username">
+                        </div>
+                        <div class="input-group">
+                            <label for="password">PASSWORD</label>
+                            <input type="password" placeholder="••••••••" id="password" name="password">
+                        </div>
+                        <p>Don't have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
+                        </p>
+                        <button class="button" name="logIn">LOG IN</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<script src="/assets/js/login.js"></script>
-</body>
-</html>
