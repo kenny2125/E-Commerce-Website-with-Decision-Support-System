@@ -26,8 +26,8 @@ body {
 
 .header .logo img {
   width: 175px;
-    margin: 0 auto;
-    display: flex;
+   margin: 0 auto;
+  display: flex;
 }
 
 .search-bar {
