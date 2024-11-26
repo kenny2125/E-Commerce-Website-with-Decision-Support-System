@@ -5,136 +5,162 @@
 }
 
 body, html {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
 }
 
-.container {
+/* Header Styling */
+.header {
     display: flex;
-    width: 100vw;
-    height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #ffffff; /* White Background */
+    color: #333;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Sidebar styling */
+.logo img {
+    width: 175px;
+}
+
+.search-bar {
+    flex: 1; /* Allow the search bar to grow */
+    display: flex;
+    justify-content: center; /* Center the search bar */
+    align-items: center;
+    position: relative;
+}
+
+.search-bar input {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-bar .search-button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    font-size: 14px;
+}
+
+.search-bar .search-button:hover {
+    background-color: #004494;
+}
+
+/* Sidebar Styling */
 .sidebar {
-    width: 200px;
+    width: 250px;
     background-color: #f0f0f0;
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    padding: 20px;
 }
 
 .sidebar-item {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 10px 20px;
     width: 100%;
     font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: #333;
-}
-
-.sidebar-item.active {
-    background-color: #dcdcdc;
+    cursor: pointer;
     border-radius: 5px;
-    font-weight: bold;
 }
 
-.icon {
-    font-size: 20px; /* Adjust icon size */
-    color: #333; /* Set icon color */
-    margin-right: 10px;
-    vertical-align: middle; /* Align the icon vertically with the text */
+.sidebar-item:hover, .sidebar-item.active {
+    background-color: #dcdcdc;
+    font-weight: bold;
 }
 
 .logout-button {
     margin-top: auto;
+    width: 100%;
     padding: 10px 20px;
-    font-size: 16px;
-    color: white;
     background-color: #0056b3;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .logout-button:hover {
-    background-color: #004494;
+    background-color: #003672;
 }
 
-/* Profile Content styling */
+/* Profile Content Styling */
+.container {
+    display: flex;
+    height: calc(100vh - 60px); /* Adjust for header */
+}
+
 .profile-content {
+    flex: 1;
     padding: 30px;
-    flex-grow: 1;
-    background-color: #ffffff;
-    border-radius: 8px;
     margin: 20px;
+    background-color: #fff;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .section-header {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
 }
 
 .info-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 20px;
 }
 
 .info-item {
-    display: flex;
-    flex-direction: column;
+    flex: 1 1 45%; /* Adjust column size */
 }
 
 label {
     font-size: 14px;
     color: #666;
     margin-bottom: 5px;
+    display: block;
 }
 
-input[type="text"], input[type="password"] {
-    padding: 8px;
-    font-size: 14px;
+input[type="text"], input[type="password"], .birthdate-display, .gender-display, .address-display, .contact-display, .email-display {
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.birthdate-display, .gender-display, .address-display, .contact-display, .email-display {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ddd;
+    border-radius: 5px;
     background-color: #f9f9f9;
-    border-radius: 4px;
+    width: 100%;
+    font-size: 14px;
 }
 
-.button-container {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
+/* Buttons */
 .action-button {
     padding: 10px 20px;
     font-size: 14px;
-    color: white;
     background-color: #0056b3;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 120px;
     text-align: center;
 }
 
@@ -142,31 +168,26 @@ input[type="text"], input[type="password"] {
     background-color: #004494;
 }
 
-.right-section {
+.button-container {
+    display: flex;
+    gap: 15px;
     margin-top: 20px;
 }
 
-.right-section .info-item {
-    margin-bottom: 15px;
-}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
 
-/* Order History styling */
-.order-history {
-    display: none; /* Hidden by default */
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    margin: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 
-.order-history h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.order-history p {
-    font-size: 16px;
-    color: #666;
+    .profile-content {
+        margin: 0;
+        border-radius: 0;
+    }
 }
