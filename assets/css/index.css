@@ -1,42 +1,61 @@
+.brand-logo {
+    height: 90px; /* Adjust height as needed */
+    margin-right: 100px; /* Add spacing between logos */
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #ff7e5f, #feb47b);
+  background-color: #EFEFEF;
+}
+
+.brand-logo-container {
+    padding: 25px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0, 50px, 0, 50px;
+    overflow: hidden; /* Hide content outside the container */
+    position: relative;
 }
 
-form {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+.brand-logo-wrapper {
+    display: flex;
+    animation: marquee 120s linear infinite;
 }
 
-input[type="email"] {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
+@keyframes marquee {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
-.button {
-    background: #ff7e5f;
-    color: white;
+/* Optional: Add custom styles if needed */
+.card {
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    margin-top: 1rem;
-}
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 218px; height: 268px;
+    color: #000;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: Lato;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 
-.button:hover {
-    background: #feb47b;
-}
+  
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-title {
+    font-size: 16px;
+  }
+  
+  .card-text {
+    font-size: 14px;
+    color: #888;
+  }
