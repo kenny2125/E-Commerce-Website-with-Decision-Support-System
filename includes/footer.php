@@ -1,54 +1,50 @@
-<!-- footer.php -->
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="css/footer.css">
-</head>
-<body>
-
-<footer class="footerContainer">
-    <div class="footer">
-        <div class="logo-section">
-            <img class="rpc-logo" src="imgfolder/3.png" alt="RPC Tech Computer Store Logo">
-            <p class="follow-us">Follow Us</p>
-            <img class="soclinks" src="imgfolder/Group 271.png" alt="Social Links">
-        </div>
-        
-        <div class="contact-section">
-            <p class="contact-title">Contact Us</p>
-            <p class="phone"><img src="imgfolder/call-icon.png" alt="Phone Icon"> +63 962 392 6216</p>
-            <p class="email"><img src="imgfolder/gmail icon.png" alt="Email Icon"> homelabsol@gmail.com</p>
-        </div>
-        
-        <div class="branches">
-            <p class="branches-title">Branches</p>
-            <p>Main Branch</p>
-            <p>KM 78 MC ARTHUR HI-WAY BRGY.SAGUIN, San Fernando, Philippines, 2000</p>
-        </div>
-        
-        <div class="links-section">
-            <div>
-                <p class="section-title">Who are we?</p>
-                <p><a href="contactus.php">Contact Us</a></p>
-                <p><a href="faq.php">FAQ</a></p>
-            </div>
-            <div>
-                <p class="section-title">Legal Terms</p>
-                <p><a href="termconditions.php">Terms & Conditions</a></p>
-                <p><a href="privacy-policy.php">Privacy Policy</a></p>
-            </div>
-            <div>
-                <p class="section-title">Guides</p>
-                <p><a href="purchase-guides.php">Purchasing Guides</a></p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="footer-bottom">
-        <p>© 2024 RPC Tech Computer Store</p>
-        <p>All Rights Reserved.</p>
-    </div>
-</footer>
-
-
-
+<!-- Footer -->
+ <!--Dadul -->
+ <!-- Palitan to ng current content na meron ka pati href kung saan man dadalhin yung user pag click nya sa link -->
+ 
+ <div class="container" >
+        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top" style="background-color: #014cb1;">
+          <div class="col mb-3">
+            <a href="/" class="d-flex align-items-center mb-3 link-dark text-decoration-none">
+              
+              <img src="../assets\images\rpc-logo-white.png" class="bi me-2" width="100" height="32">
+            </a>
+            <p class="text-muted">© 2022</p>
+          </div>
+      
+         
+      
+          <div class="col mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a href="../pages/public/contactus.php" class="nav-link p-0 text-muted">Home</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+            </ul>
+          </div>
+      
+          <div class="col mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+            </ul>
+          </div>
+      
+          <div class="col mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+            </ul>
+          </div>
+        </footer>
+      </div>
