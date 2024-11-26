@@ -69,6 +69,9 @@ const sidebarItems = document.querySelectorAll('.sidebar-item');
 const orderHistoryContent = document.getElementById('orderHistoryContent');
 const profileContent = document.getElementById('profileContent');
 
+// Hide order history by default
+orderHistoryContent.style.display = 'none'; // Make sure it's hidden initially
+
 sidebarItems.forEach(item => {
     item.addEventListener('click', function() {
         sidebarItems.forEach(i => i.classList.remove('active'));
