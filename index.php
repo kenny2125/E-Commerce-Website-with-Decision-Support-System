@@ -6,22 +6,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <title>RPC Tech Computer Store</title>
-</head>
+    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="icon" href="assets/images/rpc-favicon.png">
+  <!-- Assigned to Kenny -->  
+  </head>
 <body>
- 
-    <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"></a>
-                <img src="assets\images\rpc-logo-black.png" alt="" width="245" height="81" class="d-inline-block align-text-top">
-            </a>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <button class="btn btn-primary">Log In/Sign Up</button>
-        </div>
-    </nav>
-    
+<?php include 'includes\header.php'; ?>
 
     <div id="carouselWithInterval" class="carousel slide" data-bs-ride="carousel" >
         <div class="carousel-inner">
@@ -84,55 +74,146 @@
           <span class="visually-hidden">Next</span>
         </a>
       </div>
-
-  
-      
  
-      <div class="container">
-        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
-          <div class="col mb-3">
-            <a href="/" class="d-flex align-items-center mb-3 link-dark text-decoration-none">
-              
-              <img src="assets\images\logos\RPC Relogo-Wide.png" class="bi me-2" width="100" height="32">
-            </a>
-            <p class="text-muted">© 2022</p>
+    
+    <div class="brand-logo-container">
+        <div class="brand-logo-wrapper">
+            <!-- Duplicate brand logos for smooth looping -->
+            <img src="assets/images/brands/amd.png" alt="Brand 1" class="brand-logo">
+            <img src="assets/images/brands/asus.png" alt="Brand 2" class="brand-logo">
+            <img src="assets/images/brands/biostar.png" alt="Brand 3" class="brand-logo">
+            <img src="assets/images/brands/coolermaster.png" alt="Brand 4" class="brand-logo">
+            <img src="assets/images/brands/corsair.png" alt="Brand 5" class="brand-logo">
+            <img src="assets/images/brands/cougar.png" alt="Brand 6" class="brand-logo">
+            <img src="assets/images/brands/darkflash.png" alt="Brand 7" class="brand-logo">
+            <img src="assets/images/brands/dell.png" alt="Brand 8" class="brand-logo">
+            <img src="assets/images/brands/fanatec.png" alt="Brand 9" class="brand-logo">
+            <img src="assets/images/brands/gigabyte.png" alt="Brand 10" class="brand-logo">
+            <img src="assets/images/brands/gskill.png" alt="Brand 11" class="brand-logo">
+            <img src="assets/images/brands/hp.png" alt="Brand 12" class="brand-logo">
+            <img src="assets/images/brands/inplay.png" alt="Brand 13" class="brand-logo">
+            <img src="assets/images/brands/intel.png" alt="Brand 14" class="brand-logo">
+            <img src="assets/images/brands/kingston.png" alt="Brand 15" class="brand-logo">
+            <img src="assets/images/brands/msi.png" alt="Brand 16" class="brand-logo">
+            <img src="assets/images/brands/nvidia.png" alt="Brand 17" class="brand-logo">
+            <img src="assets/images/brands/nvision.png" alt="Brand 18" class="brand-logo">
+            <img src="assets/images/brands/nzxt.png" alt="Brand 19" class="brand-logo">
+            <img src="assets/images/brands/samsung.png" alt="Brand 20" class="brand-logo">
+               <!-- Duplicate brand logos for smooth looping -->
+               <img src="assets/images/brands/amd.png" alt="Brand 1" class="brand-logo">
+               <img src="assets/images/brands/asus.png" alt="Brand 2" class="brand-logo">
+               <img src="assets/images/brands/biostar.png" alt="Brand 3" class="brand-logo">
+               <img src="assets/images/brands/coolermaster.png" alt="Brand 4" class="brand-logo">
+               <img src="assets/images/brands/corsair.png" alt="Brand 5" class="brand-logo">
+               <img src="assets/images/brands/cougar.png" alt="Brand 6" class="brand-logo">
+               <img src="assets/images/brands/darkflash.png" alt="Brand 7" class="brand-logo">
+               <img src="assets/images/brands/dell.png" alt="Brand 8" class="brand-logo">
+               <img src="assets/images/brands/fanatec.png" alt="Brand 9" class="brand-logo">
+               <img src="assets/images/brands/gigabyte.png" alt="Brand 10" class="brand-logo">
+               <img src="assets/images/brands/gskill.png" alt="Brand 11" class="brand-logo">
+               <img src="assets/images/brands/hp.png" alt="Brand 12" class="brand-logo">
+               <img src="assets/images/brands/inplay.png" alt="Brand 13" class="brand-logo">
+               <img src="assets/images/brands/intel.png" alt="Brand 14" class="brand-logo">
+               <img src="assets/images/brands/kingston.png" alt="Brand 15" class="brand-logo">
+               <img src="assets/images/brands/msi.png" alt="Brand 16" class="brand-logo">
+               <img src="assets/images/brands/nvidia.png" alt="Brand 17" class="brand-logo">
+               <img src="assets/images/brands/nvision.png" alt="Brand 18" class="brand-logo">
+               <img src="assets/images/brands/nzxt.png" alt="Brand 19" class="brand-logo">
+               <img src="assets/images/brands/samsung.png" alt="Brand 20" class="brand-logo">
+        </div>
+    </div>
+    
+    
+    <div class="container py-4">
+      <h2 class="text-center mb-4">Featured Products</h2>
+      <div class="row py-4">
+        <div class="col-md-2 col-sm-4 mb-4">
+          <div class="card">
+            <img src="assets\images\defaultproduct.png" class="card-img-top" alt="Product 1">
+            <div class="card-body">
+              <h5 class="card-title">Trendsonic OLAF OL31M Dual Chamber TG Gaming Micro ATX</h5>
+              <p class="card-text">P5,750.00</p>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
           </div>
-      
-         
-      
-          <div class="col mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-            </ul>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-4">
+          <div class="card">
+            <img src="assets\images\defaultproduct.png" class="card-img-top" alt="Product 2">
+            <div class="card-body">
+              <h5 class="card-title">Product 2</h5>
+              <p class="card-text">Price 2</p>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
           </div>
-      
-          <div class="col mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-            </ul>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-4">
+          <div class="card">
+            <img src="assets\images\defaultproduct.png" class="card-img-top" alt="Product 3">
+            <div class="card-body">
+              <h5 class="card-title">Product 3</h5>
+              <p class="card-text">Price 3</p>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
           </div>
-      
-          <div class="col mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-            </ul>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-4">
+          <div class="card">
+            <img src="assets\images\defaultproduct.png" class="card-img-top" alt="Product 4">
+            <div class="card-body">
+              <h5 class="card-title">Product 4</h5>
+              <p class="card-text">Price 4</p>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
           </div>
-        </footer>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-4">
+          <div class="card">
+            <img src="assets\images\defaultproduct.png" class="card-img-top" alt="Product 5">
+            <div class="card-body">
+              <h5 class="card-title">Product 5</h5>
+              <p class="card-text">Price 5</p>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-4">
+          <div class="card">
+            <img src="assets\images\defaultproduct.png" class="card-img-top" alt="Product 6">
+            <div class="card-body">
+              <h5 class="card-title">Product 6</h5>
+              <p class="card-text">Price 6</p>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+
+
+    <!-- DSS -->
+    <div style="width: 1570px; height: 334px; position: relative">
+  <div style="width: 1781px; height: 555.60px; left: -155px; top: -36px; position: absolute">
+    <img style="width: 178.33px; height: 179.11px; left: 1645.85px; top: 39.66px; position: absolute; transform: rotate(40.72deg); transform-origin: 0 0" src="https://via.placeholder.com/178x179" />
+    <img style="width: 302.65px; height: 325.03px; left: 0px; top: 166.51px; position: absolute; transform: rotate(-33.38deg); transform-origin: 0 0" src="https://via.placeholder.com/303x325" />
+    <img style="width: 319.37px; height: 343.55px; left: 562.89px; top: 92px; position: absolute; transform: rotate(34.16deg); transform-origin: 0 0" src="https://via.placeholder.com/319x344" />
+    <img style="width: 274.30px; height: 294.79px; left: 1060px; top: 266.29px; position: absolute; transform: rotate(-33.47deg); transform-origin: 0 0" src="https://via.placeholder.com/274x295" />
+  </div>
+  <div style="width: 790px; height: 126.19px; left: 390px; top: 57px; position: absolute; text-align: center; color: black; font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word">Don’t know what to buy? </div>
+  <div style="left: 521px; top: 157px; position: absolute; text-align: center; color: black; font-size: 16px; font-family: Lato; font-weight: 400; word-wrap: break-word">Check our “Parts Recommendation System” helps you figure out your needs!</div>
+  <div style="width: 162.35px; height: 59.87px; left: 704px; top: 198px; position: absolute">
+    <div style="width: 150px; height: 46.73px; left: 7.32px; top: 0px; position: absolute; background: #1A54C0; border-radius: 74px"></div>
+    <div style="width: 162.35px; height: 46.57px; left: 0px; top: 13.30px; position: absolute; text-align: center; color: white; font-size: 16px; font-family: Lato; font-weight: 700; word-wrap: break-word">Get Started</div>
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br><br><br><br><br><br><br>
+
+<?php include 'includes/footer.php'; ?>
+ 
 </body>
 </html>

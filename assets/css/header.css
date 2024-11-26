@@ -1,0 +1,49 @@
+.container-fluid {
+    height: 90px;
+    background-color: #FFFFFF;
+    margin-bottom: 35px;
+}
+
+.align-text-top {
+    margin-right: 140px;
+    margin-left: 160px;
+}
+
+.d-flex {
+    text-align: left;
+}
+
+.me-2 {
+    width: 550px;
+    font-size: 18px;
+    margin-right: 140px;
+    border-radius: 74px; /* Change the border radius */
+    padding-left: 40px;
+}
+
+.btn-outline-success {
+    height: 50px;
+    width: 140px;
+    font-size: 20px;
+    margin-right: 150px;
+    border-radius: 74px;
+    background-color: #1A54C0;
+    color: #FFFFFF;
+}
+
+.btn-outline-success:hover {
+    background-color: #154a9e; /* Darken the color on hover */
+}
+
+/* Add margin to the right side of the "Log In" button */
+.btn-primary {
+    width: 120px;
+    font-size: 18px;
+    margin-right: 185px;
+    border-radius: 74px; /* Change the border radius */
+    background-color: #1A54C0;
+}
+
+.btn-primary:hover {
+    background-color: #154a9e; /* Darken the color on hover */
+}
