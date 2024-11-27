@@ -57,7 +57,7 @@
     padding: 0 25px;
     margin-right: 20px; /* Adjust spacing for better placement */
     position: relative;
-    right: 20px; /* Move the login button to the left */
+    right: 40px; /* Move the login button to the left */
 }
 
 /* Hover Effects */
@@ -104,6 +104,6 @@
     .btn-primary {
         width: 100%; /* Full width login button */
         margin: 0; /* Align with other buttons */
-        right: 0; /* Reset right position */
+        left: -5px; /* Reset right position */
     }
 }
