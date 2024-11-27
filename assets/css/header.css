@@ -1,59 +1,70 @@
 /* Base Container Styling */
 .container-fluid {
-    height: 120px;
+    display: flex; /* Use flexbox for layout */
+    align-items: center;
+    justify-content: space-between; /* Space out elements */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    height: auto; /* Adjust height dynamically */
     background-color: #FFFFFF;
     box-shadow: 0 7px 3px -2px lightgrey;
-    padding: 10px 20px; /* Add padding for better spacing */
+    padding: 10px 20px;
+    position: relative; /* Enables precise positioning adjustments */
 }
 
 /* Logo Styling */
 .logo {
     width: 240px;
-    height: 81px;
-    margin: 0 100px;
-    max-width: 100%; /* Ensure responsiveness */
     height: auto; /* Maintain aspect ratio */
+    max-width: 100%;
+    margin-left: 20px; /* Move logo to the right */
+    position: relative; /* Allows precise control over placement */
+    left: 20px; /* Fine-tune placement */
 }
 
 /* Search Bar Styling */
 .search-bar {
-    flex-grow: 1; /* Allow the search bar to grow dynamically */
-    max-width: 800px; /* Increase max-width for the search bar */
+    display: flex;
+    flex-grow: 1; /* Allow search bar to grow dynamically */
+    max-width: 800px; /* Limit max width */
+    margin-right: 10px;
 }
 
+/* Search Input Field */
 .search-bar .form-control {
-    width: 100%; /* Make the input field fill the available space */
+    flex-grow: 1; /* Fill available space */
     font-size: 18px;
     border-radius: 74px;
     padding-left: 40px;
-    margin-right: 10px; /* Reduce margin for responsiveness */
+    margin-right: 10px; /* Space between input and button */
 }
 
+/* Search Button */
 .search-bar .btn-outline-success {
     height: 55px;
-    width: auto; /* Adjust button width dynamically */
     font-size: 20px;
     border-radius: 74px;
     background-color: #1A54C0;
     color: #FFFFFF;
-    padding: 0 45px; /* Add padding for consistent button size */
-    margin-right: 85px;
-}
-
-.search-bar .btn-outline-success:hover {
-    background-color: #154a9e;
-    margin-left: 20px;
+    padding: 0 45px;
 }
 
 /* Login Button Styling */
 .btn-primary {
-    width: auto; /* Adjust button width dynamically */
     height: 40px;
     font-size: 16px;
     border-radius: 74px;
     background-color: #1A54C0;
-    padding: 0 25px; /* Add padding for consistent button size */
-    margin-right: 120px; /* Add space between elements */
+    padding: 0 25px;
+    margin-right: 20px; /* Adjust spacing for better placement */
+    position: relative;
+    right: 20px; /* Move the login button to the left */
+}
+
+/* Hover Effects */
+.search-bar .btn-outline-success:hover {
+    background-color: #154a9e;
+    transform: scale(1.05); /* Hover effect */
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .btn-primary:hover {
@@ -63,32 +74,36 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .container-fluid {
-        height: auto; /* Adjust height for smaller screens */
-        padding: 15px; /* Add padding for smaller screens */
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align items to the left */
     }
 
     .logo {
-        margin-bottom: 10px; /* Add space below logo */
-        width: 10px; /* Scale down logo size */
+        margin-bottom: 20px; /* Add spacing below the logo */
+        margin-left: 0; /* Reset left margin */
+        left: 0; /* Reset left position */
     }
 
     .search-bar {
         flex-direction: column; /* Stack input and button */
-        align-items: stretch; /* Stretch input and button full-width */
-        max-width: 100%; /* Full width on small screens */
+        align-items: stretch; /* Full width for stacked elements */
+        width: 100%; /* Take full width */
+        max-width: 100%;
+        margin-bottom: 20px; /* Add spacing below */
     }
 
     .search-bar .form-control {
         margin-right: 0; /* Remove margin for stacking */
-        margin-bottom: 20px; /* Add space below input */
+        margin-bottom: 10px; /* Add spacing below input */
     }
 
     .search-bar .btn-outline-success {
-        width: 100%; /* Full-width button */
+        width: 100%; /* Full width button */
     }
 
     .btn-primary {
-        width: 100%; /* Full-width login button */
-        margin-top: 10px; /* Add space above button */
+        width: 100%; /* Full width login button */
+        margin: 0; /* Align with other buttons */
+        right: 0; /* Reset right position */
     }
 }
