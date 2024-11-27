@@ -88,8 +88,8 @@
                 </div>
             </div>
 
-            <!-- Second row: Payment List Table -->
-            <?php
+      <!-- Second row: Payment List Table -->
+<?php
 // Database connection
 $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
 $username = "vg2eweo4yg8eydii";
@@ -103,6 +103,19 @@ $conn = new mysqli($host, $username, $password, $db_name);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle delete action
+if (isset($_POST['delete'])) {
+    $product_id = $_POST['product_ID'];
+    $delete_sql = "DELETE FROM tbl_products WHERE product_ID = ?";
+    $stmt = $conn->prepare($delete_sql);
+    $stmt->bind_param("i", $product_id);
+    if ($stmt->execute()) {
+        echo "<script>alert('Product deleted successfully'); window.location.reload();</script>";
+    } else {
+        echo "<script>alert('Failed to delete product');</script>";
+    }
 }
 
 // Fetch product data
@@ -126,6 +139,7 @@ $result = $conn->query($sql);
                     <th>Status</th>
                     <th>Quantity</th>
                     <th>Store Price</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -140,10 +154,43 @@ $result = $conn->query($sql);
                         echo "<td>Available</td>"; // Static status placeholder
                         echo "<td>--</td>"; // Placeholder for quantity
                         echo "<td>₱ " . number_format($row['store_price'], 2) . "</td>";
+                        echo "<td>
+                                <form method='post' style='display:inline;'>
+                                    <input type='hidden' name='product_ID' value='" . $row['product_ID'] . "'>
+                                    <button type='submit' name='delete' class='btn btn-danger btn-sm'>Delete</button>
+                                </form>
+                                <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editProductModal-" . $row['product_ID'] . "'>Edit</button>
+                              </td>";
                         echo "</tr>";
+
+                        // Edit Modal for the current product
+                        echo "<div class='modal fade' id='editProductModal-" . $row['product_ID'] . "' tabindex='-1' aria-labelledby='editProductModalLabel' aria-hidden='true'>
+                                <div class='modal-dialog'>
+                                    <div class='modal-content'>
+                                        <div class='modal-header'>
+                                            <h5 class='modal-title'>Edit Product</h5>
+                                            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                                        </div>
+                                        <div class='modal-body'>
+                                            <form method='post'>
+                                                <input type='hidden' name='product_ID' value='" . $row['product_ID'] . "'>
+                                                <div class='mb-3'>
+                                                    <label for='product_name-" . $row['product_ID'] . "' class='form-label'>Product Name</label>
+                                                    <input type='text' class='form-control' name='product_name' id='product_name-" . $row['product_ID'] . "' value='" . $row['product_name'] . "'>
+                                                </div>
+                                                <div class='mb-3'>
+                                                    <label for='store_price-" . $row['product_ID'] . "' class='form-label'>Store Price</label>
+                                                    <input type='text' class='form-control' name='store_price' id='store_price-" . $row['product_ID'] . "' value='" . $row['store_price'] . "'>
+                                                </div>
+                                                <button type='submit' name='edit' class='btn btn-primary'>Save Changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>";
                     }
                 } else {
-                    echo "<tr><td colspan='7' class='text-center'>No products found</td></tr>";
+                    echo "<tr><td colspan='8' class='text-center'>No products found</td></tr>";
                 }
                 ?>
             </tbody>
@@ -155,7 +202,7 @@ $result = $conn->query($sql);
 $conn->close();
 ?>
 
-</div>
+        </div>
 
 
 <!-- Modal for Adding Product -->
