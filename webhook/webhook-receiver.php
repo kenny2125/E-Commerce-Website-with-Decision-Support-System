@@ -21,57 +21,73 @@ $data = json_decode($input, true);
 // Save to a file for debugging
 file_put_contents('webhook.log', $input . PHP_EOL, FILE_APPEND);
 
-if ($data && isset($data['data']['attributes'])) {
+if ($data && isset($data['data']['attributes']['data']['attributes'])) {
     // Extract data from JSON payload
-    $eventId = $data['data']['id'];
-    $eventType = $data['data']['type'];
-    $attributes = $data['data']['attributes'];
+    $attributes = $data['data']['attributes']['data']['attributes'];
 
-    $amount = $attributes['amount'] / 100; // Assuming amount is in cents, divide by 100 for decimal format
-    $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : null; // Check if fee exists
-    $netAmount = $amount - $fee;
-    $status = $attributes['status'] == 'paid' ? 'PAID' : ($attributes['status'] == 'refunded' ? 'REFUND' : null); // Convert status to 'PAID' or 'REFUND'
+    $amount = isset($attributes['amount']) ? $attributes['amount'] / 100 : 0; // Convert amount to decimal (in PHP)
+    $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : 0; // Convert fee to decimal (in PHP)
+    $netAmount = isset($attributes['net_amount']) ? $attributes['net_amount'] / 100 : 0;
+    $status = isset($attributes['status']) ? strtoupper($attributes['status']) : 'UNKNOWN'; // Convert status to uppercase
     $externalReferenceNumber = isset($attributes['external_reference_number']) ? $attributes['external_reference_number'] : null;
-    $sourceType = isset($attributes['source_type']) ? $attributes['source_type'] : null;
-    $createdAt = date('Y-m-d H:i:s', $attributes['created_at']); // Convert Unix timestamp to MySQL format
+    $sourceType = isset($attributes['source']['type']) ? $attributes['source']['type'] : null;
+    $createdAt = isset($attributes['created_at']) ? date('Y-m-d H:i:s', $attributes['created_at']) : null;
     $paidAt = isset($attributes['paid_at']) ? date('Y-m-d H:i:s', $attributes['paid_at']) : null;
     $updatedAt = isset($attributes['updated_at']) ? date('Y-m-d H:i:s', $attributes['updated_at']) : null;
 
-    // Prepare SQL query
-    if ($eventType == 'payment.paid') {
-        // Insert data for 'payment.paid'
+    // Prepare the SQL statement to insert or update the payment
+    if ($status == 'PAID') {
         $stmt = $conn->prepare("
             INSERT INTO tbl_payments 
             (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, paid_at, updated_at) 
             VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
-        $orderId = NULL; // Set order_ID to NULL
-
-        $stmt->bind_param("issddssssss", $orderId, $eventId, $amount, $fee, $netAmount, $status, $externalReferenceNumber, $sourceType, $createdAt, $paidAt, $updatedAt);
-    } elseif ($eventType == 'payment.refunded') {
-        // Update data for 'payment.refunded'
+        $stmt->bind_param("sddsssssss", 
+            $data['data']['id'], // paymongo_payment_ID
+            $amount, 
+            $fee, 
+            $netAmount, 
+            $status, 
+            $externalReferenceNumber, 
+            $sourceType, 
+            $createdAt, 
+            $paidAt, 
+            $updatedAt
+        );
+    } else if ($status == 'REFUND') {
         $stmt = $conn->prepare("
-            UPDATE tbl_payments 
-            SET status = ?, amount = ?, fee = ?, net_amount = ?, updated_at = ? 
+            UPDATE tbl_payments
+            SET status = ?, fee = ?, net_amount = ?, updated_at = ?
             WHERE paymongo_payment_ID = ?
         ");
         
-        $stmt->bind_param("sddssss", $status, $amount, $fee, $netAmount, $updatedAt, $eventId);
+        $stmt->bind_param("sdsss", 
+            $status, 
+            $fee, 
+            $netAmount, 
+            $updatedAt, 
+            $data['data']['id'] // paymongo_payment_ID (for refund)
+        );
     }
 
-    // Execute query
-    if ($stmt->execute()) {
-        http_response_code(200); // Acknowledge receipt
-        echo "Webhook received and stored.";
+    // Execute the statement
+    if (isset($stmt)) {
+        if ($stmt->execute()) {
+            http_response_code(200); // Acknowledge receipt
+            echo "Webhook received and stored.";
+        } else {
+            file_put_contents('webhook_error.log', "DB Error: " . $stmt->error . PHP_EOL, FILE_APPEND);
+            http_response_code(500); // Internal server error
+            echo "Failed to store webhook data.";
+        }
+        $stmt->close();
     } else {
-        file_put_contents('webhook_error.log', "DB Error: " . $stmt->error . PHP_EOL, FILE_APPEND);
+        file_put_contents('webhook_error.log', "Error preparing statement." . PHP_EOL, FILE_APPEND);
         http_response_code(500); // Internal server error
-        echo "Failed to store webhook data.";
+        echo "Failed to prepare the SQL statement.";
     }
-
-    $stmt->close();
 } else {
     http_response_code(400); // Bad request
     echo "Invalid data.";
