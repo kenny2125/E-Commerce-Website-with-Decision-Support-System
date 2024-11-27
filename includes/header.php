@@ -24,3 +24,22 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="assets/js/login.js"></script>
+
+<!-- Add JavaScript to open the modal if the parameter is set -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if ($openModal): ?>
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        <?php endif; ?>
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    <?php if ($openModal): ?>
+    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+    loginModal.show();
+    <?php endif; ?>
+});
+</script>

@@ -10,8 +10,13 @@
     <link rel="icon" href="assets/images/rpc-favicon.png">
 </head>
 <body>
-    <?php include 'includes/welcomemodal.php'; ?> 
-    <?php include 'includes/header.php'; ?>
+<?php 
+    $openModal = isset($_GET['modal']) && $_GET['modal'] === 'login';
+    include 'includes/welcomemodal.php'; 
+    include 'includes/header.php'; 
+?>
+
+
 
     <!-- Carousel -->
     <div id="carouselWithInterval" class="carousel slide" data-bs-ride="carousel">
