@@ -25,8 +25,8 @@ if ($data && isset($data['data']['attributes']['data']['attributes'])) {
     // Extract data from JSON payload
     $attributes = $data['data']['attributes']['data']['attributes'];
 
-    $amount = isset($attributes['amount']) ? $attributes['amount'] / 100 : 0; // Convert amount to decimal (in PHP)
-    $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : 0; // Convert fee to decimal (in PHP)
+    $amount = isset($attributes['amount']) ? $attributes['amount'] / 100 : 0; // Convert amount to decimal
+    $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : 0; // Convert fee to decimal
     $netAmount = isset($attributes['net_amount']) ? $attributes['net_amount'] / 100 : 0;
     $status = isset($attributes['status']) ? strtoupper($attributes['status']) : 'UNKNOWN'; // Convert status to uppercase
     $externalReferenceNumber = isset($attributes['external_reference_number']) ? $attributes['external_reference_number'] : null;
@@ -37,6 +37,7 @@ if ($data && isset($data['data']['attributes']['data']['attributes'])) {
 
     // Prepare the SQL statement to insert or update the payment
     if ($status == 'PAID') {
+        // Insert new record if payment is marked as "paid"
         $stmt = $conn->prepare("
             INSERT INTO tbl_payments 
             (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, paid_at, updated_at) 
@@ -57,7 +58,7 @@ if ($data && isset($data['data']['attributes']['data']['attributes'])) {
             $updatedAt
         );
     } else if ($status == 'REFUNDED') {
-        // Update based on external_reference_number for refunded status
+        // Update the record for a refunded payment using external_reference_number
         $stmt = $conn->prepare("
             UPDATE tbl_payments
             SET status = ?, fee = ?, net_amount = ?, updated_at = ?
@@ -69,7 +70,7 @@ if ($data && isset($data['data']['attributes']['data']['attributes'])) {
             $fee, 
             $netAmount, 
             $updatedAt, 
-            $externalReferenceNumber // Using external_reference_number for refund update
+            $externalReferenceNumber // Use external_reference_number to find the payment to update
         );
     }
 
