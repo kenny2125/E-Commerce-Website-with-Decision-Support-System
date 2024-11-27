@@ -1,8 +1,3 @@
-.brand-logo {
-    height: 90px; /* Adjust height as needed */
-    margin-right: 100px; /* Add spacing between logos */
-}
-
 body {
   background-color: #EFEFEF;
 }
@@ -10,7 +5,7 @@ body {
 .brand-logo-container {
     padding: 25px;
     display: flex;
-    overflow: hidden; /* Hide content outside the container */
+    overflow: hidden;
     position: relative;
 }
 
@@ -28,34 +23,43 @@ body {
     }
 }
 
-/* Optional: Add custom styles if needed */
+.brand-logo {
+    height: 90px;
+    margin-right: 100px;
+}
+
+.featured-products-wrapper {
+  background-color: white;
+  width: 100%;
+  padding: 10px 20px;
+  margin-bottom: 30px;
+}
+
+.container.my-4 {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .card {
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 100%; height: 100%;
-    color: #000;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-family: Lato;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .card-img-top {
-    height: 250px;
-    object-fit: cover;
+  height: 250px;
+  object-fit: cover;
 }
-  
+
 .card-title {
-    font-size: 16px;
+  font-size: 16px;
 }
-  
+
 .card-text {
-    font-size: 14px;
-    color: #888;
+  font-size: 14px;
+  color: #888;
 }
 
 .carousel-inner {
@@ -63,31 +67,13 @@ body {
   margin-bottom: 4%;
 }
 
-.py-4 {
-  position: relative;
-  margin-top: 4%;
-  background-color: #FFFFFF;
-  z-index: 1; /* Ensure the content is above the pseudo-element */
-}
-
-.py-4::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -35%; /* Adjust this value to widen the background */
-  right: 0%; /* Adjust this value to widen the background */
-  bottom: 0;
-  background-color: #FFFFFF;
-  z-index: -1; /* Ensure the pseudo-element is behind the content */
-}
-
 .mb-4 {
   font-weight: bold;
 }
 
 .row {
-  gap: 10px; /* Adds space between columns */
-  justify-content: center; /* Centers cards horizontally */
+  gap: 10px;
+  justify-content: center;
 }
 
 .container {
@@ -95,15 +81,15 @@ body {
 }
 
 .dss-section {
-  background-color: #f8f9fa; /* Light background */
+  background-color: transparent;
   padding: 3rem 1rem;
   position: relative;
-  overflow: hidden;
+  overflow: visible;  /* Change overflow to visible to prevent clipping */
 }
 
 .dss-section img {
   position: absolute;
-  width: 20%; /* Adjust size dynamically */
+  width: 20%;
   opacity: 0.7;
 }
 
@@ -126,11 +112,12 @@ body {
 .dss-section .btn {
   padding: 0.75rem 2rem;
   font-size: 1.25rem;
+  z-index: 2; /* Ensure the button stays above other content */
 }
 
 @media (max-width: 768px) {
   .dss-section img {
-      display: none; /* Hide images on smaller screens for cleaner layout */
+      display: none;
   }
 
   .dss-section h1 {
