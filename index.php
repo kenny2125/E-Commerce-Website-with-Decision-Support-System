@@ -65,7 +65,7 @@
     </div>
 
 <!-- DSS Section -->
-<div style="width: 100%; height: 334px; position: relative; background-image: url('assets/images/rpc-logo-black.png'); background-size: cover; background-position: center;">
+<div style="width: 100%; height: 334px; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
   <!-- Content Layer (Text and Button) -->
   <div style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
     <div style="font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word;">Don’t know what to buy?</div>
