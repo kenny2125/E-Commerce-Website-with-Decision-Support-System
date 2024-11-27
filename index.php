@@ -45,7 +45,7 @@
     </div>
 
     <!-- Featured Products -->
-    <div class="featured-products-wrapper">
+    <div class="featured-products-wrapper" style="margin-bottom: 150px;">
         <div class="container my-4">
             <h2 class="text-center mb-4">Featured Products</h2>
             <div class="row g-3">
@@ -66,9 +66,9 @@
     </div>
 
 <!-- DSS Section -->
-<div style="width: 100%; height: 450px; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
+<div style="padding-top: 100px; padding-bottom: 100px; width: 100%; height: 450px; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
   <!-- Content Layer (Text and Button) -->
-  <div style="width: 100%; height: 300px%; position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
+  <div style="width: 100%; height: 300px; position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
     <div style="font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word;">Don’t know what to buy?</div>
     <div style="font-size: 16px; font-family: Lato; font-weight: 400; word-wrap: break-word; margin-top: 10px;">
       Check our “Parts Recommendation System” helps you figure out your needs!
@@ -81,12 +81,7 @@
     </div>
   </div>
 </div>
-
-<br>
-<br>
-<br>
-<br>
-<br><br><br><br><br><br><br>
+<br><br><br><br><br><br>
 
     <?php include 'includes/footer.php'; ?>
 </body>
