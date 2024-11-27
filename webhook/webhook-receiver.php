@@ -56,11 +56,12 @@ if ($data && isset($data['data']['attributes']['data']['attributes'])) {
             $paidAt, 
             $updatedAt
         );
-    } else if ($status == 'REFUND') {
+    } else if ($status == 'REFUNDED') {
+        // Update based on external_reference_number for refunded status
         $stmt = $conn->prepare("
             UPDATE tbl_payments
             SET status = ?, fee = ?, net_amount = ?, updated_at = ?
-            WHERE paymongo_payment_ID = ?
+            WHERE external_reference_number = ?
         ");
         
         $stmt->bind_param("sdsss", 
@@ -68,7 +69,7 @@ if ($data && isset($data['data']['attributes']['data']['attributes'])) {
             $fee, 
             $netAmount, 
             $updatedAt, 
-            $data['data']['id'] // paymongo_payment_ID (for refund)
+            $externalReferenceNumber // Using external_reference_number for refund update
         );
     }
 
