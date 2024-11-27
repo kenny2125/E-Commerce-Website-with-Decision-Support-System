@@ -65,16 +65,16 @@
     </div>
 
 <!-- DSS Section -->
-<div style="width: 100%; height: 334px; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
+<div style="width: 100%; height: 450px; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
   <!-- Content Layer (Text and Button) -->
-  <div style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
+  <div style="width: 100%; height: 300px%; position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
     <div style="font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word;">Don’t know what to buy?</div>
     <div style="font-size: 16px; font-family: Lato; font-weight: 400; word-wrap: break-word; margin-top: 10px;">
       Check our “Parts Recommendation System” helps you figure out your needs!
     </div>
     <div style="width: 162.35px; height: 59.87px; margin-top: 20px; position: relative;">
       <div style="width: 100%; height: 90%; background: #1A54C0; border-radius: 74px;"></div>
-      <div style="position: absolute; top: 125%; left: 0; width: 100%; height: 100%; text-align: center; color: white; font-size: 16px; font-family: Lato; font-weight: 700; word-wrap: break-word;">
+      <div style="position: absolute; top: 25%; left: 0; width: 100%; height: 100%; text-align: center; color: white; font-size: 16px; font-family: Lato; font-weight: 700; word-wrap: break-word;">
         Get Started
       </div>
     </div>
