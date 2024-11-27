@@ -26,29 +26,42 @@ if ($data && isset($data['data']['attributes'])) {
     $eventId = $data['data']['id'];
     $eventType = $data['data']['type'];
     $attributes = $data['data']['attributes'];
-    
+
     $amount = $attributes['amount'] / 100; // Assuming amount is in cents, divide by 100 for decimal format
     $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : null; // Check if fee exists
     $netAmount = $amount - $fee;
-    $status = $attributes['status'];
+    $status = $attributes['status'] == 'paid' ? 'PAID' : ($attributes['status'] == 'refunded' ? 'REFUND' : null); // Convert status to 'PAID' or 'REFUND'
     $externalReferenceNumber = isset($attributes['external_reference_number']) ? $attributes['external_reference_number'] : null;
     $sourceType = isset($attributes['source_type']) ? $attributes['source_type'] : null;
     $createdAt = date('Y-m-d H:i:s', $attributes['created_at']); // Convert Unix timestamp to MySQL format
     $paidAt = isset($attributes['paid_at']) ? date('Y-m-d H:i:s', $attributes['paid_at']) : null;
     $updatedAt = isset($attributes['updated_at']) ? date('Y-m-d H:i:s', $attributes['updated_at']) : null;
 
-    // Insert data into tbl_payments (order_ID set to 0 for now)
-    $stmt = $conn->prepare("
-        INSERT INTO tbl_payments 
-        (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, paid_at, updated_at) 
-        VALUES 
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ");
-    
-    $orderId = 0; // Default order ID as 0
+    // Prepare SQL query
+    if ($eventType == 'payment.paid') {
+        // Insert data for 'payment.paid'
+        $stmt = $conn->prepare("
+            INSERT INTO tbl_payments 
+            (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, paid_at, updated_at) 
+            VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        
+        $orderId = NULL; // Set order_ID to NULL
 
-    $stmt->bind_param("issddssssss", $orderId, $eventId, $amount, $fee, $netAmount, $status, $externalReferenceNumber, $sourceType, $createdAt, $paidAt, $updatedAt);
+        $stmt->bind_param("issddssssss", $orderId, $eventId, $amount, $fee, $netAmount, $status, $externalReferenceNumber, $sourceType, $createdAt, $paidAt, $updatedAt);
+    } elseif ($eventType == 'payment.refunded') {
+        // Update data for 'payment.refunded'
+        $stmt = $conn->prepare("
+            UPDATE tbl_payments 
+            SET status = ?, amount = ?, fee = ?, net_amount = ?, updated_at = ? 
+            WHERE paymongo_payment_ID = ?
+        ");
+        
+        $stmt->bind_param("sddssss", $status, $amount, $fee, $netAmount, $updatedAt, $eventId);
+    }
 
+    // Execute query
     if ($stmt->execute()) {
         http_response_code(200); // Acknowledge receipt
         echo "Webhook received and stored.";
