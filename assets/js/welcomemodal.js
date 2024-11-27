@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {
-        backdrop: 'static',  // Prevent closing by clicking outside
+        backdrop: 'true',  // Prevent closing by clicking outside
         keyboard: true       // Allow ESC key to close modal
     });
 
