@@ -23,7 +23,6 @@
         .content {
             flex: 1; /* Allow content to expand */
             padding-top: 20px; /* Space for header */
-            padding-bottom: 100px; /* Space for footer */
             margin: 0 170px; /* Center the content */
         }
 
