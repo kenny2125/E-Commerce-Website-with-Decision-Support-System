@@ -17,12 +17,12 @@ if ($conn->connect_error) {
 
 // Get form data
 $product_name = $_POST['product_name'];
-$brand_name = $_POST['brand_name'];
-$category_name = $_POST['category_name'];
-$retail_price = $_POST['retail_price'];
+$brand_ID = $_POST['brand_ID'];
+$category_ID = $_POST['category_ID'];
+$srp = $_POST['srp'];
 $store_price = $_POST['store_price'];
-$product_description = $_POST['product_description'];
-$product_specs = $_POST['product_specs'];
+$description = $_POST['description'];
+$specification = $_POST['specification'];
 $quantity = $_POST['quantity'];
 
 // Default image if no image uploaded
@@ -40,7 +40,7 @@ if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
 
 // Prepare SQL query with BLOB data
 $sql = "INSERT INTO tbl_products (product_name, brand_ID, category_ID, srp, store_price, description, specification, img_name, img_data) 
-        VALUES ('$product_name', '$brand_name', '$category_name', '$retail_price', '$store_price', '$product_description', '$product_specs', '$image_name', ?)";
+        VALUES ('$product_name', '$brand_ID', '$category_ID', '$srp', '$store_price', '$description', '$specification', '$image_name', ?)";
 
 // Prepare statement to bind the binary data
 $stmt = $conn->prepare($sql);
