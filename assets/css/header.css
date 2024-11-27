@@ -1,12 +1,12 @@
 .container-fluid {
     height: 90px;
     background-color: #FFFFFF;
-    margin-bottom: 35px;
+    box-shadow: 0 7px 3px -2px lightgrey;
 }
 
 .align-text-top {
     margin-right: 140px;
-    margin-left: 160px;
+    margin-left: 150px;
 }
 
 .d-flex {
@@ -39,7 +39,8 @@
 .btn-primary {
     width: 120px;
     font-size: 18px;
-    margin-right: 185px;
+    margin-top: 0%;
+    margin-right: 170px;
     border-radius: 74px; /* Change the border radius */
     background-color: #1A54C0;
 }
