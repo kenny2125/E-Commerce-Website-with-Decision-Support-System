@@ -1,11 +1,16 @@
 <link rel="stylesheet" href="assets/css/header.css">
 <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-            <img src="assets/images/rpc-logo-black.png" alt="" width="245" height="81" class="d-inline-block align-text-top">
-        <form class="d-flex">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+        <!-- Logo -->
+        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        
+        <!-- Search Bar -->
+        <form class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        
+        <!-- Login Button -->
         <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
     </div>
 </nav>

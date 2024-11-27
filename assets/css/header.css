@@ -1,50 +1,94 @@
+/* Base Container Styling */
 .container-fluid {
-    height: 90px;
+    height: 120px;
     background-color: #FFFFFF;
     box-shadow: 0 7px 3px -2px lightgrey;
+    padding: 10px 20px; /* Add padding for better spacing */
 }
 
-.align-text-top {
-    margin-right: 140px;
-    margin-left: 150px;
+/* Logo Styling */
+.logo {
+    width: 240px;
+    height: 81px;
+    margin: 0 100px;
+    max-width: 100%; /* Ensure responsiveness */
+    height: auto; /* Maintain aspect ratio */
 }
 
-.d-flex {
-    text-align: left;
+/* Search Bar Styling */
+.search-bar {
+    flex-grow: 1; /* Allow the search bar to grow dynamically */
+    max-width: 800px; /* Increase max-width for the search bar */
 }
 
-.me-2 {
-    width: 550px;
+.search-bar .form-control {
+    width: 100%; /* Make the input field fill the available space */
     font-size: 18px;
-    margin-right: 140px;
-    border-radius: 74px; /* Change the border radius */
+    border-radius: 74px;
     padding-left: 40px;
+    margin-right: 10px; /* Reduce margin for responsiveness */
 }
 
-.btn-outline-success {
-    height: 50px;
-    width: 140px;
+.search-bar .btn-outline-success {
+    height: 55px;
+    width: auto; /* Adjust button width dynamically */
     font-size: 20px;
-    margin-right: 150px;
     border-radius: 74px;
     background-color: #1A54C0;
     color: #FFFFFF;
+    padding: 0 45px; /* Add padding for consistent button size */
+    margin-right: 85px;
 }
 
-.btn-outline-success:hover {
-    background-color: #154a9e; /* Darken the color on hover */
+.search-bar .btn-outline-success:hover {
+    background-color: #154a9e;
+    margin-left: 20px;
 }
 
-/* Add margin to the right side of the "Log In" button */
+/* Login Button Styling */
 .btn-primary {
-    width: 120px;
-    font-size: 18px;
-    margin-top: 0%;
-    margin-right: 170px;
-    border-radius: 74px; /* Change the border radius */
+    width: auto; /* Adjust button width dynamically */
+    height: 40px;
+    font-size: 16px;
+    border-radius: 74px;
     background-color: #1A54C0;
+    padding: 0 25px; /* Add padding for consistent button size */
+    margin-right: 120px; /* Add space between elements */
 }
 
 .btn-primary:hover {
-    background-color: #154a9e; /* Darken the color on hover */
+    background-color: #154a9e;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container-fluid {
+        height: auto; /* Adjust height for smaller screens */
+        padding: 15px; /* Add padding for smaller screens */
+    }
+
+    .logo {
+        margin-bottom: 10px; /* Add space below logo */
+        width: 10px; /* Scale down logo size */
+    }
+
+    .search-bar {
+        flex-direction: column; /* Stack input and button */
+        align-items: stretch; /* Stretch input and button full-width */
+        max-width: 100%; /* Full width on small screens */
+    }
+
+    .search-bar .form-control {
+        margin-right: 0; /* Remove margin for stacking */
+        margin-bottom: 20px; /* Add space below input */
+    }
+
+    .search-bar .btn-outline-success {
+        width: 100%; /* Full-width button */
+    }
+
+    .btn-primary {
+        width: 100%; /* Full-width login button */
+        margin-top: 10px; /* Add space above button */
+    }
 }
