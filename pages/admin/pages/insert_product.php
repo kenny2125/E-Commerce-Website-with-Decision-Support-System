@@ -18,8 +18,8 @@ if ($conn->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get form data
     $product_name = $_POST['product_name'];
-    $brand_ID = $_POST['brand_ID'];
-    $category_ID = $_POST['category_ID'];
+    $brand_ID = $_POST['brand_ID'];  // Ensure this is the brand_ID from the dropdown
+    $category = $_POST['category'];
     $srp = $_POST['srp'];
     $store_price = $_POST['store_price'];
     $description = $_POST['description'];
@@ -36,18 +36,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $image_data = $conn->real_escape_string($image_data); // Escape binary data
     }
 
-    // SQL query for inserting product with image
-    $sql = "INSERT INTO tbl_products (product_name, brand_ID, category_ID, srp, store_price, description, specification, img_name, img_data, quantity) 
-            VALUES ('$product_name', '$brand_ID', '$category_ID', '$srp', '$store_price', '$description', '$specification', '$image_name', '$image_data', '$quantity')";
+    // Prepare SQL query for inserting product with image
+    $insert_sql = "INSERT INTO tbl_products (product_name, brand_ID, category, srp, store_price, description, specification, img_name, img_data, quantity) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // Execute the query
-    if ($conn->query($sql) === TRUE) {
-        echo "New product added successfully!";
-    } else {
-        echo "Error: " . $conn->error;
+    // Prepare the statement
+    $stmt = $conn->prepare($insert_sql);
+    if ($stmt === false) {
+        die('Prepare failed: ' . $conn->error);
     }
 
-    // Close the connection
+    // Bind parameters (s = string, d = double, b = blob)
+    $stmt->bind_param('sssssssbsi', 
+        $product_name, $brand_ID, $category, $srp, $store_price, $description, $specification, $image_name, $image_data, $quantity
+    );
+
+    // Execute the query
+    if ($stmt->execute()) {
+       
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close the statement and connection
+    $stmt->close();
     $conn->close();
 }
 ?>
