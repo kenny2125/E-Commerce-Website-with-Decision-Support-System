@@ -36,7 +36,8 @@
     <div class="brand-logo-container overflow-hidden my-5">
         <div class="brand-logo-wrapper d-flex">
             <?php 
-            $brands = ["amd", "asus", "biostar", "coolermaster", "corsair", "cougar"];
+            $brands = ["amd", "asus", "biostar", "coolermaster", "corsair", "cougar", "darkflash", "dell", "fanatec", "gigabyte", "gskill", "hp", "inplay", "intel", "kingston", "msi", "nvidia", "nvision", "nzxt", "samsung"];
+
             foreach (array_merge($brands, $brands) as $brand): ?>
                 <img src="assets/images/brands/<?= $brand ?>.png" alt="<?= ucfirst($brand) ?>" class="brand-logo mx-3">
             <?php endforeach; ?>
