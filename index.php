@@ -71,7 +71,7 @@
     </div>
 
 <!-- DSS Section -->
-<div style="padding-top: 100px; padding-bottom: 100px; width: 100%; height: 450px; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
+<div style="padding-top: 100px; padding-bottom: 350px; width: 100%; height: 4600px; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
   <!-- Content Layer (Text and Button) -->
   <div style="width: 100%; height: 300px; position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
     <div style="font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word;">Don’t know what to buy?</div>
@@ -88,6 +88,6 @@
 </div>
 <br><br><br><br><br><br>
 
-    <?php include 'includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>
