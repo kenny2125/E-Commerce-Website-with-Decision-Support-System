@@ -49,13 +49,11 @@ if (isset($_POST['signUp'])) {
                 if ($stmt->execute([
                     $first_name, $middle_init, $last_name, $gender, $address, $contact_number, $email, $birth_date, $role, $username, $hashedPassword
                 ])) {
-                    // Redirect to index.php and pass a query parameter to open the login modal
-                    header('Location: index.php?modal=login');
+                    header('Location: login.php'); // Redirect to login page
                     exit;
                 } else {
                     echo "Error: Unable to create account.";
                 }
-                
             }
         }
     } catch (PDOException $e) {
@@ -63,40 +61,29 @@ if (isset($_POST['signUp'])) {
     }
 }
 
-
 if (isset($_POST['logIn'])) {
-    // Get the username and password from the form
-    $username = isset($_POST['username']) ? trim($_POST['username']) : null;
+    $username = isset($_POST['username']) ? $_POST['username'] : null;
     $password = isset($_POST['password']) ? $_POST['password'] : null;
 
     if ($username && $password) {
         try {
-            // Query to check if the user exists
+            // Query to check the user's credentials
             $checkUser = $conn->prepare("SELECT * FROM tbl_user WHERE username = ?");
             $checkUser->execute([$username]);
             $user = $checkUser->fetch(PDO::FETCH_ASSOC);
 
-            // Verify the hashed password
             if ($user && password_verify($password, $user['password'])) {
-                // Set session variables
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = $user['role']; // Store the role for authorization if needed
-
-                // Redirect to the home page or dashboard
-                header('Location: ../pages/home.php');
+                $_SESSION['username'] = $username;
+                header('Location: ../pages/home.php'); // Redirect to the home page or another page
                 exit;
             } else {
-                // Invalid credentials
                 echo "Invalid username or password!";
             }
         } catch (PDOException $e) {
-            // Handle database errors
             echo "Error: " . $e->getMessage();
         }
     } else {
-        // Missing username or password
         echo "Username and password are required!";
     }
 }
-
 ?>
