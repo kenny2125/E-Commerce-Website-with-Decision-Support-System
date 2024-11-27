@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, width=device-width">
-    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" />
-    
+
     <style>
         /* General Styles */
         body {
-            font-family: 'Lato', sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             color: #000;
-            background-color: #fff;
+            background: rgba(239, 239, 239, 1); /* Set the background color for the entire page */
+            font-family: 'Lato', sans-serif;
             padding-bottom: 300px;
             padding-top: 90px;
         }
@@ -25,10 +25,18 @@
             max-width: 1200px;
             margin: 30px auto;
             padding: 20px;
-            background-color: #fff;
+            background: rgba(239, 239, 239, 1); /* Set the background color */
+            font-family: 'Lato', sans-serif;
             text-align: justify;
-            font-size: 20px;
+            font-size: 18px;
         }
+        
+        /* Image styling */
+        .privacy-header {
+      width: 100%; /* Adjust width as needed */
+      height: 215px;
+      margin-bottom: 20px;
+    }
 
         /* Title Styling */
         .privacy-policy {
@@ -110,10 +118,14 @@
 
     <!-- Main Content -->
     <div class="footer-privacy-policy">
-        <div class="privacy-policy">Privacy Policy</div>
+
+            <!-- Insert image as header -->
+    <img src="assets/images/footerimages/privacy.png" alt="Privacy Policy Header" class="privacy-header">
+
+        <div class="privacy-policy"><img src="assets/images/footerimages/lock.svg" alt="Lock Icon">Privacy Policy</div>
         
         <!-- Sections -->
-        <p class="who-are-we"><b>WHO ARE WE</b></p>
+        <p class="who-are-we"><b>WHO ARE WE?</b></p>
         <p class="we-are-a">We are a team dedicated to providing exceptional products and services, with a commitment to transparency, privacy, and security for our users. Our goal is to create a seamless experience while ensuring your personal data is protected. This Privacy Policy outlines how we collect, use, and secure your information.</p>
 
         <p class="who-are-we"><b>PERSONAL INFORMATION WE COLLECT</b></p>
