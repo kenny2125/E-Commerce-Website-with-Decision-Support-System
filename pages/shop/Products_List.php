@@ -13,35 +13,59 @@
         <div class="row">
             <!-- Sidebar: Filters -->
             <div class="col-3">
-                <div class="bg-light p-3">
-                    <h4 class="mb-4">Filters</h4>
-                    <form method="GET" action="">
-                        <div class="mb-3">
-                            <label for="category" class="form-label">Category</label>
-                            <select id="category" name="category" class="form-select">
-                                <option value="">All Categories</option>
-                                <option value="graphics-card">Graphics Card</option>
-                                <option value="laptop">Laptop</option>
-                                <option value="gaming-laptop">Gaming Laptop</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="brand" class="form-label">Brand</label>
-                            <select id="brand" name="brand" class="form-select">
-                                <option value="">All Brands</option>
-                                <option value="msi">MSI</option>
-                                <option value="dell">Dell</option>
-                                <option value="apple">Apple</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="price-range" class="form-label">Price Range</label>
-                            <input type="text" id="price-range" name="price-range" class="form-control" placeholder="e.g., 10000-50000">
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
-                    </form>
+    <div class="bg-light p-3">
+        <h4 class="mb-4">Filters</h4>
+        <div class="col-3">
+    <div class="bg-light p-3">
+        <h4 class="mb-4">Filters</h4>
+        <form method="GET" action="">
+            <!-- Category Filter -->
+            <div class="mb-4">
+                <h6 class="mb-2">Category</h6>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="category-graphics-card" name="category[]" value="graphics-card">
+                    <label class="form-check-label" for="category-graphics-card">Graphics Card</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="category-laptop" name="category[]" value="laptop">
+                    <label class="form-check-label" for="category-laptop">Laptop</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="category-gaming-laptop" name="category[]" value="gaming-laptop">
+                    <label class="form-check-label" for="category-gaming-laptop">Gaming Laptop</label>
                 </div>
             </div>
+
+            <!-- Brand Filter -->
+            <div class="mb-4">
+                <h6 class="mb-2">Brand</h6>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="brand-msi" name="brand[]" value="msi">
+                    <label class="form-check-label" for="brand-msi">MSI</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="brand-dell" name="brand[]" value="dell">
+                    <label class="form-check-label" for="brand-dell">Dell</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="brand-apple" name="brand[]" value="apple">
+                    <label class="form-check-label" for="brand-apple">Apple</label>
+                </div>
+            </div>
+
+       
+            <!-- Clear Button -->
+            <div class="mb-4">
+                <button type="button" class="btn btn-secondary">Clear</button>
+            </div>
+   
+        </form>
+    </div>
+</div>
+
+    </div>
+</div>
+
 
             <!-- Main Content -->
             <div class="col-9">
