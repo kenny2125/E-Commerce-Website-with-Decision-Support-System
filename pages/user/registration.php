@@ -42,6 +42,10 @@
                                     <label for="contactNumber">Contact Number</label>
                                     <input type="text" id="contactNumber" placeholder="eg. 09123456789" name="contactNumber" required>
                                 </div>
+                                <div class="input-group">
+                                    <label for="contactNumber">Age</label>
+                                    <input type="text" id="age" placeholder="eg. 18" name="age" required>
+                                </div>
                             </div>
                             <div class="input-group">
                                 <label for="username">Username</label>
