@@ -30,7 +30,7 @@
         phone, 
         source_type, 
         external_reference_number, 
-        paid_at 
+        created_at 
     FROM tbl_payments;
     ";
 
@@ -73,7 +73,7 @@
     }
 
     // Fetch payments data
-    $payments_query = "SELECT payment_ID, status, cust_name, amount, source_type, paid_at FROM tbl_payments";
+    $payments_query = "SELECT payment_ID, status, cust_name, amount, source_type, created_at FROM tbl_payments";
     $result = $conn->query($payments_query);
 ?>
 
@@ -184,7 +184,7 @@
                             echo "<td>₱ " . number_format($row['amount'], 2) . "</td>";
                             echo "<td>" . $row['cust_name'] . "</td>";
                             echo "<td>" . $row['source_type'] . "</td>";
-                            echo "<td>" . ($row['paid_at'] ? date("Y-m-d H:i:s", strtotime($row['paid_at'])) : 'N/A') . "</td>";
+                            echo "<td>" . ($row['created_at'] ? date("Y-m-d H:i:s", strtotime($row['created_at'])) : 'N/A') . "</td>";
                             echo "<td>
                                     <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editPaymentModal-" . $row['payment_ID'] . "'>Edit</button>
                                 </td>";
