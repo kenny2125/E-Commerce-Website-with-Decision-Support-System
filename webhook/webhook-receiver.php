@@ -21,10 +21,12 @@ $data = json_decode($input, true);
 // Save to a file for debugging
 file_put_contents('webhook.log', $input . PHP_EOL, FILE_APPEND);
 
-if ($data && isset($data['data']['attributes']['data']['attributes'])) {
-    // Extract data from JSON payload
+if ($data && isset($data['data']['attributes']['type'])) {
+    // Extract the "type" which tells us if the payment is paid or refunded
+    $eventType = $data['data']['attributes']['type'];
+    
+    // Extract other payment details
     $attributes = $data['data']['attributes']['data']['attributes'];
-
     $amount = isset($attributes['amount']) ? $attributes['amount'] / 100 : 0; // Convert amount to decimal
     $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : 0; // Convert fee to decimal
     $netAmount = isset($attributes['net_amount']) ? $attributes['net_amount'] / 100 : 0;
@@ -35,9 +37,9 @@ if ($data && isset($data['data']['attributes']['data']['attributes'])) {
     $paidAt = isset($attributes['paid_at']) ? date('Y-m-d H:i:s', $attributes['paid_at']) : null;
     $updatedAt = isset($attributes['updated_at']) ? date('Y-m-d H:i:s', $attributes['updated_at']) : null;
 
-    // Prepare the SQL statement to insert or update the payment
-    if ($status == 'PAID') {
-        // Insert new record if payment is marked as "paid"
+    // Check if the event type is paid or refunded
+    if ($eventType == 'payment.paid') {
+        // Insert new payment record if the event type is "payment.paid"
         $stmt = $conn->prepare("
             INSERT INTO tbl_payments 
             (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, paid_at, updated_at) 
@@ -57,21 +59,56 @@ if ($data && isset($data['data']['attributes']['data']['attributes'])) {
             $paidAt, 
             $updatedAt
         );
-    } else if ($status == 'REFUNDED') {
-        // Update the record for a refunded payment using external_reference_number
-        $stmt = $conn->prepare("
-            UPDATE tbl_payments
-            SET status = ?, fee = ?, net_amount = ?, updated_at = ?
-            WHERE external_reference_number = ?
-        ");
+    } else if ($eventType == 'payment.refunded' || $eventType == 'payment.refund.updated') {
+        // Scan database for existing record by external_reference_number
+        $stmt = $conn->prepare("SELECT * FROM tbl_payments WHERE external_reference_number = ?");
+        $stmt->bind_param("s", $externalReferenceNumber);
+        $stmt->execute();
+        $result = $stmt->get_result();
         
-        $stmt->bind_param("sdsss", 
-            $status, 
-            $fee, 
-            $netAmount, 
-            $updatedAt, 
-            $externalReferenceNumber // Use external_reference_number to find the payment to update
-        );
+        if ($result->num_rows > 0) {
+            // If record exists, update it
+            $stmt = $conn->prepare("
+                UPDATE tbl_payments
+                SET status = ?, fee = ?, net_amount = ?, updated_at = ?
+                WHERE external_reference_number = ?
+            ");
+            
+            $stmt->bind_param("sdsss", 
+                $status, 
+                $fee, 
+                $netAmount, 
+                $updatedAt, 
+                $externalReferenceNumber
+            );
+        } else {
+            // If record does not exist, insert new one
+            $stmt = $conn->prepare("
+                INSERT INTO tbl_payments 
+                (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, paid_at, updated_at) 
+                VALUES 
+                (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            
+            $stmt->bind_param("sddsssssss", 
+                $data['data']['id'], // paymongo_payment_ID
+                $amount, 
+                $fee, 
+                $netAmount, 
+                $status, 
+                $externalReferenceNumber, 
+                $sourceType, 
+                $createdAt, 
+                $paidAt, 
+                $updatedAt
+            );
+        }
+    } else {
+        // If the event type is something else, we log an error
+        file_put_contents('webhook_error.log', "Unexpected event type: " . $eventType . PHP_EOL, FILE_APPEND);
+        http_response_code(400); // Bad request
+        echo "Invalid event type.";
+        exit();
     }
 
     // Execute the statement
