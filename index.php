@@ -10,11 +10,14 @@
     <link rel="icon" href="assets/images/rpc-favicon.png">
 </head>
 <body>
-<?php 
+
+<!-- Welcome Modal -->
+<?php
     $openModal = isset($_GET['modal']) && $_GET['modal'] === 'login';
     include 'includes/welcomemodal.php';
 ?>
 
+<!-- Header -->
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
@@ -80,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <!-- Brand Logos -->
-    <div class="brand-logo-container overflow-hidden my-5" style="height: 96px;">
+    <div class="brand-logo-container overflow-hidden my-5" style="height: 150px;">
         <div class="brand-logo-wrapper d-flex">
             <?php 
             $brands = ["amd", "asus", "biostar", "coolermaster", "corsair", "cougar", "darkflash", "dell", "fanatec", "gigabyte", "gskill", "hp", "inplay", "intel", "kingston", "msi", "nvidia", "nvision", "nzxt", "samsung"];
@@ -92,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <!-- Featured Products -->
-    <div class="featured-products-wrapper" style="margin-bottom: 150px;">
+    <div class="featured-products-wrapper" style="margin-bottom: 100px;">
         <div class="container my-4">
             <h2 class="text-center mb-4">Featured Products</h2>
             <div class="row g-3">
@@ -113,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
 <!-- DSS Section -->
-<div style="padding-top: 100px; padding-bottom: 350px; width: 100%; height: 4600px; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
+<div style="padding-top: 100px; padding-bottom: 350px; width: 100%; height: auto; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
   <!-- Content Layer (Text and Button) -->
   <div style="width: 100%; height: 300px; position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
     <div style="font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word;">Don’t know what to buy?</div>

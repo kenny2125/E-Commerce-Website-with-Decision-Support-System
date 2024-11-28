@@ -1,0 +1,80 @@
+/* Make the modal wider */
+#welcomeModal .modal-dialog {
+    max-width: 1000px; /* Adjust this value to make it wider */
+    width: 90%; /* Optional: Make it responsive to screen size */
+}
+/* Modal body styling */
+#welcomeModal .modal-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    color: #333;
+    margin: 20px 0;
+    padding: 0 30px;
+    line-height: 1.5;
+}
+
+/* Styling for the welcome message text */
+#welcomeModal .modal-body .welcome-message {
+    max-width: 50%; /* Ensure the text takes up half of the available space */
+    text-align: left; /* Align text to the left */
+}
+
+#welcomeModal .modal-body .main-message {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+#welcomeModal .modal-body .sub-message {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* Styling for the image (larger size) */
+#welcomeModal .modal-body img {
+    width: 50%; /* Increase the image size to 50% */
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+/* Modal footer button */
+#welcomeModal .modal-footer {
+    border-top: none;
+    justify-content: center;
+}
+
+#welcomeModal .modal-footer .btn-secondary {
+    background-color: #0056b3;
+    color: white;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+#welcomeModal .modal-footer .btn-secondary:hover {
+    background-color: #003d82;
+    color: white;
+}
+
+/* Overall modal responsiveness */
+@media (max-width: 768px) {
+    #welcomeModal .modal-body {
+        flex-direction: column; /* Stack content vertically on smaller screens */
+        text-align: center;
+    }
+
+    #welcomeModal .modal-body img {
+        width: 70%; /* Increase image size on smaller screens */
+        margin: 10px 0;
+    }
+
+    #welcomeModal .modal-footer .btn-secondary {
+        font-size: 0.9rem;
+    }
+}

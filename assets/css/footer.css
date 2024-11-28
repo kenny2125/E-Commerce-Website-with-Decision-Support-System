@@ -1,11 +1,138 @@
-    /* Ensure footer sticks to the bottom */
-    html, body {
-        height: 100%;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-    }
+/* Footer Styles */
+.footer {
+  width: 100%;
+  background-color: #122448;
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+  padding: 10px 0; /* Reduced padding */
+  position: relative;
+  bottom: 0;
+}
 
-    .content {
-        flex: 1;
-    }
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px; /* Reduced padding */
+}
+
+.footer-section {
+  flex: 1 1 200px;
+  text-align: left;
+}
+
+.footer-logo {
+  width: 250px;
+  margin-bottom: 10px;
+  margin-left: 10px; /* Reduced margin-left */
+}
+
+.footer-heading {
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.footer-social-links {
+  width: 20px;
+  margin: 5px 16px; /* Reduced margin */
+}
+
+.contact {
+  margin-top: 90px;
+  margin-left: -50px; /* Reduced margin-left */
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  font-size: 13px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-contact-item .icon {
+  width: 15px;
+  margin-right: 10px; /* Reduced margin-right */
+}
+
+.branch {
+  margin-top: 15px;
+  margin-left: 40px; /* Reduced margin-left */
+}
+
+.footer-branch-item {
+  display: flex;
+  align-items: left;
+  margin: 5px 0;
+  color: #fff;
+}
+
+.footer-branch-item .icon {
+  width: 20px;
+  height: 18px;
+  margin-right: 6px; /* Reduced margin-right */
+}
+
+.footer-branch-address {
+  margin: 5px 18px; /* Reduced margin */
+  font-size: 13px;
+  width: 220px;
+  text-align: left;
+  color: #fff;
+}
+
+.footer-links {
+  display: flex;
+  padding-top: 20px;
+  margin-right: 10px;
+  justify-content: flex-start; /* Align the columns to the left */
+}
+
+.footer-link-column {
+  flex: none;
+  margin: 0 10px; /* Adjust if needed to control space between columns */
+}
+
+.footer-heading {
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.footer-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 300;
+  text-align: left; /* Ensures links are left-aligned */
+}
+
+.footer-link-list a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+}
+
+.footer-link-list p {
+  margin: 0; /* Ensure there is no additional margin around the links */
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+.footer-bottom p {
+  margin: 5px 0;
+  color: #fff;
+}
