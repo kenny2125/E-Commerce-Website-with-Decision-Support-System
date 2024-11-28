@@ -260,27 +260,75 @@ document.addEventListener('DOMContentLoaded', function () {
             <?php endforeach; ?>
         </div>
     </div>
+<?php
+    // Database connection
+    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+    $username = "vg2eweo4yg8eydii";
+    $password = "rccstjx3or46kpl9";
+    $db_name = "s0gp0gvxcx3fc7ib";
 
-    <!-- Featured Products -->
-    <div class="featured-products-wrapper" style="margin-bottom: 100px;">
-        <div class="container my-4">
-            <h2 class="text-center mb-4">Featured Products</h2>
-            <div class="row g-3">
-                <?php for ($i = 1; $i <= 5; $i++): ?>
-                    <div class="col-sm-6 col-md-4 col-lg-2">
-                        <div class="card">
-                            <img src="assets/images/defaultproduct.png" class="card-img-top img-fluid" alt="Product <?= $i ?>">
-                            <div class="card-body">
-                                <h5 class="card-title">Product <?= $i ?></h5>
-                                <p class="card-text">Price <?= $i ?></p>
-                                <a href="#" class="btn btn-primary w-100">Add to Cart</a>
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch products from the database
+    $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products";
+    $result = $conn->query($sql);
+
+    $products = [];
+    if ($result->num_rows > 0) {
+        // Store products in an array
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+    }
+    $conn->close();
+?>
+
+                <!-- Featured Products -->
+<div class="featured-products-wrapper" style="margin-bottom: 100px;">
+    <div class="container my-4">
+        <h2 class="text-center mb-4">Featured Products</h2>
+        <div class="row g-3">
+            <?php if (!empty($products)) : ?>
+                <?php foreach ($products as $product) : ?>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+                        <div class="card" style="width: 309.328px; height: 437.188px; display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;">
+                            <?php
+                            // Check if there is image data
+                            if (!empty($product['img_data'])) {
+                                $imgData = base64_encode($product['img_data']);
+                                $imgSrc = 'data:image/jpeg;base64,' . $imgData;
+                            } else {
+                                $imgSrc = 'path/to/default-image.jpg';
+                            }
+                            ?>
+                            <!-- Image -->
+                            <img src="<?php echo $imgSrc; ?>" class="card-img-top img-fluid" alt="Product Image" style="max-height: 250px; object-fit: cover;">
+                            
+                            <!-- Card Body -->
+                            <div class="card-body" style="flex-grow: 1; text-align: center;">
+                                <h5 class="card-title" style="font-size: 1.1rem; margin-bottom: 0.5rem;"><?php echo htmlspecialchars($product['product_name']); ?></h5>
+                                <p class="card-text">
+                                    <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
+                                </p>
+                                <a href="product.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary w-100" style="margin-top: auto;">View Details</a>
                             </div>
                         </div>
                     </div>
-                <?php endfor; ?>
-            </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <p class="text-center">No featured products available.</p>
+            <?php endif; ?>
         </div>
     </div>
+</div>
+
+
+
 
 <!-- DSS Section -->
 <div style="padding-top: 100px; padding-bottom: 350px; width: 100%; height: auto; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
