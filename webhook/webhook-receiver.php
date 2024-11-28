@@ -44,9 +44,9 @@ if ($data && isset($data['data']['attributes']['type'])) {
         // Insert the payment data into the database
         $stmt = $conn->prepare("
             INSERT INTO tbl_payments 
-            (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, updated_at, cust_name, phone) 
+            (paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, updated_at, cust_name, phone) 
             VALUES 
-            (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
         $stmt->bind_param("sddssssss", 
