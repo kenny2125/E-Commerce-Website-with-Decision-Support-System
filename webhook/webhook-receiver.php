@@ -49,29 +49,37 @@ if ($data && isset($data['data']['attributes']['type'])) {
             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
-        $stmt->bind_param("sddssssss", 
-            $data['data']['id'], // paymongo_payment_ID
-            $amount, 
-            $fee, 
-            $netAmount, 
-            $status, 
-            $externalReferenceNumber, 
-            $sourceType, 
-            $createdAt, 
-            $updatedAt,
-            $customerName,
-            $phone
-        );
-        
-        // Execute the insert statement
-        if ($stmt->execute()) {
-            http_response_code(200); // Success - 200 OK
-            echo "Inserted new payment record successfully (payment.paid).";
-        } else {
-            file_put_contents('webhook_error.log', "DB Error (Insert): " . $stmt->error . PHP_EOL, FILE_APPEND);
-            http_response_code(500); // Internal server error
-            echo "Failed to insert new payment record (payment.paid).";
-        }
+// Insert the payment data into the database
+            $stmt = $conn->prepare("
+                INSERT INTO tbl_payments 
+                (paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, updated_at, cust_name, phone) 
+                VALUES 
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+
+            $stmt->bind_param("sddssssssss", 
+                $data['data']['id'], // paymongo_payment_ID
+                $amount, 
+                $fee, 
+                $netAmount, 
+                $status, 
+                $externalReferenceNumber, 
+                $sourceType, 
+                $createdAt, 
+                $updatedAt,
+                $customerName,
+                $phone
+            );
+
+            // Execute the insert statement
+            if ($stmt->execute()) {
+                http_response_code(200); // Success - 200 OK
+                echo "Inserted new payment record successfully (payment.paid).";
+            } else {
+                file_put_contents('webhook_error.log', "DB Error (Insert): " . $stmt->error . PHP_EOL, FILE_APPEND);
+                http_response_code(500); // Internal server error
+                echo "Failed to insert new payment record (payment.paid).";
+            }
     } else {
         // Invalid event type
         http_response_code(400); // Bad Request
