@@ -29,7 +29,7 @@
     <div class="footer-links">
       <div class="footer-link-column">
         <p class="footer-heading">Who are we?</p>
-        <div class="footer-link-list">
+        <div class="footer-link-list" style="text-align: left">
           <p><a href="pages/public/aboutus.php">About Us</a></p>
           <p><a href="pages/public/faq.php">FAQ</a></p>
           <p><a href="pages/public/contactus.php">Contact Us</a></p>
