@@ -40,7 +40,7 @@
 
 .footer-social-links {
   width: 20px;
-  margin: 5px 16px; /* Reduced margin */
+  margin-left: 32px;
 }
 
 .contact {
@@ -90,14 +90,14 @@
 
 .footer-links {
   display: flex;
-  padding-top: 20px;
-  margin-right: 10px;
+  padding-top: 15px;
+  margin-right: 5px;
   justify-content: flex-start; /* Align the columns to the left */
 }
 
 .footer-link-column {
   flex: none;
-  margin: 0 10px; /* Adjust if needed to control space between columns */
+  margin: 0 13px; /* Adjust if needed to control space between columns */
 }
 
 .footer-heading {
@@ -124,6 +124,7 @@
 
 .footer-link-list p {
   margin: 0; /* Ensure there is no additional margin around the links */
+  text-align: left;
 }
 
 .footer-bottom {
