@@ -10,7 +10,7 @@
                         <p>Already have an account? 
                             <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
                         </p>
-                        <form action="/IS104-E-Commerce/pages/user/register.php" method="post">
+                        <form action="user_register.php" method="post">
                             <div class="row">
                                 <div class="input-group">
                                     <label for="firstName">First Name</label>
@@ -39,11 +39,15 @@
                                     <input type="email" id="email" placeholder="eg. danel@gmail.com" name="email" required>
                                 </div>
                                 <div class="input-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" placeholder="eg. 18" name="age" required>
+                                </div>
+                                <div class="input-group">
                                     <label for="contactNumber">Contact Number</label>
                                     <input type="text" id="contactNumber" placeholder="eg. 09123456789" name="contactNumber" required>
                                 </div>
                             </div>
-                            <div class="input-group">
+                            <div class="input-group">   
                                 <label for="username">Username</label>
                                 <input type="text" id="username" placeholder="eg. jeondanel" name="username" required>
                             </div>
@@ -69,6 +73,7 @@
                                 </div>
                                 <div id="confirmPasswordFeedback" class="form-text text-danger"></div>
                             </div>
+
                             <!-- Terms and Conditions -->
                             <div class="terms">
                                 <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
@@ -81,7 +86,23 @@
         </div>
     </div>
 </div>
+                            <script>
+                                const passwordInput = document.getElementById('password');
+                                const confirmPasswordInput = document.getElementById('confirmPassword');
+                                const passwordFeedback = document.getElementById('passwordFeedback');
+                                const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
 
+                                function validatePassword() {
+                                    if (passwordInput.value !== confirmPasswordInput.value) {
+                                        confirmPasswordInput.setCustomValidity("Passwords do not match");
+                                    } else {
+                                        confirmPasswordInput.setCustomValidity("");
+                                    }
+                                }
+
+                                passwordInput.addEventListener('input', validatePassword);
+                                confirmPasswordInput.addEventListener('input', validatePassword);
+                            </script>
 <!-- Add this script at the end of your HTML -->
 <script>
     // Toggle password visibility

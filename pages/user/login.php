@@ -7,7 +7,7 @@
             <div class="modal-body">
                 <div class="form-box">
                     <img src="assets/images/logo.png" alt="RPC Computer Store">
-                    <form action="/IS104-E-Commerce/pages/user/register.php" method="post">
+                    <form action="/IS104-E-Commerce/pages/user/user_login.php" method="post">
                         <div class="input-group">
                             <label for="username">USERNAME</label>
                             <input type="text" id="username" placeholder="eg.jeondanel" name="username">
