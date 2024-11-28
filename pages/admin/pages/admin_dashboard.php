@@ -7,10 +7,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/assets/css/admin_dashboard.css">
+    <!-- <link rel="stylesheet" href="/assets/css/admin_dashboard.css"> -->
     <link rel="icon" href="assets/images/rpc-favicon.png">
 </head>
-<body>
+<body style="background-color: #EBEBEB;">
 
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
