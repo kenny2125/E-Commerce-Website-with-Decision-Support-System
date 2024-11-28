@@ -59,6 +59,16 @@ if ($data && isset($data['data']['attributes']['type'])) {
             $paidAt, 
             $updatedAt
         );
+        
+        // Execute the insert statement
+        if ($stmt->execute()) {
+            http_response_code(200); // Success - 200 OK
+            echo "Inserted payment record successfully.";
+        } else {
+            file_put_contents('webhook_error.log', "DB Error (Insert): " . $stmt->error . PHP_EOL, FILE_APPEND);
+            http_response_code(500); // Internal server error
+            echo "Failed to insert payment record.";
+        }
     } else if ($eventType == 'payment.refunded' || $eventType == 'payment.refund.updated') {
         // Scan database for existing record by external_reference_number
         $stmt = $conn->prepare("SELECT * FROM tbl_payments WHERE external_reference_number = ?");
@@ -81,8 +91,18 @@ if ($data && isset($data['data']['attributes']['type'])) {
                 $updatedAt, 
                 $externalReferenceNumber
             );
+            
+            // Execute the update statement
+            if ($stmt->execute()) {
+                http_response_code(200); // Success - 200 OK
+                echo "Updated payment record successfully.";
+            } else {
+                file_put_contents('webhook_error.log', "DB Error (Update): " . $stmt->error . PHP_EOL, FILE_APPEND);
+                http_response_code(500); // Internal server error
+                echo "Failed to update payment record.";
+            }
         } else {
-            // If record does not exist, insert new one
+            // If no record exists, insert new one
             $stmt = $conn->prepare("
                 INSERT INTO tbl_payments 
                 (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, paid_at, updated_at) 
@@ -102,6 +122,16 @@ if ($data && isset($data['data']['attributes']['type'])) {
                 $paidAt, 
                 $updatedAt
             );
+            
+            // Execute the insert statement if no record was found
+            if ($stmt->execute()) {
+                http_response_code(200); // Success - 200 OK
+                echo "Inserted new payment record successfully (no previous record found).";
+            } else {
+                file_put_contents('webhook_error.log', "DB Error (Insert - No Record): " . $stmt->error . PHP_EOL, FILE_APPEND);
+                http_response_code(500); // Internal server error
+                echo "Failed to insert new payment record.";
+            }
         }
     } else {
         // If the event type is something else, we log an error
@@ -109,23 +139,6 @@ if ($data && isset($data['data']['attributes']['type'])) {
         http_response_code(400); // Bad request
         echo "Invalid event type.";
         exit();
-    }
-
-    // Execute the statement
-    if (isset($stmt)) {
-        if ($stmt->execute()) {
-            http_response_code(200); // Acknowledge receipt
-            echo "Webhook received and stored.";
-        } else {
-            file_put_contents('webhook_error.log', "DB Error: " . $stmt->error . PHP_EOL, FILE_APPEND);
-            http_response_code(500); // Internal server error
-            echo "Failed to store webhook data.";
-        }
-        $stmt->close();
-    } else {
-        file_put_contents('webhook_error.log', "Error preparing statement." . PHP_EOL, FILE_APPEND);
-        http_response_code(500); // Internal server error
-        echo "Failed to prepare the SQL statement.";
     }
 } else {
     http_response_code(400); // Bad request
