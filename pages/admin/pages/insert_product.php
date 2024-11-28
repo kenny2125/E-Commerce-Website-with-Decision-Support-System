@@ -16,9 +16,9 @@ if ($conn->connect_error) {
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get form data
+    // Get form data for other product details
     $product_name = $_POST['product_name'];
-    $brand_ID = $_POST['brand_ID'];  // Ensure this is the brand_ID from the dropdown
+    $brand_ID = $_POST['brand_ID'];
     $category = $_POST['category'];
     $srp = $_POST['srp'];
     $store_price = $_POST['store_price'];
@@ -26,40 +26,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $specification = $_POST['specification'];
     $quantity = $_POST['quantity'];
 
-    // Handle image upload  
-    $image_name = "defaultproduct.png"; // Default image
+    // Handle image upload
+    $image_name = "defaultproduct.png"; // Default image name
     $image_data = null;
 
     if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
         $image_name = $_FILES['product_image']['name'];
         $image_data = file_get_contents($_FILES['product_image']['tmp_name']);
-        $image_data = $conn->real_escape_string($image_data); // Escape binary data
+        $image_data = $conn->real_escape_string($image_data);  // Escape binary data
     }
 
-    // Prepare SQL query for inserting product with image
-    $insert_sql = "INSERT INTO tbl_products (product_name, brand_ID, category, srp, store_price, description, specification, img_name, img_data, quantity) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // Insert the product details first
+    $sql_product = "INSERT INTO tbl_products (product_name, brand_ID, category, srp, store_price, description, specification, quantity) 
+                    VALUES ('$product_name', '$brand_ID', '$category', '$srp', '$store_price', '$description', '$specification', '$quantity')";
+    
+    if ($conn->query($sql_product) === TRUE) {
+        // Get the last inserted product ID
+        $product_id = $conn->insert_id;  // Retrieve the last inserted product ID
 
-    // Prepare the statement
-    $stmt = $conn->prepare($insert_sql);
-    if ($stmt === false) {
-        die('Prepare failed: ' . $conn->error);
-    }
-
-    // Bind parameters (s = string, d = double, b = blob)
-    $stmt->bind_param('sssssssbsi', 
-        $product_name, $brand_ID, $category, $srp, $store_price, $description, $specification, $image_name, $image_data, $quantity
-    );
-
-    // Execute the query
-    if ($stmt->execute()) {
-       
+        // Now insert the image associated with the product ID
+        if ($image_data !== null) {
+            $sql_image = "UPDATE tbl_products SET img_name = '$image_name', img_data = '$image_data' WHERE product_ID = $product_id";
+            if ($conn->query($sql_image) === TRUE) {
+                echo "Image uploaded successfully and associated with product!";
+            } else {
+                echo "Error uploading image: " . $conn->error;
+            }
+        } else {
+            echo "No image uploaded, using default.";
+        }
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error adding product: " . $conn->error;
     }
-
-    // Close the statement and connection
-    $stmt->close();
-    $conn->close();
 }
+
+// Close the connection
+$conn->close();
 ?>
