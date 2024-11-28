@@ -22,52 +22,29 @@ $data = json_decode($input, true);
 file_put_contents('webhook.log', $input . PHP_EOL, FILE_APPEND);
 
 if ($data && isset($data['data']['attributes']['type'])) {
-    // Extract the "type" which tells us if the payment is paid or refunded
+    // Extract the "type" to determine the event type (payment.paid or payment.refunded)
     $eventType = $data['data']['attributes']['type'];
     
-    // Extract other payment details
-    $attributes = $data['data']['attributes']['data']['attributes'];
-    $amount = isset($attributes['amount']) ? $attributes['amount'] / 100 : 0; // Convert amount to decimal
-    $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : 0; // Convert fee to decimal
-    $netAmount = isset($attributes['net_amount']) ? $attributes['net_amount'] / 100 : 0;
-    $status = isset($attributes['status']) ? strtoupper($attributes['status']) : 'UNKNOWN'; // Convert status to uppercase
-    $externalReferenceNumber = isset($attributes['external_reference_number']) ? $attributes['external_reference_number'] : null;
-    $sourceType = isset($attributes['source']['type']) ? $attributes['source']['type'] : null;
-    $createdAt = isset($attributes['created_at']) ? date('Y-m-d H:i:s', $attributes['created_at']) : null;
-    $paidAt = isset($attributes['paid_at']) ? date('Y-m-d H:i:s', $attributes['paid_at']) : null;
-    $updatedAt = isset($attributes['updated_at']) ? date('Y-m-d H:i:s', $attributes['updated_at']) : null;
-
-    // Check if the event type is paid or refunded
     if ($eventType == 'payment.paid') {
-        // Insert new payment record if the event type is "payment.paid"
-        $stmt = $conn->prepare("
-            INSERT INTO tbl_payments 
-            (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, paid_at, updated_at) 
-            VALUES 
-            (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ");
-        
-        $stmt->bind_param("sddsssssss", 
-            $data['data']['id'], // paymongo_payment_ID
-            $amount, 
-            $fee, 
-            $netAmount, 
-            $status, 
-            $externalReferenceNumber, 
-            $sourceType, 
-            $createdAt, 
-            $paidAt, 
-            $updatedAt
-        );
-    } else if ($eventType == 'payment.refunded' || $eventType == 'payment.refund.updated') {
-        // Scan database for existing record by external_reference_number
+        // Extract the payment details from the 'payment.paid' event
+        $attributes = $data['data']['attributes']['data']['attributes'];
+        $amount = isset($attributes['amount']) ? $attributes['amount'] / 100 : 0; // Convert amount to decimal
+        $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : 0; // Convert fee to decimal
+        $netAmount = isset($attributes['net_amount']) ? $attributes['net_amount'] / 100 : 0;
+        $status = isset($attributes['status']) ? strtoupper($attributes['status']) : 'UNKNOWN'; // Convert status to uppercase
+        $externalReferenceNumber = isset($attributes['external_reference_number']) ? $attributes['external_reference_number'] : null;
+        $sourceType = isset($attributes['source']['type']) ? $attributes['source']['type'] : null;
+        $createdAt = isset($attributes['created_at']) ? date('Y-m-d H:i:s', $attributes['created_at']) : null;
+        $updatedAt = isset($attributes['updated_at']) ? date('Y-m-d H:i:s', $attributes['updated_at']) : null;
+
+        // Check if the record exists based on external_reference_number
         $stmt = $conn->prepare("SELECT * FROM tbl_payments WHERE external_reference_number = ?");
         $stmt->bind_param("s", $externalReferenceNumber);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         if ($result->num_rows > 0) {
-            // If record exists, update it
+            // Record found, proceed to update
             $stmt = $conn->prepare("
                 UPDATE tbl_payments
                 SET status = ?, fee = ?, net_amount = ?, updated_at = ?
@@ -81,16 +58,26 @@ if ($data && isset($data['data']['attributes']['type'])) {
                 $updatedAt, 
                 $externalReferenceNumber
             );
+            
+            // Execute the update statement
+            if ($stmt->execute()) {
+                http_response_code(200); // Success - 200 OK
+                echo "Updated payment record successfully (payment.paid).";
+            } else {
+                file_put_contents('webhook_error.log', "DB Error (Update): " . $stmt->error . PHP_EOL, FILE_APPEND);
+                http_response_code(500); // Internal server error
+                echo "Failed to update payment record (payment.paid).";
+            }
         } else {
-            // If record does not exist, insert new one
+            // Record not found, proceed to insert
             $stmt = $conn->prepare("
                 INSERT INTO tbl_payments 
-                (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, paid_at, updated_at) 
+                (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, updated_at) 
                 VALUES 
-                (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
             
-            $stmt->bind_param("sddsssssss", 
+            $stmt->bind_param("sddssssss", 
                 $data['data']['id'], // paymongo_payment_ID
                 $amount, 
                 $fee, 
@@ -99,37 +86,102 @@ if ($data && isset($data['data']['attributes']['type'])) {
                 $externalReferenceNumber, 
                 $sourceType, 
                 $createdAt, 
-                $paidAt, 
                 $updatedAt
             );
+            
+            // Execute the insert statement
+            if ($stmt->execute()) {
+                http_response_code(200); // Success - 200 OK
+                echo "Inserted new payment record successfully (payment.paid).";
+            } else {
+                file_put_contents('webhook_error.log', "DB Error (Insert): " . $stmt->error . PHP_EOL, FILE_APPEND);
+                http_response_code(500); // Internal server error
+                echo "Failed to insert new payment record (payment.paid).";
+            }
         }
-    } else {
-        // If the event type is something else, we log an error
-        file_put_contents('webhook_error.log', "Unexpected event type: " . $eventType . PHP_EOL, FILE_APPEND);
-        http_response_code(400); // Bad request
-        echo "Invalid event type.";
-        exit();
-    }
+    } elseif ($eventType == 'payment.refunded') {
+        // Extract the payment and refund details from the 'payment.refunded' event
+        $attributes = $data['data']['attributes']['data']['attributes'];
+        $amount = isset($attributes['amount']) ? $attributes['amount'] / 100 : 0; // Convert amount to decimal
+        $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : 0; // Convert fee to decimal
+        $netAmount = isset($attributes['net_amount']) ? $attributes['net_amount'] / 100 : 0;
+        $status = isset($attributes['status']) ? strtoupper($attributes['status']) : 'UNKNOWN'; // Convert status to uppercase
+        $externalReferenceNumber = isset($attributes['external_reference_number']) ? $attributes['external_reference_number'] : null;
+        $sourceType = isset($attributes['source']['type']) ? $attributes['source']['type'] : null;
+        $createdAt = isset($attributes['created_at']) ? date('Y-m-d H:i:s', $attributes['created_at']) : null;
+        $updatedAt = isset($attributes['updated_at']) ? date('Y-m-d H:i:s', $attributes['updated_at']) : null;
 
-    // Execute the statement
-    if (isset($stmt)) {
-        if ($stmt->execute()) {
-            http_response_code(200); // Acknowledge receipt
-            echo "Webhook received and stored.";
+        // Check if the record exists based on external_reference_number
+        $stmt = $conn->prepare("SELECT * FROM tbl_payments WHERE external_reference_number = ?");
+        $stmt->bind_param("s", $externalReferenceNumber);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Record found, proceed to update for refund
+            $stmt = $conn->prepare("
+                UPDATE tbl_payments
+                SET status = ?, fee = ?, net_amount = ?, updated_at = ?
+                WHERE external_reference_number = ?
+            ");
+            
+            $stmt->bind_param("sdsss", 
+                $status, 
+                $fee, 
+                $netAmount, 
+                $updatedAt, 
+                $externalReferenceNumber
+            );
+            
+            // Execute the update statement
+            if ($stmt->execute()) {
+                http_response_code(200); // Success - 200 OK
+                echo "Updated payment record successfully (payment.refunded).";
+            } else {
+                file_put_contents('webhook_error.log', "DB Error (Update): " . $stmt->error . PHP_EOL, FILE_APPEND);
+                http_response_code(500); // Internal server error
+                echo "Failed to update payment record (payment.refunded).";
+            }
         } else {
-            file_put_contents('webhook_error.log', "DB Error: " . $stmt->error . PHP_EOL, FILE_APPEND);
-            http_response_code(500); // Internal server error
-            echo "Failed to store webhook data.";
+            // Record not found, proceed to insert
+            $stmt = $conn->prepare("
+                INSERT INTO tbl_payments 
+                (order_ID, paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, updated_at) 
+                VALUES 
+                (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            
+            $stmt->bind_param("sddssssss", 
+                $data['data']['id'], // paymongo_payment_ID
+                $amount, 
+                $fee, 
+                $netAmount, 
+                $status, 
+                $externalReferenceNumber, 
+                $sourceType, 
+                $createdAt, 
+                $updatedAt
+            );
+            
+            // Execute the insert statement
+            if ($stmt->execute()) {
+                http_response_code(200); // Success - 200 OK
+                echo "Inserted new payment record successfully (payment.refunded).";
+            } else {
+                file_put_contents('webhook_error.log', "DB Error (Insert): " . $stmt->error . PHP_EOL, FILE_APPEND);
+                http_response_code(500); // Internal server error
+                echo "Failed to insert new payment record (payment.refunded).";
+            }
         }
-        $stmt->close();
     } else {
-        file_put_contents('webhook_error.log', "Error preparing statement." . PHP_EOL, FILE_APPEND);
-        http_response_code(500); // Internal server error
-        echo "Failed to prepare the SQL statement.";
+        // Invalid event type
+        http_response_code(400); // Bad Request
+        echo "Invalid event type.";
     }
 } else {
-    http_response_code(400); // Bad request
-    echo "Invalid data.";
+    // Invalid or missing data
+    http_response_code(400); // Bad Request
+    echo "Invalid JSON data.";
 }
 
 $conn->close();
