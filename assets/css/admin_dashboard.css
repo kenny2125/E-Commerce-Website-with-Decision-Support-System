@@ -85,3 +85,7 @@
         width: 100%; /* Full width button */
     }
   }
+
+.col-3 {
+  background-color: #1A54C0;
+}

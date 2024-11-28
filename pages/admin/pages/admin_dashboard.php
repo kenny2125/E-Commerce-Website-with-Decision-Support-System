@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <title>Document</title>
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/assets/css/admin_dashboard.css">
+    <link rel="icon" href="assets/images/rpc-favicon.png">
 </head>
 <body>
 
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Logo -->
         <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        
-        <!-- Search Bar -->
         <form class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -26,7 +24,6 @@
 
     <div class="container-fluid">
         <div class="row">
-            <!-- 1st Column: Sidebar -->
             <div class="col-3">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 100%;">
                     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
