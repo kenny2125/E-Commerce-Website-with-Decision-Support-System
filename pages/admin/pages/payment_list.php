@@ -63,6 +63,19 @@
 ?>
 
 
+<?php
+// Database connection
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch payments data
+    $payments_query = "SELECT payment_ID, status, cust_name, amount, source_type, paid_at FROM tbl_payments";
+    $result = $conn->query($payments_query);
+?>
 
 <!-- Navigation -->
 <nav class="navbar navbar-light bg-light">
@@ -147,101 +160,88 @@
                 </div>
             </div>
 
-        <?php
-// Database connection
-$conn = new mysqli($host, $username, $password, $db_name);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+             <!-- Payments Table -->
+            <table class='table table-striped table-bordered'>
+                <thead>
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Customer Name</th>
+                        <th>Payment Method</th>
+                        <th>Paid At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . $row['payment_ID'] . "</td>";
+                            echo "<td>" . $row['status'] . "</td>";
+                            echo "<td>₱ " . number_format($row['amount'], 2) . "</td>";
+                            echo "<td>" . $row['cust_name'] . "</td>";
+                            echo "<td>" . $row['source_type'] . "</td>";
+                            echo "<td>" . ($row['paid_at'] ? date("Y-m-d H:i:s", strtotime($row['paid_at'])) : 'N/A') . "</td>";
+                            echo "<td>
+                                    <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editPaymentModal-" . $row['payment_ID'] . "'>Edit</button>
+                                </td>";
+                            echo "</tr>";
 
-// Fetch payments data
-$payments_query = "SELECT payment_ID, status, cust_name, amount, source_type, paid_at FROM tbl_payments";
-$result = $conn->query($payments_query);
-?>
+                            // Edit Modal for the current payment
+                            echo "<div class='modal fade' id='editPaymentModal-" . $row['payment_ID'] . "' tabindex='-1' aria-labelledby='editPaymentModalLabel' aria-hidden='true'>
+                                <div class='modal-dialog'>
+                                    <div class='modal-content'>
+                                        <div class='modal-header'>
+                                            <h5 class='modal-title'>Edit Payment #" . $row['payment_ID'] . "</h5>
+                                            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                                        </div>
+                                        <div class='modal-body'>
+                                            <form method='post'>
+                                                <input type='hidden' name='payment_ID' value='" . $row['payment_ID'] . "'>
+                                                
+                                                <div class='mb-3'>
+                                                    <label for='status-" . $row['payment_ID'] . "' class='form-label'>Status</label>
+                                                    <select class='form-control' name='status' id='status-" . $row['payment_ID'] . "'>
+                                                        <option value='PAID' " . ($row['status'] === 'PAID' ? 'selected' : '') . ">PAID</option>
+                                                        <option value='REFUNDED' " . ($row['status'] === 'REFUNDED' ? 'selected' : '') . ">REFUNDED</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label for='amount-" . $row['payment_ID'] . "' class='form-label'>Amount</label>
+                                                    <input type='text' class='form-control' name='amount' id='amount-" . $row['payment_ID'] . "' value='" . $row['amount'] . "'>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label for='cust_name-" . $row['payment_ID'] . "' class='form-label'>Customer Name</label>
+                                                    <input type='text' class='form-control' name='cust_name' id='cust_name-" . $row['payment_ID'] . "' value='" . $row['cust_name'] . "'>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label for='source_type-" . $row['payment_ID'] . "' class='form-label'>Payment Method</label>
+                                                    <select class='form-control' name='source_type' id='source_type-" . $row['payment_ID'] . "'>
+                                                        <option value='GCASH' " . ($row['source_type'] === 'GCASH' ? 'selected' : '') . ">GCASH</option>
+                                                        <option value='MAYA' " . ($row['source_type'] === 'MAYA' ? 'selected' : '') . ">MAYA</option>
+                                                        <option value='CASH' " . ($row['source_type'] === 'CASH' ? 'selected' : '') . ">CASH</option>
+                                                    </select>
+                                                </div>
 
-<!-- Payments Table -->
-<table class='table table-striped table-bordered'>
-    <thead>
-        <tr>
-            <th>Payment ID</th>
-            <th>Status</th>
-            <th>Amount</th>
-            <th>Customer Name</th>
-            <th>Payment Method</th>
-            <th>Paid At</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row['payment_ID'] . "</td>";
-                echo "<td>" . $row['status'] . "</td>";
-                echo "<td>₱ " . number_format($row['amount'], 2) . "</td>";
-                echo "<td>" . $row['cust_name'] . "</td>";
-                echo "<td>" . $row['source_type'] . "</td>";
-                echo "<td>" . ($row['paid_at'] ? date("Y-m-d H:i:s", strtotime($row['paid_at'])) : 'N/A') . "</td>";
-                echo "<td>
-                        <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editPaymentModal-" . $row['payment_ID'] . "'>Edit</button>
-                      </td>";
-                echo "</tr>";
-
-                // Edit Modal for the current payment
-                echo "<div class='modal fade' id='editPaymentModal-" . $row['payment_ID'] . "' tabindex='-1' aria-labelledby='editPaymentModalLabel' aria-hidden='true'>
-                    <div class='modal-dialog'>
-                        <div class='modal-content'>
-                            <div class='modal-header'>
-                                <h5 class='modal-title'>Edit Payment #" . $row['payment_ID'] . "</h5>
-                                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                            </div>
-                            <div class='modal-body'>
-                                <form method='post'>
-                                    <input type='hidden' name='payment_ID' value='" . $row['payment_ID'] . "'>
-                                    
-                                    <div class='mb-3'>
-                                        <label for='status-" . $row['payment_ID'] . "' class='form-label'>Status</label>
-                                        <select class='form-control' name='status' id='status-" . $row['payment_ID'] . "'>
-                                            <option value='PAID' " . ($row['status'] === 'PAID' ? 'selected' : '') . ">PAID</option>
-                                            <option value='REFUNDED' " . ($row['status'] === 'REFUNDED' ? 'selected' : '') . ">REFUNDED</option>
-                                        </select>
+                                                <button type='submit' name='edit' class='btn btn-primary'>Save Changes</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                    
-                                    <div class='mb-3'>
-                                        <label for='amount-" . $row['payment_ID'] . "' class='form-label'>Amount</label>
-                                        <input type='text' class='form-control' name='amount' id='amount-" . $row['payment_ID'] . "' value='" . $row['amount'] . "'>
-                                    </div>
-                                    
-                                    <div class='mb-3'>
-                                        <label for='cust_name-" . $row['payment_ID'] . "' class='form-label'>Customer Name</label>
-                                        <input type='text' class='form-control' name='cust_name' id='cust_name-" . $row['payment_ID'] . "' value='" . $row['cust_name'] . "'>
-                                    </div>
-                                    
-                                    <div class='mb-3'>
-                                        <label for='source_type-" . $row['payment_ID'] . "' class='form-label'>Payment Method</label>
-                                        <select class='form-control' name='source_type' id='source_type-" . $row['payment_ID'] . "'>
-                                            <option value='GCASH' " . ($row['source_type'] === 'GCASH' ? 'selected' : '') . ">GCASH</option>
-                                            <option value='MAYA' " . ($row['source_type'] === 'MAYA' ? 'selected' : '') . ">MAYA</option>
-                                            <option value='CASH' " . ($row['source_type'] === 'CASH' ? 'selected' : '') . ">CASH</option>
-                                        </select>
-                                    </div>
-
-                                    <button type='submit' name='edit' class='btn btn-primary'>Save Changes</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>";
-            }
-        } else {
-            echo "<tr><td colspan='7' class='text-center'>No payments found</td></tr>";
-        }
-        ?>
-    </tbody>
-</table>
+                                </div>
+                            </div>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='7' class='text-center'>No payments found</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
 
 <!-- Add Payment Modal -->
 <div class="modal fade" id="addPaymentModal" tabindex="-1" aria-labelledby="addPaymentModalLabel" aria-hidden="true">
