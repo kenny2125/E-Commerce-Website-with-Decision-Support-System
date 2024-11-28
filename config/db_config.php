@@ -9,7 +9,7 @@ try {
     // Establish a database connection
     $conn = new PDO("mysql:host=$host;port=3306;dbname=$db_name", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connection successful!";
+    
 } catch (PDOException $e) {
     // Handle connection errors
     echo "Connection failed: " . $e->getMessage();

@@ -4,7 +4,9 @@ session_start();
 // Include the database configuration file
 include '../../config/db_config.php'; // Adjust the relative path to match your file structure
 
-if (isset($_POST['login'])) {
+$response = [];
+
+if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -22,23 +24,24 @@ if (isset($_POST['login'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
-                
-                            // Redirect based on role
-                if ($user['role'] === 'admin') {
-                    header('Location: ../admin/admin_dashboard.php');
-                } else {
-                    header('Location: /index.php');
-                }
-                exit;
 
+                // Prepare the response
+                $response['status'] = 'success';
+                $response['role'] = $user['role'];
             } else {
-                echo "Invalid username or password!";
+                $response['status'] = 'error';
+                $response['message'] = 'Invalid username or password!';
             }
         } else {
-            echo "Invalid username or password!";
+            $response['status'] = 'error';
+            $response['message'] = 'Invalid username or password!';
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        $response['status'] = 'error';
+        $response['message'] = 'Error: ' . $e->getMessage();
     }
 }
-?>
+
+// Return the response as JSON
+header('Content-Type: application/json');
+echo json_encode($response);
