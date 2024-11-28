@@ -34,7 +34,7 @@ body {
 .featured-products-wrapper {
   background-color: white;
   width: 100%;
-  padding: 10px 20px;
+  padding: 30px 20px 45px;
   margin-bottom: 30px;
 }
 
@@ -47,14 +47,22 @@ body {
 
 /* Card Styling */
 .card {
+  margin-top: 30px;
   border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px #1A54C0;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation */
+}
+
+.card:hover {
+  transform: scale(1.1); /* Zoom out slightly */
+  box-shadow: 0 8px 16px #154a9e; /* Add a slightly stronger shadow */
 }
 
 .card-img-top {
   height: 250px;
   object-fit: cover;
+  transition: transform 0.3s ease; /* Add smooth animation to image */
 }
 
 /* Updated Card Body Styling */
@@ -63,8 +71,7 @@ body {
   flex-direction: column; /* Stack items vertically */
   align-items: center; /* Horizontally align items */
   text-align: center; /* Center-align text */
-  gap: 12px; /* Add consistent spacing between items */
-  padding: 15px;
+  padding: 30px;
 }
 
 .card-body .btn {
@@ -82,7 +89,7 @@ body {
 .card-title {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: -8px;
   white-space: nowrap; /* Prevent text wrapping */
   overflow: hidden; /* Hide overflowing text */
   text-overflow: ellipsis; /* Add ellipsis for long text */
