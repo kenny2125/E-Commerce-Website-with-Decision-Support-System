@@ -1,3 +1,16 @@
+<?php
+session_start(); // Start the session
+
+// Check if the user is logged in
+$isLoggedIn = isset($_SESSION['user_id']); // Boolean flag for checking login status
+$username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged in
+?>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +26,7 @@
 
 <!-- Welcome Modal -->
 <?php
-    $openModal = isset($_GET['modal']) && $_GET['modal'] === 'login';
-    include 'includes/welcomemodal.php';
+        // include 'includes/welcomemodal.php';
 ?>
 
 <!-- Header -->
@@ -29,20 +41,175 @@
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         
-        <!-- Login Button -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <!-- User-specific Content -->
+        <?php if (!$isLoggedIn): ?>
+            <!-- If not logged in, show login button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <?php else: ?>
+            <!-- If logged in, display welcome message -->
+            <span class="navbar-text">Welcome, <?php echo htmlspecialchars($username); ?>!</span>
+        <?php endif; ?>
     </div>
 </nav>
 
-<!-- Include the modal -->
-<?php include 'pages/user/login.php'; ?>
-<?php include 'pages/user/registration.php'; ?>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Log In</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-box">
+                    <img src="assets/images/logo.png" alt="RPC Computer Store">
+                    <form id="loginForm" method="post">
+                        <div class="input-group">
+                            <label for="username">USERNAME</label>
+                            <input type="text" id="username" name="username" placeholder="eg.jeondanel" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">PASSWORD</label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        </div>
+                        <p>Don't have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
+                        </p>
+                        <button type="submit" class="button" name="logIn">LOG IN</button>
+                    </form>
+                    <div id="loginError" style="color: red; display: none;"></div> <!-- Error message container -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        var formData = $(this).serialize(); // Serialize form data
+
+        $.ajax({
+            url: 'pages/user/user_login.php', // PHP file to handle login
+            type: 'POST',
+            data: formData,
+            dataType: 'json', // Expect a JSON response
+            success: function(response) {
+                console.log('Response:', response); // Log the response to check its contents
+
+                if (response.status === 'success') {
+                    if (response.role === 'admin') {
+                        window.location.href = 'pages/admin/admin_dashboard.php'; // Admin redirection
+                    } else {
+                        window.location.href = '/index.php'; // User redirection
+                    }
+                } else {
+                    $('#loginError').text(response.message).show(); // Display error message if login fails
+                }
+            },
+            error: function() {
+                $('#loginError').text('An error occurred. Please try again.').show(); // Show error if AJAX fails
+            }
+        });
+    });
+});
+
+</script>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrationModalLabel">Create an Account</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="form-box">
+                        <p>Already have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
+                        </p>
+                        <form action="pages/user/user_register.php" method="post">
+                            <div class="row">
+                                <div class="input-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" placeholder="eg. Danel" name="firstName" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="middleInitial">M.I</label>
+                                    <input type="text" id="middleInitial" placeholder="eg. T." name="middleInitial">
+                                </div>
+                                <div class="input-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" placeholder="eg. Oandasan" name="lastName" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="gender">Gender</label>
+                                    <input type="text" id="gender" placeholder="eg. Female" name="gender">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" placeholder="eg. BLK 5 LOT 6 SAMMAR 1 HOA Luzon Ave. Old Balara, Quezon City" name="address" required>
+                            </div>
+                            <div class="row">
+                                <div class="input-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" placeholder="eg. danel@gmail.com" name="email" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" placeholder="eg. 18" name="age" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="contactNumber">Contact Number</label>
+                                    <input type="text" id="contactNumber" placeholder="eg. 09123456789" name="contactNumber" required>
+                                </div>
+                            </div>
+                            <div class="input-group">   
+                                <label for="username">Username</label>
+                                <input type="text" id="username" placeholder="eg. jeondanel" name="username" required>
+                            </div>
+                            <!-- Password Field -->
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <div class="input-group">
+                                    <input type="password" id="password" class="form-control" placeholder="Enter password" name="password" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword1">
+                                        <i class="bi bi-eye-slash"></i>
+                                    </button>
+                                </div>
+                                <div id="passwordFeedback" class="form-text text-danger"></div>
+                            </div>
+                            <!-- Confirm Password Field -->
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <div class="input-group">
+                                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" name="confirmPassword" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword2">
+                                        <i class="bi bi-eye-slash"></i>
+                                    </button>
+                                </div>
+                                <div id="confirmPasswordFeedback" class="form-text text-danger"></div>
+                            </div>
+
+                            <!-- Terms and Conditions -->
+                            <div class="terms">
+                                <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
+                            </div>
+                            <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Include Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="assets/js/login.js"></script>
+
 
 <!-- Add JavaScript to open the modal if the parameter is set -->
 <script>
@@ -136,3 +303,43 @@ document.addEventListener('DOMContentLoaded', function () {
  <?php include 'includes/footer.php'; ?>
 </body>
 </html>
+
+
+
+
+<!-- <script>
+                                const passwordInput = document.getElementById('password');
+                                const confirmPasswordInput = document.getElementById('confirmPassword');
+                                const passwordFeedback = document.getElementById('passwordFeedback');
+                                const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
+
+                                function validatePassword() {
+                                    if (passwordInput.value !== confirmPasswordInput.value) {
+                                        confirmPasswordInput.setCustomValidity("Passwords do not match");
+                                    } else {
+                                        confirmPasswordInput.setCustomValidity("");
+                                    }
+                                }
+
+                                passwordInput.addEventListener('input', validatePassword);
+                                confirmPasswordInput.addEventListener('input', validatePassword);
+                            </script> -->
+<!-- Add this script at the end of your HTML -->
+<script>
+    // Toggle password visibility
+    document.querySelectorAll('button[id^="togglePassword"]').forEach(button => {
+        button.addEventListener('click', function () {
+            const input = this.previousElementSibling;
+            const icon = this.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            }
+        });
+    });
+</script>
