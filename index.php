@@ -57,7 +57,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="loginModalLabel">
-                    <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" style="width: 300px; height: 100px; margin-left: 50px;">
+                    <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
                 </h5>
             </div>
             <div class="modal-body">
@@ -65,20 +65,20 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
                     <form id="loginForm" method="post">
                         <div class="input-group">
                             <label for="username">USERNAME</label>
-                            <input type="text" id="username" name="username" placeholder="eg.jeondanel" required style="background-color: #D9D9D9; border-radius: 18px; padding-left: 20px;">
+                            <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
                         </div>
                         <div class="input-group">
                             <label for="password">PASSWORD</label>
                             <div class="input-group">
-                                <input type="password" id="password" name="password" placeholder="••••••••" required style="background-color: #D9D9D9; border-radius: 18px; padding-left: 20px;">
+                                <input type="password" id="password" name="password" placeholder="••••••••" required class="input-field">
                             </div>
                         </div>
                         <p>Don't have an account? 
                             <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
                         </p>
-                        <button type="submit" class="button" name="logIn" style="width: 130px; height: 40px; border-radius: 18px; padding: 0; font-size: 18px; display: flex; align-items: center; justify-content: center; margin-left: 150px;">LOG IN</button>
+                        <button type="submit" class="button login-btn" name="logIn">LOG IN</button>
                     </form>
-                    <div id="loginError" style="color: red; display: none;"></div> <!-- Error message container -->
+                    <div id="loginError" class="error-message"></div> <!-- Error message container -->
                 </div>
             </div>
         </div>

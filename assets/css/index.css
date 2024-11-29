@@ -30,6 +30,49 @@ body {
   margin-right: 100px;
 }
 
+/* Logo Styling for Modal */
+.rpc-logo {
+  width: 300px;
+  height: 100px;
+  margin-left: 50px;
+}
+
+/* Input Field Styling */
+.input-field {
+  background-color: #D9D9D9;
+  border-radius: 18px;
+  padding-left: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+/* Login Button */
+.login-btn {
+  width: 130px;
+  height: 40px;
+  border-radius: 18px;
+  padding: 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 150px;
+}
+
+/* Error Message */
+.error-message {
+  color: red;
+  display: none;
+  text-align: center;
+}
+
 /* Featured Products Wrapper */
 .featured-products-wrapper {
   background-color: white;
