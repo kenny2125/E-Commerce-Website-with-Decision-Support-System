@@ -6,7 +6,6 @@ $isLoggedIn = isset($_SESSION['user_id']); // Boolean flag for checking login st
 $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged in
 ?>
 
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
@@ -52,30 +51,32 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
     </div>
 </nav>
 
-
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Log In</h5>
+                <h5 class="modal-title" id="loginModalLabel">
+                    <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" style="width: 300px; height: 100px; margin-left: 50px;">
+                </h5>
             </div>
             <div class="modal-body">
                 <div class="form-box">
-                    <img src="assets/images/logo.png" alt="RPC Computer Store">
                     <form id="loginForm" method="post">
                         <div class="input-group">
                             <label for="username">USERNAME</label>
-                            <input type="text" id="username" name="username" placeholder="eg.jeondanel" required>
+                            <input type="text" id="username" name="username" placeholder="eg.jeondanel" required style="background-color: #D9D9D9; border-radius: 18px; padding-left: 20px;">
                         </div>
                         <div class="input-group">
                             <label for="password">PASSWORD</label>
-                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                            <div class="input-group">
+                                <input type="password" id="password" name="password" placeholder="••••••••" required style="background-color: #D9D9D9; border-radius: 18px; padding-left: 20px;">
+                            </div>
                         </div>
                         <p>Don't have an account? 
                             <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
                         </p>
-                        <button type="submit" class="button" name="logIn">LOG IN</button>
+                        <button type="submit" class="button" name="logIn" style="width: 130px; height: 40px; border-radius: 18px; padding: 0; font-size: 18px; display: flex; align-items: center; justify-content: center; margin-left: 150px;">LOG IN</button>
                     </form>
                     <div id="loginError" style="color: red; display: none;"></div> <!-- Error message container -->
                 </div>
