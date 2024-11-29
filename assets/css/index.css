@@ -34,7 +34,7 @@ body {
 .rpc-logo {
   width: 300px;
   height: 100px;
-  margin-left: 50px;
+  margin-left: 60px;
 }
 
 /* Input Field Styling */
@@ -86,6 +86,110 @@ body {
 .error-message {
   color: red;
   display: none;
+  text-align: center;
+}
+
+/* Registration Modal Styling */
+#registrationModal .modal-content {
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#registrationModal .rpc-logo {
+  width: 300px;
+  height: 100px;
+  margin-right: 65px;
+}
+
+#registrationModal .input-field {
+  background-color: #D9D9D9;
+  border-radius: 18px !important;
+  padding-left: 20px !important;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+#registrationModal .input-group {
+  position: relative;
+  display: flex;
+}
+
+#registrationModal .input-group .toggle-password {
+  position: absolute; /* Position inside the container */
+  right: 30px; /* Distance from the right edge */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for perfect vertical centering */
+  width: 20px; /* Icon size */
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7; /* Slight transparency */
+  transition: opacity 0.2s ease;
+  margin-top: 13px;
+}
+
+#registrationModal .input-group label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+#registrationModal .input-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+/* Terms and Conditions */
+#registrationModal .terms {
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+#registrationModal .terms a {
+  color: #007bff;
+}
+
+#registrationModal .terms a:hover {
+  text-decoration: underline;
+}
+
+/* Button Styling */
+#registrationModal button.btn {
+  width: 130px;
+  height: 40px;
+  border-radius: 18px;
+  padding: 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 170px;
+}
+
+#registrationModal button.btn:hover {
+  background-color: #0056b3;
+}
+
+/* Create Account Link in Registration */
+#registrationModal .create-account {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+#registrationModal .create-account:hover {
+  text-decoration: underline;
+}
+
+/* Center the "Already have an account?" text */
+#registrationModal p {
+  font-size: 0.9rem;
+  color: #333;
   text-align: center;
 }
 
