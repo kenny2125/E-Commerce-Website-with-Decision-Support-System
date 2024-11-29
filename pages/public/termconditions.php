@@ -3,7 +3,7 @@
 <head>
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  	<link rel="stylesheet" href="./index.css" />
+  	<link rel="stylesheet" href="" />
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@400&display=swap" />
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&display=swap" />
 
@@ -17,8 +17,8 @@
     }
 
     body {
+        background: rgba(239, 239, 239, 1); /* Set the background color for the entire page */
         font-family: 'Lato', sans-serif;
-        background-color: #fff; /* White background */
         line-height: 1.5;
         padding-bottom: 300px;
         padding-top: 90px;
@@ -29,9 +29,18 @@
         max-width: 1200px; /* Set maximum width */
         margin: 0 auto; /* Center content */
         padding: 30px;
-        font-size: 16px;
+        font-size: 18px;
         color: #000;
+        background: rgba(239, 239, 239, 1); /* Set the background color */
+        font-family: 'Lato', sans-serif;
     }
+
+    .terms-header {
+      width: 100%; /* Adjust width as needed */
+      height: auto;
+      margin-bottom: 20px;
+    }
+
 
     /* Title */
     .terms-conditions {
@@ -115,8 +124,11 @@
 </head>
 <body>
   	<div class="footer-terms-conditions">
+
+        <!-- Insert image as header -->
+        <img src="assets/images/footerimages/termsconditions.png" alt="TERMS Header" class="terms-header">
         <!-- Terms and Conditions -->
-        <b class="terms-conditions">Terms & Conditions</b>
+        <b class="terms-conditions"><img src="assets/images/footerimages/list.svg" alt="List Icon">Terms & Conditions</b>
         <div class="these-terms-and">
             These Terms and Conditions govern your access to and use of our website, services, and products. By using our website, you agree to comply with and be bound by these terms. If you do not agree to these Terms and Conditions, you should not use our services. We reserve the right to modify these terms at any time, and any changes will be posted on this page. Your continued use of the site after any modifications indicates your acceptance of the updated Terms and Conditions.
         </div>

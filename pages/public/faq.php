@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&display=swap">
-  <title>FAQ Page</title>
+  
   <style>
     /* Reset default margin and padding */
     * {
@@ -16,6 +16,8 @@
     body{
         padding-top: 90px;
         padding-bottom: 300px;
+        background: rgba(239, 239, 239, 1); /* Set the background color for the entire page */
+        font-family: 'Lato', sans-serif;
     }
 
     /* Main container for centering and max width */
@@ -23,10 +25,16 @@
       max-width: 1200px;
       margin: 30px auto;
       padding: 20px;
-      background-color: #fff;
+      background: rgba(239, 239, 239, 1); /* Set the background color */
       font-family: 'Lato', sans-serif;
       color: #000;
       font-size: 18px;
+    }
+
+    .faq-header {
+      width: 100%; /* Adjust width as needed */
+      height: auto;
+      margin-bottom: 20px;
     }
 
     /* Headline styles */
@@ -101,7 +109,10 @@
 <body>
 
   <div class="footer-faq-page">
-    <b class="frequently-asked-questions">Frequently Asked Questions (FAQ)</b>
+        <!-- Insert image as header -->
+        <img src="assets/images/footerimages/faq.png" alt="FAQ Header" class="faq-header">
+
+    <b class="frequently-asked-questions"><img src="assets/images/footerimages/questionmark.svg" alt="Question Icon">Frequently Asked Questions (FAQ)</b>
     <div class="our-frequently-asked">Our Frequently Asked Questions (FAQ) section provides quick answers to common inquiries about our services, policies, and support. From understanding our offerings to details on shipping, payment options, and return policies, this section is designed to help you find the information you need easily and efficiently.</div>
     
     <!-- General Questions Section -->
@@ -112,7 +123,7 @@
       <p class="q-what-is-your-companys-miss">A: Our mission is to provide high-quality products and excellent customer service to help meet your technology needs. We’re committed to innovation, value, and reliability.</p>
       <p class="blank-line">&nbsp;</p>
       <p class="q-what-is-your-companys-miss">Q: How can I contact customer support? </p>
-      <p class="q-what-is-your-companys-miss">A: You can reach customer support via email at homelabsol@gmail.com or by calling our number, +63 962 392 6216.</p>
+      <p class="q-what-is-your-companys-miss">A: You can reach customer support via email at rpctechcomputers@gmail.com or by calling our number, 0912345678910.</p>
 
       <!-- Repeat structure for each FAQ section below -->
       
@@ -131,7 +142,7 @@
       <p class="q-what-is-your-companys-miss">A: We accept Paymongo, Cash on Delivery, and In-store payment.</p>
       <p class="blank-line">&nbsp;</p>
       <p class="q-what-is-your-companys-miss">Q: Can I cancel or modify my order after it’s placed?</p>
-      <p class="q-what-is-your-companys-miss">A: Yes, you can cancel or modify your order within 24 hours of placing it. Please contact our customer service team at homelabsol@gmail.com for assistance.</p>
+      <p class="q-what-is-your-companys-miss">A: Yes, you can cancel or modify your order within 24 hours of placing it. Please contact our customer service team at rpctechcomputers@gmail.com for assistance.</p>
       
       <p class="general-questions">Shipping & Delivery</p>
       <p class="q-what-is-your-companys-miss">Q: How long does standard shipping take? </p>
@@ -149,7 +160,7 @@
 
       <p class="general-questions">Technical Support</p>
       <p class="q-what-is-your-companys-miss">Q: How can I contact technical support for help with my device? </p>
-      <p class="q-what-is-your-companys-miss">A: For technical support, email us at homelabsol@gmail.com or call +63 962 392 6216. Our support team is available Monday through Friday, 9 AM to 6 PM (EST).</p>
+      <p class="q-what-is-your-companys-miss">A: For technical support, email us at rpctechcomputers@gmail.com or call 0912345678910. Our support team is available Monday through Friday, 9 AM to 6 PM (EST).</p>
       <p class="blank-line">&nbsp;</p>
       <p class="q-what-is-your-companys-miss">Q: Are desktops easier to upgrade than laptops?  </p>
       <p class="q-what-is-your-companys-miss">A: Yes, desktops generally offer more flexibility for upgrades, allowing you to easily replace components like the processor, graphics card, and memory. Laptop upgrades are usually limited to RAM and storage.</p>
@@ -159,7 +170,7 @@
       <p class="q-what-is-your-companys-miss">A: Yes, all computers come with a standard 1-year manufacturer’s warranty. Extended warranty options are also available at checkout for added coverage.</p>
       <p class="blank-line">&nbsp;</p>
       <p class="q-what-is-your-companys-miss">Q: How can I reach the technical support team?</p>
-      <p class="q-what-is-your-companys-miss">A: You can reach our technical support team via email at homelabsol@gmail.com or by calling +63 962 392 6216. We’re available Monday through Friday, from 9 AM to 6 PM (EST).</p>
+      <p class="q-what-is-your-companys-miss">A: You can reach our technical support team via email at rpctechcomputers@gmail.com or by calling 0912345678910. We’re available Monday through Friday, from 9 AM to 6 PM (EST).</p>
     
     </div>
 

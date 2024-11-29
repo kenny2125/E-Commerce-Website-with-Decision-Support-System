@@ -1,113 +1,199 @@
-/* Sticky Footer CSS */
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-
-html, body {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.content {
-    flex: 1; /* Expands to fill space above the footer */
-}
-
-.footerContainer {
-    z-index: 10;
-    width: 100%;
-    background-color: #122448;
-    color: #fff;
-    font-family: 'Lato', sans-serif;
-    padding: 20px 0;
-    
-}
-
+/* Footer Styles */
 .footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+  width: 100%;
+  background-color: #122448;
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+  padding: 10px 0; /* Reduced padding */
+  position: relative;
+  bottom: 0;
 }
 
-.logo-section, .contact-section, .branches, .links-section {
-    flex: 1 1 200px;
-    margin: 10px;
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px; /* Reduced padding */
 }
 
-.logo-section {
-    text-align: center;
+.footer-section {
+  flex: 1 1 200px;
+  text-align: left;
 }
 
-.rpc-logo {
-    width: 150px;
-    margin-bottom: 10px;
+.footer-logo {
+  width: 250px;
+  margin-bottom: 10px;
+  margin-left: 10px; /* Reduced margin-left */
 }
 
-.follow-us {
-    font-weight: bold;
-    margin-bottom: 5px;
+.footer-heading {
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #fff;
 }
 
-.soclinks {
-    width: 80px;
-    margin: 5px 0;
+.footer-social-links {
+  width: 20px;
+  margin-left: 32px;
 }
 
-.contact-section p, .branches p, .links-section p {
-    font-size: 14px;
-    margin: 5px 0;
+.contact {
+  margin-top: 90px;
+  margin-left: -50px; /* Reduced margin-left */
 }
 
-.phone, .email {
-    display: flex;
-    align-items: center;
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  font-size: 13px;
+  color: #fff;
+  text-decoration: none;
 }
 
-.phone img, .email img {
-    width: 15px;
-    margin-right: 5px;
+.footer-contact-item .icon {
+  width: 15px;
+  margin-right: 10px; /* Reduced margin-right */
 }
 
-.branches-title, .section-title {
-    font-weight: bold;
-    margin-bottom: 5px;
+.branch {
+  margin-top: 15px;
+  margin-left: 40px; /* Reduced margin-left */
 }
 
-.links-section div {
-    margin-bottom: 15px;
+.footer-branch-item {
+  display: flex;
+  align-items: left;
+  margin: 5px 0;
+  color: #fff;
+}
+
+.footer-branch-item .icon {
+  width: 20px;
+  height: 18px;
+  margin-right: 6px; /* Reduced margin-right */
+}
+
+.footer-branch-address {
+  margin: 5px 18px; /* Reduced margin */
+  font-size: 13px;
+  width: 220px;
+  text-align: left;
+  color: #fff;
+}
+
+.footer-links {
+  display: flex;
+  padding-top: 15px;
+  margin-right: 5px;
+  justify-content: flex-start; /* Align the columns to the left */
+}
+
+.footer-link-column {
+  flex: none;
+  margin: 0 13px; /* Adjust if needed to control space between columns */
+}
+
+.footer-heading {
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.footer-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 300;
+  text-align: left; /* Ensures links are left-aligned */
+}
+
+.footer-link-list a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+}
+
+.footer-link-list p {
+  margin: 0; /* Ensure there is no additional margin around the links */
+  text-align: left;
 }
 
 .footer-bottom {
-    text-align: center;
-    font-size: 12px;
-    margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 20px;
 }
 
 .footer-bottom p {
-    margin: 5px 0;
+  margin: 5px 0;
+  color: #fff;
 }
 
-/* Responsive Layout for Smaller Screens */
-@media (max-width: 768px) {
-    .footer {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    
-    .logo-section, .contact-section, .branches, .links-section {
-        text-align: center;
-        margin: 10px 0;
-    }
-    
-    .rpc-logo, .soclinks {
-        width: 100px;
-    }
+@media screen and (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-section {
+    flex: 1 1 100%;
+    text-align: center;
+    margin-bottom: 20px; /* Add spacing between sections */
+  }
+
+  .footer-logo {
+    width: 200px; /* Adjust size for smaller screens */
+    margin: 0 auto 10px;
+  }
+
+  .footer-heading {
+    font-size: 16px;
+  }
+
+  .footer-contact-item,
+  .footer-branch-item {
+    justify-content: center; /* Center-align items on smaller screens */
+    font-size: 12px;
+  }
+
+  .footer-social-links {
+    margin-left: 0; /* Center-align social icons */
+  }
+
+  .footer-link-column {
+    margin: 10px 0; /* Reduce spacing between columns */
+  }
+
+  .footer-link-list a {
+    font-size: 12px;
+  }
+
+  .footer-bottom {
+    font-size: 10px;
+  }
 }
 
+@media screen and (max-width: 480px) {
+  .footer-logo {
+    width: 150px; /* Further adjust for very small screens */
+  }
+
+  .footer-contact-item .icon,
+  .footer-branch-item .icon {
+    width: 12px; /* Scale down icons */
+    margin-right: 5px;
+  }
+
+  .footer-branch-address {
+    font-size: 12px;
+  }
+}
