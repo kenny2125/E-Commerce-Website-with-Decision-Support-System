@@ -81,7 +81,7 @@ body {
   width: 100%; /* Full width for responsiveness */
   max-width: 180px; /* Slightly narrower width for centering */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin-left: 31%; /* Align to the center */
+  margin-left: 25%; /* Align to the center */
   margin-right: auto; /* Align to the center */
   display: block; /* Block-level alignment */
 }
