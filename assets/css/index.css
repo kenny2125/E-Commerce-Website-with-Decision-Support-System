@@ -38,23 +38,39 @@ body {
 }
 
 /* Input Field Styling */
-.input-field {
+.modal-content .input-field {
   background-color: #D9D9D9;
-  border-radius: 18px;
+  border-radius: 18px !important;
   padding-left: 20px;
   width: 100%;
-  border: 1px solid #ddd;
   font-size: 0.9rem;
 }
 
-.input-field:focus {
+.modal-content .input-field:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
 }
 
+.input-group {
+  position: relative;
+  display: flex;
+}
+
+.input-group .toggle-password {
+  position: absolute; /* Position inside the container */
+  right: 20px; /* Distance from the right edge */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for perfect vertical centering */
+  width: 20px; /* Icon size */
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7; /* Slight transparency */
+  transition: opacity 0.2s ease;
+}
+
 /* Login Button */
-.login-btn {
+.modal-content .login-btn {
   width: 130px;
   height: 40px;
   border-radius: 18px;

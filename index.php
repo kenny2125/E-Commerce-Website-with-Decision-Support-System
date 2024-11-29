@@ -54,7 +54,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 20px;">
             <div class="modal-header">
                 <h5 class="modal-title" id="loginModalLabel">
                     <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
@@ -71,6 +71,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
                             <label for="password">PASSWORD</label>
                             <div class="input-group">
                                 <input type="password" id="password" name="password" placeholder="••••••••" required class="input-field">
+                                <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
                             </div>
                         </div>
                         <p>Don't have an account? 
@@ -122,13 +123,15 @@ $(document).ready(function() {
 <!-- Registration Modal -->
 <div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 20px;">
             <div class="modal-header">
-                <h5 class="modal-title" id="registrationModalLabel">Create an Account</h5>
+                <h5 class="modal-title" id="registrationModalLabel"></h5>
+                <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
             </div>
             <div class="modal-body">
                 <div class="container">
                     <div class="form-box">
+                    <h3>Create an Account</h3>
                         <p>Already have an account? 
                             <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
                         </p>
@@ -175,11 +178,10 @@ $(document).ready(function() {
                             </div>
                             <!-- Password Field -->
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="passwordReg">Password</label>
                                 <div class="input-group">
-                                    <input type="password" id="password" class="form-control" placeholder="Enter password" name="password" required>
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword1">
-                                        <i class="bi bi-eye-slash"></i>
+                                    <input type="password" id="passwordReg" class="form-control" placeholder="Enter password" name="passwordReg" required>
+                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
                                     </button>
                                 </div>
                                 <div id="passwordFeedback" class="form-text text-danger"></div>
@@ -189,9 +191,7 @@ $(document).ready(function() {
                                 <label for="confirmPassword">Confirm Password</label>
                                 <div class="input-group">
                                     <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" name="confirmPassword" required>
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword2">
-                                        <i class="bi bi-eye-slash"></i>
-                                    </button>
+                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
                                 </div>
                                 <div id="confirmPasswordFeedback" class="form-text text-danger"></div>
                             </div>
@@ -327,20 +327,76 @@ document.addEventListener('DOMContentLoaded', function () {
                             </script> -->
 <!-- Add this script at the end of your HTML -->
 <script>
-    // Toggle password visibility
-    document.querySelectorAll('button[id^="togglePassword"]').forEach(button => {
-        button.addEventListener('click', function () {
-            const input = this.previousElementSibling;
-            const icon = this.querySelector('i');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('bi-eye-slash');
-                icon.classList.add('bi-eye');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('bi-eye');
-                icon.classList.add('bi-eye-slash');
-            }
-        });
+    document.addEventListener('DOMContentLoaded', () => {
+    const passwordField = document.getElementById('password');
+    const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+
+    togglePasswordIcon.addEventListener('click', () => {
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            togglePasswordIcon.src = '/assets/images/view.png'; 
+        } else {
+            passwordField.type = 'password';
+            togglePasswordIcon.src = '/assets/images/closed.png'; 
+        }
+    }); 
+
+    passwordField.addEventListener('input', () => {
+        const fakePassword = passwordField.value.split('').map(() => Math.floor(Math.random() * 10)).join('');
+        passwordField.setAttribute('data-fake-password', fakePassword);
     });
+
+    const observer = new MutationObserver(() => {
+        const fakePassword = passwordField.getAttribute('data-fake-password');
+        if (fakePassword) {
+            passwordField.value = fakePassword;
+        }
+    });
+
+    observer.observe(passwordField, { attributes: true, attributeFilter: ['value'] });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordReg = document.getElementById('passwordReg');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const togglePasswordIcon1 = document.getElementById('togglePasswordIcon1');
+    const togglePasswordIcon2 = document.getElementById('togglePasswordIcon2');
+    const passwordFeedback = document.getElementById('passwordFeedback');
+    const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
+
+    togglePasswordIcon1.addEventListener('click', function() {
+        if (passwordReg.type === 'password') {
+            passwordReg.type = 'text';
+            togglePasswordIcon1.src = '/assets/images/view.png';
+        } else {
+            passwordReg.type = 'password';
+            togglePasswordIcon1.src = '/assets/images/closed.png';
+        }
+    });
+
+    togglePasswordIcon2.addEventListener('click', function() {
+        if (confirmPassword.type === 'password') {
+            confirmPassword.type = 'text';
+            togglePasswordIcon2.src = '/assets/images/view.png';
+        } else {
+            confirmPassword.type = 'password';
+            togglePasswordIcon2.src = '/assets/images/closed.png';
+        }
+    });
+
+    function validatePassword() {
+        if (passwordReg.value !== confirmPassword.value) {
+            confirmPassword.setCustomValidity("Passwords do not match");
+            confirmPasswordFeedback.textContent = "Passwords do not match";
+        } else {
+            confirmPassword.setCustomValidity("");
+            confirmPasswordFeedback.textContent = "";
+        }
+    }
+
+    passwordReg.addEventListener('input', validatePassword);
+    confirmPassword.addEventListener('input', validatePassword);
+});
 </script>
