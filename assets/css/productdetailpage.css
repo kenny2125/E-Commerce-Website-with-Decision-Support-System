@@ -38,9 +38,10 @@
   
   .search-button {
     width:100px;
-    padding: 10px 20px;
+    padding: 11px 20px;
     background-color: #007BFF;
     color: white;
+    font-size: small;
     border: none;
     border-radius: 0 20px 20px 0;
     cursor: pointer;
@@ -302,6 +303,7 @@ button {
   width: 50%;
   margin-bottom: 10px;
 }
+
 .quantity-group{
   position: relative;
   bottom: 20px;

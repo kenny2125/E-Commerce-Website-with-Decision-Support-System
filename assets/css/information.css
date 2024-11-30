@@ -1,5 +1,99 @@
-* {
+#logo{
+    position: relative;
+    margin-left: 20px;
+    margin-top: 1px;
+  }
+  
+  body {
     margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .search-container {
+    position: relative;
+    bottom: 75px;
+    left: 420px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .search-input {
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+  }
+  
+  .search-button {
+    width:100px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .icon-group {
+    position: relative;
+    left: 1200px;
+    bottom: 125px;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .icon-button {
+    width: 40px;
+    height: 40px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .icon-button {
+    height: auto;
+}
+.icon-button:hover {
+  background-color: #0056b3;
+}
+.icon-image {
+    height: 20px;
+    width: 40px;
+}
+
+  
+  hr {
+    margin-top: -110px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+* {
+    margin-top: 10px;
     padding: 0;
     box-sizing: border-box;
 }
@@ -102,7 +196,7 @@ body, html {
 /* Profile Content Styling */
 .container {
     display: flex;
-    height: calc(100vh - 60px); /* Adjust for header */
+    height: 900px;
 }
 
 .profile-content {
