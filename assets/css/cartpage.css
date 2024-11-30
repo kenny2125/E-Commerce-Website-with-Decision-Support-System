@@ -21,7 +21,7 @@ body, html {
   padding: 10px 20px;
   background-color: #ffffff;
   position: relative;
-  bottom: 30px;
+  bottom: 10px;
 }
 
 .search-container {
@@ -85,14 +85,14 @@ hr {
   margin: 0;
   border: 1px solid #ccc;
   position: relative;
-  bottom: 30px;
+  bottom:   10px;
 }
 
 /* Cart */
 .cart-wrapper {
   margin: 20px;
   position: relative;
-  top: -30px;
+  top: -10px;
   right: -19px;
   display: flex;
   flex-direction: column;
@@ -109,7 +109,7 @@ hr {
   font-weight: bold;
   margin-bottom: 20px;
   position: relative;
-  top: -25px;
+  top: -5px;
   right: 530px;
 }
 
@@ -121,7 +121,7 @@ hr {
   border-bottom: 2px solid #ddd;
   padding: 10px 0;
   position: relative;
-  bottom: 30px;
+  bottom: 50px;
 }
 #product-name-header{
   position: relative;
