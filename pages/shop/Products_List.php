@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <title>Products List</title>
     <link rel="stylesheet" href="/assets/css/products_List.css">
+    <script>
+        // Function to redirect to product detail page when button is clicked
+        function viewDetails(productId) {
+            // Redirect to product_detail.php with the product ID
+            window.location.href = "product_detail.php?id=" + productId;
+        }
+    </script>
 </head>
 <body style="background-color: #EBEBEB;">
 <!-- Navbar -->
@@ -66,7 +73,6 @@
             </div>
         </div>
 
-    
         <!-- Clear Button -->
         <div class="mb-4">
             <button type="button" class="btn btn-secondary">Clear</button>
@@ -116,40 +122,39 @@
     <!-- Dynamic Product Cards -->
     <div class="row">
     <?php foreach ($products as $product): ?>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <?php
-                // Check if there is image data
-                if ($product['img_data']) {
-                    // Encode the image data in base64
-                    $imgData = base64_encode($product['img_data']);
-                    $imgSrc = 'data:image/jpeg;base64,' . $imgData; // Assuming JPEG image format, adjust if needed
-                } else {
-                    $imgSrc = 'path/to/default-image.jpg'; // Default image if no img_data is present
-                }
-                ?>
-                <!-- Display the product image -->
-                <img src="<?php echo $imgSrc; ?>" class="card-img-top" alt="Product Image">
-                
-                <div class="card-body">
-                    <!-- Display product name and SRP -->
-                    <h5 class="card-title"><?php echo htmlspecialchars($product['product_name']); ?></h5>
-                    <p class="card-text">
-                        <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
-                    </p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <?php
+            // Check if there is image data
+            if ($product['img_data']) {
+                // Encode the image data in base64
+                $imgData = base64_encode($product['img_data']);
+                $imgSrc = 'data:image/jpeg;base64,' . $imgData; // Assuming JPEG image format, adjust if needed
+            } else {
+                $imgSrc = 'path/to/default-image.jpg'; // Default image if no img_data is present
+            }
+            ?>
+            <!-- Display the product image -->
+            <img src="<?php echo $imgSrc; ?>" class="card-img-top" alt="Product Image">
+            
+            <div class="card-body">
+                <!-- Display product name and SRP -->
+                <h5 class="card-title"><?php echo htmlspecialchars($product['product_name']); ?></h5>
+                <p class="card-text">
+                    <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
+                </p>
+
+                <!-- View Details Button with dynamic product ID -->
+                <button id="view-details-<?php echo $product['product_ID']; ?>" class="btn btn-primary" onclick="viewDetails(<?php echo $product['product_ID']; ?>)">View Details</button>
             </div>
         </div>
+    </div>
     <?php endforeach; ?>
+    </div>
 </div>
 
 </div>
 
-
-</div>
- 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
