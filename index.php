@@ -178,13 +178,13 @@ $(document).ready(function() {
                                     <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
                                     <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
                                 </div>
-                                    <div id="passwordFeedback" class="form-text text-danger"></div>
+                                    <div id="passwordFeedback" class="feedback"></div>
                                 <div class="input-group">
                                     <label for="confirmPassword">Confirm Password</label>
                                     <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
                                     <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
                                 </div>
-                                    <div id="confirmPasswordFeedback" class="form-text text-danger"></div>
+                                    <div id="confirmPasswordFeedback" class="feedback"></div>
                                 </div>
                                 <div class="terms">
                                     <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
@@ -430,25 +430,27 @@ document.addEventListener('DOMContentLoaded', function () {
         const passwordValue = passwordReg.value;
         const confirmPasswordValue = confirmPassword.value;
 
-        // Validation for password length (8 to 12 characters)
-        if (passwordValue.length >= 8 && passwordValue.length <= 12) {
-            passwordFeedback.textContent = "Password met all requirements";
-            passwordFeedback.style.color = "green";
-            passwordReg.style.borderColor = "green";
-            passwordReg.setCustomValidity("");
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/;
+
+        // Check if password matches the requirements
+        if (passwordValue && passwordRegex.test(passwordValue)) {
+            passwordFeedback.textContent = ""; // Remove any previous feedback
+            passwordFeedback.style.color = "";  // Reset color
+            passwordReg.style.borderColor = ""; // Reset border color
+            passwordReg.setCustomValidity("");  // Reset custom validity
         } else {
-            passwordFeedback.textContent = "Password must be 8-12 characters long.";
+            passwordFeedback.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
             passwordFeedback.style.color = "red";
             passwordReg.style.borderColor = "red";
-            passwordReg.setCustomValidity("Password must be 8-12 characters long.");
+            passwordReg.setCustomValidity("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
         }
 
         // Confirm password match validation
         if (passwordValue && passwordValue === confirmPasswordValue) {
-            confirmPasswordFeedback.textContent = "Passwords match";
-            confirmPasswordFeedback.style.color = "green";
-            confirmPassword.style.borderColor = "green";
-            confirmPassword.setCustomValidity("");
+            confirmPasswordFeedback.textContent = ""; // Remove previous feedback
+            confirmPasswordFeedback.style.color = ""; // Reset color
+            confirmPassword.style.borderColor = ""; // Reset border color
+            confirmPassword.setCustomValidity("");  // Reset custom validity
         } else {
             confirmPasswordFeedback.textContent = "Passwords do not match";
             confirmPasswordFeedback.style.color = "red";
