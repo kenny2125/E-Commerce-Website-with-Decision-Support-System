@@ -30,11 +30,181 @@ body {
   margin-right: 100px;
 }
 
+/* Logo Styling for Modal */
+.rpc-logo {
+  width: 300px;
+  height: 100px;
+  margin-left: 60px;
+}
+
+/* Input Field Styling */
+.modal-content .input-field {
+  background-color: #D9D9D9;
+  border-radius: 18px !important;
+  padding-left: 20px;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.modal-content .input-field:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+}
+
+.input-group .toggle-password {
+  position: absolute; /* Position inside the container */
+  right: 20px; /* Distance from the right edge */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for perfect vertical centering */
+  width: 20px; /* Icon size */
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7; /* Slight transparency */
+  transition: opacity 0.2s ease;
+}
+
+/* Login Button */
+.modal-content .login-btn {
+  width: 130px;
+  height: 40px;
+  border-radius: 18px;
+  padding: 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 150px;
+}
+
+/* Registration Modal Styling */
+#registrationModal .modal-content {
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#registrationModal .rpc-logo {
+  width: 300px;
+  height: 100px;
+  margin-right: 65px;
+  margin-bottom: -20px;
+}
+
+#registrationModal .input-field {
+  background-color: #D9D9D9;
+  border-radius: 18px !important;
+  padding-left: 20px !important;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+#registrationModal .input-group {
+  position: relative;
+  display: flex;
+  align-items: center; /* Vertically aligns input and icon */
+}
+
+#registrationModal .input-group .toggle-password {
+  position: absolute; /* Anchored to the input group */
+  right: 35px; /* Adjust distance from the right edge */
+  top: 70%; /* Center vertically */
+  transform: translateY(-50%); /* Ensure perfect centering */
+  width: 20px; /* Icon size */
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7; /* Slight transparency */
+  transition: opacity 0.2s ease, transform 0.2s ease; /* Smooth transition */
+  z-index: 10; /* Ensure it stays above input field */
+}
+
+#registrationModal .input-group input {
+  background-color: #D9D9D9;
+  border-radius: 18px;
+  padding-left: 20px;
+  width: 100%;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transitions */
+}
+
+#registrationModal .input-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+#registrationModal .input-group:focus-within .toggle-password {
+  opacity: 1; /* Full visibility on focus */
+}
+
+/* Terms and Conditions */
+#registrationModal .terms {
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+#registrationModal .terms a {
+  color: #007bff;
+}
+
+#registrationModal .terms a:hover {
+  text-decoration: underline;
+}
+
+/* Button Styling */
+#registrationModal button.btn {
+  width: 130px;
+  height: 40px;
+  border-radius: 18px;
+  padding: 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 170px;
+}
+
+#registrationModal button.btn:hover {
+  background-color: #0056b3;
+}
+
+/* Create Account Link in Registration */
+#registrationModal .create-account {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+#registrationModal .create-account:hover {
+  text-decoration: underline;
+}
+
+/* Center the "Already have an account?" text */
+#registrationModal p {
+  font-size: 0.9rem;
+  color: #333;
+  text-align: center;
+  margin-top: -8px;
+  margin-bottom: 25px;
+}
+
+.feedback {
+  font-size: 0.9rem;
+  margin-top: -15px;
+}
+
 /* Featured Products Wrapper */
 .featured-products-wrapper {
   background-color: white;
   width: 100%;
-  padding: 10px 20px;
+  padding: 30px 20px 45px;
   margin-bottom: 30px;
 }
 
@@ -47,42 +217,45 @@ body {
 
 /* Card Styling */
 .card {
+  margin-top: 30px;
   border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px #1A54C0;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation */
+}
+
+.card:hover {
+  transform: scale(1.0); /* Zoom out slightly */
+  box-shadow: 0 10px 18px #154a9e; /* Add a slightly stronger shadow */
 }
 
 .card-img-top {
   height: 250px;
   object-fit: cover;
+  transition: transform 0.3s ease; /* Add smooth animation to image */
 }
 
 /* Updated Card Body Styling */
 .card-body {
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Horizontally align items */
-  text-align: center; /* Center-align text */
-  gap: 12px; /* Add consistent spacing between items */
-  padding: 15px;
+  display: flex; /* Enables flexbox layout */
+  flex-direction: column; /* Stacks items vertically */
+  align-items: center; /* Centers items horizontally */
 }
 
 .card-body .btn {
   font-size: 14px;
   padding: 8px 12px; /* Button padding */
   border-radius: 20px;
+  margin-left: 105px;
   width: 100%; /* Full width for responsiveness */
   max-width: 180px; /* Slightly narrower width for centering */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin-left: 31%; /* Align to the center */
-  margin-right: auto; /* Align to the center */
-  display: block; /* Block-level alignment */
 }
 
 .card-title {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: -8px;
   white-space: nowrap; /* Prevent text wrapping */
   overflow: hidden; /* Hide overflowing text */
   text-overflow: ellipsis; /* Add ellipsis for long text */
@@ -242,4 +415,97 @@ body {
       margin: 0; /* Align with other buttons */
       left: -5px; /* Reset right position */
   }
+}
+
+.modal-content {
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  border-bottom: none;
+  text-align: center;
+}
+
+.modal-header .modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+/* Login Form Styling */
+.form-box {
+  text-align: center;
+}
+
+.form-box img {
+  max-width: 100px;
+  margin-bottom: 15px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Styling */
+button.button {
+  width: 100%;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.button:hover {
+  background-color: #0056b3;
+}
+
+/* Create Account Link */
+.create-account {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.create-account:hover {
+  text-decoration: underline;
+}
+
+/* Center the "Don't have an account?" text */
+p {
+  font-size: 0.9rem;
+  margin: 15px 0;
+  color: #333;
+  text-align: center;
 }

@@ -1,3 +1,15 @@
+<?php
+session_start(); // Start the session
+
+// Check if the user is logged in
+$isLoggedIn = isset($_SESSION['user_id']); // Boolean flag for checking login status
+$username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged in
+?>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +22,13 @@
     <link rel="icon" href="assets/images/rpc-favicon.png">
 </head>
 <body>
-<?php 
-    $openModal = isset($_GET['modal']) && $_GET['modal'] === 'login';
-    include 'includes/welcomemodal.php';
+
+<!-- Welcome Modal -->
+<?php
+        // include 'includes/welcomemodal.php';
 ?>
 
+<!-- Header -->
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
@@ -26,20 +40,166 @@
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         
-        <!-- Login Button -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <!-- User-specific Content -->
+        <?php if (!$isLoggedIn): ?>
+            <!-- If not logged in, show login button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <?php else: ?>
+            <!-- If logged in, display welcome message -->
+            <span class="navbar-text">Welcome, <?php echo htmlspecialchars($username); ?>!</span>
+        <?php endif; ?>
     </div>
 </nav>
 
-<!-- Include the modal -->
-<?php include 'pages/user/login.php'; ?>
-<?php include 'pages/user/registration.php'; ?>
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">
+                    <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-box">
+                    <form id="loginForm" method="post">
+                        <div class="input-group">
+                            <label for="username">USERNAME</label>
+                            <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label for="password">PASSWORD</label>
+                            <div class="input-group">
+                                <input type="password" id="password" name="password" placeholder="••••••••" required class="input-field">
+                                <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
+                            </div>
+                        </div>
+                        <p>Don't have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
+                        </p>
+                        <button type="submit" class="button login-btn" name="logIn">LOG IN</button>
+                    </form>
+                    <div id="loginError" class="error-message"></div> <!-- Error message container -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        var formData = $(this).serialize(); // Serialize form data
+
+        $.ajax({
+            url: 'pages/user/user_login.php', // PHP file to handle login
+            type: 'POST',
+            data: formData,
+            dataType: 'json', // Expect a JSON response
+            success: function(response) {
+                console.log('Response:', response); // Log the response to check its contents
+
+                if (response.status === 'success') {
+                    if (response.role === 'admin') {
+                        window.location.href = 'pages/admin/admin_dashboard.php'; // Admin redirection
+                    } else {
+                        window.location.href = '/index.php'; // User redirection
+                    }
+                } else {
+                    $('#loginError').text(response.message).show(); // Display error message if login fails
+                }
+            },
+            error: function() {
+                $('#loginError').text('An error occurred. Please try again.').show(); // Show error if AJAX fails
+            }
+        });
+    });
+});
+</script>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrationModalLabel"></h5>
+                <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="form-box">
+                    <h3>Create an Account</h3>
+                        <p>Already have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
+                        </p>
+                        <form action="pages/user/user_register.php" method="post">
+                            <div class="row">
+                                <div class="input-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" placeholder="eg. Danel" name="firstName" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="middleInitial">M.I</label>
+                                    <input type="text" id="middleInitial" placeholder="eg. T." name="middleInitial" class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" placeholder="eg. Oandasan" name="lastName" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="gender">Gender</label>
+                                    <input type="text" id="gender" placeholder="eg. Female" name="gender" class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" id="address" placeholder="eg. BLK 5 LOT 6 SAMMAR 1 HOA Luzon Ave. Old Balara, Quezon City" name="address" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" placeholder="eg. danel@gmail.com" name="email" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" placeholder="eg. 18" name="age" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="contactNumber">Contact Number</label>
+                                    <input type="text" id="contactNumber" placeholder="eg. 09123456789" name="contactNumber" required class="input-field">
+                                </div>
+                                <div class="input-group">   
+                                    <label for="username">Username</label>
+                                    <input type="text" id="username" placeholder="eg. jeondanel" name="username" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="passwordReg">Password</label>
+                                    <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
+                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
+                                </div>
+                                    <div id="passwordFeedback" class="feedback"></div>
+                                <div class="input-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
+                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
+                                </div>
+                                    <div id="confirmPasswordFeedback" class="feedback"></div>
+                                </div>
+                                <div class="terms">
+                                    <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
+                                </div>
+                                <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
+                            </div>    
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Include Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="assets/js/login.js"></script>
+
 
 <!-- Add JavaScript to open the modal if the parameter is set -->
 <script>
@@ -80,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <!-- Brand Logos -->
-    <div class="brand-logo-container overflow-hidden my-5" style="height: 96px;">
+    <div class="brand-logo-container overflow-hidden my-5" style="height: 150px;">
         <div class="brand-logo-wrapper d-flex">
             <?php 
             $brands = ["amd", "asus", "biostar", "coolermaster", "corsair", "cougar", "darkflash", "dell", "fanatec", "gigabyte", "gskill", "hp", "inplay", "intel", "kingston", "msi", "nvidia", "nvision", "nzxt", "samsung"];
@@ -90,30 +250,78 @@ document.addEventListener('DOMContentLoaded', function () {
             <?php endforeach; ?>
         </div>
     </div>
+<?php
+    // Database connection
+    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+    $username = "vg2eweo4yg8eydii";
+    $password = "rccstjx3or46kpl9";
+    $db_name = "s0gp0gvxcx3fc7ib";
 
-    <!-- Featured Products -->
-    <div class="featured-products-wrapper" style="margin-bottom: 150px;">
-        <div class="container my-4">
-            <h2 class="text-center mb-4">Featured Products</h2>
-            <div class="row g-3">
-                <?php for ($i = 1; $i <= 5; $i++): ?>
-                    <div class="col-sm-6 col-md-4 col-lg-2">
-                        <div class="card">
-                            <img src="assets/images/defaultproduct.png" class="card-img-top img-fluid" alt="Product <?= $i ?>">
-                            <div class="card-body">
-                                <h5 class="card-title">Product <?= $i ?></h5>
-                                <p class="card-text">Price <?= $i ?></p>
-                                <a href="#" class="btn btn-primary w-100">Add to Cart</a>
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch products from the database
+    $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products";
+    $result = $conn->query($sql);
+
+    $products = [];
+    if ($result->num_rows > 0) {
+        // Store products in an array
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+    }
+    $conn->close();
+?>
+
+                <!-- Featured Products -->
+<div class="featured-products-wrapper" style="margin-bottom: 100px;">
+    <div class="container my-4">
+        <h2 class="text-center mb-4">Featured Products</h2>
+        <div class="row g-3">
+            <?php if (!empty($products)) : ?>
+                <?php foreach ($products as $product) : ?>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+                        <div class="card" style="width: 309.328px; height: 437.188px; display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;">
+                            <?php
+                            // Check if there is image data
+                            if (!empty($product['img_data'])) {
+                                $imgData = base64_encode($product['img_data']);
+                                $imgSrc = 'data:image/jpeg;base64,' . $imgData;
+                            } else {
+                                $imgSrc = 'path/to/default-image.jpg';
+                            }
+                            ?>
+                            <!-- Image -->
+                            <img src="<?php echo $imgSrc; ?>" class="card-img-top img-fluid" alt="Product Image" style="max-height: 250px; object-fit: cover;">
+                            
+                            <!-- Card Body -->
+                            <div class="card-body" style="flex-grow: 1; text-align: center;">
+                                <h5 class="card-title" style="font-size: 1.1rem; margin-bottom: 0.5rem;"><?php echo htmlspecialchars($product['product_name']); ?></h5>
+                                <p class="card-text">
+                                    <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
+                                </p>
+                                <a href="product.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary w-100" style="margin-top: auto;">View Details</a>
                             </div>
                         </div>
                     </div>
-                <?php endfor; ?>
-            </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <p class="text-center">No featured products available.</p>
+            <?php endif; ?>
         </div>
     </div>
+</div>
+
+
+
 
 <!-- DSS Section -->
-<div style="padding-top: 100px; padding-bottom: 350px; width: 100%; height: 4600px; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
+<div style="padding-top: 100px; padding-bottom: 350px; width: 100%; height: auto; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
   <!-- Content Layer (Text and Button) -->
   <div style="width: 100%; height: 300px; position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
     <div style="font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word;">Don’t know what to buy?</div>
@@ -133,3 +341,128 @@ document.addEventListener('DOMContentLoaded', function () {
  <?php include 'includes/footer.php'; ?>
 </body>
 </html>
+
+
+
+
+<!-- <script>
+                                const passwordInput = document.getElementById('password');
+                                const confirmPasswordInput = document.getElementById('confirmPassword');
+                                const passwordFeedback = document.getElementById('passwordFeedback');
+                                const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
+
+                                function validatePassword() {
+                                    if (passwordInput.value !== confirmPasswordInput.value) {
+                                        confirmPasswordInput.setCustomValidity("Passwords do not match");
+                                    } else {
+                                        confirmPasswordInput.setCustomValidity("");
+                                    }
+                                }
+
+                                passwordInput.addEventListener('input', validatePassword);
+                                confirmPasswordInput.addEventListener('input', validatePassword);
+                            </script> -->
+<!-- Add this script at the end of your HTML -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const passwordField = document.getElementById('password');
+    const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+
+    togglePasswordIcon.addEventListener('click', () => {
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            togglePasswordIcon.src = '/assets/images/view.png'; 
+        } else {
+            passwordField.type = 'password';
+            togglePasswordIcon.src = '/assets/images/closed.png'; 
+        }
+    }); 
+
+    passwordField.addEventListener('input', () => {
+        const fakePassword = passwordField.value.split('').map(() => Math.floor(Math.random() * 10)).join('');
+        passwordField.setAttribute('data-fake-password', fakePassword);
+    });
+
+    const observer = new MutationObserver(() => {
+        const fakePassword = passwordField.getAttribute('data-fake-password');
+        if (fakePassword) {
+            passwordField.value = fakePassword;
+        }
+    });
+
+    observer.observe(passwordField, { attributes: true, attributeFilter: ['value'] });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const passwordReg = document.getElementById('passwordReg');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const togglePasswordIcon1 = document.getElementById('togglePasswordIcon1');
+    const togglePasswordIcon2 = document.getElementById('togglePasswordIcon2');
+    const passwordFeedback = document.getElementById('passwordFeedback');
+    const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
+
+    // Toggle password visibility
+    togglePasswordIcon1.addEventListener('click', function () {
+        if (passwordReg.type === 'password') {
+            passwordReg.type = 'text';
+            togglePasswordIcon1.src = '/assets/images/view.png';
+        } else {
+            passwordReg.type = 'password';
+            togglePasswordIcon1.src = '/assets/images/closed.png';
+        }
+    });
+
+    togglePasswordIcon2.addEventListener('click', function () {
+        if (confirmPassword.type === 'password') {
+            confirmPassword.type = 'text';
+            togglePasswordIcon2.src = '/assets/images/view.png';
+        } else {
+            confirmPassword.type = 'password';
+            togglePasswordIcon2.src = '/assets/images/closed.png';
+        }
+    });
+
+    // Password validation function
+    function validatePassword() {
+        const passwordValue = passwordReg.value;
+        const confirmPasswordValue = confirmPassword.value;
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/;
+
+        // Check if password matches the requirements
+        if (passwordValue && passwordRegex.test(passwordValue)) {
+            passwordFeedback.textContent = ""; // Remove any previous feedback
+            passwordFeedback.style.color = "";  // Reset color
+            passwordReg.style.borderColor = ""; // Reset border color
+            passwordReg.setCustomValidity("");  // Reset custom validity
+        } else {
+            passwordFeedback.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+            passwordFeedback.style.color = "red";
+            passwordReg.style.borderColor = "red";
+            passwordReg.setCustomValidity("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+        }
+
+        // Confirm password match validation
+        if (passwordValue && passwordValue === confirmPasswordValue) {
+            confirmPasswordFeedback.textContent = ""; // Remove previous feedback
+            confirmPasswordFeedback.style.color = ""; // Reset color
+            confirmPassword.style.borderColor = ""; // Reset border color
+            confirmPassword.setCustomValidity("");  // Reset custom validity
+        } else {
+            confirmPasswordFeedback.textContent = "Passwords do not match";
+            confirmPasswordFeedback.style.color = "red";
+            confirmPassword.style.borderColor = "red";
+            confirmPassword.setCustomValidity("Passwords do not match");
+        }
+    }
+
+    // Attach event listeners to update feedback dynamically
+    passwordReg.addEventListener('input', validatePassword);
+    confirmPassword.addEventListener('input', validatePassword);
+
+    // Trigger validation on page load to show messages without typing
+    validatePassword();
+});
+</script>
