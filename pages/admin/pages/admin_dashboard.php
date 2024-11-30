@@ -8,95 +8,96 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>Admin Dashboard</title>
     <!-- <link rel="stylesheet" href="/assets/css/admin_dashboard.css"> -->
-    <link rel="icon" href="assets/images/rpc-favicon.png">
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
-<body style="background-color: #EBEBEB;">
 
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        <form class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap" style="display: flex; align-items: center; height: auto; background-color: #FFFFFF; box-shadow: 0 7px 3px -2px lightgrey; padding: 10px 20px; position: relative;">
+            <!-- Logo -->
+            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo" style="width: 240px; height: auto; max-width: 100%; margin-left: 20px; position: relative; left: 20px;">
+            
+            <!-- Search Bar -->
+            <form class="d-flex search-bar" style="display: flex; flex-grow: 1; max-width: 800px; margin-right: 10px;">
+                <input class="form-control" type="search" placeholder="Search for product(s)" aria-label="Search" style="flex-grow: 1; font-size: 18px; border-radius: 74px; padding-left: 40px; margin-right: 10px;">
+                <button class="btn btn-outline-success" type="submit" style="height: 55px; font-size: 20px; border-radius: 74px; background-color: #1A54C0; color: #FFFFFF; padding: 0 45px;">Search</button>
+            </form>
+        </div>
+    </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding: 50px;">
         <div class="row">
-            <div class="col-3">
-                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 100%;">
-                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-                        <span class="fs-4">Sidebar</span>
-                    </a>
-                    <hr>
+            <!-- Sidebar Section -->
+            <div class="col-md-3 admin-sidebar" style="  background-color: #1A54C0; border-radius: 20px;">
+                <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%;">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active" aria-current="page">
-                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link link-dark">
-                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                            <a href="#" class="nav-link link-light">
                                 Admin Profile
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link link-dark">
-                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+                            <a href="#" class="nav-link link-light active" aria-current="page">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link link-light">
+                                Inventory Management
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link link-light">
+                                Orders Management
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link link-light">
                                 Payments List
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link link-dark">
-                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-                                Invetory Mananagement
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link link-dark">
-                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                                Orders Management
+                            <a href="#" class="nav-link link-light">
+                                Roles Management
                             </a>
                         </li>
                     </ul>
-                    <hr>
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <a href="#" class="d-flex align-items-center link-dark text-decoration-none">
-                                
-                            <strong>John Kenny Q. Reyes</strong>
-                        </a>
-                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
-                        </ul>
+                    <div class="container-fluid admin-dropdown">
+                        <div class="d-flex justify-content-end">
+                            <div class="dropdown">
+                                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <strong>John Kenny Q. Reyes</strong>
+                                </a>
+                                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser2">
+                                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 2nd Column: Total Sales, Ongoing Orders, Visitors, Top Category, and Chart -->
-            <div class="col-6">
+            <!-- Main Dashboard Section -->
+            <div class="col-md-6 admin-dashboard-main">
                 <div class="row">
                     <div class="col-6">
-                        <div class="card">
+                        <div class="card admin-card">
                             <div class="card-body">
-                                <h5 class="card-title">Total sale</h5>
+                                <h5 class="card-title">Total Sales</h5>
                                 <p class="card-text">₱114,995.00</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="card">
+                        <div class="card admin-card">
                             <div class="card-body">
                                 <h5 class="card-title">Ongoing Orders</h5>
-                                <p class="card-text">1 Orders</p>
+                                <p class="card-text">1 Order</p>
                             </div>
                         </div>
                     </div>
@@ -104,7 +105,7 @@
 
                 <div class="row">
                     <div class="col-6">
-                        <div class="card">
+                        <div class="card admin-card">
                             <div class="card-body">
                                 <h5 class="card-title">No of Online Visitors per day</h5>
                                 <p class="card-text">4 Visitors</p>
@@ -112,7 +113,7 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="card">
+                        <div class="card admin-card">
                             <div class="card-body">
                                 <h5 class="card-title">Top Product Categories</h5>
                                 <p class="card-text">GPU</p>
@@ -124,39 +125,31 @@
                 <!-- Chart Section -->
                 <div class="row">
                     <div class="col-12">
-                        <div id="chart-container" style="width: 100%; height: 400px;"></div>
+                        <div id="chart-container" class="admin-chart-container"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 3rd Column: Top Products and Stock Alerts -->
-            <div class="col-3">
+            <!-- Right Sidebar Section: Top Products & Stock Alerts -->
+            <div class="col-md-3 admin-sidebar-right">
                 <div class="row">
-                    <!-- Top Products Cards -->
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card admin-card">
                             <div class="card-body">
                                 <h5 class="card-title">Top Products</h5>
                                 <p class="card-text">Product 1</p>
                                 <p class="card-text">Product 2</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Top Products</h5>
                                 <p class="card-text">Product 3</p>
                                 <p class="card-text">Product 4</p>
+                                <p class="card-text">Product 5</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- Stock Alerts Section -->
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card admin-card">
                             <div class="card-body">
                                 <h5 class="card-title">Stock Alerts</h5>
                                 <p class="card-text">Product A: Low stock</p>
@@ -169,8 +162,6 @@
             </div>
         </div>
     </div>
-
-    
 
     <script>
         const data = [
