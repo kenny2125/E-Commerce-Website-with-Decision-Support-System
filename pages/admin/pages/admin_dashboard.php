@@ -14,14 +14,14 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap" style="display: flex; align-items: center; height: auto; background-color: #FFFFFF; box-shadow: 0 7px 3px -2px lightgrey; padding: 10px 20px; position: relative;">
             <!-- Logo -->
-            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo" style="width: 240px; height: auto; max-width: 100%; margin-left: 20px; position: relative; left: 20px;">
             
             <!-- Search Bar -->
-            <form class="d-flex search-bar">
-                <input class="form-control" type="search" placeholder="Search for product(s)" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex search-bar" style="display: flex; flex-grow: 1; max-width: 800px; margin-right: 10px;">
+                <input class="form-control" type="search" placeholder="Search for product(s)" aria-label="Search" style="flex-grow: 1; font-size: 18px; border-radius: 74px; padding-left: 40px; margin-right: 10px;">
+                <button class="btn btn-outline-success" type="submit" style="height: 55px; font-size: 20px; border-radius: 74px; background-color: #1A54C0; color: #FFFFFF; padding: 0 45px;">Search</button>
             </form>
         </div>
     </nav>

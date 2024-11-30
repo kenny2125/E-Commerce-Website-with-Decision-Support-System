@@ -48,12 +48,7 @@ body {
 
 /* Search Button */
 .search-bar .btn-outline-success {
-  height: 55px;
-  font-size: 20px;
-  border-radius: 74px;
-  background-color: #1A54C0;
-  color: #FFFFFF;
-  padding: 0 45px;
+  
 }
 
 /* Sidebar Styling */
