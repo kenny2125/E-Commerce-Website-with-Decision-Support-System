@@ -12,7 +12,7 @@ if (isset($_POST['signUp'])) {
     $address = $_POST['address'];
     $email = $_POST['email'];
     $contact_number = $_POST['contactNumber'];
-    $age = $_POST['age']; // New input field for age
+    $birth_date = $_POST['birth_date'];
     $role = "customer"; // Default role for a new user
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -42,12 +42,12 @@ if (isset($_POST['signUp'])) {
                 // Insert the new user into tbl_user
                 $stmt = $conn->prepare("
                     INSERT INTO tbl_user (
-                        first_name, middle_initial, last_name, gender, address, contact_number, email, age, role, username, password
+                        first_name, middle_initial, last_name, gender, address, contact_number, email, birth_date, role, username, password
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ");
                 $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // Hash the password
                 if ($stmt->execute([
-                    $first_name, $middle_init, $last_name, $gender, $address, $contact_number, $email, $age, $role, $username, $hashedPassword
+                    $first_name, $middle_init, $last_name, $gender, $address, $contact_number, $email, $birth_date, $role, $username, $hashedPassword
                 ])) {
                     header('Location: login.php'); // Redirect to login page
                     exit;
@@ -60,4 +60,6 @@ if (isset($_POST['signUp'])) {
         echo "Error: " . $e->getMessage();
     }
 }
+
+
 ?>

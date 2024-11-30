@@ -1,47 +1,53 @@
 <?php
 session_start();
 
-// Include the database configuration file
-include '../../config/db_config.php'; // Adjust the relative path to match your file structure
-
-$response = [];
-
-if (isset($_POST['username']) && isset($_POST['password'])) {
+// Include database connection and necessary code...
+if (isset($_POST['logIn'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    try {
-        // Fetch user details by username
-        $stmt = $conn->prepare("SELECT * FROM tbl_user WHERE username = ?");
-        $stmt->execute([$username]);
+    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+    $username = "vg2eweo4yg8eydii";
+    $password = "rccstjx3or46kpl9";
+    $db_name = "s0gp0gvxcx3fc7ib";
+    
+    // Establish a database connection
+    $conn = new mysqli($host, $username, $password, $db_name);
 
-        if ($stmt->rowCount() > 0) {
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Check for connection errors
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-            // Verify the password
-            if (password_verify($password, $user['password'])) {
-                // Store user details in session
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = $user['role'];
+    // Query to fetch user data based on the username
+    $query = "SELECT * FROM tbl_user WHERE username = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-                // Prepare the response
-                $response['status'] = 'success';
-                $response['role'] = $user['role'];
-            } else {
-                $response['status'] = 'error';
-                $response['message'] = 'Invalid username or password!';
-            }
+    // Check if user exists
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        // Verify password
+        if (password_verify($password, $user['password'])) {
+            // Set session variables for logged in user
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            // Redirect to a protected page or dashboard
+            header('Location: dashboard.php');
+            exit;
         } else {
-            $response['status'] = 'error';
-            $response['message'] = 'Invalid username or password!';
+            // Password incorrect
+            $_SESSION['login_error'] = 'Incorrect password!';
+            header('Location: ../../index.php'); // Redirect to login page with error message
+            exit;
         }
-    } catch (PDOException $e) {
-        $response['status'] = 'error';
-        $response['message'] = 'Error: ' . $e->getMessage();
+    } else {
+        // User not found
+        $_SESSION['login_error'] = 'Username not found!';
+        header('Location: ../../index.php'); // Redirect to login page with error message
+        exit;
     }
 }
-
-// Return the response as JSON
-header('Content-Type: application/json');
-echo json_encode($response);
+?>
