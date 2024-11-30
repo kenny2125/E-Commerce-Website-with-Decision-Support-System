@@ -63,6 +63,8 @@
   .icon-button {
     width: 40px;
     height: 40px;
+    position: relative;
+    bottom: 5px;
     background-color: #007BFF;
     border: none;
     border-radius: 50%;
@@ -81,7 +83,9 @@
 }
 .icon-image {
     height: 20px;
-    width: 40px;
+    width: 30px;
+    position: relative;
+    bottom: 10px;
 }
 
   
