@@ -225,8 +225,8 @@ body {
 }
 
 .card:hover {
-  transform: scale(1.1); /* Zoom out slightly */
-  box-shadow: 0 8px 16px #154a9e; /* Add a slightly stronger shadow */
+  transform: scale(1.0); /* Zoom out slightly */
+  box-shadow: 0 10px 18px #154a9e; /* Add a slightly stronger shadow */
 }
 
 .card-img-top {

@@ -117,7 +117,6 @@ $(document).ready(function() {
         });
     });
 });
-
 </script>
 
 <!-- Registration Modal -->
