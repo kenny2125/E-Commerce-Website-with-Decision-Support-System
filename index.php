@@ -117,7 +117,6 @@ $(document).ready(function() {
         });
     });
 });
-
 </script>
 
 <!-- Registration Modal -->
@@ -178,13 +177,13 @@ $(document).ready(function() {
                                     <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
                                     <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
                                 </div>
-                                    <div id="passwordFeedback" class="form-text text-danger"></div>
+                                    <div id="passwordFeedback" class="feedback"></div>
                                 <div class="input-group">
                                     <label for="confirmPassword">Confirm Password</label>
                                     <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
                                     <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
                                 </div>
-                                    <div id="confirmPasswordFeedback" class="form-text text-danger"></div>
+                                    <div id="confirmPasswordFeedback" class="feedback"></div>
                                 </div>
                                 <div class="terms">
                                     <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
@@ -396,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const passwordReg = document.getElementById('passwordReg');
     const confirmPassword = document.getElementById('confirmPassword');
     const togglePasswordIcon1 = document.getElementById('togglePasswordIcon1');
@@ -404,7 +403,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordFeedback = document.getElementById('passwordFeedback');
     const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
 
-    togglePasswordIcon1.addEventListener('click', function() {
+    // Toggle password visibility
+    togglePasswordIcon1.addEventListener('click', function () {
         if (passwordReg.type === 'password') {
             passwordReg.type = 'text';
             togglePasswordIcon1.src = '/assets/images/view.png';
@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    togglePasswordIcon2.addEventListener('click', function() {
+    togglePasswordIcon2.addEventListener('click', function () {
         if (confirmPassword.type === 'password') {
             confirmPassword.type = 'text';
             togglePasswordIcon2.src = '/assets/images/view.png';
@@ -424,34 +424,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Password validation: Requires uppercase, lowercase, numbers, and special characters
+    // Password validation function
     function validatePassword() {
         const passwordValue = passwordReg.value;
         const confirmPasswordValue = confirmPassword.value;
 
-        // Regex for password validation (uppercase, lowercase, number, special character)
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/;
 
-        if (!passwordRegex.test(passwordValue)) {
-            passwordFeedback.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
-            passwordReg.setCustomValidity("Weak password");
+        // Check if password matches the requirements
+        if (passwordValue && passwordRegex.test(passwordValue)) {
+            passwordFeedback.textContent = ""; // Remove any previous feedback
+            passwordFeedback.style.color = "";  // Reset color
+            passwordReg.style.borderColor = ""; // Reset border color
+            passwordReg.setCustomValidity("");  // Reset custom validity
         } else {
-            passwordFeedback.textContent = "";
-            passwordReg.setCustomValidity("");
+            passwordFeedback.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+            passwordFeedback.style.color = "red";
+            passwordReg.style.borderColor = "red";
+            passwordReg.setCustomValidity("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
         }
 
-        // Check if passwords match
-        if (passwordValue !== confirmPasswordValue) {
-            confirmPassword.setCustomValidity("Passwords do not match");
-            confirmPasswordFeedback.textContent = "Passwords do not match";
+        // Confirm password match validation
+        if (passwordValue && passwordValue === confirmPasswordValue) {
+            confirmPasswordFeedback.textContent = ""; // Remove previous feedback
+            confirmPasswordFeedback.style.color = ""; // Reset color
+            confirmPassword.style.borderColor = ""; // Reset border color
+            confirmPassword.setCustomValidity("");  // Reset custom validity
         } else {
-            confirmPassword.setCustomValidity("");
-            confirmPasswordFeedback.textContent = "";
+            confirmPasswordFeedback.textContent = "Passwords do not match";
+            confirmPasswordFeedback.style.color = "red";
+            confirmPassword.style.borderColor = "red";
+            confirmPassword.setCustomValidity("Passwords do not match");
         }
     }
 
-    // Listen to changes in password and confirm password fields
+    // Attach event listeners to update feedback dynamically
     passwordReg.addEventListener('input', validatePassword);
     confirmPassword.addEventListener('input', validatePassword);
+
+    // Trigger validation on page load to show messages without typing
+    validatePassword();
 });
 </script>
