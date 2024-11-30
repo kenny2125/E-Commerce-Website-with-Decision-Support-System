@@ -66,8 +66,8 @@
                     <div class="container-fluid admin-dropdown">
                 <div class="d-flex justify-content-end">
         <div class="dropdown" style="background-color: #fff; margin-top: 260px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
-        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 8px; text-align: center;">John Kenny Q. Reyes</strong>
-                <a href="/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
+        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
+                <a href="/index.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
             </a>
         </div>
     </div>
@@ -118,9 +118,12 @@
                 </div>
 
                 <!-- Chart Section -->
-                <div class="row">
+                <div class="row" style="background-color: #fff; border-radius: 30px; box-shadow: 0 2px 5px #888383; max-width: 878px;">
+                    <div class="col-12 text-center">
+                        <h3 style="margin-top: 20px; font-size: 24px;">Overall Sales in 2024</h3>
+                    </div>
                     <div class="col-12">
-                        <div id="chart-container" class="admin-chart-container"></div>
+                        <div id="chart-container" class="admin-chart-container" style="height: 300px;"></div>
                     </div>
                 </div>
             </div>

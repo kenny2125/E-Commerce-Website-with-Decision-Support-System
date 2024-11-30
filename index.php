@@ -240,16 +240,16 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <!-- Brand Logos -->
-    <div class="brand-logo-container overflow-hidden my-5" style="height: 150px;">
-        <div class="brand-logo-wrapper d-flex">
-            <?php 
-            $brands = ["amd", "asus", "biostar", "coolermaster", "corsair", "cougar", "darkflash", "dell", "fanatec", "gigabyte", "gskill", "hp", "inplay", "intel", "kingston", "msi", "nvidia", "nvision", "nzxt", "samsung"];
+    <div class="brand-logo-container overflow-hidden my-5" style="height: 100px;">
+    <div class="brand-logo-wrapper d-flex animate-loop">
+        <?php 
+        $brands = ["amd", "asus", "biostar", "coolermaster", "corsair", "cougar", "darkflash", "dell", "fanatec", "gigabyte", "gskill", "hp", "inplay", "intel", "kingston", "msi", "nvidia", "nvision", "nzxt", "samsung"];
 
-            foreach (array_merge($brands, $brands) as $brand): ?>
-                <img src="assets/images/brands/<?= $brand ?>.png" alt="<?= ucfirst($brand) ?>" class="brand-logo mx-3">
-            <?php endforeach; ?>
-        </div>
+        foreach (array_merge($brands, $brands) as $brand): ?>
+            <img src="assets/images/brands/<?= $brand ?>.png" alt="<?= ucfirst($brand) ?>" class="brand-logo mx-2" style="height: 50px;">
+        <?php endforeach; ?>
     </div>
+</div>
 <?php
     // Database connection
     $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
