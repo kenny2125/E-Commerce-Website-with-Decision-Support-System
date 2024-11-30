@@ -1,14 +1,30 @@
 <?php
-session_start(); // Start the session
+    session_start(); // Start the session
 
-// Check if the user is logged in
-$isLoggedIn = isset($_SESSION['user_id']); // Boolean flag for checking login status
-$username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged in
+    // Initially set isLoggedIn to false
+    $isLoggedIn = false; 
+
+    // Check if the user is logged in
+    if (isset($_SESSION['user_id'])) {
+        $isLoggedIn = true; // If the user is logged in, set to true
+        $firstName = isset($_SESSION['first_name']) ? $_SESSION['first_name'] : ''; // Get first name if logged in
+        $role = isset($_SESSION['role']) ? $_SESSION['role'] : ''; // Get user role if logged in
+    } else {
+        $firstName = ''; // If not logged in, set first name to empty
+        $role = ''; // If not logged in, set role to empty
+    }
+
+    if (isset($_SESSION['registration_success']) && $_SESSION['registration_success'] === true) {
+        // Clear the session flag after using it
+        unset($_SESSION['registration_success']);
+        echo '<script type="text/javascript">',
+            '$(document).ready(function() { $("#loginModal").modal("show"); });', // Trigger the modal to show
+            '</script>';
+    }
 ?>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +33,8 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
     <title>RPC Tech Computer Store</title>
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="icon" href="assets/images/rpc-favicon.png">
@@ -41,15 +59,17 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
         </form>
         
         <!-- User-specific Content -->
-        <?php if (!$isLoggedIn): ?>
+        <?php if ($isLoggedIn === false): ?>
             <!-- If not logged in, show login button -->
             <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
         <?php else: ?>
-            <!-- If logged in, display welcome message -->
-            <span class="navbar-text">Welcome, <?php echo htmlspecialchars($username); ?>!</span>
+            <!-- If logged in, display welcome message and role -->
+            <span class="navbar-text">Welcome, <?= htmlspecialchars($firstName); ?>!</span>
+            
         <?php endif; ?>
     </div>
 </nav>
+
 
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -62,7 +82,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
             </div>
             <div class="modal-body">
                 <div class="form-box">
-                    <form id="loginForm" method="post">
+                    <form id="loginForm" method="post" action="pages/user/user_login.php">
                         <div class="input-group">
                             <label for="username">USERNAME</label>
                             <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
@@ -74,50 +94,26 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
                                 <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
                             </div>
                         </div>
-                        <p>Don't have an account? 
-                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
-                        </p>
+
                         <button type="submit" class="button login-btn" name="logIn">LOG IN</button>
                     </form>
-                    <div id="loginError" class="error-message"></div> <!-- Error message container -->
+                    <p>Don't have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
+                        </p>
+                    <!-- Display login error message -->
+                    <?php if (isset($_SESSION['login_error'])): ?>
+                        <div id="loginError" class="error-message" style="color: red;">
+                            <?php echo $_SESSION['login_error']; ?>
+                        </div>
+                        <?php unset($_SESSION['login_error']); ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-$(document).ready(function() {
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault(); // Prevent the default form submission
 
-        var formData = $(this).serialize(); // Serialize form data
-
-        $.ajax({
-            url: 'pages/user/user_login.php', // PHP file to handle login
-            type: 'POST',
-            data: formData,
-            dataType: 'json', // Expect a JSON response
-            success: function(response) {
-                console.log('Response:', response); // Log the response to check its contents
-
-                if (response.status === 'success') {
-                    if (response.role === 'admin') {
-                        window.location.href = 'pages/admin/admin_dashboard.php'; // Admin redirection
-                    } else {
-                        window.location.href = '/index.php'; // User redirection
-                    }
-                } else {
-                    $('#loginError').text(response.message).show(); // Display error message if login fails
-                }
-            },
-            error: function() {
-                $('#loginError').text('An error occurred. Please try again.').show(); // Show error if AJAX fails
-            }
-        });
-    });
-});
-</script>
 
 <!-- Registration Modal -->
 <div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
@@ -130,11 +126,11 @@ $(document).ready(function() {
             <div class="modal-body">
                 <div class="container">
                     <div class="form-box">
-                    <h3>Create an Account</h3>
+                        <h3>Create an Account</h3>
                         <p>Already have an account? 
                             <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
                         </p>
-                        <form action="pages/user/user_register.php" method="post">
+                        <form action="pages/user/user_register.php" method="post" onsubmit="return validateForm()">
                             <div class="row">
                                 <div class="input-group">
                                     <label for="firstName">First Name</label>
@@ -177,19 +173,18 @@ $(document).ready(function() {
                                     <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
                                     <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
                                 </div>
-                                    <div id="passwordFeedback" class="feedback"></div>
+                                <div id="passwordFeedback" class="feedback"></div>
                                 <div class="input-group">
                                     <label for="confirmPassword">Confirm Password</label>
-                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
+                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" required>
                                     <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
                                 </div>
-                                    <div id="confirmPasswordFeedback" class="feedback"></div>
-                                </div>
-                                <div class="terms">
-                                    <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
-                                </div>
-                                <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
-                            </div>    
+                                <div id="confirmPasswordFeedback" class="feedback"></div>
+                            </div>
+                            <div class="terms">
+                                <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
+                            </div>
+                            <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
                         </form>
                     </div>
                 </div>
@@ -198,27 +193,11 @@ $(document).ready(function() {
     </div>
 </div>
 
+
+
 <!-- Include Bootstrap JS and dependencies -->
 
 
-<!-- Add JavaScript to open the modal if the parameter is set -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        <?php if ($openModal): ?>
-        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
-        <?php endif; ?>
-    });
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    <?php if ($openModal): ?>
-    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-    loginModal.show();
-    <?php endif; ?>
-});
-</script>
 
     <!-- Carousel -->
     <div id="carouselWithInterval" class="carousel slide" data-bs-ride="carousel">
@@ -240,16 +219,17 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <!-- Brand Logos -->
-    <div class="brand-logo-container overflow-hidden my-5" style="height: 150px;">
-        <div class="brand-logo-wrapper d-flex">
+    <div class="brand-logo-container overflow-hidden my-5" style="height: 100px;">
+        <div class="brand-logo-wrapper d-flex animate-loop">
             <?php 
             $brands = ["amd", "asus", "biostar", "coolermaster", "corsair", "cougar", "darkflash", "dell", "fanatec", "gigabyte", "gskill", "hp", "inplay", "intel", "kingston", "msi", "nvidia", "nvision", "nzxt", "samsung"];
 
             foreach (array_merge($brands, $brands) as $brand): ?>
-                <img src="assets/images/brands/<?= $brand ?>.png" alt="<?= ucfirst($brand) ?>" class="brand-logo mx-3">
+                <img src="assets/images/brands/<?= $brand ?>.png" alt="<?= ucfirst($brand) ?>" class="brand-logo mx-4" style="height: 50px;">
             <?php endforeach; ?>
         </div>
     </div>
+</div>
 <?php
     // Database connection
     $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
@@ -278,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $conn->close();
 ?>
 
-                <!-- Featured Products -->
+<!-- Featured Products -->
 <div class="featured-products-wrapper" style="margin-bottom: 100px;">
     <div class="container my-4">
         <h2 class="text-center mb-4">Featured Products</h2>
@@ -338,12 +318,127 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 <br><br><br><br><br><br>
 
- <?php include 'includes/footer.php'; ?>
+<div class="content"></div>
+<footer class="footer" style="width: 100%; background-color: #122448; color: #fff; font-family: 'Lato', sans-serif; padding: 10px 0; position: relative; bottom: 0;">
+  <div class="footer-container" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 10px;">
+    <div class="footer-section" style="flex: 1 1 200px; text-align: left;">
+      <img class="footer-logo" src="/assets/images/rpc-logo-white.png" alt="RPC Tech Computer Store Logo" style="width: 250px; margin-bottom: 10px; margin-left: 10px;">
+      <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Follow Us</p>
+      <a href="https://www.facebook.com/profile.php?id=61567195257950" target="_blank">
+        <img class="footer-social-links" src="/assets/images/fb icon.png" alt="Social Links" style="width: 20px; margin-left: 32px;">
+      </a>
+    </div>
+    
+    <div class="footer-section contact" style="flex: 1 1 200px; text-align: left; margin-top: 90px; margin-left: -50px;">
+      <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Contact Us</p>
+      <p class="footer-contact-item" style="display: flex; align-items: center; margin: 5px 0; font-size: 13px; color: #fff; text-decoration: none;">
+        <img class="icon" src="/assets/images/call-icon.png" alt="Phone Icon" style="width: 15px; margin-right: 10px;"> 09616952829 / 09945657044
+      </p>
+      <p class="footer-contact-item" style="display: flex; align-items: center; margin: 5px 0; font-size: 13px; color: #fff; text-decoration: none;">
+        <a href="mailto:rpctechcomputers@gmail.com"><img class="icon" src="/assets/images/gmail icon.png" alt="Email Icon" style="width: 15px; margin-right: 10px;">rpctechcomputers@gmail.com</a>
+      </p>
+    </div>
+    
+    <div class="footer-section branch" style="flex: 1 1 200px; text-align: left; margin-top: 15px; margin-left: 40px;">
+      <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Branches</p>
+      <p class="footer-branch-item" style="display: flex; align-items: left; margin: 5px 0; color: #fff;">
+        <img class="icon" src="/assets/images/bx-location-plus.png" alt="Branch Icon" style="width: 20px; height: 18px; margin-right: 6px;">Main Branch
+      </p>
+      <p class="footer-branch-address" style="margin: 5px 18px; font-size: 13px; width: 220px; text-align: left; color: #fff;">
+        <a href="https://www.google.com/maps/place/RPC+Tech+Computer/@15.0988169,120.6194883,1059m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3396f1d7698ed943:0x8086f35e9ed733de!8m2!3d15.0988117!4d120.6220632!16s%2Fg%2F11lmmzgj3y?hl=en&entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" target="_blank">KM 78 MC ARTHUR HI-WAY BRGY.SAGUIN, San Fernando, Philippines, 2000</a>
+      </p>
+    </div>
+    
+    <div class="footer-links" style="display: flex; padding-top: 15px; margin-right: 5px; justify-content: flex-start;">
+      <div class="footer-link-column" style="flex: none; margin: 0 13px;">
+        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Who are we?</p>
+        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
+          <p style="margin: 0; text-align: left;"><a href="pages/public/aboutus.php" style="text-decoration: none; color: #fff; font-size: 14px;">About Us</a></p>
+          <p style="margin: 0; text-align: left;"><a href="pages/public/faq.php" style="text-decoration: none; color: #fff; font-size: 14px;">FAQ</a></p>
+          <p style="margin: 0; text-align: left;"><a href="pages/public/contactus.php" style="text-decoration: none; color: #fff; font-size: 14px;">Contact Us</a></p>
+        </div>
+      </div>
+      
+      <div class="footer-link-column" style="flex: none; margin: 0 13px;">
+        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Legal Terms</p>
+        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
+          <p style="margin: 0; text-align: left;"><a href="pages/public/termconditions.php" style="text-decoration: none; color: #fff; font-size: 14px;">Terms & Conditions</a></p>
+          <p style="margin: 0; text-align: left;"><a href="pages/public/privacy-policy.php" style="text-decoration: none; color: #fff; font-size: 14px;">Privacy Policy</a></p>
+        </div>
+      </div>
+      
+      <div class="footer-link-column" style="flex: none; margin: 0 13px;">
+        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Guides</p>
+        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
+          <p style="margin: 0; text-align: left;"><a href="pages/public/purchase-guides.php" style="text-decoration: none; color: #fff; font-size: 14px;">Purchasing Guides</a></p>
+          <p style="margin: 0; text-align: left;"><a href="pages/public/motherboard-chipset.php" style="text-decoration: none; color: #fff; font-size: 14px;">Motherboard Chipset</a></p>
+          <p style="margin: 0; text-align: left;"><a href="pages/public/power-supply-calculator.php" style="text-decoration: none; color: #fff; font-size: 14px;">Power Supply Calculator</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom" style="text-align: center; font-size: 12px; margin-top: 20px;">
+    <p style="margin: 5px 0; color: #fff;">&copy; 2022 RPC Tech Computer Store.</p>
+    <p style="margin: 5px 0; color: #fff;">All rights reserved.</p>
+  </div>
+</footer>
+
 </body>
 </html>
 
 
 
+
+<script>
+    $(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        $.ajax({
+            url: 'path_to_user_login.php', // Adjust path as necessary
+            method: 'POST',
+            data: { username: username, password: password },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    // Update UI based on response
+                    $('#loginModal').modal('hide');
+                    location.reload(); // Reload to show updated user information
+                } else {
+                    // Show error message
+                    $('#loginError').text(response.message);
+                }
+            },
+            error: function() {
+                $('#loginError').text('An error occurred. Please try again.');
+            }
+        });
+    });
+});
+
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if ($openModal): ?>
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        <?php endif; ?>
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if ($openModal): ?>
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        <?php endif; ?>
+    });
+</script>
 
 <!-- <script>
                                 const passwordInput = document.getElementById('password');
@@ -395,74 +490,74 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const passwordReg = document.getElementById('passwordReg');
-    const confirmPassword = document.getElementById('confirmPassword');
-    const togglePasswordIcon1 = document.getElementById('togglePasswordIcon1');
-    const togglePasswordIcon2 = document.getElementById('togglePasswordIcon2');
-    const passwordFeedback = document.getElementById('passwordFeedback');
-    const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordReg = document.getElementById('passwordReg');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const togglePasswordIcon1 = document.getElementById('togglePasswordIcon1');
+        const togglePasswordIcon2 = document.getElementById('togglePasswordIcon2');
+        const passwordFeedback = document.getElementById('passwordFeedback');
+        const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
 
-    // Toggle password visibility
-    togglePasswordIcon1.addEventListener('click', function () {
-        if (passwordReg.type === 'password') {
-            passwordReg.type = 'text';
-            togglePasswordIcon1.src = '/assets/images/view.png';
-        } else {
-            passwordReg.type = 'password';
-            togglePasswordIcon1.src = '/assets/images/closed.png';
+        // Toggle password visibility
+        togglePasswordIcon1.addEventListener('click', function () {
+            if (passwordReg.type === 'password') {
+                passwordReg.type = 'text';
+                togglePasswordIcon1.src = '/assets/images/view.png';
+            } else {
+                passwordReg.type = 'password';
+                togglePasswordIcon1.src = '/assets/images/closed.png';
+            }
+        });
+
+        togglePasswordIcon2.addEventListener('click', function () {
+            if (confirmPassword.type === 'password') {
+                confirmPassword.type = 'text';
+                togglePasswordIcon2.src = '/assets/images/view.png';
+            } else {
+                confirmPassword.type = 'password';
+                togglePasswordIcon2.src = '/assets/images/closed.png';
+            }
+        });
+
+        // Password validation function
+        function validatePassword() {
+            const passwordValue = passwordReg.value;
+            const confirmPasswordValue = confirmPassword.value;
+
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/;
+
+            // Check if password matches the requirements
+            if (passwordValue && passwordRegex.test(passwordValue)) {
+                passwordFeedback.textContent = ""; // Remove any previous feedback
+                passwordFeedback.style.color = "";  // Reset color
+                passwordReg.style.borderColor = ""; // Reset border color
+                passwordReg.setCustomValidity("");  // Reset custom validity
+            } else {
+                passwordFeedback.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+                passwordFeedback.style.color = "red";
+                passwordReg.style.borderColor = "red";
+                passwordReg.setCustomValidity("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            }
+
+            // Confirm password match validation
+            if (passwordValue && passwordValue === confirmPasswordValue) {
+                confirmPasswordFeedback.textContent = ""; // Remove previous feedback
+                confirmPasswordFeedback.style.color = ""; // Reset color
+                confirmPassword.style.borderColor = ""; // Reset border color
+                confirmPassword.setCustomValidity("");  // Reset custom validity
+            } else {
+                confirmPasswordFeedback.textContent = "Passwords do not match";
+                confirmPasswordFeedback.style.color = "red";
+                confirmPassword.style.borderColor = "red";
+                confirmPassword.setCustomValidity("Passwords do not match");
+            }
         }
+
+        // Attach event listeners to update feedback dynamically
+        passwordReg.addEventListener('input', validatePassword);
+        confirmPassword.addEventListener('input', validatePassword);
+
+        // Trigger validation on page load to show messages without typing
+        validatePassword();
     });
-
-    togglePasswordIcon2.addEventListener('click', function () {
-        if (confirmPassword.type === 'password') {
-            confirmPassword.type = 'text';
-            togglePasswordIcon2.src = '/assets/images/view.png';
-        } else {
-            confirmPassword.type = 'password';
-            togglePasswordIcon2.src = '/assets/images/closed.png';
-        }
-    });
-
-    // Password validation function
-    function validatePassword() {
-        const passwordValue = passwordReg.value;
-        const confirmPasswordValue = confirmPassword.value;
-
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/;
-
-        // Check if password matches the requirements
-        if (passwordValue && passwordRegex.test(passwordValue)) {
-            passwordFeedback.textContent = ""; // Remove any previous feedback
-            passwordFeedback.style.color = "";  // Reset color
-            passwordReg.style.borderColor = ""; // Reset border color
-            passwordReg.setCustomValidity("");  // Reset custom validity
-        } else {
-            passwordFeedback.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
-            passwordFeedback.style.color = "red";
-            passwordReg.style.borderColor = "red";
-            passwordReg.setCustomValidity("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
-        }
-
-        // Confirm password match validation
-        if (passwordValue && passwordValue === confirmPasswordValue) {
-            confirmPasswordFeedback.textContent = ""; // Remove previous feedback
-            confirmPasswordFeedback.style.color = ""; // Reset color
-            confirmPassword.style.borderColor = ""; // Reset border color
-            confirmPassword.setCustomValidity("");  // Reset custom validity
-        } else {
-            confirmPasswordFeedback.textContent = "Passwords do not match";
-            confirmPasswordFeedback.style.color = "red";
-            confirmPassword.style.borderColor = "red";
-            confirmPassword.setCustomValidity("Passwords do not match");
-        }
-    }
-
-    // Attach event listeners to update feedback dynamically
-    passwordReg.addEventListener('input', validatePassword);
-    confirmPassword.addEventListener('input', validatePassword);
-
-    // Trigger validation on page load to show messages without typing
-    validatePassword();
-});
 </script>

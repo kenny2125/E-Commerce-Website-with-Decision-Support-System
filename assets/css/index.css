@@ -38,7 +38,7 @@ body {
 }
 
 /* Input Field Styling */
-.modal-content .input-field {
+.input-field {
   background-color: #D9D9D9;
   border-radius: 18px !important;
   padding-left: 20px;
@@ -46,7 +46,7 @@ body {
   font-size: 0.9rem;
 }
 
-.modal-content .input-field:focus {
+.input-field:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
@@ -55,6 +55,7 @@ body {
 .input-group {
   position: relative;
   display: flex;
+  align-items: center; /* Vertically aligns input and icon */
 }
 
 .input-group .toggle-password {
@@ -67,10 +68,32 @@ body {
   cursor: pointer;
   opacity: 0.7; /* Slight transparency */
   transition: opacity 0.2s ease;
+  z-index: 10; /* Ensure it stays above input field */
+}
+
+.input-group input {
+  background-color: #D9D9D9;
+  border-radius: 18px;
+  padding-left: 20px;
+  width: 100%;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transitions */
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.input-group:focus-within .toggle-password {
+  opacity: 1; /* Full visibility on focus */
 }
 
 /* Login Button */
-.modal-content .login-btn {
+.modal-content .login-btn,
+#registrationModal button.btn {
   width: 130px;
   height: 40px;
   border-radius: 18px;
@@ -79,7 +102,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.modal-content .login-btn {
   margin-left: 150px;
+}
+
+#registrationModal button.btn {
+  margin-left: 170px;
+}
+
+#registrationModal button.btn:hover {
+  background-color: #0056b3;
 }
 
 /* Registration Modal Styling */
@@ -91,57 +125,8 @@ body {
 }
 
 #registrationModal .rpc-logo {
-  width: 300px;
-  height: 100px;
   margin-right: 65px;
   margin-bottom: -20px;
-}
-
-#registrationModal .input-field {
-  background-color: #D9D9D9;
-  border-radius: 18px !important;
-  padding-left: 20px !important;
-  width: 100%;
-  font-size: 0.9rem;
-}
-
-#registrationModal .input-group {
-  position: relative;
-  display: flex;
-  align-items: center; /* Vertically aligns input and icon */
-}
-
-#registrationModal .input-group .toggle-password {
-  position: absolute; /* Anchored to the input group */
-  right: 35px; /* Adjust distance from the right edge */
-  top: 70%; /* Center vertically */
-  transform: translateY(-50%); /* Ensure perfect centering */
-  width: 20px; /* Icon size */
-  height: 20px;
-  cursor: pointer;
-  opacity: 0.7; /* Slight transparency */
-  transition: opacity 0.2s ease, transform 0.2s ease; /* Smooth transition */
-  z-index: 10; /* Ensure it stays above input field */
-}
-
-#registrationModal .input-group input {
-  background-color: #D9D9D9;
-  border-radius: 18px;
-  padding-left: 20px;
-  width: 100%;
-  font-size: 0.9rem;
-  border: 1px solid transparent;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transitions */
-}
-
-#registrationModal .input-group input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
-}
-
-#registrationModal .input-group:focus-within .toggle-password {
-  opacity: 1; /* Full visibility on focus */
 }
 
 /* Terms and Conditions */
@@ -156,23 +141,6 @@ body {
 
 #registrationModal .terms a:hover {
   text-decoration: underline;
-}
-
-/* Button Styling */
-#registrationModal button.btn {
-  width: 130px;
-  height: 40px;
-  border-radius: 18px;
-  padding: 0;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 170px;
-}
-
-#registrationModal button.btn:hover {
-  background-color: #0056b3;
 }
 
 /* Create Account Link in Registration */
@@ -218,8 +186,8 @@ body {
 /* Card Styling */
 .card {
   margin-top: 30px;
-  border: none;
-  box-shadow: 0 4px 8px #1A54C0;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px #1A54C0;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation */
 }
