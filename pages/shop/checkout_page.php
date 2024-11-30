@@ -64,6 +64,7 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
                     // Calculate subtotal
                     $subtotal += $store_price;
             ?>
+
             <div class="card shadow border-0 mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
@@ -84,6 +85,48 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
             }
             ?>
         </div>
+
+
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Payment Successful</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Successfully paid. Please wait for the confirmation of your order.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#paymentModal">Payment Successful</button> -->
+
+    <script>
+        // Check webhook status every 5 seconds
+        setInterval(function() {
+            $.ajax({
+                url: 'check_status.php', // Endpoint to check status
+                method: 'GET',
+                success: function(response) {
+                    if (response.trim() === 'paid') {
+                        // Show the modal
+                        let modal = new bootstrap.Modal(document.getElementById('paymentModal'));
+                        modal.show();
+
+                        // Optionally reset the status
+                        $.ajax({ url: 'reset_status.php', method: 'POST' });
+                    }
+                }
+            });
+        }, 5000);
+    </script>
+
+
         <div class="col-lg-4">
             <form method="POST" action="checkout_url.php" target="_blank">
                 <div class="card shadow border-0 mb-3">
