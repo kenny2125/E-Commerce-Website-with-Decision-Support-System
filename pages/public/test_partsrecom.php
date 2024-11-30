@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Recommendation System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/index.css">
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+        <!-- Logo -->
+        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        
+        <!-- Search Bar -->
+        <form class="d-flex search-bar">
+            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
     <style>
         .btn-selected {
             background-color: #28a745;
@@ -23,16 +36,68 @@
             margin-top: 20px;
         }
         .card-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .card {
-            width: 300px;
-        }
-        .category-btn {
-            width: 100%;
-        }
+    display: flex;
+    gap: 10px; /* Space between cards */
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align items to the left */
+    width: 50%; /* Limit container to half the screen width */
+    margin-left: 0; /* Align container to the left side */
+}
+
+.card {
+    flex-basis: calc(50% - 20px); /* Adjust for 5 items per row */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    display: flex; /* Use Flexbox for card layout */
+    flex-direction: column; /* Arrange content vertically */
+    justify-content: space-between; /* Push button to the bottom */
+    height: 300px; /* Ensure consistent height for all cards */
+}
+
+.card-body {
+    font-size: 14px; /* Compact text size */
+    flex-grow: 1; /* Allow card body to stretch */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center-align content vertically */
+    align-items: center; /* Center-align content horizontally */
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: -50px;
+}
+
+.card-text {
+    font-size: 12px;
+    color: #666;
+    
+}
+
+.category-btn {
+    position: absolute;
+    width: 100%;
+    margin-top: 110px; /* Push button to the bottom of the card */
+    margin-right: 90px; /* Add some margin on the right */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.category-btn:hover {
+    background-color: #0056b3;
+}
+
+.card-container.mb-3 {
+    margin-left: 0; /* Ensure no unintended extra margin on the left */
+}
+
         .brand-container {
             margin-top: 20px;
             display: none; /* Hidden by default */
@@ -44,68 +109,69 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h1>Product Recommendation System</h1>
+        <h1 style="text-align: center;">Product Recommendation System</h1>
 
         <!-- Categories Card Container -->
-        <div class="card-container mb-3" id="category-cards">
-            <?php
-            // Categories and their specific titles/descriptions
-            $categories = [
-                "CPU" => [
-                    "title" => "To Boost FPS",
-                    "description" => "Upgrade your CPU to boost FPS and gaming performance."
-                ],
-                "RAM" => [
-                    "title" => "For Better Multitasking",
-                    "description" => "Upgrade your RAM for smoother multitasking and faster performance."
-                ],
-                "Motherboard" => [
-                    "title" => "For Better Connectivity",
-                    "description" => "Upgrade your motherboard for better connectivity and system performance."
-                ],
-                "Video Card" => [
-                    "title" => "To Enhance Graphics",
-                    "description" => "Upgrade your Video Card for enhanced graphics performance and rendering."
-                ],
-                "Computer Case" => [
-                    "title" => "For Improved Cooling",
-                    "description" => "Upgrade your computer case for better airflow and cooling."
-                ],
-                "Solid State Drive" => [
-                    "title" => "For Faster Storage",
-                    "description" => "Upgrade your SSD for faster data transfer speeds and improved system performance."
-                ],
-                "Hard Disk Drive" => [
-                    "title" => "For More Storage",
-                    "description" => "Upgrade your HDD for additional storage capacity."
-                ],
-                "CPU Cooler" => [
-                    "title" => "For Better Cooling",
-                    "description" => "Upgrade your CPU cooler to ensure your CPU stays cool during intensive tasks."
-                ],
-                "Power Supply" => [
-                    "title" => "For Stable Power",
-                    "description" => "Upgrade your power supply for more stable and efficient power delivery."
-                ],
-                "Monitor" => [
-                    "title" => "For Better Display",
-                    "description" => "Upgrade your monitor for better resolution and a smoother viewing experience."
-                ]
-            ];
+<div class="card-container mb-3" id="category-cards">
+    <?php
+    // Categories and their specific titles/descriptions
+    $categories = [
+        "CPU" => [
+            "title" => "To Boost FPS",
+            "description" => "Upgrade your CPU to boost FPS and gaming performance."
+        ],
+        "RAM" => [
+            "title" => "For Better Multitasking",
+            "description" => "Upgrade your RAM for smoother multitasking and faster performance."
+        ],
+        "Motherboard" => [
+            "title" => "For Better Connectivity",
+            "description" => "Upgrade your motherboard for better connectivity and system performance."
+        ],
+        "Video Card" => [
+            "title" => "To Enhance Graphics",
+            "description" => "Upgrade your Video Card for enhanced graphics performance and rendering."
+        ],
+        "Computer Case" => [
+            "title" => "For Improved Cooling",
+            "description" => "Upgrade your computer case for better airflow and cooling."
+        ],
+        "Solid State Drive" => [
+            "title" => "For Faster Storage",
+            "description" => "Upgrade your SSD for faster data transfer speeds and improved system performance."
+        ],
+        "Hard Disk Drive" => [
+            "title" => "For More Storage",
+            "description" => "Upgrade your HDD for additional storage capacity."
+        ],
+        "CPU Cooler" => [
+            "title" => "For Better Cooling",
+            "description" => "Upgrade your CPU cooler to ensure your CPU stays cool during intensive tasks."
+        ],
+        "Power Supply" => [
+            "title" => "For Stable Power",
+            "description" => "Upgrade your power supply for more stable and efficient power delivery."
+        ],
+        "Monitor" => [
+            "title" => "For Better Display",
+            "description" => "Upgrade your monitor for better resolution and a smoother viewing experience."
+        ]
+    ];
 
-            // Loop through categories and create a card for each
-            foreach ($categories as $category => $details) {
-                echo "
-                <div class='card' id='card-$category'>
-                    <div class='card-body'>
-                        <h5 class='card-title'>{$details['title']}</h5>
-                        <p class='card-text'>{$details['description']}</p>
-                        <button class='btn btn-primary category-btn' onclick='fetchBrands(\"$category\")'>Select $category</button>
-                    </div>
-                </div>";
-            }
-            ?>
-        </div>
+    // Loop through categories and create a card for each
+    foreach ($categories as $category => $details) {
+        echo "
+        <div class='card' id='card-$category'>
+            <div class='card-body'>
+                <h5 class='card-title'>{$details['title']}</h5>
+                <p class='card-text'>{$details['description']}</p>
+                <button class='btn btn-primary category-btn' onclick='fetchBrands(\"$category\")'>$category</button>
+            </div>
+        </div>";
+    }
+    ?>
+</div>
+
 
         <!-- Brand Selection Container (Initially hidden) -->
         <div id="brand-selection" class="brand-container">
