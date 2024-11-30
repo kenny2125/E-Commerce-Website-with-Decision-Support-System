@@ -58,7 +58,8 @@ $result = $conn->query($sql);
                 <div class="col-12 d-flex align-items-center mb-3">
                     <h5 class="me-auto">Orders Management</h5>
                     <button class="btn btn-primary me-2">Refresh</button>
-                    <button class="btn btn-success me-2">Add Order</button>
+                    <!-- Button to trigger the modal -->
+                    <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
                     <input type="text" class="form-control" placeholder="Search...">
                 </div>
             </div>
@@ -97,6 +98,70 @@ $result = $conn->query($sql);
         </div>
     </div>
 </div>
+
+<!-- Modal for Adding Product -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="addProductModalLabel">Product Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <form action="insert_product.php" method="POST" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="row">
+            <!-- First Column: Image Section -->
+            <div class="col-md-4 d-flex justify-content-center align-items-center flex-column">
+              <img id="productImage" src="../../../assets/images/defaultproduct.png" class="img-fluid rounded" alt="Product Image">
+              <div class="mt-2 text-center">
+                  <button type="button" class="btn btn-primary btn-sm d-block w-100 mt-2" onclick="document.getElementById('imageInput').click();">Replace Image</button>
+                  <!-- Hidden File Input for Image Upload -->
+                  <input type="file" name="product_image" id="imageInput" class="d-none" accept="image/*" onchange="previewImage(event)">
+              </div>
+            </div>
+
+            <!-- Second Column: Product Details Section -->
+            <div class="col-md-8">
+              <div class="mb-3">
+                <label for="productName" class="form-label">Product Name</label>
+                <input type="text" name="product_name" class="form-control" id="productName">
+              </div>
+              <div class="mb-3">
+                <label for="productDescription" class="form-label">Product Description</label>
+                <textarea name="product_description" class="form-control" id="productDescription" rows="3"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="productPrice" class="form-label">Price</label>
+                <input type="number" name="product_price" class="form-control" id="productPrice">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function previewImage(event) {
+    const input = event.target;
+    const reader = new FileReader();
+    reader.onload = function () {
+        const productImage = document.getElementById('productImage');
+        productImage.src = reader.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+}
+</script>
 </body>
 </html>
 
