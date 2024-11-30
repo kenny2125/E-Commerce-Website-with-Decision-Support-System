@@ -13,8 +13,6 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 // }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,10 +59,6 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
     </div>
 </nav>
 
-
-
-
-
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-2" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -77,19 +71,19 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
             <div class="modal-body">
                 <div class="form-box">
                 <form action="pages\user\loginn.php" method="POST">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password"id="password" name="password" placeholder="••••••••" required class="input-field">
+                        <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
                     </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn login-btn">Login</button>
                     </div>
                 </form>
-
                     <p>Don't have an account? 
                             <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
                         </p>
@@ -293,8 +287,8 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <div style="font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word;">Don’t know what to buy?</div>
         <div style="font-size: 16px; font-family: Lato; font-weight: 400; word-wrap: break-word; margin-top: 10px;">Check our “Parts Recommendation System” helps you figure out your needs!</div>
         <div style="width: 162.35px; height: 59.87px; margin-top: 20px; position: relative;"></div>
-        <div style="width: 100%; height: 90%; background: #1A54C0; border-radius: 74px;"></div>
-        <div style="position: absolute; top: 25%; left: 0; width: 100%; height: 100%; text-align: center; color: white; font-size: 16px; font-family: Lato; font-weight: 700; word-wrap: break-word;">Get Started</div>
+        <div style="width: 7x%; height: 130%; background: #1A54C0; border-radius: 74px; margin-bottom: 101px"></div>
+        <div style="position: absolute; top: 55%; left: 0; width: 100%; height: 100%; text-align: center; color: white; font-size: 16px; font-family: Lato; font-weight: 700; word-wrap: break-word;">Get Started</div>
     </div>
 </div>
 <br><br><br><br><br><br>
@@ -341,7 +335,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         </div>
     </div>
 
-    <div class="footer-link-column" style="flex: none; margin: 0 13px;">
+    <div class="footer-link-column" style="flex: none; margin: 15px 13px;">
         <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Legal Terms</p>
         <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
           <p style="margin: 0; text-align: left;"><a href="pages/public/termconditions.php" style="text-decoration: none; color: #fff; font-size: 14px;">Terms & Conditions</a></p>
@@ -349,7 +343,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
       </div>
     </div>
 
-    <div class="footer-link-column" style="flex: none; margin: 0 13px;">
+    <div class="footer-link-column" style="flex: none; margin: 15px 13px;">
         <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Guides</p>
         <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
             <p style="margin: 0; text-align: left;"><a href="pages/public/purchase-guides.php" style="text-decoration: none; color: #fff; font-size: 14px;">Purchasing Guides</a></p>
@@ -367,6 +361,35 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 </body>
 </html>
 
+<script>
+    $(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        $.ajax({
+            url: 'path_to_user_login.php', // Adjust path as necessary
+            method: 'POST',
+            data: { username: username, password: password },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    // Update UI based on response
+                    $('#loginModal').modal('hide');
+                    location.reload(); // Reload to show updated user information
+                } else {
+                    // Show error message
+                    $('#loginError').text(response.message);
+                }
+            },
+            error: function() {
+                $('#loginError').text('An error occurred. Please try again.');
+            }
+        });
+    });
+});
 
 <script>
     $(document).ready(function() {
