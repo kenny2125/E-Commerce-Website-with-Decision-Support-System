@@ -99,16 +99,3 @@ body {
   height: 400px;
   width: 100%;
 }
-
-/* Responsive Layout */
-@media (max-width: 768px) {
-  .admin-sidebar {
-    display: none;
-  }
-  .admin-sidebar-right {
-    display: none;
-  }
-  .admin-dashboard-main {
-    width: 100%;
-  }
-}
