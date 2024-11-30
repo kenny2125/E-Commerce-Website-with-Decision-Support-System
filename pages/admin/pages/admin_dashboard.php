@@ -110,7 +110,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Top Product Categories</h5>
                                 <img src="/assets/images/GPU.png" alt="GPU" class="gpu" style="margin-top: 12px;">
-                                <p class="card-text" style="margin-top: 13px; margin-bottom: 0px;">Motherboard</p>
+                                <p class="card-text" style="margin-top: 3px; margin-bottom: 0px;">Motherboard</p>
                                 <p class="card-text">CPU</p>
                             </div>
                         </div>
