@@ -12,10 +12,10 @@ if (isset($_POST['signUp'])) {
     $address = $_POST['address'];
     $email = $_POST['email'];
     $contact_number = $_POST['contactNumber'];
-    $birth_date = $_POST['birth_date'];
+    $age = $_POST['age'];
     $role = "customer"; // Default role for a new user
     $username = $_POST['username'];
-    $password = $_POST['password'];
+    $password = $_POST['passwordReg'];
     $confirm_password = $_POST['confirmPassword'];
 
     // Check if passwords match
@@ -24,42 +24,42 @@ if (isset($_POST['signUp'])) {
         exit;
     }
 
-    try {
-        // Check if the email already exists
-        $checkEmail = $conn->prepare("SELECT * FROM tbl_user WHERE email = ?");
-        $checkEmail->execute([$email]);
+    // Check if the email already exists
+    $checkEmail = "SELECT * FROM tbl_user WHERE email = '$email'";
+    $resultEmail = $conn->query($checkEmail);
 
-        if ($checkEmail->rowCount() > 0) {
-            echo "Email already exists!";
+    if ($resultEmail->num_rows > 0) {
+        echo "Email already exists!";
+    } else {
+        // Check if the username already exists
+        $checkUsername = "SELECT * FROM tbl_user WHERE username = '$username'";
+        $resultUsername = $conn->query($checkUsername);
+
+        if ($resultUsername->num_rows > 0) {
+            echo "Username already exists!";
         } else {
-            // Check if the username already exists
-            $checkUsername = $conn->prepare("SELECT * FROM tbl_user WHERE username = ?");
-            $checkUsername->execute([$username]);
+            // Hash the password
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-            if ($checkUsername->rowCount() > 0) {
-                echo "Username already exists!";
+            // Insert the new user into tbl_user
+            $insertQuery = "
+                INSERT INTO tbl_user (
+                    first_name, middle_initial, last_name, gender, address, contact_number, email, age, role, username, password
+                ) VALUES (
+                    '$first_name', '$middle_init', '$last_name', '$gender', '$address', '$contact_number', '$email', '$age', '$role', '$username', '$hashedPassword'
+                )
+            ";
+
+            if ($conn->query($insertQuery) === TRUE) {
+                header('Location: login.php'); // Redirect to login page
+                exit;
             } else {
-                // Insert the new user into tbl_user
-                $stmt = $conn->prepare("
-                    INSERT INTO tbl_user (
-                        first_name, middle_initial, last_name, gender, address, contact_number, email, birth_date, role, username, password
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ");
-                $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // Hash the password
-                if ($stmt->execute([
-                    $first_name, $middle_init, $last_name, $gender, $address, $contact_number, $email, $birth_date, $role, $username, $hashedPassword
-                ])) {
-                    header('Location: login.php'); // Redirect to login page
-                    exit;
-                } else {
-                    echo "Error: Unable to create account.";
-                }
+                echo "Error: Unable to create account.";
             }
         }
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
     }
+
+    // Close the connection
+    $conn->close();
 }
-
-
 ?>
