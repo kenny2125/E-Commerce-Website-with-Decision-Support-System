@@ -179,7 +179,9 @@ hr {
 #quantity-count{
   width: 25px;
   height: 25px;
-  border: solid 2px;
+  position: relative;
+  left: 7px;
+  top: 4px;
 }
 .quantity {
   display: flex;
@@ -196,7 +198,7 @@ hr {
   color: white;
   border: none;
   padding: 5px 10px;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
 }
 

@@ -213,13 +213,17 @@ hr {
   padding: 10px;
 }
 
+#quantity{
+  border: none;
+
+}
 .quantity-controls button {
   width: 35px;
   height: 35px;
   background-color: #007BFF;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
 }
 
