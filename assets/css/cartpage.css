@@ -1,31 +1,34 @@
-#logo{
-  position: relative;
-  margin-left: 20px;
-  margin-top: 1px;
-}
-
-body {
+/* General Reset */
+body, html {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
+  height: 100%; /* Ensure body and html take full height */
+  background-color: #f2f2f2;
 }
 
-.header-container {
+#logo {
+  margin: 0px;
+  position: relative;
+  bottom: 10px;
+}
+
+/* Header */
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  width: 100%;
-  box-sizing: border-box;
+  background-color: #ffffff;
+  position: relative;
+  bottom: 30px;
 }
 
 .search-container {
-  position: relative;
-  bottom: 67px;
-  left: 20px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  flex-grow: 1;
+  margin-left: 20px;
 }
 
 .search-input {
@@ -51,11 +54,9 @@ body {
 }
 
 .icon-group {
-  position: relative;
-  left: 1200px;
-  bottom: 110px;
   display: flex;
   gap: 20px;
+  margin-right: 20px;
 }
 
 .icon-button {
@@ -76,90 +77,89 @@ body {
 }
 
 .icon-image {
-  width: 100%;
+  width: 20px;
   height: auto;
 }
 
 hr {
-  margin-top: -90px;
+  margin: 0;
   border: 1px solid #ccc;
-  width: 100%;
-  margin-bottom: 0;
-}
-
-.cart-wrapper {
-  width: 1270px;
-  height: 650px;
-  padding: 20px;
-  background-color: #f2f2f2;
-}
-
-.cart-heading {
-  font-weight: bold;
-  font-size: 2em;
-  font-family: 'Arial', sans-serif;
-  color: #000000;
-  margin-bottom: 10px;
   position: relative;
-  bottom: 25px;
+  bottom: 30px;
+}
+
+/* Cart */
+.cart-wrapper {
+  margin: 20px;
+  position: relative;
+  top: -30px;
+  right: -19px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  height: 530px;
+  width: 1250px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 20px;
+}
+.cart-heading {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  position: relative;
+  top: -25px;
+  right: 530px;
 }
 
 .cart-header {
   display: flex;
   justify-content: space-between;
+  width: 103.5%;
   font-weight: bold;
-  margin-bottom: 10px;
+  border-bottom: 2px solid #ddd;
+  padding: 10px 0;
+  position: relative;
+  bottom: 30px;
+}
+#product-name-header{
+  position: relative;
+  left: 40px
+}
+#quantity-header{
+  position: relative;
+  left: 100px;
 }
 
 .cart-header-item {
-  width: 44%;
+  flex: 1;
   text-align: center;
-  font-size: 1.2em;
-}
-.cart-header {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  margin-bottom: 10px;
 }
 
-.cart-header-item {
-  text-align: center;
-  font-size: 1.2em;
+#price-header{
+  position: relative;
+  left: 80px;
 }
 
-#product-name-header {
-  width: 45%; /* Adjust width as needed */
-}
-
-#quantity-header{ 
-width: 20%; /* Set a valid width */
-margin-left: -90px;
- } /* Adjust this value to move it to the left */
-
-#price-header {
-  width: 13%; /* Adjust width as needed */
-}
 .cart-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 97%;
   background-color: white;
   padding: 15px;
-  margin-bottom: 10px;
+  margin: 10px 0;
   border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  bottom: 20px;
 }
 
 .product-info {
   display: flex;
   align-items: center;
-}
-
-.product-square {
-  width: 50px;
-  height: 50px;
-  background-color: #007BFF;
-  margin-right: 15px;
+  flex: 1;
 }
 
 .product-image {
@@ -168,31 +168,35 @@ margin-left: -90px;
   margin-right: 15px;
 }
 
-.product-checkbox {
-  margin-right: 10px;
-}
-
 .product-name {
-  font-size: 1.2em;
-  color: #333;
-  max-width: 300px;
+  font-size: 1em;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  max-width: 200px;
 }
 
+#quantity-count{
+  width: 25px;
+  height: 25px;
+  border: solid 2px;
+}
 .quantity {
   display: flex;
   gap: 10px;
   align-items: center;
+  position: relative;
+  right: 310px;
 }
 
 .quantity-btn {
+  height: 40px;
+  width: 40px;
   background-color: #007BFF;
   color: white;
   border: none;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -203,63 +207,75 @@ margin-left: -90px;
 .price {
   font-size: 1.2em;
   font-weight: bold;
-  color: #333;
+  position: relative;
+  left: -30px;
 }
 
-/* Section Box for Cart Summary */
 .cart-summary-box {
-  position: fixed; /* Makes it fixed at the bottom-right corner */
-  bottom: 20px; /* Distance from the bottom of the screen */
-  right: 20px; /* Distance from the right of the screen */
+  position: fixed; /* Fixes the box position to the screen */
+  bottom: 20px; /* 20px from the bottom of the screen */
+  right: 20px; /* 20px from the right side of the screen */
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
   margin-top: 20px;
+  z-index: 1000; /* Ensures it stays on top of other content */
 }
 
 .cart-summary {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   background-color: white;
-  border-radius: 20px; /* Rounded corners for the section box */
+  border-radius: 20px; /* Rounded corners */
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 350px; /* Adjust width as needed */
+  width: 280px; /* Set the width of the box */
+  justify-content: space-between; /* Space out the total label and price */
 }
 
-/* Styling Total and Buttons */
 .total {
   display: flex;
-  justify-content: space-between;
-  width: 100%; /* Adjust width to fit the section */
+  justify-content: space-between; /* This will push the total label to the left and the price to the right */
+  width: 100%; /* Take up full width of the box */
   font-size: 1.2em;
   font-weight: bold;
 }
 
 .total-label {
   font-weight: normal;
+  flex: 1; /* Ensures label takes up available space on the left */
 }
 
 .total-price {
   font-weight: bold;
   color: #007BFF;
+  text-align: right; /* Align the price to the right */
 }
+
 
 .cart-actions {
   display: flex;
-  gap: 20px;
-  margin-top: 10px;
+  gap: 15px; /* Space between buttons */
+  justify-content: flex-end; /* Align buttons to the right */
+  margin-top: 20px; /* Add spacing above the actions */
 }
 
-.go-back-btn, .checkout-btn {
-  background-color: #007BFF;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.go-back-btn, 
+.checkout-btn {
+  position: relative;
+  left: 32px;
+  background-color: #007BFF; /* Primary button color */
+  color: white; /* Button text color */
+  padding: 10px 20px; /* Button padding */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 1em; /* Adjust font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth hover transition */
 }
 
-.go-back-btn:hover, .checkout-btn:hover {
-  background-color: #0056b3;
+.go-back-btn:hover, 
+.checkout-btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }

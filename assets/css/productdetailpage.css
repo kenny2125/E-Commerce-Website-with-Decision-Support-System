@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  width:99.85vw;
+  width:100vw;
   height: 105vh;
   display: flex;
   flex-direction: column;
@@ -31,13 +31,14 @@ header {
 .search-container {
   display: flex;
   align-items: center;
-  gap: 10px;
-    position: relative;
-  bottom: 10px;
+  gap: 0px;
+  position: relative;
+  bottom: 15px;
+  left: 25px;
 }
 
 .search-input {
-  width: 300px;
+  width: 350px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 20px 0 0 20px;
@@ -45,6 +46,8 @@ header {
 }
 
 .search-button {
+  height: 37px;
+  width: 100px;
   padding: 10px 20px;
   background-color: #007BFF;
   color: white;
@@ -105,7 +108,7 @@ hr {
 }
 
 .product-container {
-  height: 530px;
+  height: 485px;
   display: flex;
   gap: 20px;
   padding: 20px;
@@ -131,6 +134,8 @@ hr {
   font-size: 20px;
   font-weight: bold;
   color: #0a0042;
+  position: relative;
+  top: -55px;
 }
 
 .stock {
@@ -143,24 +148,40 @@ hr {
 .description {
   font-size: 16px;
   color: #555;
+  position: relative;
+  top: -95px;
 }
 
-/* Selection Dropdown */
+.selection-group{
+  position: relative;
+  top: -85px;
+}
 .selection-group select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 200px;
 }
+#pickup-method{
+  position: relative;
+  right: -13px;
+}
+.action-card{
+  position: relative;
+  top: -100px;
+}
 
 /* Action Buttons */
 .add-to-cart, .checkout {
+  width: 130px;
   padding: 10px 20px;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 10px;
+  position: relative;
+  top: 40px;
 }
 
 .add-to-cart {
@@ -179,20 +200,26 @@ hr {
   background-color: #00032c;
 }
 
+.quantity-group{
+  position: relative;
+  top:35px;
+  left: 60px;
+}
 /* Quantity Controls */
 .quantity-controls {
   display: flex;
   align-items: center;
   gap: 5px;
+  padding: 10px;
 }
 
 .quantity-controls button {
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   background-color: #007BFF;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -201,7 +228,8 @@ hr {
 }
 
 .quantity-controls input {
-  width: 40px;
+  width: 35px;
+  height: 23px;
   text-align: center;
   border: 1px solid #ccc;
 }
