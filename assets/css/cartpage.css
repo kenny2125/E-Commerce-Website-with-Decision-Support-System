@@ -261,6 +261,8 @@ hr {
   gap: 15px; /* Space between buttons */
   justify-content: flex-end; /* Align buttons to the right */
   margin-top: 20px; /* Add spacing above the actions */
+  position: relative;
+  right: 20px;
 }
 
 .go-back-btn {

@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RPC Computer Store</title>
-    <link rel="stylesheet" a href="/assets/css/adminprofile.css">
+    <link rel="stylesheet" href="/assets/css/adminprofile.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
 <body>
     <header class="header">
-        <h1>o
+        <h1>
             <img alt src="/assets/images/rpc-logo-black.png" width="120" height="40" id="logo" title="home">
         </h1>
         <div class="search-container">
@@ -25,9 +25,70 @@
                 <img src="/assets/images/userlogo.png" alt="User Icon" class="icon-image">
             </button>
         </div>
+
     </header>
 
     <hr>
-    <main class="user-profile-wrapper"></main>
+    
+    <main class="user-profile-wrapper">
+        <div class="admin-profile-container">
+            <div class="sidebar">
+                <ul>
+                    <li class="active"><a href="#">Admin Profile</a></li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Inventory Management</a></li>
+                    <li><a href="#">Orders Management</a></li>
+                    <li><a href="#">Payments Unit</a></li>
+                    <li><a href="#">Roles Management</a></li>
+                </ul>  
+            <div class="logout-section-navbar">
+            <div class="logout-header">
+                <div class="user-icon">
+                    <img src="/assets/images/userlogo.png" alt="User Icon" class="icon-image">
+                </div>
+                <div class="logout-info">
+                    <div class="role">Admin</div> <!-- Smaller font for the role -->
+                    <div class="admin-name">John Kenny Reyes</div> <!-- Admin name -->
+                    <button class="logout-button">Log out</button>
+                </div>
+            </div>
+        </div>
+            </div>
+
+            <!-- Profile Details Section -->
+            <div class="profile-details">
+                <h2>Admin Profile</h2>
+
+                <div class="profile-section">
+                    <div class="basic-info">
+                        <h3>Basic Information</h3>
+                        <label>First Name:</label>
+                        <input type="text" placeholder="John Kenny">
+                        <label>Middle Initial:</label>
+                        <input type="text" placeholder="">
+                        <label>Last Name:</label>
+                        <input type="text" placeholder="Reyes">
+                        <label>Username:</label>
+                        <input type="text" placeholder="badminxyz">
+                        <label>Password:</label>
+                        <input type="password" placeholder="********">
+                    </div>
+                    <div class="additional-info">
+                        <label>Birthdate:</label>
+                        <input type="date">
+                        <label>Gender:</label>
+                        <select>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Others</option>
+                        </select>
+                        <label>Role:</label>
+                        <input type="text" placeholder="Project Manager">
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+    </main>
 </body>
 </html>

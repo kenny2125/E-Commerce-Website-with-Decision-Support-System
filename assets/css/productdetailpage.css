@@ -19,6 +19,8 @@ header {
   background-color: #ffffff;
   color: white;
   box-sizing: border-box;
+  position: relative;
+  bottom: 10px;
 }
 
 #logo {
@@ -95,6 +97,8 @@ hr {
   border: 1px solid #ccc;
   width: 100%;
   margin-bottom: 0;
+  position: relative;
+  bottom: -20px;
 }
 
 /* Main Content */
@@ -108,7 +112,7 @@ hr {
 }
 
 .product-container {
-  height: 485px;
+  height: 600px;
   display: flex;
   gap: 20px;
   padding: 20px;
@@ -116,6 +120,8 @@ hr {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  top: 30px;
 }
 
 .product-image img {
@@ -135,7 +141,7 @@ hr {
   font-weight: bold;
   color: #0a0042;
   position: relative;
-  top: -55px;
+  top: -35px;
 }
 
 .stock {
@@ -143,18 +149,18 @@ hr {
   color: #555; /* Subtle gray color */
   margin: 0 0 5px; /* Reduced spacing below */
   position: relative;
-  top: -25px;
+  top: -15px;
 }
 .description {
   font-size: 16px;
   color: #555;
   position: relative;
-  top: -95px;
+  top: -55px;
 }
 
 .selection-group{
   position: relative;
-  top: -85px;
+  top: -55px;
 }
 .selection-group select {
   padding: 10px;
@@ -181,7 +187,7 @@ hr {
   cursor: pointer;
   margin-top: 10px;
   position: relative;
-  top: 40px;
+  top: 70px;
 }
 
 .add-to-cart {
@@ -202,7 +208,7 @@ hr {
 
 .quantity-group{
   position: relative;
-  top:35px;
+  top:60px;
   left: 60px;
 }
 /* Quantity Controls */
