@@ -246,7 +246,7 @@ body {
   font-size: 14px;
   padding: 8px 12px; /* Button padding */
   border-radius: 20px;
-  margin-left: 95px;
+  margin-left: 105px;
   width: 100%; /* Full width for responsiveness */
   max-width: 180px; /* Slightly narrower width for centering */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
