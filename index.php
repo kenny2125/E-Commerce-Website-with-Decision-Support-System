@@ -287,7 +287,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <div style="font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word;">Don’t know what to buy?</div>
         <div style="font-size: 16px; font-family: Lato; font-weight: 400; word-wrap: break-word; margin-top: 10px;">Check our “Parts Recommendation System” helps you figure out your needs!</div>
         <div style="width: 162.35px; height: 59.87px; margin-top: 20px; position: relative;"></div>
-        <div style="width: 7x%; height: 130%; background: #1A54C0; border-radius: 74px; margin-bottom: 101px"></div>
+        <div style="width: 7%; height: 130%; background: #1A54C0; border-radius: 74px; margin-bottom: 101px"></div>
         <div style="position: absolute; top: 55%; left: 0; width: 100%; height: 100%; text-align: center; color: white; font-size: 16px; font-family: Lato; font-weight: 700; word-wrap: break-word;">Get Started</div>
     </div>
 </div>
