@@ -176,7 +176,7 @@
                                 <div id="passwordFeedback" class="feedback"></div>
                                 <div class="input-group">
                                     <label for="confirmPassword">Confirm Password</label>
-                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" required>
+                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
                                     <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
                                 </div>
                                 <div id="confirmPasswordFeedback" class="feedback"></div>
