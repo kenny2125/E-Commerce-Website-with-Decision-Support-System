@@ -6,9 +6,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <title>Products List</title>
     <link rel="stylesheet" href="/assets/css/products_List.css">
+    <script>
+        // Function to redirect to product detail page when button is clicked
+        function viewDetails(productId) {
+            // Redirect to product_detail.php with the product ID
+            window.location.href = "product_detail.php?id=" + productId;
+        }
+    </script>
 </head>
-<body>
-
+<body style="background-color: #EBEBEB;">
+<!-- Navbar -->
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
@@ -22,107 +29,142 @@
     </div>
 </nav>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar: Filters -->
-            <div class="col-3">
-    <div class="bg-light p-3">
-        <h4 class="mb-4">Filters</h4>
+<div class="container-fluid" style="padding: 50px">
+    <div class="row">
+        <!-- Sidebar: Filters -->
         <div class="col-3">
-    <div class="bg-light p-3">
-        <h4 class="mb-4">Filters</h4>
-        <form method="GET" action="">
-            <!-- Category Filter -->
-            <div class="mb-4">
-                <h6 class="mb-2">Category</h6>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="category-graphics-card" name="category[]" value="graphics-card">
-                    <label class="form-check-label" for="category-graphics-card">Graphics Card</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="category-laptop" name="category[]" value="laptop">
-                    <label class="form-check-label" for="category-laptop">Laptop</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="category-gaming-laptop" name="category[]" value="gaming-laptop">
-                    <label class="form-check-label" for="category-gaming-laptop">Gaming Laptop</label>
-                </div>
+        <div class="bg-light p-3">
+            <h4 class="mb-4">Category</h4>
+            <div class="col-3">
+        <div class="bg-light p-3">
+    <h4 class="mb-4">Filters</h4>
+    <form method="GET" action="">
+        <!-- Category Filter -->
+        <div class="mb-4">
+            <h6 class="mb-2">Computer Parts</h6>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="category-graphics-card" name="category[]" value="graphics-card">
+                <label class="form-check-label" for="category-graphics-card">Graphics Card</label>
             </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="category-laptop" name="category[]" value="laptop">
+                <label class="form-check-label" for="category-laptop">Laptop</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="category-gaming-laptop" name="category[]" value="gaming-laptop">
+                <label class="form-check-label" for="category-gaming-laptop">Gaming Laptop</label>
+            </div>
+        </div>
 
-            <!-- Brand Filter -->
-            <div class="mb-4">
-                <h6 class="mb-2">Brand</h6>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="brand-msi" name="brand[]" value="msi">
-                    <label class="form-check-label" for="brand-msi">MSI</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="brand-dell" name="brand[]" value="dell">
-                    <label class="form-check-label" for="brand-dell">Dell</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="brand-apple" name="brand[]" value="apple">
-                    <label class="form-check-label" for="brand-apple">Apple</label>
-                </div>
+        <!-- Brand Filter -->
+        <div class="mb-4">
+            <h6 class="mb-2">Brand</h6>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="brand-msi" name="brand[]" value="msi">
+                <label class="form-check-label" for="brand-msi">MSI</label>
             </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="brand-dell" name="brand[]" value="dell">
+                <label class="form-check-label" for="brand-dell">Dell</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="brand-apple" name="brand[]" value="apple">
+                <label class="form-check-label" for="brand-apple">Apple</label>
+            </div>
+        </div>
 
-       
-            <!-- Clear Button -->
-            <div class="mb-4">
-                <button type="button" class="btn btn-secondary">Clear</button>
-            </div>
-   
-        </form>
-    </div>
+        <!-- Clear Button -->
+        <div class="mb-4">
+            <button type="button" class="btn btn-secondary">Clear</button>
+        </div>
+
+    </form>
+</div>
 </div>
 
     </div>
 </div>
 
+<?php
+// Include the database connection
+include '../../config/db_config.php'; // Adjust the path as needed
 
-            <!-- Main Content -->
-            <div class="col-9">
-                <!-- Search Result Info Row -->
-                <div class="d-flex justify-content-between align-items-center bg-light p-3 mb-3">
-                    <div>
-                        <span class="fw-bold">Search Result for:</span> "searched product", 
-                        <span class="fw-bold">30 results</span> found in <span class="fw-bold">0.02 seconds</span>
-                    </div>
-                    <div class="d-flex gap-3">
-                        <div>
-                            <label for="sort-by" class="form-label me-2">Sort by:</label>
-                            <select id="sort-by" name="sort-by" class="form-select">
-                                <option value="best-seller">Best Seller</option>
-                                <option value="price-asc">Price: Low to High</option>
-                                <option value="price-desc">Price: High to Low</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+// Fetch products from the database
+$query = "SELECT * FROM tbl_products"; // Modify to match your table structure
+$result = $conn->query($query);
 
-                <!-- Dynamic Product Cards -->
-                <div class="row">
-                    <!-- Example Card -->
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="path-to-image.jpg" class="card-img-top" alt="Product Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">
-                                    <strong>Brand:</strong> Brand Name<br>
-                                    <strong>Price:</strong> ₱Price<br>
-                                    <strong>Stock:</strong> Quantity Available
-                                </p>
-                                <a href="#" class="btn btn-primary">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- More cards to be dynamically added here -->
-                </div>
+if ($result && $result->num_rows > 0) {
+    // Fetch the products
+    $products = [];
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+} else {
+    $products = []; // No products found
+}
+
+// Close the database connection (optional, as PHP will close it automatically at the end of script execution)
+$conn->close();
+?>
+
+
+
+<!-- Main Content -->
+<div class="col-9">
+    <!-- Search Result Info Row -->
+    <div class="d-flex justify-content-between align-items-center bg-light p-3 mb-3">
+        <div>
+            <span class="fw-bold">Search Result for:</span> "searched product", 
+            <span class="fw-bold">30 results</span> found in <span class="fw-bold">0.02 seconds</span>
+        </div>
+        <div class="d-flex gap-3">
+            <div>
+                <label for="sort-by" class="form-label me-2">Sort by:</label>
+                <select id="sort-by" name="sort-by" class="form-select">
+                    <option value="best-seller">Best Seller</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                </select>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Dynamic Product Cards -->
+    <div class="row">
+    <?php foreach ($products as $product): ?>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <?php
+            // Check if there is image data
+            if ($product['img_data']) {
+                // Encode the image data in base64
+                $imgData = base64_encode($product['img_data']);
+                $imgSrc = 'data:image/jpeg;base64,' . $imgData; // Assuming JPEG image format, adjust if needed
+            } else {
+                $imgSrc = 'path/to/default-image.jpg'; // Default image if no img_data is present
+            }
+            ?>
+            <!-- Display the product image -->
+            <img src="<?php echo $imgSrc; ?>" class="card-img-top" alt="Product Image">
+            
+            <div class="card-body">
+                <!-- Display product name and SRP -->
+                <h5 class="card-title"><?php echo htmlspecialchars($product['product_name']); ?></h5>
+                <p class="card-text">
+                    <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
+                </p>
+
+                <!-- View Details Button with dynamic product ID -->
+                <button id="view-details-<?php echo $product['product_ID']; ?>" class="btn btn-primary" onclick="viewDetails(<?php echo $product['product_ID']; ?>)">View Details</button>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+    </div>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

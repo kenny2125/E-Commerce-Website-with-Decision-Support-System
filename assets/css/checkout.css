@@ -1,0 +1,82 @@
+body {
+    background-color: #f5f5f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Header Styles */
+.back-link {
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #0056b3;
+}
+
+.title-header {
+    font-size: 1.8rem;
+    color: #333;
+    transition: text-shadow 0.3s ease;
+}
+
+.title-header:hover {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Styling */
+.card {
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-title {
+    font-size: 1.3rem;
+    color: #333;
+}
+
+.product-price {
+    font-size: 1.2rem;
+}
+
+/* Section Title Styling */
+.section-title {
+    font-size: 1.1rem;
+    color: #0056b3;
+    transition: text-shadow 0.3s ease;
+}
+
+.section-title:hover {
+    text-shadow: 1px 1px 5px rgba(0, 85, 179, 0.3);
+}
+
+/* Button Hover Effect */
+.btn-primary {
+    font-size: 1rem;
+    background-color: #0056b3;
+    border: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #003f8a;
+    transform: scale(1.05);
+}
+
+/* Form Elements */
+.form-select {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.form-select:focus {
+    border-color: #0056b3;
+    outline: none;
+}

@@ -16,7 +16,7 @@ body, html {
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background-color: #ffffff; /* White Background */
+    background-color: #ffffff;
     color: #333;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -26,11 +26,10 @@ body, html {
 }
 
 .search-bar {
-    flex: 1; /* Allow the search bar to grow */
+    flex: 1;
     display: flex;
-    justify-content: center; /* Center the search bar */
+    justify-content: center;
     align-items: center;
-    position: relative;
 }
 
 .search-bar input {
@@ -39,8 +38,6 @@ body, html {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px 0 0 5px;
-    font-size: 14px;
-    outline: none;
 }
 
 .search-bar .search-button {
@@ -48,38 +45,31 @@ body, html {
     color: white;
     border: none;
     padding: 10px 15px;
-    cursor: pointer;
     border-radius: 0 5px 5px 0;
-    font-size: 14px;
-}
-
-.search-bar .search-button:hover {
-    background-color: #004494;
 }
 
 /* Sidebar Styling */
 .sidebar {
-    width: 250px;
     background-color: #f0f0f0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     padding: 20px;
+    height: 100vh;
+    position: fixed;
+    width: 240px;
+    top: 0;
+    left: 0;
+    border-right: 1px solid #ddd;
 }
 
 .sidebar-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    width: 100%;
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #333;
+    padding: 15px;
     cursor: pointer;
-    border-radius: 5px;
+    font-weight: 500;
+    margin-bottom: 10px;
 }
 
-.sidebar-item:hover, .sidebar-item.active {
+.sidebar-item.active, .sidebar-item:hover {
     background-color: #dcdcdc;
     font-weight: bold;
 }
@@ -88,7 +78,7 @@ body, html {
     margin-top: auto;
     width: 100%;
     padding: 10px 20px;
-    background-color: #0056b3;
+    background-color: #dc3545; /* Red background */
     color: white;
     border: none;
     border-radius: 5px;
@@ -96,27 +86,22 @@ body, html {
 }
 
 .logout-button:hover {
-    background-color: #003672;
+    background-color: #c82333; /* Darker red on hover */
 }
-
-/* Profile Content Styling */
-.container {
-    display: flex;
-    height: calc(100vh - 60px); /* Adjust for header */
-}
-
-.profile-content {
-    flex: 1;
+/* Main Content Styling */
+.main-content {
+    margin-left: 240px;
     padding: 30px;
-    margin: 20px;
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Profile and Order History Styling */
 h2 {
     font-size: 24px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .section-header {
@@ -124,70 +109,64 @@ h2 {
     font-weight: bold;
     margin-bottom: 20px;
     border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
 }
 
-.info-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.info-item {
-    flex: 1 1 45%; /* Adjust column size */
-}
-
-label {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 5px;
-    display: block;
-}
-
-input[type="text"], input[type="password"], .birthdate-display, .gender-display, .address-display, .contact-display, .email-display {
+/* Input Fields Styling */
+.form-control {
     padding: 10px;
-    border: 1px solid #ccc;
+    font-size: 16px;
     border-radius: 5px;
-    background-color: #f9f9f9;
-    width: 100%;
-    font-size: 14px;
-}
-
-/* Buttons */
-.action-button {
-    padding: 10px 20px;
-    font-size: 14px;
-    background-color: #0056b3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-}
-
-.action-button:hover {
-    background-color: #004494;
+    border: 1px solid #ddd;
 }
 
 .button-container {
-    display: flex;
-    gap: 15px;
     margin-top: 20px;
+    display: flex;
+    gap: 10px;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
+.action-button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    .sidebar {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-    }
+/* Order History Table Styling */
+.panel {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
 
-    .profile-content {
-        margin: 0;
-        border-radius: 0;
-    }
+.table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+}
+
+.bg-success {
+    background-color: #28a745;
+}
+
+.bg-primary {
+    background-color: #007bff;
 }
