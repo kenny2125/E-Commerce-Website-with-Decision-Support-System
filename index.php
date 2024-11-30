@@ -390,6 +390,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         });
     });
 });
+</script>
 
 <script>
     $(document).ready(function() {
