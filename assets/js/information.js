@@ -16,11 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
             sidebarItems.forEach(sideItem => {
                 sideItem.classList.remove('active');
             });
-            
             item.classList.add('active');
         });
     });
-
-    // Default active section
-    document.getElementById('myProfile').click();
+    
+    // Initially show My Profile by default
+    profileContent.style.display = 'block';
+    orderHistoryContent.style.display = 'none';
 });
