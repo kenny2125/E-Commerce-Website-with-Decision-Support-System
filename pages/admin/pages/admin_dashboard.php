@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/assets/css/admin_dashboard.css">
+    <!-- <link rel="stylesheet" href="/assets/css/admin_dashboard.css"> -->
     <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
 
@@ -26,10 +26,10 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding: 50px;">
         <div class="row">
             <!-- Sidebar Section -->
-            <div class="col-md-3 admin-sidebar">
+            <div class="col-md-3 admin-sidebar" style="  background-color: #1A54C0; border-radius: 20px;">
                 <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%;">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
