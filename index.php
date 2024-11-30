@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Fetch products from the database
-    $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products";
+    $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products LIMIT 6";
     $result = $conn->query($sql);
 
     $products = [];
@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <p class="card-text">
                                     <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
                                 </p>
-                                <a href="product.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary w-100" style="margin-top: auto;">View Details</a>
+                                <a href="product.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary w-100" style="margin-top: auto; margin-right: 25px">View Details</a>
                             </div>
                         </div>
                     </div>
