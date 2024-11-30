@@ -82,13 +82,6 @@ body {
   margin-left: 150px;
 }
 
-/* Error Message */
-.error-message {
-  color: red;
-  display: none;
-  text-align: center;
-}
-
 /* Registration Modal Styling */
 #registrationModal .modal-content {
   border-radius: 20px;
@@ -101,6 +94,7 @@ body {
   width: 300px;
   height: 100px;
   margin-right: 65px;
+  margin-bottom: -20px;
 }
 
 #registrationModal .input-field {
@@ -114,34 +108,40 @@ body {
 #registrationModal .input-group {
   position: relative;
   display: flex;
+  align-items: center; /* Vertically aligns input and icon */
 }
 
 #registrationModal .input-group .toggle-password {
-  position: absolute; /* Position inside the container */
-  right: 30px; /* Distance from the right edge */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Adjust for perfect vertical centering */
+  position: absolute; /* Anchored to the input group */
+  right: 35px; /* Adjust distance from the right edge */
+  top: 70%; /* Center vertically */
+  transform: translateY(-50%); /* Ensure perfect centering */
   width: 20px; /* Icon size */
   height: 20px;
   cursor: pointer;
   opacity: 0.7; /* Slight transparency */
-  transition: opacity 0.2s ease;
-  margin-top: 13px;
+  transition: opacity 0.2s ease, transform 0.2s ease; /* Smooth transition */
+  z-index: 10; /* Ensure it stays above input field */
 }
 
-#registrationModal .input-group label {
+#registrationModal .input-group input {
+  background-color: #D9D9D9;
+  border-radius: 18px;
+  padding-left: 20px;
+  width: 100%;
   font-size: 0.9rem;
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-  text-transform: uppercase;
-  color: #333;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transitions */
 }
 
 #registrationModal .input-group input:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+#registrationModal .input-group:focus-within .toggle-password {
+  opacity: 1; /* Full visibility on focus */
 }
 
 /* Terms and Conditions */
@@ -191,6 +191,13 @@ body {
   font-size: 0.9rem;
   color: #333;
   text-align: center;
+  margin-top: -8px;
+  margin-bottom: 25px;
+}
+
+.feedback {
+  font-size: 0.9rem;
+  margin-top: -15px;
 }
 
 /* Featured Products Wrapper */
@@ -218,8 +225,8 @@ body {
 }
 
 .card:hover {
-  transform: scale(1.1); /* Zoom out slightly */
-  box-shadow: 0 8px 16px #154a9e; /* Add a slightly stronger shadow */
+  transform: scale(1.0); /* Zoom out slightly */
+  box-shadow: 0 10px 18px #154a9e; /* Add a slightly stronger shadow */
 }
 
 .card-img-top {
@@ -230,23 +237,19 @@ body {
 
 /* Updated Card Body Styling */
 .card-body {
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Horizontally align items */
-  text-align: center; /* Center-align text */
-  padding: 30px;
+  display: flex; /* Enables flexbox layout */
+  flex-direction: column; /* Stacks items vertically */
+  align-items: center; /* Centers items horizontally */
 }
 
 .card-body .btn {
   font-size: 14px;
   padding: 8px 12px; /* Button padding */
   border-radius: 20px;
+  margin-left: 105px;
   width: 100%; /* Full width for responsiveness */
   max-width: 180px; /* Slightly narrower width for centering */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin-left: 25%; /* Align to the center */
-  margin-right: auto; /* Align to the center */
-  display: block; /* Block-level alignment */
 }
 
 .card-title {
