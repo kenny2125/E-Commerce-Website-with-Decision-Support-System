@@ -1,28 +1,17 @@
 <?php
-    session_start(); // Start the session
+session_start(); // Start the session
 
-    // Initially set isLoggedIn to false
-    $isLoggedIn = false; 
-
-    // Check if the user is logged in
-    if (isset($_SESSION['user_id'])) {
-        $isLoggedIn = true; // If the user is logged in, set to true
-        $firstName = isset($_SESSION['first_name']) ? $_SESSION['first_name'] : ''; // Get first name if logged in
-        $role = isset($_SESSION['role']) ? $_SESSION['role'] : ''; // Get user role if logged in
-    } else {
-        $firstName = ''; // If not logged in, set first name to empty
-        $role = ''; // If not logged in, set role to empty
-    }
-
-    if (isset($_SESSION['registration_success']) && $_SESSION['registration_success'] === true) {
-        // Clear the session flag after using it
-        unset($_SESSION['registration_success']);
-        echo '<script type="text/javascript">',
-            '$(document).ready(function() { $("#loginModal").modal("show"); });', // Trigger the modal to show
-            '</script>';
-    }
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
+// Debugging (optional, can be removed in production)
+// echo "<h2>Session Data (Debugging)</h2>";
+// if (!empty($_SESSION)) {
+//     echo "<pre>";
+//     print_r($_SESSION);
+//     echo "</pre>";
+// } else {
+//     echo "<p>No session data available.</p>";
+// }
 ?>
-
 
 
 
@@ -59,20 +48,25 @@
         </form>
         
         <!-- User-specific Content -->
-        <?php if ($isLoggedIn === false): ?>
+        <?php if ($isLoggedIn === true): ?>
+            <!-- If logged in, display welcome message and role -->
+            <div class="navbar-text d-flex align-items-center">
+                
+                <a href="pages/user/logout.php" class="btn btn-danger ml-2">Log Out</a>
+            </div>
+        <?php else: ?>
             <!-- If not logged in, show login button -->
             <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
-        <?php else: ?>
-            <!-- If logged in, display welcome message and role -->
-            <span class="navbar-text">Welcome, <?= htmlspecialchars($firstName); ?>!</span>
-            
         <?php endif; ?>
     </div>
 </nav>
 
 
+
+
+
 <!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-2" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="border-radius: 20px;">
             <div class="modal-header">
@@ -82,21 +76,20 @@
             </div>
             <div class="modal-body">
                 <div class="form-box">
-                    <form id="loginForm" method="post" action="pages/user/user_login.php">
-                        <div class="input-group">
-                            <label for="username">USERNAME</label>
-                            <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
-                        </div>
-                        <div class="input-group">
-                            <label for="password">PASSWORD</label>
-                            <div class="input-group">
-                                <input type="password" id="password" name="password" placeholder="••••••••" required class="input-field">
-                                <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
-                            </div>
-                        </div>
+                <form action="pages\user\loginn.php" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
 
-                        <button type="submit" class="button login-btn" name="logIn">LOG IN</button>
-                    </form>
                     <p>Don't have an account? 
                             <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
                         </p>
@@ -195,7 +188,6 @@
 
 
 
-<!-- Include Bootstrap JS and dependencies -->
 
 
 
