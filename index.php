@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const passwordReg = document.getElementById('passwordReg');
     const confirmPassword = document.getElementById('confirmPassword');
     const togglePasswordIcon1 = document.getElementById('togglePasswordIcon1');
@@ -404,7 +404,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordFeedback = document.getElementById('passwordFeedback');
     const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
 
-    togglePasswordIcon1.addEventListener('click', function() {
+    // Toggle password visibility
+    togglePasswordIcon1.addEventListener('click', function () {
         if (passwordReg.type === 'password') {
             passwordReg.type = 'text';
             togglePasswordIcon1.src = '/assets/images/view.png';
@@ -414,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    togglePasswordIcon2.addEventListener('click', function() {
+    togglePasswordIcon2.addEventListener('click', function () {
         if (confirmPassword.type === 'password') {
             confirmPassword.type = 'text';
             togglePasswordIcon2.src = '/assets/images/view.png';
@@ -424,34 +425,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Password validation: Requires uppercase, lowercase, numbers, and special characters
+    // Password validation function
     function validatePassword() {
         const passwordValue = passwordReg.value;
         const confirmPasswordValue = confirmPassword.value;
 
-        // Regex for password validation (uppercase, lowercase, number, special character)
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-        if (!passwordRegex.test(passwordValue)) {
-            passwordFeedback.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
-            passwordReg.setCustomValidity("Weak password");
-        } else {
-            passwordFeedback.textContent = "";
+        // Validation for password length (8 to 12 characters)
+        if (passwordValue.length >= 8 && passwordValue.length <= 12) {
+            passwordFeedback.textContent = "Password met all requirements";
+            passwordFeedback.style.color = "green";
+            passwordReg.style.borderColor = "green";
             passwordReg.setCustomValidity("");
+        } else {
+            passwordFeedback.textContent = "Password must be 8-12 characters long.";
+            passwordFeedback.style.color = "red";
+            passwordReg.style.borderColor = "red";
+            passwordReg.setCustomValidity("Password must be 8-12 characters long.");
         }
 
-        // Check if passwords match
-        if (passwordValue !== confirmPasswordValue) {
-            confirmPassword.setCustomValidity("Passwords do not match");
-            confirmPasswordFeedback.textContent = "Passwords do not match";
-        } else {
+        // Confirm password match validation
+        if (passwordValue && passwordValue === confirmPasswordValue) {
+            confirmPasswordFeedback.textContent = "Passwords match";
+            confirmPasswordFeedback.style.color = "green";
+            confirmPassword.style.borderColor = "green";
             confirmPassword.setCustomValidity("");
-            confirmPasswordFeedback.textContent = "";
+        } else {
+            confirmPasswordFeedback.textContent = "Passwords do not match";
+            confirmPasswordFeedback.style.color = "red";
+            confirmPassword.style.borderColor = "red";
+            confirmPassword.setCustomValidity("Passwords do not match");
         }
     }
 
-    // Listen to changes in password and confirm password fields
+    // Attach event listeners to update feedback dynamically
     passwordReg.addEventListener('input', validatePassword);
     confirmPassword.addEventListener('input', validatePassword);
+
+    // Trigger validation on page load to show messages without typing
+    validatePassword();
 });
 </script>
