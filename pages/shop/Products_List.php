@@ -86,17 +86,27 @@
 </div>
 
 <?php
-    // Include the database connection
-    include '../../config/db_config.php'; // Adjust the path as needed
+// Include the database connection
+include '../../config/db_config.php'; // Adjust the path as needed
 
-    // Fetch products from the database
-    $query = "SELECT * FROM tbl_products"; // Modify to match your table structure
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
+// Fetch products from the database
+$query = "SELECT * FROM tbl_products"; // Modify to match your table structure
+$result = $conn->query($query);
 
+if ($result && $result->num_rows > 0) {
     // Fetch the products
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $products = [];
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+} else {
+    $products = []; // No products found
+}
+
+// Close the database connection (optional, as PHP will close it automatically at the end of script execution)
+$conn->close();
 ?>
+
 
 
 <!-- Main Content -->

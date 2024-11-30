@@ -1,32 +1,30 @@
 <?php
-session_start(); // Start the session
+    session_start(); // Start the session
 
-// Initially set isLoggedIn to false
-$isLoggedIn = false; 
+    // Initially set isLoggedIn to false
+    $isLoggedIn = false; 
 
-// Check if the user is logged in
-if (isset($_SESSION['user_id'])) {
-    $isLoggedIn = true; // If the user is logged in, set to true
-    $firstName = isset($_SESSION['first_name']) ? $_SESSION['first_name'] : ''; // Get first name if logged in
-    $role = isset($_SESSION['role']) ? $_SESSION['role'] : ''; // Get user role if logged in
-} else {
-    $firstName = ''; // If not logged in, set first name to empty
-    $role = ''; // If not logged in, set role to empty
-}
+    // Check if the user is logged in
+    if (isset($_SESSION['user_id'])) {
+        $isLoggedIn = true; // If the user is logged in, set to true
+        $firstName = isset($_SESSION['first_name']) ? $_SESSION['first_name'] : ''; // Get first name if logged in
+        $role = isset($_SESSION['role']) ? $_SESSION['role'] : ''; // Get user role if logged in
+    } else {
+        $firstName = ''; // If not logged in, set first name to empty
+        $role = ''; // If not logged in, set role to empty
+    }
 
-if (isset($_SESSION['registration_success']) && $_SESSION['registration_success'] === true) {
-    // Clear the session flag after using it
-    unset($_SESSION['registration_success']);
-    echo '<script type="text/javascript">',
-         '$(document).ready(function() { $("#loginModal").modal("show"); });', // Trigger the modal to show
-         '</script>';
-}
+    if (isset($_SESSION['registration_success']) && $_SESSION['registration_success'] === true) {
+        // Clear the session flag after using it
+        unset($_SESSION['registration_success']);
+        echo '<script type="text/javascript">',
+            '$(document).ready(function() { $("#loginModal").modal("show"); });', // Trigger the modal to show
+            '</script>';
+    }
 ?>
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +34,7 @@ if (isset($_SESSION['registration_success']) && $_SESSION['registration_success'
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
     <title>RPC Tech Computer Store</title>
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="icon" href="assets/images/rpc-favicon.png">
@@ -420,39 +419,8 @@ if (isset($_SESSION['registration_success']) && $_SESSION['registration_success'
 });
 
 </script>
-    <!-- <script>
-    $(document).ready(function() {
-        $('#loginForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
 
-            var formData = $(this).serialize(); // Serialize form data
 
-            $.ajax({
-                url: 'pages/user/user_login.php', // PHP file to handle login
-                type: 'POST',
-                data: formData,
-                dataType: 'json', // Expect a JSON response
-                success: function(response) {
-                    console.log('Response:', response); // Log the response to check its contents
-
-                    if (response.status === 'success') {
-                        if (response.role === 'admin') {
-                            window.location.href = 'pages/admin/admin_dashboard.php'; // Admin redirection
-                        } else {
-                            window.location.href = '/index.php'; // User redirection
-                        }
-                    } else {
-                        $('#loginError').text(response.message).show(); // Display error message if login fails
-                    }
-                },
-                error: function() {
-                    $('#loginError').text('An error occurred. Please try again.').show(); // Show error if AJAX fails
-                }
-            });
-        });
-    });
-    </script> -->
-    <!-- Add JavaScript to open the modal if the parameter is set -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         <?php if ($openModal): ?>
