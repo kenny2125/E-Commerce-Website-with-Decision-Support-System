@@ -1,10 +1,28 @@
 <?php
 session_start(); // Start the session
 
+// Initially set isLoggedIn to false
+$isLoggedIn = false; 
+
 // Check if the user is logged in
-$isLoggedIn = isset($_SESSION['user_id']); // Boolean flag for checking login status
-$username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged in
+if (isset($_SESSION['user_id'])) {
+    $isLoggedIn = true; // If the user is logged in, set to true
+    $firstName = isset($_SESSION['first_name']) ? $_SESSION['first_name'] : ''; // Get first name if logged in
+    $role = isset($_SESSION['role']) ? $_SESSION['role'] : ''; // Get user role if logged in
+} else {
+    $firstName = ''; // If not logged in, set first name to empty
+    $role = ''; // If not logged in, set role to empty
+}
+
+if (isset($_SESSION['registration_success']) && $_SESSION['registration_success'] === true) {
+    // Clear the session flag after using it
+    unset($_SESSION['registration_success']);
+    echo '<script type="text/javascript">',
+         '$(document).ready(function() { $("#loginModal").modal("show"); });', // Trigger the modal to show
+         '</script>';
+}
 ?>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
@@ -17,6 +35,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <title>RPC Tech Computer Store</title>
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="icon" href="assets/images/rpc-favicon.png">
@@ -41,15 +60,17 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
         </form>
         
         <!-- User-specific Content -->
-        <?php if (!$isLoggedIn): ?>
+        <?php if ($isLoggedIn === false): ?>
             <!-- If not logged in, show login button -->
             <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
         <?php else: ?>
-            <!-- If logged in, display welcome message -->
-            <span class="navbar-text">Welcome, <?php echo htmlspecialchars($username); ?>!</span>
+            <!-- If logged in, display welcome message and role -->
+            <span class="navbar-text">Welcome, <?= htmlspecialchars($firstName); ?>!</span>
+            
         <?php endif; ?>
     </div>
 </nav>
+
 
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -62,7 +83,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
             </div>
             <div class="modal-body">
                 <div class="form-box">
-                    <form id="loginForm" method="post">
+                    <form id="loginForm" method="post" action="pages/user/user_login.php">
                         <div class="input-group">
                             <label for="username">USERNAME</label>
                             <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
@@ -74,50 +95,26 @@ $username = $isLoggedIn ? $_SESSION['username'] : ''; // Get username if logged 
                                 <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
                             </div>
                         </div>
-                        <p>Don't have an account? 
-                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
-                        </p>
+
                         <button type="submit" class="button login-btn" name="logIn">LOG IN</button>
                     </form>
-                    <div id="loginError" class="error-message"></div> <!-- Error message container -->
+                    <p>Don't have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
+                        </p>
+                    <!-- Display login error message -->
+                    <?php if (isset($_SESSION['login_error'])): ?>
+                        <div id="loginError" class="error-message" style="color: red;">
+                            <?php echo $_SESSION['login_error']; ?>
+                        </div>
+                        <?php unset($_SESSION['login_error']); ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-$(document).ready(function() {
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault(); // Prevent the default form submission
 
-        var formData = $(this).serialize(); // Serialize form data
-
-        $.ajax({
-            url: 'pages/user/user_login.php', // PHP file to handle login
-            type: 'POST',
-            data: formData,
-            dataType: 'json', // Expect a JSON response
-            success: function(response) {
-                console.log('Response:', response); // Log the response to check its contents
-
-                if (response.status === 'success') {
-                    if (response.role === 'admin') {
-                        window.location.href = 'pages/admin/admin_dashboard.php'; // Admin redirection
-                    } else {
-                        window.location.href = '/index.php'; // User redirection
-                    }
-                } else {
-                    $('#loginError').text(response.message).show(); // Display error message if login fails
-                }
-            },
-            error: function() {
-                $('#loginError').text('An error occurred. Please try again.').show(); // Show error if AJAX fails
-            }
-        });
-    });
-});
-</script>
 
 <!-- Registration Modal -->
 <div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
@@ -130,11 +127,11 @@ $(document).ready(function() {
             <div class="modal-body">
                 <div class="container">
                     <div class="form-box">
-                    <h3>Create an Account</h3>
+                        <h3>Create an Account</h3>
                         <p>Already have an account? 
                             <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
                         </p>
-                        <form action="pages/user/user_register.php" method="post">
+                        <form action="pages/user/user_register.php" method="post" onsubmit="return validateForm()">
                             <div class="row">
                                 <div class="input-group">
                                     <label for="firstName">First Name</label>
@@ -177,19 +174,18 @@ $(document).ready(function() {
                                     <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
                                     <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
                                 </div>
-                                    <div id="passwordFeedback" class="feedback"></div>
+                                <div id="passwordFeedback" class="feedback"></div>
                                 <div class="input-group">
                                     <label for="confirmPassword">Confirm Password</label>
-                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
+                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" required>
                                     <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
                                 </div>
-                                    <div id="confirmPasswordFeedback" class="feedback"></div>
-                                </div>
-                                <div class="terms">
-                                    <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
-                                </div>
-                                <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
-                            </div>    
+                                <div id="confirmPasswordFeedback" class="feedback"></div>
+                            </div>
+                            <div class="terms">
+                                <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
+                            </div>
+                            <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
                         </form>
                     </div>
                 </div>
@@ -198,27 +194,11 @@ $(document).ready(function() {
     </div>
 </div>
 
+
+
 <!-- Include Bootstrap JS and dependencies -->
 
 
-<!-- Add JavaScript to open the modal if the parameter is set -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        <?php if ($openModal): ?>
-        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
-        <?php endif; ?>
-    });
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    <?php if ($openModal): ?>
-    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-    loginModal.show();
-    <?php endif; ?>
-});
-</script>
 
     <!-- Carousel -->
     <div id="carouselWithInterval" class="carousel slide" data-bs-ride="carousel">
@@ -278,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $conn->close();
 ?>
 
-                <!-- Featured Products -->
+<!-- Featured Products -->
 <div class="featured-products-wrapper" style="margin-bottom: 100px;">
     <div class="container my-4">
         <h2 class="text-center mb-4">Featured Products</h2>
@@ -409,6 +389,88 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+<script>
+    $(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        $.ajax({
+            url: 'path_to_user_login.php', // Adjust path as necessary
+            method: 'POST',
+            data: { username: username, password: password },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    // Update UI based on response
+                    $('#loginModal').modal('hide');
+                    location.reload(); // Reload to show updated user information
+                } else {
+                    // Show error message
+                    $('#loginError').text(response.message);
+                }
+            },
+            error: function() {
+                $('#loginError').text('An error occurred. Please try again.');
+            }
+        });
+    });
+});
+
+</script>
+    <!-- <script>
+    $(document).ready(function() {
+        $('#loginForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: 'pages/user/user_login.php', // PHP file to handle login
+                type: 'POST',
+                data: formData,
+                dataType: 'json', // Expect a JSON response
+                success: function(response) {
+                    console.log('Response:', response); // Log the response to check its contents
+
+                    if (response.status === 'success') {
+                        if (response.role === 'admin') {
+                            window.location.href = 'pages/admin/admin_dashboard.php'; // Admin redirection
+                        } else {
+                            window.location.href = '/index.php'; // User redirection
+                        }
+                    } else {
+                        $('#loginError').text(response.message).show(); // Display error message if login fails
+                    }
+                },
+                error: function() {
+                    $('#loginError').text('An error occurred. Please try again.').show(); // Show error if AJAX fails
+                }
+            });
+        });
+    });
+    </script> -->
+    <!-- Add JavaScript to open the modal if the parameter is set -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if ($openModal): ?>
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        <?php endif; ?>
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if ($openModal): ?>
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        <?php endif; ?>
+    });
+</script>
+
 <!-- <script>
                                 const passwordInput = document.getElementById('password');
                                 const confirmPasswordInput = document.getElementById('confirmPassword');
@@ -459,74 +521,74 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const passwordReg = document.getElementById('passwordReg');
-    const confirmPassword = document.getElementById('confirmPassword');
-    const togglePasswordIcon1 = document.getElementById('togglePasswordIcon1');
-    const togglePasswordIcon2 = document.getElementById('togglePasswordIcon2');
-    const passwordFeedback = document.getElementById('passwordFeedback');
-    const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordReg = document.getElementById('passwordReg');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const togglePasswordIcon1 = document.getElementById('togglePasswordIcon1');
+        const togglePasswordIcon2 = document.getElementById('togglePasswordIcon2');
+        const passwordFeedback = document.getElementById('passwordFeedback');
+        const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
 
-    // Toggle password visibility
-    togglePasswordIcon1.addEventListener('click', function () {
-        if (passwordReg.type === 'password') {
-            passwordReg.type = 'text';
-            togglePasswordIcon1.src = '/assets/images/view.png';
-        } else {
-            passwordReg.type = 'password';
-            togglePasswordIcon1.src = '/assets/images/closed.png';
+        // Toggle password visibility
+        togglePasswordIcon1.addEventListener('click', function () {
+            if (passwordReg.type === 'password') {
+                passwordReg.type = 'text';
+                togglePasswordIcon1.src = '/assets/images/view.png';
+            } else {
+                passwordReg.type = 'password';
+                togglePasswordIcon1.src = '/assets/images/closed.png';
+            }
+        });
+
+        togglePasswordIcon2.addEventListener('click', function () {
+            if (confirmPassword.type === 'password') {
+                confirmPassword.type = 'text';
+                togglePasswordIcon2.src = '/assets/images/view.png';
+            } else {
+                confirmPassword.type = 'password';
+                togglePasswordIcon2.src = '/assets/images/closed.png';
+            }
+        });
+
+        // Password validation function
+        function validatePassword() {
+            const passwordValue = passwordReg.value;
+            const confirmPasswordValue = confirmPassword.value;
+
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/;
+
+            // Check if password matches the requirements
+            if (passwordValue && passwordRegex.test(passwordValue)) {
+                passwordFeedback.textContent = ""; // Remove any previous feedback
+                passwordFeedback.style.color = "";  // Reset color
+                passwordReg.style.borderColor = ""; // Reset border color
+                passwordReg.setCustomValidity("");  // Reset custom validity
+            } else {
+                passwordFeedback.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+                passwordFeedback.style.color = "red";
+                passwordReg.style.borderColor = "red";
+                passwordReg.setCustomValidity("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            }
+
+            // Confirm password match validation
+            if (passwordValue && passwordValue === confirmPasswordValue) {
+                confirmPasswordFeedback.textContent = ""; // Remove previous feedback
+                confirmPasswordFeedback.style.color = ""; // Reset color
+                confirmPassword.style.borderColor = ""; // Reset border color
+                confirmPassword.setCustomValidity("");  // Reset custom validity
+            } else {
+                confirmPasswordFeedback.textContent = "Passwords do not match";
+                confirmPasswordFeedback.style.color = "red";
+                confirmPassword.style.borderColor = "red";
+                confirmPassword.setCustomValidity("Passwords do not match");
+            }
         }
+
+        // Attach event listeners to update feedback dynamically
+        passwordReg.addEventListener('input', validatePassword);
+        confirmPassword.addEventListener('input', validatePassword);
+
+        // Trigger validation on page load to show messages without typing
+        validatePassword();
     });
-
-    togglePasswordIcon2.addEventListener('click', function () {
-        if (confirmPassword.type === 'password') {
-            confirmPassword.type = 'text';
-            togglePasswordIcon2.src = '/assets/images/view.png';
-        } else {
-            confirmPassword.type = 'password';
-            togglePasswordIcon2.src = '/assets/images/closed.png';
-        }
-    });
-
-    // Password validation function
-    function validatePassword() {
-        const passwordValue = passwordReg.value;
-        const confirmPasswordValue = confirmPassword.value;
-
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/;
-
-        // Check if password matches the requirements
-        if (passwordValue && passwordRegex.test(passwordValue)) {
-            passwordFeedback.textContent = ""; // Remove any previous feedback
-            passwordFeedback.style.color = "";  // Reset color
-            passwordReg.style.borderColor = ""; // Reset border color
-            passwordReg.setCustomValidity("");  // Reset custom validity
-        } else {
-            passwordFeedback.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
-            passwordFeedback.style.color = "red";
-            passwordReg.style.borderColor = "red";
-            passwordReg.setCustomValidity("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
-        }
-
-        // Confirm password match validation
-        if (passwordValue && passwordValue === confirmPasswordValue) {
-            confirmPasswordFeedback.textContent = ""; // Remove previous feedback
-            confirmPasswordFeedback.style.color = ""; // Reset color
-            confirmPassword.style.borderColor = ""; // Reset border color
-            confirmPassword.setCustomValidity("");  // Reset custom validity
-        } else {
-            confirmPasswordFeedback.textContent = "Passwords do not match";
-            confirmPasswordFeedback.style.color = "red";
-            confirmPassword.style.borderColor = "red";
-            confirmPassword.setCustomValidity("Passwords do not match");
-        }
-    }
-
-    // Attach event listeners to update feedback dynamically
-    passwordReg.addEventListener('input', validatePassword);
-    confirmPassword.addEventListener('input', validatePassword);
-
-    // Trigger validation on page load to show messages without typing
-    validatePassword();
-});
 </script>
