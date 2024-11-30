@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Reset default margin and padding */
+    body {
+
+        background: rgba(239, 239, 239, 1);
+        font-family: 'Lato', sans-serif;
+    }
+
+    /* Main container for the motherboard chipset page */
+    .motherboard-chipset-page {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+        background: rgba(239, 239, 239, 1);
+        color: #000;
+        font-size: 18px;
+    }
+
+    .chipset-header {
+        width: 100%; 
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .how-to-check {
+        width: 444px;
+        font-size: 22px;
+        line-height: 30px;
+        display: inline-block;
+        color: #000;
+        white-space: pre-wrap;
+        text-align: justify;
+    }
+
+    .step-1, .step-2 {
+        font-size: 20px;
+        line-height: 30px;
+        font-weight: 600;
+        color: #000;
+        display: inline-block;
+    }
+
+    .step1-content, .step2-content, .in-this-example {
+        font-size: 18px;
+        line-height: 30px;
+        color: #000;
+        text-align: justify;
+    }
+
+    .chipset-step-icon {
+        width: auto;
+        max-width: 100%;
+        overflow: hidden;
+        height: 79px;
+        object-fit: cover;
+    }
+
+    /* Fixed position for the Back button */
+    .back {
+        position: fixed;
+        top: 60px;
+        right: 20px;
+        font-size: 16px;
+        color: #8b8b8b;
+        cursor: pointer;
+        padding-top: 80px;
+    }

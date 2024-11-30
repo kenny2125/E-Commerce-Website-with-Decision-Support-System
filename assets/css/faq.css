@@ -1,0 +1,97 @@
+    /* Reset default margin and padding */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+  
+      body{
+
+          background: rgba(239, 239, 239, 1); /* Set the background color for the entire page */
+          font-family: 'Lato', sans-serif;
+      }
+  
+      /* Main container for centering and max width */
+      .footer-faq-page {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+        background: rgba(239, 239, 239, 1); /* Set the background color */
+        font-family: 'Lato', sans-serif;
+        color: #000;
+        font-size: 18px;
+      }
+  
+      .faq-header {
+        width: 100%; /* Adjust width as needed */
+        height: auto;
+        margin-bottom: 20px;
+      }
+  
+      /* Headline styles */
+      .frequently-asked-questions {
+        font-size: 32px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+  
+      .our-frequently-asked {
+        font-weight: 500;
+        font-size: 18px;
+        margin-bottom: 40px;
+        text-align: justify;
+      }
+  
+      .general-questions {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 40px;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+  
+      .q-what-is-your-companys-miss, .blank-line {
+        font-size: 18px;
+        margin: 10px 0;
+        text-align: justify;
+      }
+  
+      /* Fixed position for the Back button */
+      .back {
+        position: fixed;
+        top: 60px;
+        right: 20px;
+        font-size: 16px;
+        color: #8b8b8b;
+        cursor: pointer;
+        padding-top: 80px;
+      }
+  
+      /* Responsive adjustments for mobile devices */
+      @media (max-width: 768px) {
+        .footer-faq-page {
+          padding: 15px;
+          font-size: 16px;
+        }
+  
+        .frequently-asked-questions {
+          font-size: 28px;
+        }
+  
+        .our-frequently-asked {
+          font-size: 16px;
+          margin-bottom: 30px;
+        }
+  
+        .general-questions {
+          font-size: 20px;
+        }
+  
+        .q-what-is-your-companys-miss, .blank-line {
+          font-size: 16px;
+        }
+  
+        .back {
+          font-size: 14px;
+        }
+      }

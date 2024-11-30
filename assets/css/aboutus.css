@@ -1,0 +1,39 @@
+
+
+body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(239, 239, 239, 1);
+    color: #333;
+}
+.container {
+    padding: 90px 20px 20px; /* Added top padding for header space */
+    max-width: 900px;
+    margin: 20px auto;
+    border-radius: 8px;
+    background-color: rgba(239, 239, 239, 1);
+}
+
+.content p {
+    margin: 10px 0;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 90px 15px 15px; /* Adjusted padding for smaller screens */
+    }
+    header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+.back {
+    position: fixed;
+    top: 110px;
+    right: 20px;
+    font-size: 16px;
+    color: #8b8b8b;
+    cursor: pointer;
+}

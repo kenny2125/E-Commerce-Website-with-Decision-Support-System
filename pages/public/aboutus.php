@@ -3,52 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../assets/css/aboutus.css">
+    <link rel="stylesheet" href="../../assets/css/footer.css">
 
-    <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-        
-        body {
-            font-family: 'Lato', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: rgba(239, 239, 239, 1);
-            color: #333;
-        }
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 90px 20px 20px; /* Added top padding for header space */
-            border-radius: 8px;
-            background-color: rgba(239, 239, 239, 1);
-        }
-
-        .content p {
-            margin: 10px 0;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 90px 15px 15px; /* Adjusted padding for smaller screens */
-            }
-            header h1 {
-                font-size: 1.5rem;
-            }
-        }
-
-        .back {
-            position: fixed;
-            top: 110px;
-            right: 20px;
-            font-size: 16px;
-            color: #8b8b8b;
-            cursor: pointer;
-        }
-    </style>
+  
 </head>
 <body>
     <div class="container">
@@ -78,6 +36,9 @@
             });
         </script>
 
-<?php include 'includes/footer.php'; ?>
+<?php 
+include '../../config/db_config.php';
+include '../../includes/footer.php'; ?>
+
 </body>
 </html>

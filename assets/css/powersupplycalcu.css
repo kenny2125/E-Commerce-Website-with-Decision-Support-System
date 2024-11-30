@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    background-color: rgba(239, 239, 239, 1); /* Updated background color */
+}
+
+.brand-power-supply {
+    width: 100%;
+    position: relative;
+    background-color: #efefef;
+    padding: 60px; /* Increased padding for more space */
+    text-align: center;
+    font-size: 48px; /* Increased font size for more prominence */
+    color: #000;
+    border-radius: 10px; /* Optional: Add rounded corners */
+    max-width: 1000px; /* Increased max-width for a wider appearance */
+    margin: 50px auto; /* Center the container */
+}
+
+.heading {
+    font-size: 40px; /* Font size for the heading */
+    font-weight: bold; /* Bold font for the heading */
+    margin-bottom: 30px; /* Space below the heading */
+}
+
+.select-your-cpu {
+    margin-bottom: 40px; /* Increased margin for better spacing */
+    font-weight: bold;
+    font-size: 32px; /* Increased font size for better visibility */
+}
+
+.selection-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    margin-bottom: 40px; /* Increased space below the dropdowns */
+}
+
+label {
+    margin-right: 15px;
+    font-weight: 700;
+    font-size: 24px; /* Increased font size for labels */
+}
+
+select {
+    padding: 20px; /* Increased padding for better touch targets */
+    font-size: 22px; /* Increased font size for dropdowns */
+    border: 2px solid #1a54c0;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    transition: border-color 0.3s;
+    width: 350px; /* Increased width for dropdowns */
+}
+
+select:hover {
+    border-color: #0056b3; /* Darker blue on hover */
+}
+
+select:focus {
+    outline: none;
+    border-color: #0056b3; /* Darker blue on focus */
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5); /* Shadow effect */
+}
+
+.total-tdp, .you-should-buy {
+    margin-top: 40px; /* Increased margin for better spacing */
+    font-size: 36px; /* Increased font size for results */
+    font-weight: 700;
+}
+
+.state-layer {
+    margin-top: 40px;
+}
+
+button {
+    padding: 20px 40px; /* Increased padding for buttons */
+    font-size: 24px; /* Increased font size for buttons */
+    background-color: #1a54c0;
+    color: #f0f1f4;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Fixed position for the Back button */
+.back {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    font-size: 16px;
+    color: #8b8b8b;
+    cursor: pointer;
+    padding-top: 90px;
+}

@@ -14,4 +14,7 @@ try {
     // Handle connection errors
     echo "Connection failed: " . $e->getMessage();
 }
+
+// Adjust this path to your project structure
+define('BASE_URL', '/IS104-E-COMMERCE');
 ?>

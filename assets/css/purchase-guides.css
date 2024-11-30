@@ -1,0 +1,117 @@
+   /* Reset default margin and padding */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body{
+
+      background: rgba(239, 239, 239, 1); /* Set the background color for the entire page */
+      font-family: 'Lato', sans-serif;
+  }
+
+  
+  /* Centering container */
+  .footer-purchasing-guide {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 10px;
+    background: rgba(239, 239, 239, 1); /* Set the background color */
+    font-family: 'Lato', sans-serif;
+    color: #000;
+    font-size: 18px;
+  }
+
+
+  /* Headline styling */
+  .purchasing-guide {
+    font-weight: bold;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+
+      /* Image styling */
+      .guide-header {
+    width: 100%; /* Adjust width as needed */
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .welcome-to-our {
+    font-weight: 500;
+    font-size: 18px;
+    text-align: justify;
+    margin-bottom: 40px;
+  }
+
+  /* Step sections */
+  .step-section {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .step-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  /* Fixed position for the Back button */
+  .back {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    font-size: 16px;
+    color: #8b8b8b;
+    cursor: pointer;
+    padding-top: 80px;
+  }
+
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    .footer-purchasing-guide {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .purchasing-guide {
+      font-size: 28px;
+      text-align: center;
+    }
+
+    .welcome-to-our {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .step-title {
+      font-size: 18px;
+    }
+
+    .back {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-purchasing-guide {
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .purchasing-guide {
+      font-size: 24px;
+    }
+
+    .step-title {
+      font-size: 16px;
+    }
+
+    .back {
+      font-size: 12px;
+      right: 10px;
+      top: 10px;
+    }
+  }

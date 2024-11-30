@@ -339,7 +339,9 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 <br><br><br><br><br><br>
 
- <?php include 'includes/footer.php'; ?>
+<?php 
+include 'config/db_config.php';
+include 'includes/footer.php'; ?>
 </body>
 </html>
 

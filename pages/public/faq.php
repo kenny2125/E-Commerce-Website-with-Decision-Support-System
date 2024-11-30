@@ -4,115 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&display=swap">
-  
-  <style>
-    /* Reset default margin and padding */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <link rel="stylesheet" href="../../assets/css/faq.css">
+  <link rel="stylesheet" href="../../assets/css/footer.css">
 
-    body{
-        padding-top: 90px;
-        padding-bottom: 300px;
-        background: rgba(239, 239, 239, 1); /* Set the background color for the entire page */
-        font-family: 'Lato', sans-serif;
-    }
-
-    /* Main container for centering and max width */
-    .footer-faq-page {
-      max-width: 1200px;
-      margin: 30px auto;
-      padding: 20px;
-      background: rgba(239, 239, 239, 1); /* Set the background color */
-      font-family: 'Lato', sans-serif;
-      color: #000;
-      font-size: 18px;
-    }
-
-    .faq-header {
-      width: 100%; /* Adjust width as needed */
-      height: auto;
-      margin-bottom: 20px;
-    }
-
-    /* Headline styles */
-    .frequently-asked-questions {
-      font-size: 32px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .our-frequently-asked {
-      font-weight: 500;
-      font-size: 18px;
-      margin-bottom: 40px;
-      text-align: justify;
-    }
-
-    .general-questions {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 40px;
-      margin-bottom: 10px;
-      text-align: left;
-    }
-
-    .q-what-is-your-companys-miss, .blank-line {
-      font-size: 18px;
-      margin: 10px 0;
-      text-align: justify;
-    }
-
-    /* Fixed position for the Back button */
-    .back {
-      position: fixed;
-      top: 60px;
-      right: 20px;
-      font-size: 16px;
-      color: #8b8b8b;
-      cursor: pointer;
-      padding-top: 80px;
-    }
-
-    /* Responsive adjustments for mobile devices */
-    @media (max-width: 768px) {
-      .footer-faq-page {
-        padding: 15px;
-        font-size: 16px;
-      }
-
-      .frequently-asked-questions {
-        font-size: 28px;
-      }
-
-      .our-frequently-asked {
-        font-size: 16px;
-        margin-bottom: 30px;
-      }
-
-      .general-questions {
-        font-size: 20px;
-      }
-
-      .q-what-is-your-companys-miss, .blank-line {
-        font-size: 16px;
-      }
-
-      .back {
-        font-size: 14px;
-      }
-    }
-  </style>
 </head>
 <body>
 
   <div class="footer-faq-page">
         <!-- Insert image as header -->
-        <img src="assets/images/footerimages/faq.png" alt="FAQ Header" class="faq-header">
+        <img src="../../assets/images/footerimages/faq.png" alt="FAQ Header" class="faq-header">
 
-    <b class="frequently-asked-questions"><img src="assets/images/footerimages/questionmark.svg" alt="Question Icon">Frequently Asked Questions (FAQ)</b>
+    <b class="frequently-asked-questions"><img src="../../assets/images/footerimages/questionmark.svg" alt="Question Icon">Frequently Asked Questions (FAQ)</b>
     <div class="our-frequently-asked">Our Frequently Asked Questions (FAQ) section provides quick answers to common inquiries about our services, policies, and support. From understanding our offerings to details on shipping, payment options, and return policies, this section is designed to help you find the information you need easily and efficiently.</div>
     
     <!-- General Questions Section -->
@@ -190,7 +92,9 @@
         });
     </script>
 
-<?php include 'includes/footer.php'; ?>
+<?php 
+include '../../config/db_config.php';
+include '../../includes/footer.php'; ?>
 
 </body>
 </html>

@@ -3,116 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, width=device-width">
-    <link rel="stylesheet" href="" />
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="../../assets/css/privacy-policy.css" />
+    <link rel="stylesheet" href="../../assets/css/footer.css">
 
-    <style>
-        /* General Styles */
-        body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            color: #000;
-            background: rgba(239, 239, 239, 1); /* Set the background color for the entire page */
-            font-family: 'Lato', sans-serif;
-            padding-bottom: 300px;
-            padding-top: 90px;
-        }
-
-        /* Main Content Container */
-        .footer-privacy-policy {
-            width: 100%;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
-            background: rgba(239, 239, 239, 1); /* Set the background color */
-            font-family: 'Lato', sans-serif;
-            text-align: justify;
-            font-size: 18px;
-        }
-        
-        /* Image styling */
-        .privacy-header {
-      width: 100%; /* Adjust width as needed */
-      height: 215px;
-      margin-bottom: 20px;
-    }
-
-        /* Title Styling */
-        .privacy-policy {
-            font-size: 48px;
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        /* Section Titles */
-        .who-are-we {
-            font-size: 32px;
-            margin: 20px 0 10px 0;
-        }
-
-        /* Paragraph Styling */
-        .we-are-a {
-            margin-bottom: 20px;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        /* Back Button Styling */
-        .back {
-      position: fixed;
-      top: 60px;
-      right: 20px;
-      font-size: 16px;
-      color: #8b8b8b;
-      cursor: pointer;
-      padding-top: 80px;
-    }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .footer-privacy-policy {
-                padding: 15px;
-                font-size: 18px;
-            }
-
-            .privacy-policy {
-                font-size: 36px;
-                text-align: center;
-            }
-
-            .who-are-we {
-                font-size: 28px;
-                text-align: center;
-            }
-
-            .back {
-                font-size: 14px;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .footer-privacy-policy {
-                padding: 10px;
-                font-size: 16px;
-            }
-
-            .privacy-policy {
-                font-size: 28px;
-            }
-
-            .who-are-we {
-                font-size: 24px;
-            }
-
-            .back {
-                font-size: 12px;
-                text-align: center;
-                margin-top: 15px;
-            }
-        }
-    </style>
 </head>
 <body>
 
@@ -120,9 +15,9 @@
     <div class="footer-privacy-policy">
 
             <!-- Insert image as header -->
-    <img src="assets/images/footerimages/privacy.png" alt="Privacy Policy Header" class="privacy-header">
+    <img src="../../assets/images/footerimages/privacy.png" alt="Privacy Policy Header" class="privacy-header">
 
-        <div class="privacy-policy"><img src="assets/images/footerimages/lock.svg" alt="Lock Icon">Privacy Policy</div>
+        <div class="privacy-policy"><img src="../../assets/images/footerimages/lock.svg" alt="Lock Icon">Privacy Policy</div>
         
         <!-- Sections -->
         <p class="who-are-we"><b>WHO ARE WE?</b></p>
@@ -175,7 +70,9 @@
         });
     </script>
 
-<?php include 'includes/footer.php'; ?>
+<?php 
+include '../../config/db_config.php';
+include '../../includes/footer.php'; ?>
 
 </body>
 </html>
