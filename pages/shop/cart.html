@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPC Computer Store</title>
+    <link rel="stylesheet" a href="/assets/css/cartpage.css">
+    <link rel="icon" a href="/assets/images/rpc-favicon.png"
+</head>
+
+<body>
+    <h1><img src="/assets/images/rpc-logo-black.png" width="120" height="40" id="logo" title="home"></h1>
+
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search...">
+        <button class="search-button">Search</button>
+    </div>
+    <div class="icon-group">
+        <button class="icon-button" title="My Cart">
+            <img src="/assets/images/cart.png" alt="Cart Icon" class="icon-image">
+        </button>
+        <button class="icon-button" title="Profile">
+            <img src="/assets/images/userlogo.png" alt="User Icon" class="icon-image">
+        </button>
+    </div>
+    <hr>
+
+    <div class="cart-wrapper">
+        <h2 class="cart-heading">My Cart</h2>
+
+        <!-- Cart Header Section -->
+        <div class="cart-header">
+          <div class="cart-header-item" id="product-name-header">Product Name</div>
+          <div class="cart-header-item" id="quantity-header">Quantity</div>
+          <div class="cart-header-item" id="price-header">Price</div>
+        </div>
+
+        <!-- Cart Item List -->
+        <div class="cart-item">
+            <div class="product-info">
+                <!-- Product image -->
+                <img src="/assets/images/rtx-4090.jpg" alt="RTX 4090" class="product-image">
+                <input type="checkbox" class="product-checkbox">
+                <span class="product-name">GEFORCE RTX 4090 MSI GAMING TRIO 24GB GDDR6X TRIPLE FAN...</span>
+            </div>
+            <div class="quantity">
+                <button class="quantity-btn" title="minus">-</button>
+                <span class="quantity-count">1</span>
+                <button class="quantity-btn" title="add">+</button>
+            </div>
+            <div class="price">₱114,995.00</div>
+        </div>
+
+        <!-- Total Price Section -->
+        <div class="cart-summary-box">
+            <div class="cart-summary">
+                <div class="total">
+                    <span class="total-label">Total</span>
+                    <span class="total-price">₱114,995.00</span>
+                </div>
+
+                <!-- Action Buttons (Go Back & Checkout) -->
+                <div class="cart-actions">
+                    <button class="go-back-btn">Go Back</button>
+                    <button class="checkout-btn">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

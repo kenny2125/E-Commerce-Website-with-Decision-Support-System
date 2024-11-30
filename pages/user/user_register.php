@@ -12,7 +12,7 @@ if (isset($_POST['signUp'])) {
     $address = $_POST['address'];
     $email = $_POST['email'];
     $contact_number = $_POST['contactNumber'];
-    $birth_date = $_POST['birth_date'];
+    $age = $_POST['age']; // New input field for age
     $role = "customer"; // Default role for a new user
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -42,12 +42,12 @@ if (isset($_POST['signUp'])) {
                 // Insert the new user into tbl_user
                 $stmt = $conn->prepare("
                     INSERT INTO tbl_user (
-                        first_name, middle_initial, last_name, gender, address, contact_number, email, birth_date, role, username, password
+                        first_name, middle_initial, last_name, gender, address, contact_number, email, age, role, username, password
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ");
                 $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // Hash the password
                 if ($stmt->execute([
-                    $first_name, $middle_init, $last_name, $gender, $address, $contact_number, $email, $birth_date, $role, $username, $hashedPassword
+                    $first_name, $middle_init, $last_name, $gender, $address, $contact_number, $email, $age, $role, $username, $hashedPassword
                 ])) {
                     header('Location: login.php'); // Redirect to login page
                     exit;
@@ -58,32 +58,6 @@ if (isset($_POST['signUp'])) {
         }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
-    }
-}
-
-if (isset($_POST['logIn'])) {
-    $username = isset($_POST['username']) ? $_POST['username'] : null;
-    $password = isset($_POST['password']) ? $_POST['password'] : null;
-
-    if ($username && $password) {
-        try {
-            // Query to check the user's credentials
-            $checkUser = $conn->prepare("SELECT * FROM tbl_user WHERE username = ?");
-            $checkUser->execute([$username]);
-            $user = $checkUser->fetch(PDO::FETCH_ASSOC);
-
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['username'] = $username;
-                header('Location: ../pages/home.php'); // Redirect to the home page or another page
-                exit;
-            } else {
-                echo "Invalid username or password!";
-            }
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-    } else {
-        echo "Username and password are required!";
     }
 }
 ?>

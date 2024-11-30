@@ -1,0 +1,265 @@
+#logo{
+  position: relative;
+  margin-left: 20px;
+  margin-top: 1px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.search-container {
+  position: relative;
+  bottom: 67px;
+  left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-input {
+  width: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+}
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+.icon-group {
+  position: relative;
+  left: 1200px;
+  bottom: 110px;
+  display: flex;
+  gap: 20px;
+}
+
+.icon-button {
+  width: 40px;
+  height: 40px;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.icon-button:hover {
+  background-color: #0056b3;
+}
+
+.icon-image {
+  width: 100%;
+  height: auto;
+}
+
+hr {
+  margin-top: -90px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.cart-wrapper {
+  width: 1270px;
+  height: 650px;
+  padding: 20px;
+  background-color: #f2f2f2;
+}
+
+.cart-heading {
+  font-weight: bold;
+  font-size: 2em;
+  font-family: 'Arial', sans-serif;
+  color: #000000;
+  margin-bottom: 10px;
+  position: relative;
+  bottom: 25px;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.cart-header-item {
+  width: 44%;
+  text-align: center;
+  font-size: 1.2em;
+}
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.cart-header-item {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+#product-name-header {
+  width: 45%; /* Adjust width as needed */
+}
+
+#quantity-header{ 
+width: 20%; /* Set a valid width */
+margin-left: -90px;
+ } /* Adjust this value to move it to the left */
+
+#price-header {
+  width: 13%; /* Adjust width as needed */
+}
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+}
+
+.product-square {
+  width: 50px;
+  height: 50px;
+  background-color: #007BFF;
+  margin-right: 15px;
+}
+
+.product-image {
+  width: 80px;
+  height: auto;
+  margin-right: 15px;
+}
+
+.product-checkbox {
+  margin-right: 10px;
+}
+
+.product-name {
+  font-size: 1.2em;
+  color: #333;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quantity {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.quantity-btn {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quantity-btn:hover {
+  background-color: #0056b3;
+}
+
+.price {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Section Box for Cart Summary */
+.cart-summary-box {
+  position: fixed; /* Makes it fixed at the bottom-right corner */
+  bottom: 20px; /* Distance from the bottom of the screen */
+  right: 20px; /* Distance from the right of the screen */
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.cart-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: white;
+  border-radius: 20px; /* Rounded corners for the section box */
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 350px; /* Adjust width as needed */
+}
+
+/* Styling Total and Buttons */
+.total {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /* Adjust width to fit the section */
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.total-label {
+  font-weight: normal;
+}
+
+.total-price {
+  font-weight: bold;
+  color: #007BFF;
+}
+
+.cart-actions {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.go-back-btn, .checkout-btn {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.go-back-btn:hover, .checkout-btn:hover {
+  background-color: #0056b3;
+}

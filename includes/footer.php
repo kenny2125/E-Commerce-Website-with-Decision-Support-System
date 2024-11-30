@@ -22,14 +22,14 @@
         <img class="icon" src="/assets/images/bx-location-plus.png" alt="Branch Icon">Main Branch
       </p>
 	  <p class="footer-branch-address">
-	  <a href="https://www.google.com/maps/place/Sage+Day+Coffee/@15.091794,120.6242005,16z/data=!4m6!3m5!1s0x3396f133ea62c53f:0x75ad75b318853503!8m2!3d15.0974873!4d120.6231439!16s%2Fg%2F11shdtm192?hl=en&entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" target="_blank">KM 78 MC ARTHUR HI-WAY BRGY.SAGUIN, San Fernando, Philippines, 2000</a>
+	  <a href="https://www.google.com/maps/place/RPC+Tech+Computer/@15.0988169,120.6194883,1059m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3396f1d7698ed943:0x8086f35e9ed733de!8m2!3d15.0988117!4d120.6220632!16s%2Fg%2F11lmmzgj3y?hl=en&entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" target="_blank">KM 78 MC ARTHUR HI-WAY BRGY.SAGUIN, San Fernando, Philippines, 2000</a>
 	  </p>
     </div>
     
     <div class="footer-links">
       <div class="footer-link-column">
         <p class="footer-heading">Who are we?</p>
-        <div class="footer-link-list">
+        <div class="footer-link-list" style="text-align: left">
           <p><a href="pages/public/aboutus.php">About Us</a></p>
           <p><a href="pages/public/faq.php">FAQ</a></p>
           <p><a href="pages/public/contactus.php">Contact Us</a></p>

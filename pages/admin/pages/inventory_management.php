@@ -10,6 +10,76 @@
 </head>
 <body style="background-color: #EBEBEB;">
 
+<?php
+    // Database connection
+    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+    $username = "vg2eweo4yg8eydii";
+    $password = "rccstjx3or46kpl9";
+    $db_name = "s0gp0gvxcx3fc7ib";
+    $port = "3306";
+
+    // Create connection
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Handle delete action
+    if (isset($_POST['delete'])) {
+        $product_id = $_POST['product_ID'];
+        $delete_sql = "DELETE FROM tbl_products WHERE product_ID = ?";
+        $stmt = $conn->prepare($delete_sql);
+        $stmt->bind_param("i", $product_id);
+        if ($stmt->execute()) {
+            // echo "<script>alert('Product deleted successfully'); window.location.reload();</script>";
+        } else {
+            echo "<script>alert('Failed to delete product');</script>";
+        }
+    }
+
+    // Handle edit action (save changes)
+    if (isset($_POST['edit'])) {
+        $product_id = $_POST['product_ID'];
+        $product_name = $_POST['product_name'];
+        $brand_ID = $_POST['brand_ID'];
+        $category = $_POST['category'];
+        $srp = $_POST['srp'];
+        $store_price = $_POST['store_price'];
+        $description = $_POST['description'];
+        $specification = $_POST['specification'];
+        $quantity = $_POST['quantity']; // Quantity field
+
+        $update_sql = "UPDATE tbl_products 
+                        SET product_name = ?, 
+                            brand_ID = ?, 
+                            category = ?, 
+                            srp = ?, 
+                            store_price = ?, 
+                            description = ?, 
+                            specification = ?, 
+                            quantity = ? 
+                        WHERE product_ID = ?";
+
+        $stmt = $conn->prepare($update_sql);
+        $stmt->bind_param("ssssdssii", $product_name, $brand_ID, $category, $srp, $store_price, $description, $specification, $quantity, $product_id);
+
+        if ($stmt->execute()) {
+            // echo "<script>alert('Product updated successfully'); window.location.reload();</script>";
+        } else {
+            echo "<script>alert('Failed to update product');</script>";
+        }
+    }
+
+    // Fetch product data
+    $sql = "SELECT p.product_ID, p.category, b.brand_name, p.product_name, p.srp, p.store_price, p.description, p.specification, p.quantity 
+            FROM tbl_products p
+            LEFT JOIN tbl_brands b ON p.brand_ID = b.brand_ID";
+
+    $result = $conn->query($sql);
+?>
+
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
@@ -74,8 +144,9 @@
             </div>
         </div>
 
-        <!-- 2nd Column: Payments List -->
+        <!-- 2nd Column: Inventory -->
         <div class="col-9">
+                <!-- Table Header -->
             <div class="row">
                 <div class="col-12 d-flex align-items-center mb-3">
                     <img src="../../../assets/vectors/inventory.svg" alt="Product Image" class="me-3" style="width: auto; height: 50px">
@@ -86,215 +157,149 @@
                     <button class="btn btn-primary me-2" style="width: 150px; height: 35px" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
                     <!-- Search Bar -->
                     <!-- <input type="text" class="form-control" placeholder="Search..."> -->
-                  </div>
-              </div>
+                </div>
+            </div>
+                <!-- Table of Records -->
+            <div class="col-12">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Product #</th>
+                            <th>Category</th>
+                            <th>Brand</th>
+                            <th>Product Name</th>
+                            <th>Status</th>
+                            <th>Quantity</th>
+                            <th>Store Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
 
-              <?php
-// Database connection
-$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "vg2eweo4yg8eydii";
-$password = "rccstjx3or46kpl9";
-$db_name = "s0gp0gvxcx3fc7ib";
-$port = "3306";
+        
 
-// Create connection
-$conn = new mysqli($host, $username, $password, $db_name);
+                        // Create connection
+                        $conn = new mysqli($host, $username, $password, $db_name);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Handle delete action
-if (isset($_POST['delete'])) {
-    $product_id = $_POST['product_ID'];
-    $delete_sql = "DELETE FROM tbl_products WHERE product_ID = ?";
-    $stmt = $conn->prepare($delete_sql);
-    $stmt->bind_param("i", $product_id);
-    if ($stmt->execute()) {
-        // echo "<script>alert('Product deleted successfully'); window.location.reload();</script>";
-    } else {
-        echo "<script>alert('Failed to delete product');</script>";
-    }
-}
-
-// Handle edit action (save changes)
-if (isset($_POST['edit'])) {
-    $product_id = $_POST['product_ID'];
-    $product_name = $_POST['product_name'];
-    $brand_ID = $_POST['brand_ID'];
-    $category = $_POST['category'];
-    $srp = $_POST['srp'];
-    $store_price = $_POST['store_price'];
-    $description = $_POST['description'];
-    $specification = $_POST['specification'];
-    $quantity = $_POST['quantity']; // Quantity field
-
-    $update_sql = "UPDATE tbl_products 
-                    SET product_name = ?, 
-                        brand_ID = ?, 
-                        category = ?, 
-                        srp = ?, 
-                        store_price = ?, 
-                        description = ?, 
-                        specification = ?, 
-                        quantity = ? 
-                    WHERE product_ID = ?";
-
-    $stmt = $conn->prepare($update_sql);
-    $stmt->bind_param("ssssdssii", $product_name, $brand_ID, $category, $srp, $store_price, $description, $specification, $quantity, $product_id);
-
-    if ($stmt->execute()) {
-        // echo "<script>alert('Product updated successfully'); window.location.reload();</script>";
-    } else {
-        echo "<script>alert('Failed to update product');</script>";
-    }
-}
-
-// Fetch product data
-$sql = "SELECT p.product_ID, p.category, b.brand_name, p.product_name, p.srp, p.store_price, p.description, p.specification, p.quantity 
-        FROM tbl_products p
-        LEFT JOIN tbl_brands b ON p.brand_ID = b.brand_ID";
-
-$result = $conn->query($sql);
-?>
-
-<div class="row">
-    <div class="col-12">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Product #</th>
-                    <th>Category</th>
-                    <th>Brand</th>
-                    <th>Product Name</th>
-                    <th>Status</th>
-                    <th>Quantity</th>
-                    <th>Store Price</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-
-   
-
-// Create connection
-$conn = new mysqli($host, $username, $password, $db_name);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row['product_ID'] . "</td>";
-                        echo "<td>" . $row['category'] . "</td>";
-                        echo "<td>" . $row['brand_name'] . "</td>";
-                        echo "<td>" . $row['product_name'] . "</td>";
-                        echo "<td>Available</td>"; // Static status placeholder
-                        echo "<td>" . $row['quantity'] . "</td>"; // Quantity field
-                        echo "<td>₱ " . number_format($row['store_price'], 2) . "</td>";
-                        echo "<td>
-                                <form method='post' style='display:inline;'>
-                                    <input type='hidden' name='product_ID' value='" . $row['product_ID'] . "'>
-                                    <button type='submit' name='delete' class='btn btn-danger btn-sm'>Delete</button>
-                                </form>
-                                <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editProductModal-" . $row['product_ID'] . "'>Edit</button>
-                              </td>";
-                        echo "</tr>";
-
-                        // Edit Modal for the current product
-                        $brands_query = "SELECT brand_ID, brand_name FROM tbl_brands";
-                        $brands_result = $conn->query($brands_query);
-                        
-                        $categories = [
-                            "CPU", "RAM", "Motherboard", "Video Card", "Computer Case",
-                            "Solid State Drive", "Hard Disk Drive", "CPU Cooler", "Power Supply", "Monitor"
-                        ];
-                        
-                        echo "<div class='modal fade' id='editProductModal-" . $row['product_ID'] . "' tabindex='-1' aria-labelledby='editProductModalLabel' aria-hidden='true'>
-                            <div class='modal-dialog'>
-                                <div class='modal-content'>
-                                    <div class='modal-header'>
-                                        <h5 class='modal-title'>Edit Product</h5>
-                                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                                    </div>
-                                    <div class='modal-body'>
-                                        <form method='post'>
+                        // Check connection
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
+                        }
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td>" . $row['product_ID'] . "</td>";
+                                echo "<td>" . $row['category'] . "</td>";
+                                echo "<td>" . $row['brand_name'] . "</td>";
+                                echo "<td>" . $row['product_name'] . "</td>";
+                                echo "<td>Available</td>"; // Static status placeholder
+                                echo "<td>" . $row['quantity'] . "</td>"; // Quantity field
+                                echo "<td>₱ " . number_format($row['store_price'], 2) . "</td>";
+                                echo "<td>
+                                        <form method='post' style='display:inline;'>
                                             <input type='hidden' name='product_ID' value='" . $row['product_ID'] . "'>
-                                            
-                                            <div class='mb-3'>
-                                                <label for='product_name-" . $row['product_ID'] . "' class='form-label'>Product Name</label>
-                                                <input type='text' class='form-control' name='product_name' id='product_name-" . $row['product_ID'] . "' value='" . $row['product_name'] . "'>
-                                            </div>
-                        
-                                            <div class='mb-3'>
-                                                <label for='brand_ID-" . $row['product_ID'] . "' class='form-label'>Brand</label>
-                                                <select name='brand_ID' class='form-control' id='brand_ID-" . $row['product_ID'] . "'>";
-                                                
-                                                // Populate brands dropdown
-                                                while($brand = $brands_result->fetch_assoc()) {
-                                                    $selected = ($brand['brand_ID'] == $row['brand_ID']) ? "selected" : "";
-                                                    echo "<option value='" . $brand['brand_ID'] . "' $selected>" . $brand['brand_name'] . "</option>";
-                                                }
-                        
-                        echo "          </select>
-                                            </div>
-                        
-                                            <div class='mb-3'>
-                                                <label for='category-" . $row['product_ID'] . "' class='form-label'>Category</label>
-                                                <select name='category' class='form-control' id='category-" . $row['product_ID'] . "'>";
-                        
-                                                // Populate category dropdown
-                                                foreach ($categories as $category) {
-                                                    $selected = ($category == $row['category']) ? "selected" : "";
-                                                    echo "<option value='" . $category . "' $selected>" . $category . "</option>";
-                                                }
-                        
-                        echo "          </select>
-                                            </div>
-                        
-                                            <div class='mb-3'>
-                                                <label for='srp-" . $row['product_ID'] . "' class='form-label'>Retail Price</label>
-                                                <input type='text' class='form-control' name='srp' id='srp-" . $row['product_ID'] . "' value='" . $row['srp'] . "'>
-                                            </div>
-                        
-                                            <div class='mb-3'>
-                                                <label for='store_price-" . $row['product_ID'] . "' class='form-label'>Store Price</label>
-                                                <input type='text' class='form-control' name='store_price' id='store_price-" . $row['product_ID'] . "' value='" . $row['store_price'] . "'>
-                                            </div>
-                        
-                                            <div class='mb-3'>
-                                                <label for='description-" . $row['product_ID'] . "' class='form-label'>Description</label>
-                                                <textarea class='form-control' name='description' id='description-" . $row['product_ID'] . "'>" . $row['description'] . "</textarea>
-                                            </div>
-                        
-                                            <div class='mb-3'>
-                                                <label for='specification-" . $row['product_ID'] . "' class='form-label'>Specifications</label>
-                                                <textarea class='form-control' name='specification' id='specification-" . $row['product_ID'] . "'>" . $row['specification'] . "</textarea>
-                                            </div>
-                        
-                                            <div class='d-flex align-items-center'>
-                                                <label for='quantity-" . $row['product_ID'] . "' class='me-2'>Quantity</label>
-                                                <input type='number' class='form-control mx-2' name='quantity' id='quantity-" . $row['product_ID'] . "' value='" . $row['quantity'] . "' min='1' style='width: 60px;'>
-                                            </div>
-                                            
-                                            <button type='submit' name='edit' class='btn btn-primary mt-3'>Save Changes</button>
+                                            <button type='submit' name='delete' class='btn btn-danger btn-sm'>Delete</button>
                                         </form>
+                                        <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editProductModal-" . $row['product_ID'] . "'>Edit</button>
+                                    </td>";
+                                echo "</tr>";
+
+                                // Edit Modal for the current product
+                                $brands_query = "SELECT brand_ID, brand_name FROM tbl_brands";
+                                $brands_result = $conn->query($brands_query);
+                                
+                                $categories = [
+                                    "CPU", "RAM", "Motherboard", "Video Card", "Computer Case",
+                                    "Solid State Drive", "Hard Disk Drive", "CPU Cooler", "Power Supply", "Monitor"
+                                ];
+                                
+                                echo "<div class='modal fade' id='editProductModal-" . $row['product_ID'] . "' tabindex='-1' aria-labelledby='editProductModalLabel' aria-hidden='true'>
+                                    <div class='modal-dialog'>
+                                        <div class='modal-content'>
+                                            <div class='modal-header'>
+                                                <h5 class='modal-title'>Edit Product</h5>
+                                                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                                            </div>
+                                            <div class='modal-body'>
+                                                <form method='post'>
+                                                    <input type='hidden' name='product_ID' value='" . $row['product_ID'] . "'>
+                                                    
+                                                    <div class='mb-3'>
+                                                        <label for='product_name-" . $row['product_ID'] . "' class='form-label'>Product Name</label>
+                                                        <input type='text' class='form-control' name='product_name' id='product_name-" . $row['product_ID'] . "' value='" . $row['product_name'] . "'>
+                                                    </div>
+                                
+                                                    <div class='mb-3'>
+                                                        <label for='brand_ID-" . $row['product_ID'] . "' class='form-label'>Brand</label>
+                                                        <select name='brand_ID' class='form-control' id='brand_ID-" . $row['product_ID'] . "'>";
+                                                        
+                                                        // Populate brands dropdown
+                                                        while($brand = $brands_result->fetch_assoc()) {
+                                                            $selected = ($brand['brand_ID'] == $row['brand_ID']) ? "selected" : "";
+                                                            echo "<option value='" . $brand['brand_ID'] . "' $selected>" . $brand['brand_name'] . "</option>";
+                                                        }
+                                
+                                echo "          </select>
+                                                    </div>
+                                
+                                                    <div class='mb-3'>
+                                                        <label for='category-" . $row['product_ID'] . "' class='form-label'>Category</label>
+                                                        <select name='category' class='form-control' id='category-" . $row['product_ID'] . "'>";
+                                
+                                                        // Populate category dropdown
+                                                        foreach ($categories as $category) {
+                                                            $selected = ($category == $row['category']) ? "selected" : "";
+                                                            echo "<option value='" . $category . "' $selected>" . $category . "</option>";
+                                                        }
+                                
+                                echo "          </select>
+                                                    </div>
+                                
+                                                    <div class='mb-3'>
+                                                        <label for='srp-" . $row['product_ID'] . "' class='form-label'>Retail Price</label>
+                                                        <input type='text' class='form-control' name='srp' id='srp-" . $row['product_ID'] . "' value='" . $row['srp'] . "'>
+                                                    </div>
+                                
+                                                    <div class='mb-3'>
+                                                        <label for='store_price-" . $row['product_ID'] . "' class='form-label'>Store Price</label>
+                                                        <input type='text' class='form-control' name='store_price' id='store_price-" . $row['product_ID'] . "' value='" . $row['store_price'] . "'>
+                                                    </div>
+                                
+                                                    <div class='mb-3'>
+                                                        <label for='description-" . $row['product_ID'] . "' class='form-label'>Description</label>
+                                                        <textarea class='form-control' name='description' id='description-" . $row['product_ID'] . "'>" . $row['description'] . "</textarea>
+                                                    </div>
+                                
+                                                    <div class='mb-3'>
+                                                        <label for='specification-" . $row['product_ID'] . "' class='form-label'>Specifications</label>
+                                                        <textarea class='form-control' name='specification' id='specification-" . $row['product_ID'] . "'>" . $row['specification'] . "</textarea>
+                                                    </div>
+                                
+                                                    <div class='d-flex align-items-center'>
+                                                        <label for='quantity-" . $row['product_ID'] . "' class='me-2'>Quantity</label>
+                                                        <input type='number' class='form-control mx-2' name='quantity' id='quantity-" . $row['product_ID'] . "' value='" . $row['quantity'] . "' min='1' style='width: 60px;'>
+                                                    </div>
+                                                    
+                                                    <button type='submit' name='edit' class='btn btn-primary mt-3'>Save Changes</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>";
-                    }
-                } else {
-                    echo "<tr><td colspan='8' class='text-center'>No products found</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+                                </div>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='8' class='text-center'>No products found</td></tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
 <?php
@@ -337,7 +342,7 @@ $conn->close();
                 <input type="text" name="product_name" class="form-control" id="productName">
               </div>
 
-              <?php
+<?php
 
 // Create connection
 $conn = new mysqli($host, $username, $password, $db_name, $port);
