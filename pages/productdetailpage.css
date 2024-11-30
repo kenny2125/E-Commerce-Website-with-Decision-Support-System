@@ -1,0 +1,407 @@
+#logo{
+    position: relative;
+    margin-left: 20px;
+    margin-top: 1px;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .search-container {
+    position: relative;
+    bottom: 75px;
+    left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .search-input {
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+  }
+  
+  .search-button {
+    width:100px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .icon-group {
+    position: relative;
+    left: 1200px;
+    bottom: 125px;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .icon-button {
+    width: 40px;
+    height: 40px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .icon-button {
+    height: auto;
+}
+.icon-button:hover {
+  background-color: #0056b3;
+}
+.icon-image {
+    height: 20px;
+    width: 40px;
+}
+
+  
+  hr {
+    margin-top: -110px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .cart-wrapper {
+    width: 1270px;
+    height: 550px;
+    padding: 20px;
+    background-color: #f2f2f2;
+  }
+  .product-container {
+    display: flex;
+    gap: 20px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-width: 1250px;
+    height: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-image img {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.product-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Reduce spacing for the product details section */
+.product-details h2 {
+  font-size: 24px;
+  margin: 0 0 5px; /* Smaller bottom margin */
+}
+
+.stock {
+  font-size: 14px; /* Smaller than the price */
+  color: #555; /* Subtle gray color */
+  margin: 0 0 5px; /* Reduced spacing below */
+  position: relative;
+  top: -15px;
+}
+
+.price {
+  font-size: 20px;
+  color: #0a0042;
+  font-weight: bold;
+  position: relative;
+  top: -20px;
+}
+
+.description {
+  font-size: 16px;
+  color: #555;
+  margin: 5px 0 15px; /* Reduced top and bottom spacing */
+  position: relative;
+  top: -50px;
+}
+
+/* New Stock Indicator */
+.stock {
+  font-size: 15px; 
+  font-style: italic;/* Smaller than the price */
+  color: #555; /* Subtle gray color */
+  margin: 0 0 5px; /* Small margin below the stock text */
+}
+
+.price {
+    font-size: 20px;
+    color: #0a0042;
+    font-weight: bold;
+    margin: 0 0 10px;
+}
+
+.description {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0 20px;
+}
+
+.selection-group {
+  position: relative;
+  top: -60px;
+    margin-bottom: 15px;
+    width: 190px;
+}
+.quantity-group {
+  position: relative;
+  top: -80px;
+    margin-bottom: 15px;
+    width: 190px;
+}
+
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+select, input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* General styles for the dropdown */
+.selection-group {
+  position: relative;
+  margin-top: -15px;
+}
+
+.selection-group select {
+  width: 200px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none; /* Hide default browser arrow */
+  z-index: 1;
+}
+
+/* Hover styles for the dropdown */
+.selection-group select:hover {
+  background-color: #e6f0ff;
+  border-color: #007BFF;
+}
+
+/* Focus styles without the glowing effect */
+.selection-group select:focus {
+  background-color: #f0f8ff;
+  border-color: #0056b3;
+  outline: none;  /* Remove default focus outline */
+  box-shadow: none; /* Remove the glowing effect */
+}
+
+/* Add custom arrow using ::after */
+.selection-group::after {
+  content: "▼"; /* Downward arrow */
+  font-size: 14px;
+  color: #333;
+  position: absolute;
+  left: 175px; /* Adjust distance from the right edge */
+  top: 40px ; /* Vertically centered */
+  transform: translateY(-50%); /* Adjust positioning */
+  pointer-events: none; /* Prevent interaction with the arrow */
+  transition: color 0.3s ease;
+}
+
+/* Change arrow color on hover or focus */
+.selection-group select:hover + ::after,
+.selection-group select:focus + ::after {
+  color: #007BFF;
+}
+
+/* Animation for dropdown fade-in */
+.selection-group select {
+  animation: dropdownFadeIn 0.4s ease-in-out;
+}
+
+/* Keyframes for dropdown animation */
+@keyframes dropdownFadeIn {
+  0% {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+button {
+    width: 100%;
+    padding: 10px 20px;
+    margin: 5px 0;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.quantity-card-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: #fff;
+  padding: 15px; /* Reduced padding */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px; /* Reduced width */
+}
+
+/* Align dropdowns and quantity picker */
+.selection-group {
+  position: relative;
+  left: 5px;
+  bottom: 5px;
+  width: 50%;
+  margin-bottom: 10px;
+}
+.quantity-group{
+  position: relative;
+  bottom: 20px;
+  right: -30px;
+  width: 30px;
+  margin-bottom: 10px;
+}
+
+
+/* Buttons adjusted for smaller action card */
+.add-to-cart, .checkout {
+  width: 100%;
+  padding: 8px;
+  position: relative;
+  bottom: 80px;
+  right: 25px; /* Reduced padding for smaller buttons */
+  margin-top: 3px; /* Adjusted spacing */
+  font-size: 14px; /* Smaller font size */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Adjust colors for buttons */
+.add-to-cart {
+  background-color: #007BFF;
+  width: 130px;
+}
+
+.add-to-cart:hover {
+  background-color: #0056b3;
+}
+
+.checkout {
+  background-color: #000983;
+  width: 130px;
+}
+
+.checkout:hover {
+  background-color: #00032c;
+}
+
+/* Quantity controls adjusted */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: space-between; /* Ensure even spacing */
+}
+
+.quantity-controls button {
+  width: 25px; /* Smaller button size */
+  height: 25px;
+  font-size: 18px; /* Adjust font size for smaller buttons */
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.quantity-controls button:hover {
+  background-color: #0056b3;
+}
+
+.quantity-controls input {
+  width: 35px; /* Reduced input width */
+  height: 25px; /* Adjusted height */
+  text-align: center;
+  font-size: 14px; /* Smaller font size */
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f9f9f9;
+}
+
+/* Ensure product container and details position correctly */
+.product-container {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 1200px;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-details {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+}
