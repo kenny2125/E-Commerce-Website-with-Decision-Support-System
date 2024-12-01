@@ -255,7 +255,7 @@ if ($productId > 0) {
         let currentQuantity = parseInt(quantityInput.value);
         quantityInput.value = currentQuantity + 1;
     });
-});
+
 </script>
 
 <script>
