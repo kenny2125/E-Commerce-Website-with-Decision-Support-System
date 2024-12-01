@@ -49,7 +49,8 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <?php if ($isLoggedIn === true): ?>
             <!-- If logged in, display welcome message and role -->
             <div class="navbar-text d-flex align-items-center">
-                
+                <a href="pages/user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
+                <a href="pages/shop/carting_list.php" class="btn btn-outline-secondary mx-2">Cart</a>
                 <a href="pages/user/logout.php" class="btn btn-danger ml-2">Log Out</a>
             </div>
         <?php else: ?>
@@ -58,6 +59,10 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <?php endif; ?>
     </div>
 </nav>
+
+
+
+
 
 
 <!-- Login Modal -->
@@ -357,6 +362,86 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 </body>
 </html>
 
+<script>
+    $(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        $.ajax({
+            url: 'path_to_user_login.php', // Adjust path as necessary
+            method: 'POST',
+            data: { username: username, password: password },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    // Update UI based on response
+                    $('#loginModal').modal('hide');
+                    location.reload(); // Reload to show updated user information
+                } else {
+                    // Show error message
+                    $('#loginError').text(response.message);
+                }
+            },
+            error: function() {
+                $('#loginError').text('An error occurred. Please try again.');
+            }
+        });
+    });
+});
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        $.ajax({
+            url: 'path_to_user_login.php', // Adjust path as necessary
+            method: 'POST',
+            data: { username: username, password: password },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    // Update UI based on response
+                    $('#loginModal').modal('hide');
+                    location.reload(); // Reload to show updated user information
+                } else {
+                    // Show error message
+                    $('#loginError').text(response.message);
+                }
+            },
+            error: function() {
+                $('#loginError').text('An error occurred. Please try again.');
+            }
+        });
+    });
+});
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if ($openModal): ?>
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        <?php endif; ?>
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if ($openModal): ?>
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        <?php endif; ?>
+    });
+</script>
 
 <!-- Login Modal -->
 <script>

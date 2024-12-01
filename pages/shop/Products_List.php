@@ -1,3 +1,18 @@
+<?php
+session_start(); // Start the session
+
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
+// Debugging (optional, can be removed in production)
+// echo "<h2>Session Data (Debugging)</h2>";
+// if (!empty($_SESSION)) {
+//     echo "<pre>";
+//     print_r($_SESSION);
+//     echo "</pre>";
+// } else {
+//     echo "<p>No session data available.</p>";
+// }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +35,7 @@
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
-        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         
         <!-- Search Bar -->
         <form class="d-flex search-bar">
@@ -29,11 +44,12 @@
         </form>
         
         <!-- User-specific Content -->
-        <!-- <?php if ($isLoggedIn === true): ?> -->
+        <?php if ($isLoggedIn === true): ?>
             <!-- If logged in, display welcome message and role -->
             <div class="navbar-text d-flex align-items-center">
-                
-                <a href="pages/user/logout.php" class="btn btn-danger ml-2">Log Out</a>
+                <a href="../user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
+                <a href="../shop/carting_list.php" class="btn btn-outline-secondary mx-2">Cart</a>
+                <a href="../user/logout.php" class="btn btn-danger ml-2">Log Out</a>
             </div>
         <?php else: ?>
             <!-- If not logged in, show login button -->
@@ -42,8 +58,8 @@
     </div>
 </nav>
 
-<!-- Main Content -->
-<div class="container" style="padding: 30px;">
+
+<div class="container-fluid" style="padding: 50px">
     <div class="row">
         <!-- Sidebar: Filters -->
         <div class="col-3">

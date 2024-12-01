@@ -2,8 +2,6 @@
 // Start the session at the very beginning
 session_start();
 
-
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 // Database connection
 $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
 $username = "vg2eweo4yg8eydii";
@@ -77,32 +75,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
 </head>
 <body>
     <!-- Header Section with Search Bar and Logo -->
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Logo -->
-        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        
-        <!-- Search Bar -->
-        <form class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        
-        <!-- User-specific Content -->
-        <?php if ($isLoggedIn === true): ?>
-            <!-- If logged in, display welcome message and role -->
-            <div class="navbar-text d-flex align-items-center">
-                <a href="../user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
-                <a href="../shop/carting_list.php" class="btn btn-outline-secondary mx-2">Cart</a>
-                <a href="../user/logout.php" class="btn btn-danger ml-2">Log Out</a>
-            </div>
-        <?php else: ?>
-            <!-- If not logged in, show login button -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
-        <?php endif; ?>
-    </div>
-</nav>
-
+    <header class="header">
+        <div class="logo">
+            <img src="/assets/images/footerimages/1.png" alt="Logo">
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button class="search-button">Search</button>
+        </div>
+    </header>
     
     <div class="container">
         <div class="row">
