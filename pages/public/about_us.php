@@ -17,8 +17,6 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 // }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,28 +27,24 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
     <title>RPC Tech Computer Store</title>
-    <link rel="stylesheet" href="assets/css/index.css">
-    <link rel="icon" href="assets/images/rpc-favicon.png">
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-
-<!-- Welcome Modal -->
-<?php
-    // include 'includes/welcomemodal.php';
-?>
-
-<!-- Header -->
+    <!-- Header -->
+<link rel="stylesheet" href="/assets/css/index.css">
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Clickable Logo -->
         <a href="index.php">
-            <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         </a>
         
         <!-- Search Bar -->
-        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
+        <form action="/pages/shop/Products_List.php" method="get" class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button href="pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
+            <button href="/pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
         </form>
         
         <!-- User-specific Content -->
@@ -200,118 +194,19 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
     </div>
 </div>
 
-    <!-- Carousel -->
-<div id="carouselWithInterval" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <?php for ($i = 1; $i <= 16; $i++): ?>
-            <div class="carousel-item <?= $i === 1 ? 'active' : '' ?>" data-bs-interval="2000">
-                <img src="assets/images/bs-images/WHITE BANNER VERSION (<?= $i ?>).png" class="d-block w-100 img-fluid" alt="Slide <?= $i ?>">
-            </div>
-        <?php endfor; ?>
-    </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselWithInterval" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselWithInterval" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-    <!-- Brand Logos -->
-    <div class="brand-logo-container overflow-hidden my-5" style="height: 100px;">
-        <div class="brand-logo-wrapper d-flex animate-loop">
-            <?php 
-            $brands = ["amd", "asus", "biostar", "coolermaster", "corsair", "cougar", "darkflash", "dell", "fanatec", "gigabyte", "gskill", "hp", "inplay", "intel", "kingston", "msi", "nvidia", "nvision", "nzxt", "samsung"];
-            foreach (array_merge($brands, $brands) as $brand): ?>
-            <img src="assets/images/brands/<?= $brand ?>.png" alt="<?= ucfirst($brand) ?>" class="brand-logo mx-4" style="height: 50px;">
-            <?php endforeach; ?>
+<div class="container">
+        <!-- Back button -->
+        <div class="back" id="backButton" style="margin-top: 30px; right: 20px; margin-bottom: 30px; font-size: 23px; color: #A9A9A9; margin-left: 1790px;">
+            <a href="/index.php" style="text-decoration: none; color: inherit;">Back</a>
+        </div>
+            <img src="/assets/images/BANNERS.png" alt="Logo" class="logo" style="width: 95%; height">
+        <div class="about-us">
+        <h1 style="margin-top: 20px; margin-left: 65px;">About Us</h1>
+            <p style="text-align: justify; margin-top: 30px; margin-left: 170px; margin-right: 170px; margin-bottom: 80px; font-size: 23px;"><strong>RPC Tech Computer Store</strong>, founded by Ryn Maglonzo in August 2024, is a business that sells desktop computer accessories and hardware. The store is known for its smooth transactions and affordable prices, attracting customers such as students, work-from-home workers, and others looking for high-quality computer parts at reasonable costs. At present, RPC Tech Computer Store operates from a single location. To meet the growing demand for its products and reach more customers, the store plans to move from its traditional sales approach—which depends on face-to-face interactions and social media—to an online selling platform. This change is expected to make the store more accessible to customers and improve how it operates.</p>
+         </div>
         </div>
     </div>
 </div>
-
-<?php
-    // Database connection
-    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-    $username = "vg2eweo4yg8eydii";
-    $password = "rccstjx3or46kpl9";
-    $db_name = "s0gp0gvxcx3fc7ib";
-
-    $conn = new mysqli($host, $username, $password, $db_name);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Fetch products from the database
-    $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products LIMIT 6";
-    $result = $conn->query($sql);
-
-    $products = [];
-    if ($result->num_rows > 0) {
-        // Store products in an array
-        while ($row = $result->fetch_assoc()) {
-            $products[] = $row;
-        }
-    }
-    $conn->close();
-?>
-
-<!-- Featured Products -->
-<div class="featured-products-wrapper" style="margin-bottom: 100px;">
-    <div class="container my-4">
-        <h2 class="text-center mb-4">Featured Products</h2>
-        <div class="row g-3">
-            <?php if (!empty($products)) : ?>
-                <?php foreach ($products as $product) : ?>
-                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
-                    <div class="card" style="width: 309.328px; height: 437.188px; display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;">
-    <?php
-    // Check if there is image data
-    if (!empty($product['img_data'])) {
-        $imgData = base64_encode($product['img_data']);
-        $imgSrc = 'data:image/jpeg;base64,' . $imgData;
-    } else {
-        $imgSrc = 'path/to/default-image.jpg';
-    }
-    ?>
-    <div class="image-wrapper">
-        <!-- Display the product image inside the image-wrapper -->
-        <img src="<?php echo $imgSrc; ?>" class="card-img-top img-fluid" alt="Product Image">
-    </div>
-    
-    <!-- Card Body (Title and Text Centered) -->
-    <div class="card-body">
-        <h5 class="card-title"><?php echo htmlspecialchars($product['product_name']); ?></h5>
-        <p class="card-text">
-            <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
-        </p>
-    </div>
-    
-    <!-- Card Footer (Button stays at the bottom) -->
-    <div class="card-footer">
-        <a href="product.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary-footer">View Details</a>
-    </div>
-</div>
-                    </div>
-                    <?php endforeach; ?><?php else : ?>
-                <p class="text-center">No featured products available.</p>
-            <?php endif; ?>
-        </div>
-    </div>
-</div>
-
-<!-- DSS Section -->
-<div style="padding: 100px 0 350px; width: 100%; height: auto; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center; text-align: center; color: black;">
-  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <div style="font-size: 64px; font-family: 'Work Sans', sans-serif; font-weight: 600;">Don’t know what to buy?</div>
-    <div style="font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 400; margin-top: 10px;">Check our “Parts Recommendation System” helps you figure out your needs!</div>
-    <a href="pages/public/test_partsrecom.php" style="display: inline-block; margin-top: 20px; padding: 15px 30px; background-color: #1A54C0; color: white; font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 700; border-radius: 50px; text-decoration: none;">Get Started</a>
-  </div>
-</div>
-
 
 <div class="content"></div>
 <footer class="footer" style="width: 100%; background-color: #122448; color: #fff; font-family: 'Lato', sans-serif; padding: 10px 0; position: relative; bottom: 0;">
@@ -348,7 +243,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
         <div class="footer-link-column" style="flex: none; margin: 0 13px;">
             <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Who are we?</p>
                 <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/about_us.php" style="text-decoration: none; color: #fff; font-size: 14px;">About Us</a></p>
+                    <p style="margin: 0; text-align: left;"><a href="pages/public/aboutus.php" style="text-decoration: none; color: #fff; font-size: 14px;">About Us</a></p>
                     <p style="margin: 0; text-align: left;"><a href="pages/public/faq.php" style="text-decoration: none; color: #fff; font-size: 14px;">FAQ</a></p>
                     <p style="margin: 0; text-align: left;"><a href="pages/public/contactus.php" style="text-decoration: none; color: #fff; font-size: 14px;">Contact Us</a></p>
                 </div>
@@ -380,7 +275,6 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 </footer>
 </body>
 </html>
-
 <script>
     $(document).ready(function() {
     $('#loginForm').on('submit', function(e) {
@@ -566,15 +460,4 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
         // Trigger validation on page load to show messages without typing
         validatePassword();
     });
-</script>
-<script>
-    document.getElementById("backButton").addEventListener("click", function () {
-    if (document.referrer) {.
-    // Go back if there's a previous page
-    window.history.back();
-    } else {
-    // Redirect to the main page if there's no history
-    window.location.href = "/index.php"; // Change to your main page URL
-    }
-});
 </script>
