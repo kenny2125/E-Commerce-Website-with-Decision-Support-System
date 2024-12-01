@@ -15,7 +15,7 @@ body {
   height: auto; /* Adjust height dynamically */
   background-color: #FFFFFF;
   box-shadow: 0 7px 3px -2px lightgrey;
-  padding: 10px 20px;
+  padding: 20px 20px;
   position: relative; /* Enables precise positioning adjustments */
 }
 
@@ -36,10 +36,6 @@ body {
   padding-top: 20px;
   margin-left: 50px;
   border-radius: 20px;
-}
-
-.fs-4 {
-  background-color: #1A54C0;
 }
 
 .admin-sidebar-right {
