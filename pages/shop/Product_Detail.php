@@ -111,7 +111,7 @@ if ($productId > 0) {
 <div class="container my-5">
     <div class="row">
         <!-- Product Image -->
-        <div class="col-md-3 text-center">
+        <div class="d-flex-grow col-md-3 text-center">
             <?php
             if ($product['img_data']) {
                 $imgData = base64_encode($product['img_data']);
@@ -128,7 +128,7 @@ if ($productId > 0) {
             <h2 class="fw-bold"><?php echo htmlspecialchars($product['product_name']); ?></h2>
             <p><strong>Stock Available:</strong> <span class="text-success">In Stock</span></p>
             <p><strong>Price:</strong> <span class="text-danger fs-4">₱<?php echo number_format($product['srp'], 2); ?></span></p>
-            <p><strong>Description:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
+            <p class="text-justify"><strong>Description: </strong><?php echo htmlspecialchars($product['description']); ?></p>
 
             <!-- Add to Cart Form -->
             <?php if (isset($successMessage)) { echo "<div class='alert alert-success'>$successMessage</div>"; } ?>
