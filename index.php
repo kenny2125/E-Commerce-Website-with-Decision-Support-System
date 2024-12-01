@@ -1,7 +1,11 @@
 <?php
 session_start(); // Start the session
 
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
+// Check if the user is logged in
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
+
+// Initialize the check for admin role
+$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 // Debugging (optional, can be removed in production)
 // echo "<h2>Session Data (Debugging)</h2>";
 // if (!empty($_SESSION)) {
@@ -12,6 +16,8 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 //     echo "<p>No session data available.</p>";
 // }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,10 +41,13 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 ?>
 
 <!-- Header -->
+<link rel="stylesheet" href="assets/css/index.css">
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Logo -->
-        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        <!-- Clickable Logo -->
+        <a href="index.php">
+            <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        </a>
         
         <!-- Search Bar -->
         <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
@@ -51,12 +60,20 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
             <!-- If logged in, display welcome message and role -->
             <div class="navbar-text d-flex align-items-center">
                 <div class="icon-container">
-                <a href="pages/shop/carting_list.php">
-                    <img src="/assets/images/Group 204.png" alt="Cart Icon">
-                </a>
-                <a href="pages/user/user_profile.php">
-                    <img src="/assets/images/Group 48.png" alt="Cart Icon">
-                </a>
+                    <!-- Cart and Profile Links -->
+                    <a href="pages/shop/carting_list.php">
+                        <img src="/assets/images/Group 204.png" alt="Cart Icon">
+                    </a>
+                    <a href="pages/user/user_profile.php">
+                        <img src="/assets/images/Group 48.png" alt="Profile Icon">
+                    </a>
+
+                    <!-- Admin Link (only visible to admins) -->
+                    <?php if ($isAdmin): ?>
+                        <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
+                            Admin Dashboard
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php else: ?>
@@ -65,6 +82,8 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <?php endif; ?>
     </div>
 </nav>
+
+
 
 
 
@@ -294,17 +313,14 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 </div>
 
 <!-- DSS Section -->
-<div style="padding-top: 100px; padding-bottom: 350px; width: 100%; height: auto; position: relative; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center;">
-  <!-- Content Layer (Text and Button) -->
-    <div style="width: 100%; height: 300px; position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
-        <div style="font-size: 64px; font-family: Work Sans; font-weight: 600; word-wrap: break-word;">Don’t know what to buy?</div>
-        <div style="font-size: 16px; font-family: Lato; font-weight: 400; word-wrap: break-word; margin-top: 10px;">Check our “Parts Recommendation System” helps you figure out your needs!</div>
-        <div style="width: 162.35px; height: 59.87px; margin-top: 20px; position: relative;"></div>
-        <div style="width: 7%; height: 130%; background: #1A54C0; border-radius: 74px; margin-bottom: 101px"></div>
-        <div style="position: absolute; top: 55%; left: 0; width: 100%; height: 100%; text-align: center; color: white; font-size: 16px; font-family: Lato; font-weight: 700; word-wrap: break-word;">Get Started</div>
-    </div>
+<div style="padding: 100px 0 350px; width: 100%; height: auto; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center; text-align: center; color: black;">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div style="font-size: 64px; font-family: 'Work Sans', sans-serif; font-weight: 600;">Don’t know what to buy?</div>
+    <div style="font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 400; margin-top: 10px;">Check our “Parts Recommendation System” helps you figure out your needs!</div>
+    <a href="pages/public/test_partsrecom.php" style="display: inline-block; margin-top: 20px; padding: 15px 30px; background-color: #1A54C0; color: white; font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 700; border-radius: 50px; text-decoration: none;">Get Started</a>
+  </div>
 </div>
-<br><br><br><br><br><br>
+
 
 <div class="content"></div>
 <footer class="footer" style="width: 100%; background-color: #122448; color: #fff; font-family: 'Lato', sans-serif; padding: 10px 0; position: relative; bottom: 0;">

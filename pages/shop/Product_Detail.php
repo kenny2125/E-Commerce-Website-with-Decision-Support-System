@@ -3,6 +3,19 @@ session_start(); // Start the session
 
 $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 $userId = $_SESSION['user_ID'] ?? null;
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
+
+// Initialize the check for admin role
+
+// Debugging (optional, can be removed in production)
+// echo "<h2>Session Data (Debugging)</h2>";
+// if (!empty($_SESSION)) {
+//     echo "<pre>";
+//     print_r($_SESSION);
+//     echo "</pre>";
+// } else {
+//     echo "<p>No session data available.</p>";
+// }
 
 // Get the product ID from the URL
 $productId = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -81,24 +94,40 @@ if ($productId > 0) {
 </head>
 <body>
     <!-- Header -->
+    <link rel="stylesheet" href="../../assets/css/index.css">
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Logo -->
-        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        <!-- Clickable Logo -->
+        <a href="index.php">
+            <img src="../../assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        </a>
         
         <!-- Search Bar -->
-        <form class="d-flex search-bar">
+        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button href="pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
         </form>
         
         <!-- User-specific Content -->
         <?php if ($isLoggedIn === true): ?>
             <!-- If logged in, display welcome message and role -->
             <div class="navbar-text d-flex align-items-center">
-                <a href="../user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
-                <a href="../shop/carting_list.php" class="btn btn-outline-secondary mx-2">Cart</a>
-                <a href="../user/logout.php" class="btn btn-danger ml-2">Log Out</a>
+                <div class="icon-container">
+                    <!-- Cart and Profile Links -->
+                    <a href="pages/shop/carting_list.php">
+                        <img src="/assets/images/Group 204.png" alt="Cart Icon">
+                    </a>
+                    <a href="pages/user/user_profile.php">
+                        <img src="/assets/images/Group 48.png" alt="Profile Icon">
+                    </a>
+
+                    <!-- Admin Link (only visible to admins) -->
+                    <?php if ($isAdmin): ?>
+                        <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
+                            Admin Dashboard
+                        </a>
+                    <?php endif; ?>
+                </div>
             </div>
         <?php else: ?>
             <!-- If not logged in, show login button -->
