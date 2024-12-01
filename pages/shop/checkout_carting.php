@@ -122,5 +122,97 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
             </div>
         </div>
     </div>
+
+    
+<!-- Notification Indicator -->
+<div id="notificationIndicator" class="alert alert-info" style="display:none; position: fixed; bottom: 10px; right: 10px; z-index: 999;">
+    New webhook data received!
+</div>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="webhookModal" tabindex="-1" aria-labelledby="webhookModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="webhookModalLabel">Webhook Notification</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="modalMessage">Waiting for webhook...</p>
+        <pre id="modalPayload"></pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#webhookModal">
+    Open Modal
+</button>
+
+
+<!-- jQuery and Bootstrap JS (For AJAX and Modal) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Function to handle the received webhook data and trigger the modal
+    function handleWebhookData(data) {
+        // Update modal with received data
+        $('#modalMessage').text(data.message);
+        $('#modalPayload').text(JSON.stringify(data.payload, null, 2));
+
+        // Show the modal
+        var myModal = new bootstrap.Modal(document.getElementById('webhookModal'));
+        myModal.show();
+
+        // Show the notification indicator
+        $('#notificationIndicator').fadeIn().delay(3000).fadeOut();
+    }
+
+    // Polling function to check for new data from the backend
+    function pollForWebhookData() {
+        console.log('Checking for new data at ' + new Date().toLocaleTimeString());  // Debugger: log time of check
+        
+        $.ajax({
+            url: 'webhook_receiver.php', // Same file for GET request
+            type: 'GET',
+            success: function(response) {
+                const res = JSON.parse(response);
+
+                // If there's new data, show the modal
+                if (res.status === 'success' && res.payload) {
+                    handleWebhookData(res);
+                    // After displaying, clear the data from the session
+                    clearWebhookData();
+                }
+            },
+            error: function() {
+                console.log('Error reaching webhook receiver.');
+            }
+        });
+    }
+
+    // Function to clear the webhook data after it's shown
+    function clearWebhookData() {
+        $.ajax({
+            url: 'webhook_receiver.php?clear_data=true', // Clear data request
+            type: 'GET',
+            success: function(response) {
+                console.log('Webhook data cleared.');
+            },
+            error: function() {
+                console.log('Error clearing webhook data.');
+            }
+        });
+    }
+
+    // Poll every 5 seconds to check for new data
+    setInterval(pollForWebhookData, 2000);
+</script>
+
+
 </body>
 </html>
