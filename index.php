@@ -25,6 +25,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
     <title>RPC Tech Computer Store</title>
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="icon" href="assets/images/rpc-favicon.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -49,9 +50,14 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <?php if ($isLoggedIn === true): ?>
             <!-- If logged in, display welcome message and role -->
             <div class="navbar-text d-flex align-items-center">
-                <a href="pages/user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
-                <a href="pages/shop/carting_list.php" class="btn btn-outline-secondary mx-2">Cart</a>
-                <a href="pages/user/logout.php" class="btn btn-danger ml-2">Log Out</a>
+                <div class="icon-container">
+                <a href="pages/shop/carting_list.php">
+                    <img src="/assets/images/Group 204.png" alt="Cart Icon">
+                </a>
+                <a href="pages/user/user_profile.php">
+                    <img src="/assets/images/Group 48.png" alt="Cart Icon">
+                </a>
+                </div>
             </div>
         <?php else: ?>
             <!-- If not logged in, show login button -->
@@ -251,28 +257,34 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
             <?php if (!empty($products)) : ?>
                 <?php foreach ($products as $product) : ?>
                     <div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
-                        <div class="card" style="width: 309.328px; height: 437.188px; display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;">
-                            <?php
-                            // Check if there is image data
-                            if (!empty($product['img_data'])) {
-                                $imgData = base64_encode($product['img_data']);
-                                $imgSrc = 'data:image/jpeg;base64,' . $imgData;
-                            } else {
-                                $imgSrc = 'path/to/default-image.jpg';
-                            }
-                            ?>
-                            <!-- Image -->
-                            <img src="<?php echo $imgSrc; ?>" class="card-img-top img-fluid" alt="Product Image" style="max-height: 250px; object-fit: cover;">
-                            
-                            <!-- Card Body -->
-                            <div class="card-body" style="flex-grow: 1; text-align: center;">
-                                <h5 class="card-title" style="font-size: 1.1rem; margin-bottom: 0.5rem;"><?php echo htmlspecialchars($product['product_name']); ?></h5>
-                                <p class="card-text">
-                                    <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
-                                </p>
-                                <a href="product.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary w-100" style="margin-top: auto; margin-right: 25px">View Details</a>
-                            </div>
-                        </div>
+                    <div class="card" style="width: 309.328px; height: 437.188px; display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;">
+    <?php
+    // Check if there is image data
+    if (!empty($product['img_data'])) {
+        $imgData = base64_encode($product['img_data']);
+        $imgSrc = 'data:image/jpeg;base64,' . $imgData;
+    } else {
+        $imgSrc = 'path/to/default-image.jpg';
+    }
+    ?>
+    <div class="image-wrapper">
+        <!-- Display the product image inside the image-wrapper -->
+        <img src="<?php echo $imgSrc; ?>" class="card-img-top img-fluid" alt="Product Image">
+    </div>
+    
+    <!-- Card Body (Title and Text Centered) -->
+    <div class="card-body">
+        <h5 class="card-title"><?php echo htmlspecialchars($product['product_name']); ?></h5>
+        <p class="card-text">
+            <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
+        </p>
+    </div>
+    
+    <!-- Card Footer (Button stays at the bottom) -->
+    <div class="card-footer">
+        <a href="product.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary-footer">View Details</a>
+    </div>
+</div>
                     </div>
                     <?php endforeach; ?><?php else : ?>
                 <p class="text-center">No featured products available.</p>
