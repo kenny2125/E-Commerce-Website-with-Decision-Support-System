@@ -62,10 +62,10 @@ $specification = json_decode($product['specification'], true);
     </div>
 </nav>
 
-<div class="container my-5">
+<div class="container my-5 ">
     <div class="row">
         <!-- Product Image -->
-        <div class="col-md-3 text-center">
+        <div class="d-flex-grow col-md-3 text-center">
             <?php
             // Check if there is image data for the product
             if ($product['img_data']) {
@@ -83,7 +83,7 @@ $specification = json_decode($product['specification'], true);
             <h2 class="fw-bold"><?php echo htmlspecialchars($product['product_name']); ?></h2>
             <p><strong>Stock Available:</strong> <span class="text-success">In Stock</span></p>
             <p><strong>Price:</strong> <span class="text-danger fs-4">₱<?php echo number_format($product['srp'], 2); ?></span></p>
-            <p><strong>Description:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
+            <p class="text-justify"><strong>Description:</strong><?php echo htmlspecialchars($product['description']); ?></p>
 
             <h5>Payment & Pickup Methods</h5>
             <ul>
@@ -110,9 +110,9 @@ $specification = json_decode($product['specification'], true);
 
         <!-- Product specification -->
         <div class="col-md-4">
-            <h4 class="fw-bold">Specification</h4>
+            <h4 class="fw-bold">Specification:</h4>
             <ul>
-            <p><strong>Description:</strong> <?php echo htmlspecialchars($product['specification']); ?></p>
+            <p class="text-justify"><?php echo htmlspecialchars($product['specification']); ?></p>
             </ul>
         </div>
     </div>

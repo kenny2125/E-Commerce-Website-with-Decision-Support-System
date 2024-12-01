@@ -114,11 +114,11 @@ body {
 
 .col-md-3 {
     background-color: #FFF;
-    width: 40%;
-    margin-left: -140px;
+    width: 29%;
+    margin-left: 7px;
     margin-right: 50px;
-    margin-top: 50px;
-    margin-bottom: 130px;
+    margin-top: 80px;
+    margin-bottom: 270px;
     box-shadow: 0 2px 8px #1A54C0;
     border-radius: 30px;
 }
@@ -161,4 +161,8 @@ body {
     position: relative;
     right: 40px; /* Move the login button to the left */
     color: #FFFFFF;
+}
+
+.text-justify {
+    text-align: justify;
 }
