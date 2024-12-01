@@ -40,9 +40,9 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         
         <!-- Search Bar -->
-        <form class="d-flex search-bar">
+        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button href="pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
         </form>
         
         <!-- User-specific Content -->

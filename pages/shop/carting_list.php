@@ -18,12 +18,13 @@ if ($conn->connect_error) {
 }
 
 // Set user ID variable (change this value as needed)
+$user_ID = 11; // Dummy user ID for debugging and testing
 
 // Query to fetch products for the specific user
 $sql = "SELECT p.product_ID, p.product_name, p.store_price, p.img_data 
-        FROM tbl_products p
-        JOIN tbl_cart c ON p.product_ID = c.product_ID
-        WHERE c.user_ID = $user_ID"; // Only fetch products added to the cart by the specified user
+    FROM tbl_products p
+    JOIN tbl_cart c ON p.product_ID = c.product_ID
+    WHERE c.user_ID = $user_ID"; // Only fetch products added to the cart by the specified user
 
 $result = $conn->query($sql);
 ?>

@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 
 // Initialize variables for subtotal and shipping fee
 $subtotal = 0;
-$shipping_fee = 50.00;  // Example shipping fee
+$shipping_fee = 150.00;  // Example shipping fee
 
 // Check if selected products are passed from the form (cart items)
 if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
@@ -132,7 +132,7 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
         </div>
 
         <div class="col-lg-4">
-            <form method="POST" action="checkout_url.php" target="_blank">
+            <form id="checkout-form" method="POST" target="_blank">
                 <div class="card shadow border-0 mb-3">
                     <div class="card-body">
                         <h5 class="fw-bold section-title">Purchase Information</h5>
@@ -145,7 +145,6 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
                         <div class="mb-3">
                             <label for="payment-method" class="form-label fw-bold">Payment Method</label>
                             <select id="payment-method" class="form-select">
-                                <option value="paymongo">Paymongo Link</option>
                                 <option value="gcash">GCash</option>
                                 <option value="paymaya">PayMaya</option>
                                 <option value="cash_on_delivery">Cash on Delivery</option>
@@ -173,18 +172,36 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
                         <div class="form-check mt-3">
                             <input type="checkbox" class="form-check-input" id="agree" required>
                             <label for="agree" class="form-check-label small">
-                                I agree to redirect to Paymongo Payment Gateway
+                                I agree to redirect to the payment gateway
                             </label>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3 w-100 fw-bold">Place Order</button>
                     </div>
                 </div>
             </form>
+
         </div>
     </div>
   </div>
-</body>
-</html>
+
+
+  <script>
+    // JavaScript to change form action based on payment method
+    document.getElementById("checkout-form").addEventListener("submit", function(e) {
+        var paymentMethod = document.getElementById("payment-method").value;
+        var formAction;
+
+        if (paymentMethod === "gcash" || paymentMethod === "paymaya") {
+            // Both GCash and PayMaya use the same URL
+            formAction = "checkout_url.php"; // Your payment link for both options
+        } else if (paymentMethod === "cash_on_delivery") {
+            // For COD, handle as you wish (it could be another script or the same one)
+            formAction = "addorder.php"; // Handle COD separately
+        }
+
+        this.action = formAction; // Set form action based on payment method
+    });
+</script>
 
 
 <!-- Notification Indicator -->
@@ -276,7 +293,8 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
     setInterval(pollForWebhookData, 2000);
 </script>
 
-
+</body>
+</html>
 <?php
 $conn->close();
 ?>
