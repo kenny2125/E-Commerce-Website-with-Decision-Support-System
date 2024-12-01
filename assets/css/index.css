@@ -75,7 +75,7 @@ body {
 /* Hover Effects */
 .search-bar .btn-outline-success:hover {
   background-color: #154a9e;
-  transform: scale(1.05); /* Hover effect */
+  transform: scale(1.01); /* Hover effect */
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
@@ -93,6 +93,8 @@ body {
 
 .btn-primary:hover {
   background-color: #154a9e;
+  transform: scale(1.01); /* Hover effect */
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 /* Responsive Adjustments */
@@ -204,7 +206,7 @@ body {
   opacity: 1; /* Full visibility on focus */
 }
 
-.input:focus {
+.input-field:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
@@ -231,6 +233,8 @@ body {
 
 .d-grid .login-btn:hover {
   background-color: #0056b3;
+  transform: scale(1.03); /* Hover effect */
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 /* Create Account Link */
@@ -324,6 +328,8 @@ p {
 
 #registrationModal .btn-primary:hover {
   background-color: #0056b3;
+  transform: scale(1.03); /* Hover effect */
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .feedback {
@@ -429,50 +435,73 @@ p {
 
 /* Card Styling */
 .card {
-  margin-top: 30px;
-  border-radius: 20px;
-  box-shadow: 0 2px 8px #1A54C0;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation */
+  display: flex;                 /* Use flexbox for layout */
+  flex-direction: column;        /* Stack items vertically */
+  justify-content: space-between; /* Push footer to the bottom */
+  border-radius: 15px;
+  height: 100%;                  /* Ensure card takes full height */
+  overflow: hidden;              /* Prevent image overflow */
 }
 
 .card:hover {
-  transform: scale(1.0); /* Zoom out slightly */
+  transform: scale(1.03); /* Hover effect */
+  transition: transform 0.3s ease, background-color 0.3s ease;
   box-shadow: 0 10px 18px #154a9e; /* Add a slightly stronger shadow */
 }
 
+.image-wrapper {
+  display: flex;                 /* Use flexbox for image centering */
+  justify-content: center;       /* Horizontally center the image */
+  align-items: center;           /* Vertically center the image */
+  height: 250px;                 /* Adjust height as needed for your design */
+  background-color: #f8f8f8;     /* Optional: Add a light background for contrast */
+  overflow: hidden;              /* Ensure the image stays inside the wrapper */
+}
+
 .card-img-top {
-  max-height: 150px;
-  width: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease; /* Add smooth animation to image */
-  margin-top: 10px;
+  width: 100%;                    /* Ensure the image fits the width of the container */
+  height: auto;                   /* Maintain aspect ratio */
+  object-fit: contain;            /* Maintain aspect ratio and avoid cropping */
 }
 
 /* Updated Card Body Styling */
 .card-body {
-  display: flex; /* Enables flexbox layout */
-  flex-direction: column; /* Stacks items vertically */
-  align-items: center; /* Centers items horizontally */
+  display: flex;                 /* Use flexbox for layout */
+  flex-direction: column;        /* Stack title and text vertically */
+  justify-content: center;       /* Vertically center the content */
+  text-align: center;            /* Center-align title and text */
+  flex-grow: 1;                  /* Ensure it takes available space */
+  padding: 10px;                 /* Optional: Add padding for spacing */
 }
 
-.card-body .btn {
-  font-size: 14px;
-  padding: 8px 12px; /* Button padding */
-  border-radius: 20px;
-  margin-left: 105px;
-  width: 100%; /* Full width for responsiveness */
-  max-width: 180px; /* Slightly narrower width for centering */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.card-footer {
+  background-color: #FFF;        /* Maintain white background */
+  border-top: none;              /* Remove border */
+  text-align: center;
+  padding: 10px 0;
+  margin-top: auto;              /* Ensure footer stays at the bottom of the card */
+}
+
+.btn-primary-footer {
+  background-color: #1A54C0;
+  padding: 10px 30px;
+  border-radius: 74px;
+  color: #FFFFFF;
+}
+
+.btn-primary-footer:hover {
+  background-color: #154a9e;
+  transform: scale(1.03); /* Hover effect */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  color: #FFFFFF;
 }
 
 .card-title {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: -8px;
-  white-space: nowrap; /* Prevent text wrapping */
-  overflow: hidden; /* Hide overflowing text */
-  text-overflow: ellipsis; /* Add ellipsis for long text */
+  margin-bottom: 10px;            /* Adjust margin for spacing */
+  overflow: hidden;               /* Hide overflowing text */
+  text-overflow: ellipsis;        /* Add ellipsis for long text */
 }
 
 .card-text {
@@ -532,4 +561,35 @@ p {
 .icon-image {
   width: 100%;
   height: auto;
+}
+
+/* Container for the icons */
+.icon-container {
+  display: flex; /* Use flexbox to align items horizontally */
+  align-items: center; /* Vertically center items */
+  justify-content: center; /* Center the icons horizontally */
+  margin-right: 30px;
+}
+
+/* Style for the images inside the buttons */
+.icon-container img {
+  width: auto; /* Adjust the width of the image */
+  height: 60px; /* Maintain aspect ratio */
+  transition: transform 0.3s ease; /* Smooth transform transition for hover effect */
+}
+
+/* Hover effect for the images */
+.icon-container a:hover img {
+  transform: scale(1.03); /* Hover effect */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Add space between the images */
+.icon-container a {
+  margin-right: 20px; /* Space between the images */
+}
+
+/* Optional: Add spacing between icons */
+.icon-container a:not(:last-child) {
+  margin-right: 10px; /* Add right margin to all buttons except the last one */
 }
