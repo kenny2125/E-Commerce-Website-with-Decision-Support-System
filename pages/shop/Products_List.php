@@ -25,7 +25,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         // Function to redirect to product detail page when button is clicked
         function viewDetails(productId) {
             // Redirect to product_detail.php with the product ID
-            window.location.href = "product_detail.php?id=" + productId;
+            window.location.href = "Product_Detail.php?id=" + productId;
         }
     </script>
 </head>
