@@ -134,22 +134,19 @@ if ($productId > 0) {
             <?php if (isset($successMessage)) { echo "<div class='alert alert-success'>$successMessage</div>"; } ?>
             <?php if (isset($errorMessage)) { echo "<div class='alert alert-danger'>$errorMessage</div>"; } ?>
             
-            <form action="" method="POST">
-                <div class="d-flex align-items-center my-3">
-                    <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
-                    <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" style="width: 80px;">
-                    <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
-                </div>
-            </form>
-
-            <form action="checkout_page.php" method="POST">
-                <input type="hidden" name="product_id" value="<?php echo $product['product_ID']; ?>">
+            <form action="carting_list.php" method="POST">
+    <div class="d-flex align-items-center my-3">
+        <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
+        <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" style="width: 80px;">
+        <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button> 
+    </div>
+    <div class="d-flex gap-3">
+        <button type="submit" name="add_to_cart" class="btn btn-add-to-cart">Add to Cart</button>
+        <input type="hidden" name="product_id" value="<?php echo $product['product_ID']; ?>">
                 <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product['product_name']); ?>">
-                <input type="hidden" name="store_price" value="<?php echo $product['srp']; ?>">
-                <button type="submit" name="add_to_cart" class="btn btn-add-to-cart">Add to Cart</button>
-                <button type="submit" class="btn btn-success">Checkout</button>
-            </form>
-
+                <input type="hidden" name="store_price" value="<?php echo $product['srp']; ?>"><button formaction="checkout_page.php" type="submit" class="btn btn-success">Checkout</button>
+    </div>
+</form>
         </div>
 
         <!-- Product Specification -->
