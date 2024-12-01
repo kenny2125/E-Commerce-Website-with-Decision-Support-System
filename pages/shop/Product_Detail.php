@@ -138,7 +138,7 @@ if ($productId > 0) {
     <div class="d-flex align-items-center my-3">
         <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
         <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" style="width: 80px;">
-        <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
+        <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button> 
     </div>
     <div class="d-flex gap-3">
         <button type="submit" name="add_to_cart" class="btn btn-add-to-cart">Add to Cart</button>
