@@ -33,7 +33,7 @@
                 <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%; margin-top: 30px;">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link link-light">
+                            <a href="admin_profile.php" class="nav-link link-light">
                                 Admin Profile
                             </a>
                         </li>
@@ -43,23 +43,18 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link link-light">
+                            <a href="inventory_management.php" class="nav-link link-light">
                                 Inventory Management
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link link-light">
+                            <a href="orders_management" class="nav-link link-light">
                                 Orders Management
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link link-light">
+                            <a href="payment_list" class="nav-link link-light">
                                 Payments List
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link link-light">
-                                Roles Management
                             </a>
                         </li>
                     </ul>
@@ -134,7 +129,7 @@
                     <div class="col-12">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 280px; text-align: center; box-shadow: 0 4px 10px #888383; margin-bottom: 50px;">
                             <div class="card-body">
-                                <h5 class="card-title">Top Products</h5>
+                                <h5 class="card-title" style="margin-bottom: 25px;">Top Products</h5>
                                 <p class="card-text">Product 1</p>
                                 <p class="card-text">Product 2</p>
                                 <p class="card-text">Product 3</p>
@@ -149,7 +144,7 @@
                     <div class="col-12">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 280px; text-align: center; box-shadow: 0 4px 10px #888383;">
                             <div class="card-body">
-                                <h5 class="card-title">Stock Alerts</h5>
+                                <h5 class="card-title" style="margin-bottom: 25px;">Stock Alerts</h5>
                                 <p class="card-text">Product A: Low stock</p>
                                 <p class="card-text">Product B: Out of stock</p>
                                 <p class="card-text">Product C: Low stock</p>

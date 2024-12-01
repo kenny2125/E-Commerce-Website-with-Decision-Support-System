@@ -29,28 +29,6 @@ body {
   left: 20px; /* Fine-tune placement */
 }
 
-/* Search Bar Styling */
-.search-bar {
-  display: flex;
-  flex-grow: 1; /* Allow search bar to grow dynamically */
-  max-width: 800px; /* Limit max width */
-  margin-right: 10px;
-}
-
-/* Search Input Field */
-.search-bar .form-control {
-  flex-grow: 1; /* Fill available space */
-  font-size: 18px;
-  border-radius: 74px;
-  padding-left: 40px;
-  margin-right: 10px; /* Space between input and button */
-}
-
-/* Search Button */
-.search-bar .btn-outline-success {
-  
-}
-
 /* Sidebar Styling */
 .admin-sidebar {
   background-color: #1A54C0;
@@ -62,10 +40,6 @@ body {
 
 .fs-4 {
   background-color: #1A54C0;
-}
-
-.admin-dropdown {
-  
 }
 
 .admin-sidebar-right {

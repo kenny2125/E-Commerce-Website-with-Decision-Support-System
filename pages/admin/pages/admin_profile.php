@@ -87,17 +87,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     
     <div class="container">
         <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 sidebar">
-                <div class="sidebar-item active" id="myProfile">
-                    <span class="material-icons icon">person</span>
-                    <span>My Profile</span>
+            <!-- Sidebar Section -->
+            <div class="col-md-2 admin-sidebar" style="background-color: #1A54C0; border-radius: 20px; margin-right: 35px; margin-left: 68px; box-shadow: 0 4px 10px #888383;">
+                <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%; margin-top: 30px;">
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a href="admin_profile.php" class="nav-link link-light">
+                                Admin Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link link-light active" aria-current="page">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="inventory_management.php" class="nav-link link-light">
+                                Inventory Management
+                            </a>
+                        </li>
+                        <li>
+                            <a href="orders_management" class="nav-link link-light">
+                                Orders Management
+                            </a>
+                        </li>
+                        <li>
+                            <a href="payment_list" class="nav-link link-light">
+                                Payments List
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="container-fluid admin-dropdown">
+                <div class="d-flex justify-content-end">
+        <div class="dropdown" style="background-color: #fff; margin-top: 260px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
+        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
+                <a href="/index.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
+            </a>
+        </div>
+    </div>
+</div>
                 </div>
-                <div class="sidebar-item" id="orderHistorySidebar">
-                    <span class="material-icons icon">history</span>
-                    <span>Order History</span>
-                </div>
-                <a href="logout.php" class="btn btn-danger ml-2">Log Out</a>
             </div>
             
             <!-- Profile Content -->
@@ -162,35 +191,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                         <button type="submit" class="action-button" name="save_changes" id="saveProfile" style="display: none;">Save Changes</button>
                     </div>
                 </form>
-            </div>
-
-            <!-- Order History Content -->
-            <div id="orderHistoryContent" class="order-history" style="display: none;">
-                <h2>Order History</h2>
-                <div class="panel">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Order #</th>
-                                <th>Product Name</th>
-                                <th>Payment Status</th>
-                                <th>Pickup Status</th>
-                                <th>Order Date</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>GEFORCE RTX 4090 MSI GAMING TRIO 24GB GDDR6X TRIPLE FAN RGB</td>
-                                <td><span class="badge bg-success">Paid</span></td>
-                                <td><span class="badge bg-primary">Ready</span></td>
-                                <td>October 29, 2024</td>
-                                <td>₱114,995.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
 
