@@ -109,7 +109,7 @@ $specification = json_decode($product['specification'], true);
         </div>
 
         <!-- Product specification -->
-        <div class="col-md-4" style>
+        <div class="col-md-4" style="margin-left: 50px;">
             <h4 class="fw-bold">Specification</h4>
             <ul>
             <p><strong>Description:</strong> <?php echo htmlspecialchars($product['specification']); ?></p>
