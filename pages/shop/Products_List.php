@@ -35,7 +35,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
-        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         
         <!-- Search Bar -->
         <form class="d-flex search-bar">
