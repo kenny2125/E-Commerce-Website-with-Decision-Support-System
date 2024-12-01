@@ -30,7 +30,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 
 <!-- Welcome Modal -->
 <?php
-    include 'includes/welcomemodal.php';
+    // include 'includes/welcomemodal.php';
 ?>
 
 <!-- Header -->
@@ -59,6 +59,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
     </div>
 </nav>
 
+
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-2" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -70,7 +71,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
             </div>
             <div class="modal-body">
                 <div class="form-box">
-                <form action="pages\user\loginn.php" method="POST">
+                <form action="pages/user/login.php" method="POST">
                     <div class="input-group">
                         <label for="username">Username</label>
                         <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
@@ -177,11 +178,6 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         </div>
     </div>
 </div>
-
-
-
-
-
 
     <!-- Carousel -->
 <div id="carouselWithInterval" class="carousel slide" data-bs-ride="carousel">

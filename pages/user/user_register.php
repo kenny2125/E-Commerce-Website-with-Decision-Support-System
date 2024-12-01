@@ -51,7 +51,7 @@ if (isset($_POST['signUp'])) {
             ";
 
             if ($conn->query($insertQuery) === TRUE) {
-                header('Location: login.php'); // Redirect to login page
+                header('Location: ../../index.php'); // Redirect to login page
                 exit;
             } else {
                 echo "Error: Unable to create account.";
