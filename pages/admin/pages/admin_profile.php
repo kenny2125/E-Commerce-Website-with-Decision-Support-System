@@ -1,70 +1,3 @@
-<?php
-// Start the session at the very beginning
-session_start();
-
-
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
-// Database connection
-$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "vg2eweo4yg8eydii";
-$password = "rccstjx3or46kpl9";
-$db_name = "s0gp0gvxcx3fc7ib";
-
-// Create connection
-$conn = new mysqli($host, $username, $password, $db_name);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Ensure user is logged in by checking if user_ID is set in session
-$user_ID = $_SESSION['user_ID']; // Get the user ID from the session
-
-// Make sure $user_ID is valid
-if (empty($user_ID)) {
-    die("User ID is not set properly.");
-}
-
-// Fetch user data from the database
-$sql = "SELECT * FROM tbl_user WHERE user_ID = $user_ID";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $user = $result->fetch_assoc();
-} else {
-    echo "No user found with the given user ID.";
-    exit();
-}
-
-// Save changes if form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
-    $firstName = $_POST['first_name'];
-    $middleInitial = $_POST['middle_initial'];
-    $lastName = $_POST['last_name'];
-    $username = $_POST['username'];
-    $password = $_POST['password']; // Hash the password before saving
-    $address = $_POST['address'];
-    $contactNumber = $_POST['contact_number'];
-    $email = $_POST['email'];
-
-    // Hash password if changed
-    $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
-
-    // Update user data in the database
-    $updateSql = "UPDATE tbl_user SET first_name = '$firstName', middle_initial = '$middleInitial', last_name = '$lastName', username = '$username', password = '$hashedPassword', address = '$address', contact_number = '$contactNumber', email = '$email' WHERE user_ID = $user_ID";
-    
-    if ($conn->query($updateSql)) {
-        echo "Profile updated successfully";
-        // Refresh the user data after updating
-        $result = $conn->query($sql);
-        $user = $result->fetch_assoc();
-    } else {
-        echo "Error updating profile: " . $conn->error;
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,15 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
         <div class="row">
             <!-- Sidebar Section -->
             <div class="col-md-2 admin-sidebar" style="background-color: #1A54C0; border-radius: 20px; margin-right: 35px; margin-left: 68px; box-shadow: 0 4px 10px #888383;">
-                <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%; margin-top: 30px; margin-bottom: 52px">
+                <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%; margin-top: 30px;">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="admin_profile.php" class="nav-link link-light">
+                            <a href="#" class="nav-link link-light active" aria-current="page">
                                 Admin Profile
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link link-light active" aria-current="page">
+                            <a href="admin_dashboard.php" class="nav-link link-light">
                                 Dashboard
                             </a>
                         </li>
@@ -138,10 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
             </div>
 
             <!-- Main Dashboard Section -->
-            <div class="col-md-6 admin-dashboard-main">
+            <div class="col-md-5 admin-dashboard-main">
                 <div class="row">
-                <div class="col-md-9 profile-content" id="profileContent">
-                <h2>My Profile</h2>
+                <div class="col-md-9 profile-content" style="background-color: #FFF; height: 500px; width: 5500px;" id="profileContent">
+                <h2>Admin Profile</h2>
                 <div class="section-header">Basic Information</div>
                 <form method="POST">
                     <div class="info-section">
@@ -202,10 +135,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                     </div>
                 </form>
             </div>
+                </div>
+                
+                </div>
+            </div>
         </div>
-        </div>
-</div>
-</div>
+    </div>
 
 <div class="content"></div>
 <footer class="footer" style="width: 100%; background-color: #122448; color: #fff; font-family: 'Lato', sans-serif; padding: 10px 0; position: relative; bottom: 0;">
@@ -272,30 +207,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
   </div>
 </footer>
 
-<script>
-        document.getElementById('myProfile').addEventListener('click', function() {
-            document.getElementById('profileContent').style.display = 'block';
-            document.getElementById('orderHistoryContent').style.display = 'none';
-        });
+    <script>
+        const data = [
+            { name: 'January', value: 12000 },
+            { name: 'February', value: 16000 },
+            { name: 'March', value: 18000 },
+            { name: 'April', value: 20000 },
+            { name: 'May', value: 21000 },
+            { name: 'June', value: 22000 },
+            { name: 'July', value: 23000 },
+            { name: 'August', value: 27000 },
+            { name: 'September', value: 29000 },
+            { name: 'October', value: 31000 },
+            { name: 'November', value: 33000 },
+            { name: 'December', value: 37100 },
+        ];
 
-        document.getElementById('orderHistorySidebar').addEventListener('click', function() {
-            document.getElementById('orderHistoryContent').style.display = 'block';
-            document.getElementById('profileContent').style.display = 'none';
-        });
+        const options = {
+            chart: {
+                type: 'bar',
+                height: 400,
+                toolbar: {
+                    show: false,
+                },
+            },
+            series: [
+                {
+                    name: 'Sales',
+                    data: data.map(item => item.value),
+                },
+            ],
+            xaxis: {
+                categories: data.map(item => item.name),
+            },
+            yaxis: {
+                labels: {
+                    formatter: val => `₱${val.toLocaleString()}`,
+                },
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'],
+                    opacity: 0.5,
+                },
+            },
+            theme: {
+                palette: 'palette1',
+            },
+        };
 
-        document.getElementById('editProfile').addEventListener('click', function() {
-            // Toggle the disabled attribute of the inputs
-            var inputs = document.querySelectorAll('#firstName, #middleInitial, #lastName, #username, #password, #address, #contactNumber, #email');
-            var saveButton = document.getElementById('saveProfile');
-            
-            inputs.forEach(function(input) {
-                input.disabled = false;
-            });
-
-            // Hide the "Edit Profile" button and show the "Save Changes" button
-            this.style.display = 'none';
-            saveButton.style.display = 'inline-block';
-        });
+        const chart = new ApexCharts(document.getElementById('chart-container'), options);
+        chart.render();
     </script>
     <script>
     function updateClock() {
