@@ -154,7 +154,7 @@ if ($productId > 0) {
 
         <!-- Product Specification -->
         <div class="col-md-4">
-            <h4 class="fw-bold">Specification</h4>
+            <h4 class="fw-bold">Specification:</h4>
             <ul>
                 <?php if (is_array($specification)) {
                     foreach ($specification as $key => $value) {
