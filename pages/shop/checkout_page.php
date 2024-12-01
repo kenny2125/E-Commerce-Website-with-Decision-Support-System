@@ -87,10 +87,13 @@
 <body style="background-color: #EBEBEB;">
 
 
+<link rel="stylesheet" href="../../assets/css/index.css">
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Logo -->
-        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        <!-- Clickable Logo -->
+        <a href="index.php">
+            <img src="../../assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        </a>
         
         <!-- Search Bar -->
         <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
@@ -104,10 +107,10 @@
             <div class="navbar-text d-flex align-items-center">
                 <div class="icon-container">
                     <!-- Cart and Profile Links -->
-                    <a href="../../pages/shop/carting_list.php">
+                    <a href="pages/shop/carting_list.php">
                         <img src="/assets/images/Group 204.png" alt="Cart Icon">
                     </a>
-                    <a href="../../pages/user/user_profile.php">
+                    <a href="pages/user/user_profile.php">
                         <img src="/assets/images/Group 48.png" alt="Profile Icon">
                     </a>
 

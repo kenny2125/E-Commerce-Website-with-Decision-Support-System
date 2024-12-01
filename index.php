@@ -41,10 +41,13 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 ?>
 
 <!-- Header -->
+<link rel="stylesheet" href="assets/css/index.css">
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Logo -->
-        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        <!-- Clickable Logo -->
+        <a href="index.php">
+            <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        </a>
         
         <!-- Search Bar -->
         <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
@@ -79,6 +82,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
         <?php endif; ?>
     </div>
 </nav>
+
 
 
 
