@@ -9,6 +9,29 @@
 </head>
 
 <body>
+<nav class="navbar navbar-light bg-light">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; height: auto; background-color: #FFFFFF; box-shadow: 0 7px 3px -2px lightgrey; padding: 10px 20px; position: relative;">
+        <!-- Logo -->
+        <img src="assets/images/rpc-logo-black.png" alt="Logo" style="width: 240px; height: auto; max-width: 100%; margin-left: 20px; position: relative; left: 20px;">
+
+        <!-- Search Bar -->
+        <form style="display: flex; flex-grow: 1; max-width: 800px; margin-right: 10px;">
+            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search" style="flex-grow: 1; font-size: 18px; border-radius: 74px; padding-left: 40px; margin-right: 10px;">
+            <button class="btn btn-outline-success" type="submit" style="height: 55px; font-size: 20px; border-radius: 74px; background-color: #1A54C0; color: #FFFFFF; padding: 0 45px;">Search</button>
+        </form>
+
+        <!-- User-specific Content -->
+        <?php if ($isLoggedIn === true): ?>
+            <!-- If logged in, display welcome message and role -->
+            <div class="navbar-text d-flex align-items-center">
+                <a href="pages/user/logout.php" class="btn btn-danger ml-2" style="height: 40px; font-size: 16px; border-radius: 74px; background-color: #DC3545; padding: 0 25px;">Log Out</a>
+            </div>
+        <?php else: ?>
+            <!-- If not logged in, show login button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal" style="height: 40px; font-size: 16px; border-radius: 74px; background-color: #1A54C0; padding: 0 25px; margin-right: 20px; position: relative; right: 40px;">Log In</button>
+        <?php endif; ?>
+    </div>
+</nav>
     <h1><img src="/assets/images/rpc-logo-black.png"width="120" height="40" id="logo" title="home"></h1>
 
     <div class="search-container">

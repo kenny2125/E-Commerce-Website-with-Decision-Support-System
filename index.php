@@ -178,11 +178,6 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
     </div>
 </div>
 
-
-
-
-
-
     <!-- Carousel -->
 <div id="carouselWithInterval" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -360,36 +355,6 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 </footer>
 </body>
 </html>
-
-<script>
-    $(document).ready(function() {
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault();
-
-        var username = $('#username').val();
-        var password = $('#password').val();
-
-        $.ajax({
-            url: 'path_to_user_login.php', // Adjust path as necessary
-            method: 'POST',
-            data: { username: username, password: password },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status == 'success') {
-                    // Update UI based on response
-                    $('#loginModal').modal('hide');
-                    location.reload(); // Reload to show updated user information
-                } else {
-                    // Show error message
-                    $('#loginError').text(response.message);
-                }
-            },
-            error: function() {
-                $('#loginError').text('An error occurred. Please try again.');
-            }
-        });
-    });
-});
 
 <script>
     $(document).ready(function() {

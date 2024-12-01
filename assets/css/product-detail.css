@@ -1,0 +1,164 @@
+body {
+    background-color: #EFEFEF;
+}
+
+/* Base Container Styling */
+.container-fluid {
+    display: flex; /* Use flexbox for layout */
+    align-items: center;
+    justify-content: space-between; /* Space out elements */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    height: auto; /* Adjust height dynamically */
+    background-color: #FFFFFF;
+    box-shadow: 0 7px 3px -2px lightgrey;
+    padding: 10px 20px;
+    position: relative; /* Enables precise positioning adjustments */
+}
+
+/* Logo Styling */
+.logo {
+    width: 240px;
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%;
+    margin-left: 20px; /* Move logo to the right */
+    position: relative; /* Allows precise control over placement */
+    left: 20px; /* Fine-tune placement */
+}
+
+/* Search Bar Styling */
+.search-bar {
+    display: flex;
+    flex-grow: 1; /* Allow search bar to grow dynamically */
+    max-width: 800px; /* Limit max width */
+    margin-right: 10px;
+}
+
+/* Search Input Field */
+.search-bar .form-control {
+    flex-grow: 1; /* Fill available space */
+    font-size: 18px;
+    border-radius: 74px;
+    padding-left: 40px;
+    margin-right: 10px; /* Space between input and button */
+}
+
+/* Search Button */
+.search-bar .btn-outline-success {
+    height: 55px;
+    font-size: 20px;
+    border-radius: 74px;
+    background-color: #1A54C0;
+    color: #FFFFFF;
+    padding: 0 45px;
+}
+
+/* Hover Effects */
+.search-bar .btn-outline-success:hover {
+    background-color: #154a9e;
+    transform: scale(1.05); /* Hover effect */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Login Button Styling */
+.btn-primary {
+    height: 40px;
+    font-size: 16px;
+    border-radius: 74px;
+    background-color: #1A54C0;
+    padding: 0 25px;
+    margin-right: 20px; /* Adjust spacing for better placement */
+    position: relative;
+    right: 40px; /* Move the login button to the left */
+}
+
+.btn-primary:hover {
+    background-color: #154a9e;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container-fluid {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align items to the left */
+    }
+
+    .logo {
+        margin-bottom: 20px; /* Add spacing below the logo */
+        margin-left: 0; /* Reset left margin */
+        left: 0; /* Reset left position */
+    }
+
+    .search-bar {
+        flex-direction: column; /* Stack input and button */
+        align-items: stretch; /* Full width for stacked elements */
+        width: 100%; /* Take full width */
+        max-width: 100%;
+        margin-bottom: 20px; /* Add spacing below */
+    }
+
+    .search-bar .form-control {
+        margin-right: 0; /* Remove margin for stacking */
+        margin-bottom: 10px; /* Add spacing below input */
+    }
+
+    .search-bar .btn-outline-success {
+        width: 100%; /* Full width button */
+    }
+
+    .btn-primary {
+        width: 100%; /* Full width login button */
+        margin: 0; /* Align with other buttons */
+        left: -5px; /* Reset right position */
+    }
+}
+
+.col-md-3 {
+    background-color: #FFF;
+    width: 40%;
+    margin-left: -140px;
+    margin-right: 50px;
+    margin-top: 50px;
+    margin-bottom: 130px;
+    box-shadow: 0 2px 8px #1A54C0;
+    border-radius: 30px;
+}
+
+.mx-2 {
+    width: 50px; 
+    text-align: center;
+    margin-left: 105px;
+}
+
+/* Hide the input number controls */
+#quantity::-webkit-outer-spin-button,
+#quantity::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.add-to-cart {
+    height: 40px;
+    font-size: 16px;
+    border-radius: 74px;
+    background-color: #1A54C0;
+    padding: 0 25px;
+    margin-left: 40px; /* Adjust spacing for better placement */
+    position: relative;
+    right: 40px; /* Move the login button to the left */
+    color: #FFFFFF;
+}
+
+.add-to-cart:hover {
+    background-color: #154a9e;
+    color: #FFFFFF;
+}
+
+.btn-success {
+    height: 40px;
+    font-size: 16px;
+    border-radius: 74px;
+    padding: 0 25px;
+    position: relative;
+    right: 40px; /* Move the login button to the left */
+    color: #FFFFFF;
+}
