@@ -357,6 +357,86 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 </body>
 </html>
 
+<script>
+    $(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        $.ajax({
+            url: 'path_to_user_login.php', // Adjust path as necessary
+            method: 'POST',
+            data: { username: username, password: password },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    // Update UI based on response
+                    $('#loginModal').modal('hide');
+                    location.reload(); // Reload to show updated user information
+                } else {
+                    // Show error message
+                    $('#loginError').text(response.message);
+                }
+            },
+            error: function() {
+                $('#loginError').text('An error occurred. Please try again.');
+            }
+        });
+    });
+});
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        $.ajax({
+            url: 'path_to_user_login.php', // Adjust path as necessary
+            method: 'POST',
+            data: { username: username, password: password },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    // Update UI based on response
+                    $('#loginModal').modal('hide');
+                    location.reload(); // Reload to show updated user information
+                } else {
+                    // Show error message
+                    $('#loginError').text(response.message);
+                }
+            },
+            error: function() {
+                $('#loginError').text('An error occurred. Please try again.');
+            }
+        });
+    });
+});
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if ($openModal): ?>
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        <?php endif; ?>
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if ($openModal): ?>
+        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        <?php endif; ?>
+    });
+</script>
 
 <!-- Login Modal -->
 <script>
