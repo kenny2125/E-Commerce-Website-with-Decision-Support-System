@@ -1,7 +1,11 @@
 <?php
 session_start(); // Start the session
 
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
+// Check if the user is logged in
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
+
+// Initialize the check for admin role
+$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 // Debugging (optional, can be removed in production)
 // echo "<h2>Session Data (Debugging)</h2>";
 // if (!empty($_SESSION)) {
@@ -12,6 +16,8 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 //     echo "<p>No session data available.</p>";
 // }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +53,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         </form>
         
         <!-- User-specific Content -->
-        <?php if ($_SESSION['isLoggedIn'] === true): ?>
+        <?php if ($isLoggedIn === true): ?>
             <!-- If logged in, display welcome message and role -->
             <div class="navbar-text d-flex align-items-center">
                 <div class="icon-container">
@@ -60,7 +66,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
                     </a>
 
                     <!-- Admin Link (only visible to admins) -->
-                    <?php if ($_SESSION['role'] == 'admin'): ?>
+                    <?php if ($isAdmin): ?>
                         <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
                             Admin Dashboard
                         </a>
