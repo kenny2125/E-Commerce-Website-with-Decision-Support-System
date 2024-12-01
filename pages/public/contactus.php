@@ -1,138 +1,207 @@
+<?php
+session_start(); // Start the session
+
+// Check if the user is logged in
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
+
+// Initialize the check for admin role
+$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
+// Debugging (optional, can be removed in production)
+// echo "<h2>Session Data (Debugging)</h2>";
+// if (!empty($_SESSION)) {
+//     echo "<pre>";
+//     print_r($_SESSION);
+//     echo "</pre>";
+// } else {
+//     echo "<p>No session data available.</p>";
+// }
+?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, width=device-width">
-    
-    <link rel="stylesheet" href="" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@600&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap" />
-
-    <style>
-
-
-        body {
-            background: rgba(239, 239, 239, 1);
-            font-family: 'Lato', sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh; /* Ensure body takes full height */
-            padding-top: 90px;
-        }
-
-        .content {
-            flex: 1; /* Allow content to expand */
-            padding-top: 20px; /* Space for header */
-            margin: 0 170px; /* Center the content */
-        }
-
-        .footer-contact-us {
-            width: 100%;
-            text-align: center;
-            font-size: 18px;
-        }
-
-        .contact-header {
-            width: 100%; /* Make it full width */
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        .call-icon {
-            height: 25px;
-        }
-
-        .contact-us {
-            font-size: 24px;
-            font-family: 'Work Sans';
-            font-weight: 600;
-            text-align: left;
-        }
-
-        .email {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .storefb {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .hours-title {
-            font-family: 'Lato', sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 19.2px;
-            text-align: left;
-            margin-bottom: 8px;
-        }
-
-        .hours-content {
-            font-family: 'Lato', sans-serif;
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 19.2px;
-            text-align: left;
-        }
-
-        .flex-container {
-            display: flex; /* Use flexbox for layout */
-            justify-content: space-between; /* Space out the sections */
-        }
-
-        .rectangle-parent {
-            width: 437px; /* Width of contact section */
-            padding-bottom: 20px; /* Extra spacing if needed */
-        }
-
-        .map-section {
-            width: 59%; /* Adjust width as needed */
-
-        }
-
-        .map-title {
-            font-size: 24px;
-            font-weight: 600;
-            font-family: 'Work Sans', sans-serif;
-            margin-bottom: 10px;
-        }
-
-        .mapcontainer {
-            width: 100%;
-            height: 400px;
-            border: none;
-            border-radius: 10px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            background-color: #f4f6ff;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .contact-item img {
-            width: 30px;
-            margin-right: 15px;
-        }
-
-        .back {
-            position: fixed;
-            top: 110px;
-            right: 20px;
-            font-size: 16px;
-            color: #8b8b8b;
-            cursor: pointer;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+    <title>RPC Tech Computer Store</title>
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="content">
-        <img src="assets/images/footerimages/contactus.png" alt="Contact Us Header" class="contact-header"> <!-- Header Image -->
+    <!-- Header -->
+<link rel="stylesheet" href="/assets/css/index.css">
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+        <!-- Clickable Logo -->
+        <a href="index.php">
+            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        </a>
+        
+        <!-- Search Bar -->
+        <form action="/pages/shop/Products_List.php" method="get" class="d-flex search-bar">
+            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
+            <button href="/pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        
+        <!-- User-specific Content -->
+        <?php if ($isLoggedIn === true): ?>
+            <!-- If logged in, display welcome message and role -->
+            <div class="navbar-text d-flex align-items-center">
+                <div class="icon-container">
+                    <!-- Cart and Profile Links -->
+                    <a href="pages/shop/carting_list.php">
+                        <img src="/assets/images/Group 204.png" alt="Cart Icon">
+                    </a>
+                    <a href="pages/user/user_profile.php">
+                        <img src="/assets/images/Group 48.png" alt="Profile Icon">
+                    </a>
 
+                    <!-- Admin Link (only visible to admins) -->
+                    <?php if ($isAdmin): ?>
+                        <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
+                            Admin Dashboard
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <!-- If not logged in, show login button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <?php endif; ?>
+    </div>
+</nav>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-2" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">
+                    <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-box">
+                <form action="pages/user/login.php" method="POST">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password"id="password" name="password" placeholder="••••••••" required class="input-field">
+                        <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn login-btn">Login</button>
+                    </div>
+                </form>
+                    <p>Don't have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
+                        </p>
+                    <!-- Display login error message -->
+                    <?php if (isset($_SESSION['login_error'])): ?>
+                        <div id="loginError" class="error-message" style="color: red;">
+                            <?php echo $_SESSION['login_error']; ?>
+                        </div>
+                        <?php unset($_SESSION['login_error']); ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrationModalLabel"></h5>
+                <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="form-box">
+                        <h3>Create an Account</h3>
+                        <p>Already have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
+                        </p>
+                        <form action="pages/user/user_register.php" method="post" onsubmit="return validateForm()">
+                            <div class="row">
+                                <div class="input-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" placeholder="eg. Danel" name="firstName" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="middleInitial">M.I</label>
+                                    <input type="text" id="middleInitial" placeholder="eg. T." name="middleInitial" class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" placeholder="eg. Oandasan" name="lastName" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="gender">Gender</label>
+                                    <input type="text" id="gender" placeholder="eg. Female" name="gender" class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" id="address" placeholder="eg. BLK 5 LOT 6 SAMMAR 1 HOA Luzon Ave. Old Balara, Quezon City" name="address" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" placeholder="eg. danel@gmail.com" name="email" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" placeholder="eg. 18" name="age" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="contactNumber">Contact Number</label>
+                                    <input type="text" id="contactNumber" placeholder="eg. 09123456789" name="contactNumber" required class="input-field">
+                                </div>
+                                <div class="input-group">   
+                                    <label for="username">Username</label>
+                                    <input type="text" id="username" placeholder="eg. jeondanel" name="username" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="passwordReg">Password</label>
+                                    <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
+                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
+                                </div>
+                                <div id="passwordFeedback" class="feedback"></div>
+                                <div class="input-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
+                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
+                                </div>
+                                <div id="confirmPasswordFeedback" class="feedback"></div>
+                            </div>
+                            <div class="terms">
+                                <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
+                            </div>
+                            <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+        <!-- Back button -->
+        <div class="back" id="backButton" style="margin-top: 30px; right: 20px; margin-bottom: 30px; font-size: 23px; color: #A9A9A9; margin-left: 1790px;">
+            <a href="/index.php" style="text-decoration: none; color: inherit;">Back</a>
+        </div>
+
+
+///
         <div class="flex-container">
             <div class="rectangle-parent">
                 <div class="contact-section">
