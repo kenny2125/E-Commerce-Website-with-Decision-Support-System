@@ -1,4 +1,9 @@
+
 <?php
+session_start(); // Start the session
+
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
+$userId = $_SESSION['user_ID'] ?? null;
 // Database connection
 $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
 $username = "vg2eweo4yg8eydii";
@@ -13,11 +18,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Initialize variables for subtotal and shipping fee
-$subtotal = 0;
-$shipping_fee = 50.00;  // Example shipping fee
-
-// Check if selected products are passed from the form (cart items)
+// Check if selected products are passed from the form
 if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
     $selected_product_ids = $_POST['selected_products'];  // Array of selected product IDs
     $ids = implode(",", $selected_product_ids);  // Convert the array to a comma-separated string for the SQL query
@@ -26,40 +27,14 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
     $sql = "SELECT product_ID, product_name, store_price, img_data FROM tbl_products WHERE product_ID IN ($ids)";
     $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $product_ID = $row['product_ID'];
-            $product_name = $row['product_name'];
-            $store_price = $row['store_price'];
-            $img_data = $row['img_data'];
-
-            // Convert img_data to a base64 string for displaying
-            $img_base64 = base64_encode($img_data);
-
-            // Calculate subtotal
-            $subtotal += $store_price;
-        }
-    } else {
-        echo "No products selected for checkout.";
-        exit;
-    }
-}
-// Check if product details are passed directly from the form (e.g., manual checkout)
-else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isset($_POST['product_name']) && isset($_POST['store_price'])) {
-    // Get individual product details from the form
-    $productId = $_POST['product_id'];
-    $productName = $_POST['product_name'];
-    $storePrice = $_POST['store_price'];
-
-    // If the product details are provided, we add them to the subtotal
-    $subtotal += $storePrice;
-
-    // Process checkout for this single product (you can adjust the logic for processing individual items)
+    // Initialize variables for subtotal calculation
+    $subtotal = 0;
+    $shipping_fee = 50.00;  // Example shipping fee
 } else {
+    // If no products were selected
     echo "No products selected for checkout.";
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -72,6 +47,34 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
     <link rel="stylesheet" href="/assets/css/checkout.css">
 </head>
 <body style="background-color: #EBEBEB;">
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+        <!-- Logo -->
+        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        
+        <!-- Search Bar -->
+        <form class="d-flex search-bar">
+            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        
+        <!-- User-specific Content -->
+        <?php if ($isLoggedIn === true): ?>
+            <!-- If logged in, display welcome message and role -->
+            <div class="navbar-text d-flex align-items-center">
+                <a href="../user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
+                <a href="carting_list.php" class="btn btn-outline-secondary mx-2">Cart</a>
+                <!-- <a href="../user/logout.php" class="btn btn-danger ml-2">Log Out</a> -->
+            </div>
+        <?php else: ?>
+            <!-- If not logged in, show login button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <?php endif; ?>
+    </div>
+</nav>
+
+
   <div class="container my-5">
     <div class="mb-4">
         <a href="test_carting.php" class="text-decoration-none text-primary fw-bold back-link">&larr; Back</a>
@@ -80,8 +83,8 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
     <div class="row g-4">
         <div class="col-lg-8">
             <?php
-            // Output the products in the checkout if they exist (from cart or from the form)
-            if (isset($result) && $result->num_rows > 0) {
+            if ($result->num_rows > 0) {
+                // Output each product selected for checkout
                 while ($row = $result->fetch_assoc()) {
                     $product_ID = $row['product_ID'];
                     $product_name = $row['product_name'];
@@ -90,8 +93,10 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
 
                     // Convert img_data to a base64 string for displaying
                     $img_base64 = base64_encode($img_data);
-            ?>
 
+                    // Calculate subtotal
+                    $subtotal += $store_price;
+            ?>
             <div class="card shadow border-0 mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
@@ -108,29 +113,10 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
             <?php
                 }
             } else {
-                // If a product was passed directly from the form, display that product
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($productId)) {
-            ?>
-            <div class="card shadow border-0 mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <!-- Use a default or placeholder image if no image data is available -->
-                        <img src="placeholder.jpg" class="img-fluid rounded-start" alt="<?php echo $productName; ?>">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold product-title"><?php echo $productName; ?></h5>
-                            <p class="card-text text-danger fw-bold product-price">₱<?php echo number_format($storePrice, 2); ?></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php
-                }
+                echo "No products found.";
             }
             ?>
         </div>
-
         <div class="col-lg-4">
             <form method="POST" action="checkout_url.php" target="_blank">
                 <div class="card shadow border-0 mb-3">
@@ -182,100 +168,12 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
             </form>
         </div>
     </div>
-  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/checkout.js"></script>
 </body>
 </html>
-
-
-<!-- Notification Indicator -->
-<div id="notificationIndicator" class="alert alert-info" style="display:none; position: fixed; bottom: 10px; right: 10px; z-index: 999;">
-    New webhook data received!
-</div>
-
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="webhookModal" tabindex="-1" aria-labelledby="webhookModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="webhookModalLabel">Webhook Notification</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p id="modalMessage">Waiting for webhook...</p>
-        <pre id="modalPayload"></pre>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#webhookModal">
-    Open Modal
-</button>
-
-
-<!-- jQuery and Bootstrap JS (For AJAX and Modal) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    // Function to handle the received webhook data and trigger the modal
-    function handleWebhookData(data) {
-        // Update modal with received data
-        $('#modalMessage').text(data.message);
-        $('#modalPayload').text(JSON.stringify(data.payload, null, 2));
-
-        // Show the modal
-        var myModal = new bootstrap.Modal(document.getElementById('webhookModal'));
-        myModal.show();
-
-        // Show the notification indicator
-        $('#notificationIndicator').fadeIn().delay(3000).fadeOut();
-    }
-
-    // Polling function to check for new data from the backend
-    function pollForWebhookData() {
-        console.log('Checking for new data at ' + new Date().toLocaleTimeString());  // Debugger: log time of check
-        
-        $.ajax({
-            url: 'webhook_receiver.php', // Same file for GET request
-            type: 'GET',
-            success: function(response) {
-                const res = JSON.parse(response);
-
-                // If there's new data, show the modal
-                if (res.status === 'success' && res.payload) {
-                    handleWebhookData(res);
-                    // After displaying, clear the data from the session
-                    clearWebhookData();
-                }
-            },
-            error: function() {
-                console.log('Error reaching webhook receiver.');
-            }
-        });
-    }
-
-    // Function to clear the webhook data after it's shown
-    function clearWebhookData() {
-        $.ajax({
-            url: 'webhook_receiver.php?clear_data=true', // Clear data request
-            type: 'GET',
-            success: function(response) {
-                console.log('Webhook data cleared.');
-            },
-            error: function() {
-                console.log('Error clearing webhook data.');
-            }
-        });
-    }
-
-    // Poll every 5 seconds to check for new data
-    setInterval(pollForWebhookData, 2000);
-</script>
-
 
 <?php
 $conn->close();

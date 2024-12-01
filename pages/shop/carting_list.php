@@ -1,6 +1,8 @@
 <?php
+session_start(); // Start the session
 
-session_start();
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
+$user_ID = $_SESSION['user_ID'] ?? null;
 // Database connection
 $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
 $username = "vg2eweo4yg8eydii";
@@ -8,31 +10,22 @@ $password = "rccstjx3or46kpl9";
 $db_name = "s0gp0gvxcx3fc7ib";
 $port = "3306";
 
-// Create connection
-$conn = new mysqli($host, $username, $password, $db_name, $port);
+$conn = new mysqli($host, $username, $password, $db_name);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Ensure user is logged in by checking if user_ID is set in session
-if (!isset($_SESSION['user_ID'])) {
-    die("User not logged in.");
-}
-$user_id = $_SESSION['user_ID']; // Get the user ID from the session
+// Set user ID variable (change this value as needed)
 
 // Query to fetch products for the specific user
 $sql = "SELECT p.product_ID, p.product_name, p.store_price, p.img_data 
         FROM tbl_products p
         JOIN tbl_cart c ON p.product_ID = c.product_ID
-        WHERE c.user_ID = ?"; // Prevent SQL Injection using prepared statements
+        WHERE c.user_ID = $user_ID"; // Only fetch products added to the cart by the specified user
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id); // Bind user_id as an integer
-$stmt->execute();
-$result = $stmt->get_result();
-
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +35,6 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <style>
         .product-card {
             width: 100%;
@@ -69,13 +61,39 @@ $result = $stmt->get_result();
 </head>
 <body>
 
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+        <!-- Logo -->
+        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        
+        <!-- Search Bar -->
+        <form class="d-flex search-bar">
+            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        
+        <!-- User-specific Content -->
+        <?php if ($isLoggedIn === true): ?>
+            <!-- If logged in, display welcome message and role -->
+            <div class="navbar-text d-flex align-items-center">
+                <a href="../user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
+                <a href="carting_list.php" class="btn btn-outline-secondary mx-2">Cart</a>
+                <!-- <a href="../user/logout.php" class="btn btn-danger ml-2">Log Out</a> -->
+            </div>
+        <?php else: ?>
+            <!-- If not logged in, show login button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <?php endif; ?>
+    </div>
+</nav>
+
+
 <div class="container mt-5">
-    <h3>Products for User <?php echo $user_id; ?></h3>
-    <form method="POST" action="checkout_page.php">
+    <h3>Products for User <?php echo $user_ID; ?></h3>
+    <form method="POST" action="checkout_carting.php">
         <div class="row">
             <?php
             if ($result->num_rows > 0) {
-                $totalPrice = 0;
                 // Output products
                 while ($row = $result->fetch_assoc()) {
                     $product_ID = $row['product_ID'];
@@ -85,9 +103,6 @@ $result = $stmt->get_result();
 
                     // Convert img_data to a base64 string for displaying
                     $img_base64 = base64_encode($img_data);
-
-                    // Calculate the total price dynamically
-                    $totalPrice += $store_price;
             ?>
                     <div class="col-12">
                         <div class="product-card">
@@ -110,21 +125,8 @@ $result = $stmt->get_result();
             ?>
         </div>
 
-        <!-- Cart Summary -->
-        <div class="cart-summary-box">
-            <div class="cart-summary">
-                <div class="total">
-                    <span class="total-label">Total</span>
-                    <span class="total-price">₱<?php echo number_format($totalPrice, 2); ?></span>
-                </div>
-
-                <!-- Action Buttons (Go Back & Checkout) -->
-                <div class="cart-actions">
-                    <button class="go-back-btn" type="button" onclick="window.history.back();">Go Back</button>
-                    <button type="submit" class="btn btn-primary mt-3">Proceed to Checkout</button>
-                </div>
-            </div>
-        </div>
+        <!-- Checkout Button -->
+        <button type="submit" class="btn btn-primary mt-3">Proceed to Checkout</button>
     </form>
 </div>
 
@@ -133,6 +135,5 @@ $result = $stmt->get_result();
 </html>
 
 <?php
-$stmt->close();
 $conn->close();
 ?>
