@@ -231,7 +231,7 @@ $result = $conn->query($sql);
 </nav>
 
 <div class="container mt-5">
-    <h3>Products for User <?php echo $user_ID; ?></h3>
+    <h3>Cart List</h3>
     <form method="POST" action="checkout_carting.php">
         <div class="row">
             <?php

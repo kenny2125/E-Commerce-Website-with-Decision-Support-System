@@ -15,7 +15,33 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 // } else {
 //     echo "<p>No session data available.</p>";
 // }
+    // Database connection
+    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+    $username = "vg2eweo4yg8eydii";
+    $password = "rccstjx3or46kpl9";
+    $db_name = "s0gp0gvxcx3fc7ib";
+
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch products from the database
+    $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products LIMIT 6";
+    $result = $conn->query($sql);
+
+    $products = [];
+    if ($result->num_rows > 0) {
+        // Store products in an array
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+    }
+    $conn->close();
 ?>
+
 
 
 
@@ -210,10 +236,10 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 </div>
 
     <!-- Carousel -->
-<div id="carouselWithInterval" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselWithInterval" class="carousel slide mx-6" data-bs-ride="carousel">
     <div class="carousel-inner">
         <?php for ($i = 1; $i <= 16; $i++): ?>
-            <div class="carousel-item <?= $i === 1 ? 'active' : '' ?>" data-bs-interval="2000">
+            <div class="carousel-item <?= $i === 1 ? 'active' : '' ?>" data-bs-interval="7000">
                 <img src="assets/images/bs-images/WHITE BANNER VERSION (<?= $i ?>).png" class="d-block w-100 img-fluid" alt="Slide <?= $i ?>">
             </div>
         <?php endfor; ?>
@@ -240,33 +266,6 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
     </div>
 </div>
 
-<?php
-    // Database connection
-    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-    $username = "vg2eweo4yg8eydii";
-    $password = "rccstjx3or46kpl9";
-    $db_name = "s0gp0gvxcx3fc7ib";
-
-    $conn = new mysqli($host, $username, $password, $db_name);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Fetch products from the database
-    $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products LIMIT 6";
-    $result = $conn->query($sql);
-
-    $products = [];
-    if ($result->num_rows > 0) {
-        // Store products in an array
-        while ($row = $result->fetch_assoc()) {
-            $products[] = $row;
-        }
-    }
-    $conn->close();
-?>
 
 <!-- Featured Products -->
 <div class="featured-products-wrapper" style="margin-bottom: 100px;">
@@ -301,7 +300,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
     
     <!-- Card Footer (Button stays at the bottom) -->
     <div class="card-footer">
-        <a href="product.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary-footer">View Details</a>
+        <a href="/pages/shop/Product_Detail.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary-footer">View Details</a>
     </div>
 </div>
                     </div>

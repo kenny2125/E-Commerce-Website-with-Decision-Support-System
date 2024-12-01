@@ -10,7 +10,7 @@ $cacheExpirationTime = 60 * 5; // 5 minutes (adjust as needed)
 // Initialize $searchQuery as an empty string by default
 $searchQuery = isset($_GET['search_query']) ? $_GET['search_query'] : '';
 
-// Cache check and logic
+// Cache check and logic for product list
 if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_time'] < $cacheExpirationTime)) {
     // Use the cached products data
     $products = $_SESSION['products_cache'];
@@ -54,7 +54,6 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
     $stmt->close();
     $conn->close();
 }
-
 ?>
 
 <!DOCTYPE html>
