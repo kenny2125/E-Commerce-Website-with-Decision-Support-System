@@ -1,3 +1,18 @@
+<?php
+session_start(); // Start the session
+
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
+// Debugging (optional, can be removed in production)
+// echo "<h2>Session Data (Debugging)</h2>";
+// if (!empty($_SESSION)) {
+//     echo "<pre>";
+//     print_r($_SESSION);
+//     echo "</pre>";
+// } else {
+//     echo "<p>No session data available.</p>";
+// }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,13 +34,25 @@
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
-        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         
         <!-- Search Bar -->
         <form class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        
+        <!-- User-specific Content -->
+        <?php if ($isLoggedIn === true): ?>
+            <!-- If logged in, display welcome message and role -->
+            <div class="navbar-text d-flex align-items-center">
+                
+                <a href="pages/user/logout.php" class="btn btn-danger ml-2">Log Out</a>
+            </div>
+        <?php else: ?>
+            <!-- If not logged in, show login button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <?php endif; ?>
     </div>
 </nav>
 

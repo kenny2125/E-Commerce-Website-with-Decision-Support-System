@@ -2,38 +2,57 @@
 
 session_start();
 // Database connection
-$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "vg2eweo4yg8eydii";
-$password = "rccstjx3or46kpl9";
-$db_name = "s0gp0gvxcx3fc7ib";
-$port = "3306";
+include '../../config/db_config.php'; // Adjust path as necessary
 
-// Create connection
-$conn = new mysqli($host, $username, $password, $db_name, $port);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Ensure user is logged in by checking if user_ID is set in session
+// Ensure user is logged in
 if (!isset($_SESSION['user_ID'])) {
-    die("User not logged in.");
+    echo "User not logged in.";
+    exit;
 }
-$user_id = $_SESSION['user_ID']; // Get the user ID from the session
 
-// Query to fetch products for the specific user
-$sql = "SELECT p.product_ID, p.product_name, p.store_price, p.img_data 
-        FROM tbl_products p
-        JOIN tbl_cart c ON p.product_ID = c.product_ID
-        WHERE c.user_ID = ?"; // Prevent SQL Injection using prepared statements
+$userId = $_SESSION['user_ID']; // Get the user ID from session
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id); // Bind user_id as an integer
+// Get product ID and quantity from POST request
+$productId = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+$quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
+
+// Validate inputs
+if ($productId <= 0 || $quantity <= 0) {
+    echo "Invalid product or quantity.";
+    exit;
+}
+
+// Check if product exists and is available in stock
+$query = "SELECT * FROM tbl_products WHERE product_ID = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param('i', $productId);
 $stmt->execute();
 $result = $stmt->get_result();
 
+if ($result->num_rows === 0) {
+    echo "Product not found.";
+    exit;
+}
+
+$product = $result->fetch_assoc();
+
+// Insert product into cart
+$insertQuery = "INSERT INTO tbl_cart (user_ID, product_ID, quantity, date_added)
+                VALUES (?, ?, ?, NOW())
+                ON DUPLICATE KEY UPDATE quantity = quantity + ?";
+$stmt = $conn->prepare($insertQuery);
+$stmt->bind_param('iiii', $userId, $productId, $quantity, $quantity);
+
+if ($stmt->execute()) {
+    // Redirect back with success message
+    header("Location: product_detail.php?id=$productId&status=success");
+} else {
+    echo "Error adding product to cart: " . $conn->error;
+}
+
+$conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
