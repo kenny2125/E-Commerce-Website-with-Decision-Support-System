@@ -94,12 +94,11 @@ $result = $stmt->get_result();
 
 <div class="container mt-5">
     <h3>Your Cart</h3>
-    <form method="POST" action="checkout_page.php">
+    <form method="POST" action="checkout_carting.php">
         <div class="row">
             <?php
             $totalPrice = 0;
             if ($result->num_rows > 0) {
-                // Output products
                 while ($row = $result->fetch_assoc()) {
                     $product_ID = $row['product_ID'];
                     $product_name = $row['product_name'];
@@ -114,21 +113,27 @@ $result = $stmt->get_result();
                     $itemTotal = $store_price * $quantity;
                     $totalPrice += $itemTotal;
             ?>
-                    <div class="col-12">
-                        <div class="product-card">
-                            <img src="data:image/jpeg;base64,<?php echo $img_base64; ?>" alt="<?php echo $product_name; ?>">
-                            <div class="product-info">
-                                <h5><?php echo $product_name; ?></h5>
-                                <p>Price: ₱<?php echo number_format($store_price, 2); ?></p>
-                                <p>Quantity: <?php echo $quantity; ?></p>
-                                <p>Subtotal: ₱<?php echo number_format($itemTotal, 2); ?></p>
-                            </div>
-                            <div>
-                                <!-- Checkbox for selecting the product -->
-                                <input type="checkbox" name="selected_products[]" value="<?php echo $product_ID; ?>">
-                            </div>
+                <div class="col-12">
+                    <div class="product-card">
+                        <img src="data:image/jpeg;base64,<?php echo $img_base64; ?>" alt="<?php echo $product_name; ?>">
+                        <div class="product-info">
+                            <h5><?php echo $product_name; ?></h5>
+                            <p>Price: ₱<?php echo number_format($store_price, 2); ?></p>
+                            <p>Quantity: <?php echo $quantity; ?></p>
+                            <p>Subtotal: ₱<?php echo number_format($itemTotal, 2); ?></p>
+                        </div>
+                        <div>
+                            <!-- Checkbox for selecting the product -->
+                            <input type="checkbox" name="selected_products[]" value="<?php echo $product_ID; ?>" 
+                                id="product-<?php echo $product_ID; ?>" class="product-checkbox">
+
+                            <!-- Hidden fields to pass product details if checkbox is selected -->
+                            <input type="hidden" name="product_names[<?php echo $product_ID; ?>]" value="<?php echo htmlspecialchars($product_name); ?>" class="product-name">
+                            <input type="hidden" name="product_images[<?php echo $product_ID; ?>]" value="<?php echo $img_base64; ?>" class="product-image">
+                            <input type="hidden" name="product_prices[<?php echo $product_ID; ?>]" value="<?php echo $store_price; ?>" class="product-price">
                         </div>
                     </div>
+                </div>
             <?php
                 }
             } else {
