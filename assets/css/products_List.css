@@ -124,6 +124,7 @@ body {
   background-color: #122448;
   border-radius: 15px;
   margin-right: 10px;
+  margin-left: -10px;
 }
 
 .mb-4 {
@@ -151,10 +152,62 @@ form {
   max-width: 300px;
 }
 
+.btn-secondary {
+  background-color: #154a9e;
+  padding: 10px 35px;
+  margin-top: 20px;
+  margin-bottom: -20px;
+  margin-left: 65px;
+  border: none !important
+}
+
 .container-search {
   border-radius: 15px;
 }
 
 .card {
+  display: flex;               /* Use flexbox for layout */
+  flex-direction: column;      /* Stack items vertically */
+  justify-content: space-between; /* Push footer to the bottom */
   border-radius: 15px;
+  height: 100%;                /* Ensure card takes full height */
+  overflow: hidden;            /* Prevent image overflow */
+}
+
+.image-wrapper {
+  display: flex;               /* Use flexbox for image centering */
+  justify-content: center;     /* Horizontally center the image */
+  align-items: center;         /* Vertically center the image */
+  height: 300px;               /* Adjust height as needed for your design */
+  background-color: #f8f8f8;   /* Optional: Add a light background for contrast */
+}
+
+.card-img-top {
+  max-width: 100%;             /* Ensure the image doesn't overflow */
+  max-height: 100%;            /* Scale the image to fit the container */
+  object-fit: contain;         /* Maintain aspect ratio and avoid cropping */
+}
+
+.card-body {
+  text-align: center;          /* Center-align title and text */
+  flex-grow: 1;                /* Ensure it takes available space */
+}
+
+.card-footer {
+  background-color: #FFF;      /* Maintain white background */
+  border-top: none;            /* Remove border */
+  text-align: center;
+  padding: 10px 0;
+}
+
+.btn-primary-footer {
+  background-color: #1A54C0;
+  padding: 10px 30px;
+  border-radius: 74px;
+  color: #FFFFFF;
+}
+
+.btn-primary-footer:hover {
+  background-color: #154a9e;
+  color: #FFFFFF;
 }

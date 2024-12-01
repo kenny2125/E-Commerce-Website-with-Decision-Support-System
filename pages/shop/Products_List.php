@@ -58,8 +58,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
     </div>
 </nav>
 
-
-<div class="container-fluid" style="padding: 50px">
+<div class="container d-flex" style="padding: 30px">
     <div class="row">
         <!-- Sidebar: Filters -->
         <div class="col-3">
@@ -172,8 +171,9 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
                             $imgSrc = 'path/to/default-image.jpg'; // Default image if no img_data is present
                         }
                         ?>
+                        <div class="image-wrapper">
                         <!-- Display the product image -->
-                        <img src="<?php echo $imgSrc; ?>" class="card-img-top" alt="Product Image">
+                        <img src="<?php echo $imgSrc; ?>" class="card-img-top" alt="Product Image" style="width: 100%; height: auto; object-fit: cover; display: block; margin: auto;"></div>
                         
                         <div class="card-body">
                             <!-- Display product name and SRP -->
@@ -181,9 +181,10 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
                             <p class="card-text">
                                 <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
                             </p>
-
+                        </div>
+                        <div class="card-footer">
                             <!-- View Details Button with dynamic product ID -->
-                            <button id="view-details-<?php echo $product['product_ID']; ?>" class="btn btn-primary" onclick="viewDetails(<?php echo $product['product_ID']; ?>)">View Details</button>
+                            <button id="view-details-<?php echo $product['product_ID']; ?>" class="btn btn-primary-footer" onclick="viewDetails(<?php echo $product['product_ID']; ?>)">View Details</button>
                         </div>
                     </div>
                 </div>

@@ -112,6 +112,10 @@ body {
     }
 }
 
+.row{
+    margin-bottom: -150px;
+}
+
 .col-md-3 {
     background-color: #FFF;
     width: 29%;
@@ -136,7 +140,7 @@ body {
     margin: 0;
 }
 
-.add-to-cart {
+.btn-add-to-cart {
     height: 40px;
     font-size: 16px;
     border-radius: 74px;
@@ -148,7 +152,7 @@ body {
     color: #FFFFFF;
 }
 
-.add-to-cart:hover {
+.btn-add-to-cart:hover {
     background-color: #154a9e;
     color: #FFFFFF;
 }
@@ -159,6 +163,7 @@ body {
     border-radius: 74px;
     padding: 0 25px;
     position: relative;
+    margin-left: 5px;
     right: 40px; /* Move the login button to the left */
     color: #FFFFFF;
 }

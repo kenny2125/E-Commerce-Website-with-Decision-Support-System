@@ -84,7 +84,7 @@ if ($productId > 0) {
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
-        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         
         <!-- Search Bar -->
         <form class="d-flex search-bar">
@@ -111,7 +111,7 @@ if ($productId > 0) {
 <div class="container my-5">
     <div class="row">
         <!-- Product Image -->
-        <div class="d-flex-grow col-md-3 text-center">
+        <div class="col-md-3 text-center">
             <?php
             if ($product['img_data']) {
                 $imgData = base64_encode($product['img_data']);
@@ -128,7 +128,7 @@ if ($productId > 0) {
             <h2 class="fw-bold"><?php echo htmlspecialchars($product['product_name']); ?></h2>
             <p><strong>Stock Available:</strong> <span class="text-success">In Stock</span></p>
             <p><strong>Price:</strong> <span class="text-danger fs-4">₱<?php echo number_format($product['srp'], 2); ?></span></p>
-            <p class="text-justify"><strong>Description: </strong><?php echo htmlspecialchars($product['description']); ?></p>
+            <p><strong>Description:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
 
             <!-- Add to Cart Form -->
             <?php if (isset($successMessage)) { echo "<div class='alert alert-success'>$successMessage</div>"; } ?>
@@ -140,14 +140,14 @@ if ($productId > 0) {
                     <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" style="width: 80px;">
                     <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
                 </div>
-                <button type="submit" name="add_to_cart" class="btn btn-primary">Add to Cart</button>
             </form>
 
             <form action="checkout_page.php" method="POST">
                 <input type="hidden" name="product_id" value="<?php echo $product['product_ID']; ?>">
                 <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product['product_name']); ?>">
                 <input type="hidden" name="store_price" value="<?php echo $product['srp']; ?>">
-                <button type="submit" class="btn btn-success w-100">Proceed to Checkout</button>
+                <button type="submit" name="add_to_cart" class="btn btn-add-to-cart">Add to Cart</button>
+                <button type="submit" class="btn btn-success">Checkout</button>
             </form>
 
         </div>
