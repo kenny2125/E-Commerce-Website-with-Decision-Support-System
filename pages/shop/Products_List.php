@@ -11,6 +11,44 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 // } else {
 //     echo "<p>No session data available.</p>";
 // }
+
+$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+$username = "vg2eweo4yg8eydii";
+$password = "rccstjx3or46kpl9";
+$db_name = "s0gp0gvxcx3fc7ib";
+
+// Establish a database connection
+$conn = new mysqli($host, $username, $password, $db_name);
+
+
+$searchQuery = $_GET['search_query'] ?? '';
+
+// Prepare the SQL query to fetch products
+$query = "SELECT * FROM tbl_products";
+if (!empty($searchQuery)) {
+    $query .= " WHERE product_name LIKE ?"; // Add a WHERE clause to filter by product name
+}
+
+// Prepare and execute the query
+$stmt = $conn->prepare($query);
+if (!empty($searchQuery)) {
+    $searchTerm = '%' . $searchQuery . '%'; // Add wildcard characters for partial matching
+    $stmt->bind_param('s', $searchTerm);
+}
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Fetch the products
+$products = [];
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+}
+
+// Close the database connection
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -38,8 +76,14 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         
         <!-- Search Bar -->
-        <form class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
+        <form class="d-flex search-bar" method="GET" action="">
+            <input 
+                class="form-control me-2" 
+                type="search" 
+                name="search_query" 
+                placeholder="Search for product(s)" 
+                aria-label="Search" 
+                value="<?php echo htmlspecialchars($_GET['search_query'] ?? ''); ?>">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         
@@ -141,8 +185,10 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
             <!-- Search Result Info Row -->
             <div class="container-search d-flex justify-content-between align-items-center bg-light p-3 mb-3">
                 <div>
-                    <span class="fw-bold">Search Result for:</span> "searched product", 
-                    <span class="fw-bold">30 results</span> found in <span class="fw-bold">0.02 seconds</span>
+                    <?php if (!empty($searchQuery)): ?>
+                        <span class="fw-bold">Search Result for:</span> "<?php echo htmlspecialchars($searchQuery); ?>", 
+                    <?php endif; ?>
+                    <span class="fw-bold"><?php echo count($products); ?> results</span> found.
                 </div>
                 <div class="d-flex gap-3">
                     <div>
@@ -155,6 +201,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
                     </div>
                 </div>
             </div>
+
 
             <!-- Dynamic Product Cards -->
             <div class="row">
