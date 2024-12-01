@@ -91,7 +91,7 @@
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Clickable Logo -->
-        <a href="index.php">
+        <a href="/index.php">
             <img src="../../assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         </a>
         
@@ -107,16 +107,16 @@
             <div class="navbar-text d-flex align-items-center">
                 <div class="icon-container">
                     <!-- Cart and Profile Links -->
-                    <a href="pages/shop/carting_list.php">
+                    <a href="../shop/carting_list.php">
                         <img src="/assets/images/Group 204.png" alt="Cart Icon">
                     </a>
-                    <a href="pages/user/user_profile.php">
+                    <a href="../user/user_profile.php">
                         <img src="/assets/images/Group 48.png" alt="Profile Icon">
                     </a>
 
                     <!-- Admin Link (only visible to admins) -->
                     <?php if ($isAdmin): ?>
-                        <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
+                        <a href="/pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
                             Admin Dashboard
                         </a>
                     <?php endif; ?>

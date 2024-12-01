@@ -64,14 +64,14 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Clickable Logo -->
-        <a href="index.php">
+        <a href="/index.php">
             <img src="../../assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         </a>
         
         <!-- Search Bar -->
-        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
+        <form action="/pages/shop/Products_List.php" method="get" class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button href="pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
+            <button href="/pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
         </form>
         
         <!-- User-specific Content -->
@@ -80,10 +80,10 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
             <div class="navbar-text d-flex align-items-center">
                 <div class="icon-container">
                     <!-- Cart and Profile Links -->
-                    <a href="pages/shop/carting_list.php">
+                    <a href="/pages/shop/carting_list.php">
                         <img src="/assets/images/Group 204.png" alt="Cart Icon">
                     </a>
-                    <a href="pages/user/user_profile.php">
+                    <a href="/pages/user/user_login.php">
                         <img src="/assets/images/Group 48.png" alt="Profile Icon">
                     </a>
 

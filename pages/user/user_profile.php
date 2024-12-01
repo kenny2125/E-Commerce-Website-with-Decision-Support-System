@@ -88,22 +88,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     <title>Profile Page</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/information.css">
+    <link rel="stylesheet" href="../../assets/css/information.css">
 </head>
 <body>
     <!-- Header Section with Search Bar and Logo -->
-    <link rel="stylesheet" href="../../assets/css/index.css">
+    <!-- <link rel="stylesheet" href="../../assets/css/index.css"> -->
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Clickable Logo -->
-        <a href="index.php">
+        <a href="../../index.php">
             <img src="../../assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         </a>
         
         <!-- Search Bar -->
         <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button href="pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
+            <button href="../../pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
         </form>
         
         <!-- User-specific Content -->
@@ -112,10 +112,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
             <div class="navbar-text d-flex align-items-center">
                 <div class="icon-container">
                     <!-- Cart and Profile Links -->
-                    <a href="pages/shop/carting_list.php">
+                    <a href="../../pages/shop/carting_list.php">
                         <img src="/assets/images/Group 204.png" alt="Cart Icon">
                     </a>
-                    <a href="pages/user/user_profile.php">
+                    <a href="../../pages/user/user_profile.php">
                         <img src="/assets/images/Group 48.png" alt="Profile Icon">
                     </a>
 
