@@ -70,7 +70,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
             </div>
             <div class="modal-body">
                 <div class="form-box">
-                <form action="pages\user\loginn.php" method="POST">
+                <form action="pages\user\login.php" method="POST">
                     <div class="input-group">
                         <label for="username">Username</label>
                         <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
