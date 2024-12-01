@@ -30,7 +30,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 
 <!-- Welcome Modal -->
 <?php
-    include 'includes/welcomemodal.php';
+    // include 'includes/welcomemodal.php';
 ?>
 
 <!-- Header -->
@@ -59,6 +59,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
     </div>
 </nav>
 
+
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-2" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -70,7 +71,7 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
             </div>
             <div class="modal-body">
                 <div class="form-box">
-                <form action="pages\user\login.php" method="POST">
+                <form action="pages/user/login.php" method="POST">
                     <div class="input-group">
                         <label for="username">Username</label>
                         <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
@@ -356,55 +357,6 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 </body>
 </html>
 
-<script>
-    $(document).ready(function() {
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault();
-
-        var username = $('#username').val();
-        var password = $('#password').val();
-
-        $.ajax({
-            url: 'path_to_user_login.php', // Adjust path as necessary
-            method: 'POST',
-            data: { username: username, password: password },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status == 'success') {
-                    // Update UI based on response
-                    $('#loginModal').modal('hide');
-                    location.reload(); // Reload to show updated user information
-                } else {
-                    // Show error message
-                    $('#loginError').text(response.message);
-                }
-            },
-            error: function() {
-                $('#loginError').text('An error occurred. Please try again.');
-            }
-        });
-    });
-});
-</script>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        <?php if ($openModal): ?>
-        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
-        <?php endif; ?>
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        <?php if ($openModal): ?>
-        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
-        <?php endif; ?>
-    });
-</script>
 
 <!-- Login Modal -->
 <script>
