@@ -179,9 +179,18 @@ $result = $conn->query($sql);
             <label for="paymentStatus" class="form-label">Payment Status</label>
             <input type="text" name="payment_status" class="form-control" id="paymentStatus" required>
           </div>
+          <!-- Walk-In Name for customers without an account -->
           <div class="mb-3">
-            <label for="userID" class="form-label">Customer ID</label>
-            <input type="text" name="user_ID" class="form-control" id="userID" required>
+            <label for="walkName" class="form-label">Walk-In Name</label>
+            <input type="text" name="walk_name" class="form-control" id="walkName" placeholder="Enter name for walk-in buyer" required>
+          </div>
+          <div class="mb-3">
+            <label for="pickupStatus" class="form-label">Pickup Status</label>
+            <input type="text" name="pickup_status" class="form-control" id="pickupStatus" required>
+          </div>
+          <div class="mb-3">
+            <label for="productName" class="form-label">Product Name</label>
+            <input type="text" name="product_name" class="form-control" id="productName" required>
           </div>
           <div class="mb-3">
             <label for="orderTotal" class="form-label">Total</label>
@@ -200,6 +209,9 @@ $result = $conn->query($sql);
     </div>
   </div>
 </div>
+
+
+
 
 <script>
 // Function to edit the order data in the modal
