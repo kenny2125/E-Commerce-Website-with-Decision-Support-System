@@ -173,7 +173,7 @@ $result = $conn->query($sql);
         <h5 class="modal-title" id="addOrderModalLabel">Add Order</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="insert_order.php" method="POST">
+      <form action="../pages/insert" method="POST">
         <div class="modal-body">
           <div class="mb-3">
             <label for="paymentStatus" class="form-label">Payment Status</label>
