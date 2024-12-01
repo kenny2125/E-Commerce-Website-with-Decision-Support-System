@@ -60,6 +60,7 @@ $result = $conn->query($sql);
     </style>
 </head>
 <body>
+
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
@@ -85,9 +86,11 @@ $result = $conn->query($sql);
         <?php endif; ?>
     </div>
 </nav>
+
+
 <div class="container mt-5">
     <h3>Products for User <?php echo $user_ID; ?></h3>
-    <form method="POST" action="checkout_page.php">
+    <form method="POST" action="checkout_carting.php">
         <div class="row">
             <?php
             if ($result->num_rows > 0) {
