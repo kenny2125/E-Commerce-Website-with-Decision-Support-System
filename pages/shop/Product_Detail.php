@@ -83,7 +83,7 @@ $specification = json_decode($product['specification'], true);
             <h2 class="fw-bold"><?php echo htmlspecialchars($product['product_name']); ?></h2>
             <p><strong>Stock Available:</strong> <span class="text-success">In Stock</span></p>
             <p><strong>Price:</strong> <span class="text-danger fs-4">₱<?php echo number_format($product['srp'], 2); ?></span></p>
-            <p class="text-justify"><strong>Description:</strong><?php echo htmlspecialchars($product['description']); ?></p>
+            <p class="text-justify"><strong>Description: </strong><?php echo htmlspecialchars($product['description']); ?></p>
 
             <h5>Payment & Pickup Methods</h5>
             <ul>
