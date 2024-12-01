@@ -3,31 +3,133 @@ body {
   background-color: #EFEFEF;
 }
 
-/* Brand Logo Container */
-.brand-logo-container {
-  padding: 25px;
+.modal-content {
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  border-bottom: none;
+  text-align: center;
+}
+
+.modal-header .modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+/* Base Container Styling */
+.container-fluid {
+  display: flex; /* Use flexbox for layout */
+  align-items: center;
+  justify-content: space-between; /* Space out elements */
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  height: auto; /* Adjust height dynamically */
+  background-color: #FFFFFF;
+  box-shadow: 0 7px 3px -2px lightgrey;
+  padding: 10px 20px;
+  position: relative; /* Enables precise positioning adjustments */
+}
+
+/* Logo Styling */
+.logo {
+  width: 240px;
+  height: auto; /* Maintain aspect ratio */
+  max-width: 100%;
+  margin-left: 20px; /* Move logo to the right */
+  position: relative; /* Allows precise control over placement */
+  left: 20px; /* Fine-tune placement */
+}
+
+/* Search Bar Styling */
+.search-bar {
   display: flex;
-  overflow: hidden;
+  flex-grow: 1; /* Allow search bar to grow dynamically */
+  max-width: 800px; /* Limit max width */
+  margin-right: 10px;
+}
+
+/* Search Input Field */
+.search-bar .form-control {
+  flex-grow: 1; /* Fill available space */
+  font-size: 18px;
+  border-radius: 74px;
+  padding-left: 40px;
+  margin-right: 10px; /* Space between input and button */
+}
+
+/* Search Button */
+.search-bar .btn-outline-success {
+  height: 55px;
+  font-size: 20px;
+  border-radius: 74px;
+  background-color: #1A54C0;
+  color: #FFFFFF;
+  padding: 0 45px;
+}
+
+/* Hover Effects */
+.search-bar .btn-outline-success:hover {
+  background-color: #154a9e;
+  transform: scale(1.05); /* Hover effect */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Login Button Styling */
+.btn-primary {
+  height: 40px;
+  font-size: 16px;
+  border-radius: 74px;
+  background-color: #1A54C0;
+  padding: 0 25px;
+  margin-right: 20px; /* Adjust spacing for better placement */
   position: relative;
+  right: 40px; /* Move the login button to the left */
 }
 
-.brand-logo-wrapper {
-  display: flex;
-  animation: marquee 120s linear infinite;
+.btn-primary:hover {
+  background-color: #154a9e;
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container-fluid {
+      flex-direction: column; /* Stack elements vertically */
+      align-items: flex-start; /* Align items to the left */
   }
-  100% {
-    transform: translateX(-100%);
-  }
-}
 
-.brand-logo {
-  height: 90px;
-  margin-right: 100px;
+  .logo {
+      margin-bottom: 20px; /* Add spacing below the logo */
+      margin-left: 0; /* Reset left margin */
+      left: 0; /* Reset left position */
+  }
+
+  .search-bar {
+      flex-direction: column; /* Stack input and button */
+      align-items: stretch; /* Full width for stacked elements */
+      width: 100%; /* Take full width */
+      max-width: 100%;
+      margin-bottom: 20px; /* Add spacing below */
+  }
+
+  .search-bar .form-control {
+      margin-right: 0; /* Remove margin for stacking */
+      margin-bottom: 10px; /* Add spacing below input */
+  }
+
+  .search-bar .btn-outline-success {
+      width: 100%; /* Full width button */
+  }
+
+  .btn-primary {
+      width: 100%; /* Full width login button */
+      margin: 0; /* Align with other buttons */
+      left: -5px; /* Reset right position */
+  }
 }
 
 /* Logo Styling for Modal */
@@ -37,25 +139,51 @@ body {
   margin-left: 60px;
 }
 
-/* Input Field Styling */
-.input-field {
-  background-color: #D9D9D9;
-  border-radius: 18px !important;
-  padding-left: 20px;
-  width: 100%;
-  font-size: 0.9rem;
+/* Login Form Styling */
+.form-box {
+  text-align: center;
 }
 
-.input-field:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+.form-box img {
+  max-width: 100px;
+  margin-bottom: 15px;
 }
 
 .input-group {
+  margin-bottom: 15px;
+  text-align: left;
   position: relative;
   display: flex;
   align-items: center; /* Vertically aligns input and icon */
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.input {
+  background-color: #D9D9D9;
+  border-radius: 18px;
+  padding-left: 20px;
+  width: 100%;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transitions */
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  padding-left: 20px;
+  border: 1px solid #ddd;
+  border-radius: 18px !important;
+  font-size: 0.9rem;
+  background-color: #D9D9D9;
 }
 
 .input-group .toggle-password {
@@ -69,54 +197,62 @@ body {
   opacity: 0.7; /* Slight transparency */
   transition: opacity 0.2s ease;
   z-index: 10; /* Ensure it stays above input field */
-}
-
-.input-group input {
-  background-color: #D9D9D9;
-  border-radius: 18px;
-  padding-left: 20px;
-  width: 100%;
-  font-size: 0.9rem;
-  border: 1px solid transparent;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transitions */
-}
-
-.input-group input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+  margin-top: 15px;
 }
 
 .input-group:focus-within .toggle-password {
   opacity: 1; /* Full visibility on focus */
 }
 
-/* Login Button */
-.modal-content .login-btn,
-#registrationModal button.btn {
+.input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Styling */
+.d-grid .login-btn {
   width: 130px;
   height: 40px;
-  border-radius: 18px;
-  padding: 0;
-  font-size: 18px;
+  background-color: #007bff;
   display: flex;
   align-items: center;
+  color: #fff;
+  padding: 0;
   justify-content: center;
-}
-
-.modal-content .login-btn {
   margin-left: 150px;
+  border: none;
+  border-radius: 18px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
 }
 
-#registrationModal button.btn {
-  margin-left: 170px;
-}
-
-#registrationModal button.btn:hover {
+.d-grid .login-btn:hover {
   background-color: #0056b3;
 }
 
-/* Registration Modal Styling */
+/* Create Account Link */
+.create-account {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.create-account:hover {
+  text-decoration: underline;
+}
+
+/* Center the "Don't have an account?" text */
+p {
+  font-size: 0.9rem;
+  margin: 12px 0;
+  color: #333;
+  text-align: center;
+}
+
+/* Registration Styling */
 #registrationModal .modal-content {
   border-radius: 20px;
   padding: 20px;
@@ -127,6 +263,72 @@ body {
 #registrationModal .rpc-logo {
   margin-right: 65px;
   margin-bottom: -20px;
+}
+
+#registrationModal .input-group {
+  position: relative;
+  display: flex;
+  align-items: center; /* Vertically aligns input and icon */
+}
+
+#registrationModal .input-field {
+  width: 100%;
+  padding: 10px;
+  padding-left: 20px;
+  border: 1px solid #ddd;
+  border-radius: 18px !important;
+  font-size: 0.9rem;
+  background-color: #D9D9D9;
+}
+
+/* Toggle Password Icon Styling */
+#registrationModal .input-group .toggle-password {
+  position: absolute; /* Anchored to the input group */
+  right: 30px; /* Adjust distance from the right edge */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Ensure perfect centering */
+  width: 20px; /* Icon size */
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7; /* Slight transparency */
+  transition: opacity 0.2s ease, transform 0.2s ease; /* Smooth transition */
+  margin-top: 15px;
+  z-index: 10; /* Ensure it stays above input field */
+}
+
+#registrationModal .input-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+/* Ensure icon stays visible while typing */
+#registrationModal .input-group:focus-within .toggle-password {
+  opacity: 1; /* Full visibility on focus */
+}
+
+#registrationModal .btn-primary {
+  width: 130px;
+  height: 40px;
+  border-radius: 18px;
+  padding: 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#registrationModal .btn-primary {
+  margin-left: 170px;
+}
+
+#registrationModal .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.feedback {
+  font-size: 0.9rem;
+  margin-top: -15px;
 }
 
 /* Terms and Conditions */
@@ -163,10 +365,52 @@ body {
   margin-bottom: 25px;
 }
 
-.feedback {
-  font-size: 0.9rem;
-  margin-top: -15px;
+/* Carousel Styling */
+.carousel-inner {
+  margin-top: 3%;
+  margin-bottom: 4%;
 }
+
+.mb-4 {
+  font-weight: bold;
+}
+
+.row {
+  gap: 10px;
+  justify-content: center;
+}
+
+.container {
+  max-width: 100%;
+}
+
+/* Brand Logo Container */
+.brand-logo-container {
+  padding: 25px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.brand-logo-wrapper {
+  display: flex;
+  animation: marquee 120s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.brand-logo {
+  height: 90px;
+  margin-right: 100px;
+}
+
 
 /* Featured Products Wrapper */
 .featured-products-wrapper {
@@ -256,226 +500,4 @@ body {
     max-width: 80%; /* Full width for smaller screens */
     margin-right: 28%;
   }
-}
-
-/* Carousel Styling */
-.carousel-inner {
-  margin-top: 3%;
-  margin-bottom: 4%;
-}
-
-.mb-4 {
-  font-weight: bold;
-}
-
-.row {
-  gap: 10px;
-  justify-content: center;
-}
-
-.container {
-  max-width: 100%;
-}
-
-/* Base Container Styling */
-.container-fluid {
-  display: flex; /* Use flexbox for layout */
-  align-items: center;
-  justify-content: space-between; /* Space out elements */
-  flex-wrap: wrap; /* Allow wrapping for smaller screens */
-  height: auto; /* Adjust height dynamically */
-  background-color: #FFFFFF;
-  box-shadow: 0 7px 3px -2px lightgrey;
-  padding: 10px 20px;
-  position: relative; /* Enables precise positioning adjustments */
-}
-
-/* Logo Styling */
-.logo {
-  width: 240px;
-  height: auto; /* Maintain aspect ratio */
-  max-width: 100%;
-  margin-left: 20px; /* Move logo to the right */
-  position: relative; /* Allows precise control over placement */
-  left: 20px; /* Fine-tune placement */
-}
-
-/* Search Bar Styling */
-.search-bar {
-  display: flex;
-  flex-grow: 1; /* Allow search bar to grow dynamically */
-  max-width: 800px; /* Limit max width */
-  margin-right: 10px;
-}
-
-/* Search Input Field */
-.search-bar .form-control {
-  flex-grow: 1; /* Fill available space */
-  font-size: 18px;
-  border-radius: 74px;
-  padding-left: 40px;
-  margin-right: 10px; /* Space between input and button */
-}
-
-/* Search Button */
-.search-bar .btn-outline-success {
-  height: 55px;
-  font-size: 20px;
-  border-radius: 74px;
-  background-color: #1A54C0;
-  color: #FFFFFF;
-  padding: 0 45px;
-}
-
-/* Login Button Styling */
-.btn-primary {
-  height: 40px;
-  font-size: 16px;
-  border-radius: 74px;
-  background-color: #1A54C0;
-  padding: 0 25px;
-  margin-right: 20px; /* Adjust spacing for better placement */
-  position: relative;
-  right: 40px; /* Move the login button to the left */
-}
-
-/* Hover Effects */
-.search-bar .btn-outline-success:hover {
-  background-color: #154a9e;
-  transform: scale(1.05); /* Hover effect */
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-  background-color: #154a9e;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .container-fluid {
-      flex-direction: column; /* Stack elements vertically */
-      align-items: flex-start; /* Align items to the left */
-  }
-
-  .logo {
-      margin-bottom: 20px; /* Add spacing below the logo */
-      margin-left: 0; /* Reset left margin */
-      left: 0; /* Reset left position */
-  }
-
-  .search-bar {
-      flex-direction: column; /* Stack input and button */
-      align-items: stretch; /* Full width for stacked elements */
-      width: 100%; /* Take full width */
-      max-width: 100%;
-      margin-bottom: 20px; /* Add spacing below */
-  }
-
-  .search-bar .form-control {
-      margin-right: 0; /* Remove margin for stacking */
-      margin-bottom: 10px; /* Add spacing below input */
-  }
-
-  .search-bar .btn-outline-success {
-      width: 100%; /* Full width button */
-  }
-
-  .btn-primary {
-      width: 100%; /* Full width login button */
-      margin: 0; /* Align with other buttons */
-      left: -5px; /* Reset right position */
-  }
-}
-
-.modal-content {
-  border-radius: 8px;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.modal-header {
-  border-bottom: none;
-  text-align: center;
-}
-
-.modal-header .modal-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-}
-
-/* Login Form Styling */
-.form-box {
-  text-align: center;
-}
-
-.form-box img {
-  max-width: 100px;
-  margin-bottom: 15px;
-}
-
-.input-group {
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-.input-group label {
-  font-size: 0.9rem;
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-  text-transform: uppercase;
-  color: #333;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-
-.input-group input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
-}
-
-/* Button Styling */
-button.button {
-  width: 100%;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button.button:hover {
-  background-color: #0056b3;
-}
-
-/* Create Account Link */
-.create-account {
-  color: #007bff;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.create-account:hover {
-  text-decoration: underline;
-}
-
-/* Center the "Don't have an account?" text */
-p {
-  font-size: 0.9rem;
-  margin: 15px 0;
-  color: #333;
-  text-align: center;
 }
