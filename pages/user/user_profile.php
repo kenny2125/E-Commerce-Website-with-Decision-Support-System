@@ -284,7 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                         </div>
                     </div>";
                 } else {
-                    echo "<p>No orders found.</p>";
+                    echo "<p></p>";
                 }
 
                 $conn->close();
