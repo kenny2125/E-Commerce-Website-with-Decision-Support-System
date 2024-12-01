@@ -1,6 +1,8 @@
 <?php
 
 session_start();
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
+$userId = $_SESSION['user_ID'] ?? null;
 // Database connection
 include '../../config/db_config.php'; // Adjust path as necessary
 
@@ -12,56 +14,25 @@ if (!isset($_SESSION['user_ID'])) {
 
 $userId = $_SESSION['user_ID']; // Get the user ID from session
 
-// Get product ID and quantity from POST request
-$productId = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
-$quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
-
-// Validate inputs
-if ($productId <= 0 || $quantity <= 0) {
-    echo "Invalid product or quantity.";
-    exit;
-}
-
-// Check if product exists and is available in stock
-$query = "SELECT * FROM tbl_products WHERE product_ID = ?";
+// Fetch products in the user's cart
+$query = "SELECT p.product_ID, p.product_name, p.store_price, p.img_data, c.quantity 
+          FROM tbl_cart c
+          INNER JOIN tbl_products p ON c.product_ID = p.product_ID
+          WHERE c.user_ID = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param('i', $productId);
+$stmt->bind_param('i', $userId);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result->num_rows === 0) {
-    echo "Product not found.";
-    exit;
-}
-
-$product = $result->fetch_assoc();
-
-// Insert product into cart
-$insertQuery = "INSERT INTO tbl_cart (user_ID, product_ID, quantity, date_added)
-                VALUES (?, ?, ?, NOW())
-                ON DUPLICATE KEY UPDATE quantity = quantity + ?";
-$stmt = $conn->prepare($insertQuery);
-$stmt->bind_param('iiii', $userId, $productId, $quantity, $quantity);
-
-if ($stmt->execute()) {
-    // Redirect back with success message
-    header("Location: product_detail.php?id=$productId&status=success");
-} else {
-    echo "Error adding product to cart: " . $conn->error;
-}
-
-$conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
+    <title>Cart</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <style>
         .product-card {
             width: 100%;
@@ -84,29 +55,64 @@ $conn->close();
         .product-info h5 {
             margin: 0;
         }
+        .cart-summary-box {
+            margin-top: 20px;
+        }
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+        <!-- Logo -->
+        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        
+        <!-- Search Bar -->
+        <form class="d-flex search-bar">
+            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        
+        <!-- User-specific Content -->
+        <?php if ($isLoggedIn === true): ?>
+            <!-- If logged in, display welcome message and role -->
+            <div class="navbar-text d-flex align-items-center">
+                <a href="../user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
+                <a href="../shop/add_to_cart.php" class="btn btn-outline-secondary mx-2">Cart</a>
+                <a href="../user/logout.php" class="btn btn-danger ml-2">Log Out</a>
+            </div>
+        <?php else: ?>
+            <!-- If not logged in, show login button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <?php endif; ?>
+    </div>
+</nav>
 
 <div class="container mt-5">
-    <h3>Products for User <?php echo $user_id; ?></h3>
+    <h3>Your Cart</h3>
     <form method="POST" action="checkout_page.php">
         <div class="row">
             <?php
+            $totalPrice = 0;
             if ($result->num_rows > 0) {
-                $totalPrice = 0;
                 // Output products
                 while ($row = $result->fetch_assoc()) {
                     $product_ID = $row['product_ID'];
                     $product_name = $row['product_name'];
                     $store_price = $row['store_price'];
                     $img_data = $row['img_data'];
+                    $quantity = $row['quantity'];
 
                     // Convert img_data to a base64 string for displaying
                     $img_base64 = base64_encode($img_data);
 
-                    // Calculate the total price dynamically
-                    $totalPrice += $store_price;
+                    // Calculate total price
+                    $itemTotal = $store_price * $quantity;
+                    $totalPrice += $itemTotal;
             ?>
                     <div class="col-12">
                         <div class="product-card">
@@ -114,6 +120,8 @@ $conn->close();
                             <div class="product-info">
                                 <h5><?php echo $product_name; ?></h5>
                                 <p>Price: ₱<?php echo number_format($store_price, 2); ?></p>
+                                <p>Quantity: <?php echo $quantity; ?></p>
+                                <p>Subtotal: ₱<?php echo number_format($itemTotal, 2); ?></p>
                             </div>
                             <div>
                                 <!-- Checkbox for selecting the product -->
@@ -124,7 +132,7 @@ $conn->close();
             <?php
                 }
             } else {
-                echo "No products found for this user.";
+                echo "<p>Your cart is empty.</p>";
             }
             ?>
         </div>
@@ -133,13 +141,13 @@ $conn->close();
         <div class="cart-summary-box">
             <div class="cart-summary">
                 <div class="total">
-                    <span class="total-label">Total</span>
+                    <span class="total-label">Total:</span>
                     <span class="total-price">₱<?php echo number_format($totalPrice, 2); ?></span>
                 </div>
 
                 <!-- Action Buttons (Go Back & Checkout) -->
                 <div class="cart-actions">
-                    <button class="go-back-btn" type="button" onclick="window.history.back();">Go Back</button>
+                    <button class="btn btn-secondary" type="button" onclick="window.history.back();">Go Back</button>
                     <button type="submit" class="btn btn-primary mt-3">Proceed to Checkout</button>
                 </div>
             </div>

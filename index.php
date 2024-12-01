@@ -49,7 +49,8 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <?php if ($isLoggedIn === true): ?>
             <!-- If logged in, display welcome message and role -->
             <div class="navbar-text d-flex align-items-center">
-                
+                <a href="pages/user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
+                <a href="pages/shop/add_to_cart.php" class="btn btn-outline-secondary mx-2">Cart</a>
                 <a href="pages/user/logout.php" class="btn btn-danger ml-2">Log Out</a>
             </div>
         <?php else: ?>
@@ -58,6 +59,10 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
         <?php endif; ?>
     </div>
 </nav>
+
+
+
+
 
 
 <!-- Login Modal -->

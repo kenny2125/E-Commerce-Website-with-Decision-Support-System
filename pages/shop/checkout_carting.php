@@ -17,10 +17,10 @@ if ($conn->connect_error) {
 $subtotal = 0;
 $shipping_fee = 50.00;  // Example shipping fee
 
-// Check if selected products are passed from the form (cart items)
-if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
-    $selected_product_ids = $_POST['selected_products'];  // Array of selected product IDs
-    $ids = implode(",", $selected_product_ids);  // Convert the array to a comma-separated string for the SQL query
+// Fetch cart items for checkout (assuming products are stored in the session or database)
+if (isset($_SESSION['cart_items']) && !empty($_SESSION['cart_items'])) {
+    $cart_items = $_SESSION['cart_items'];  // Array of product IDs
+    $ids = implode(",", $cart_items);  // Convert the array to a comma-separated string for the SQL query
 
     // Query to fetch product details for the selected products
     $sql = "SELECT product_ID, product_name, store_price, img_data FROM tbl_products WHERE product_ID IN ($ids)";
@@ -43,23 +43,10 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
         echo "No products selected for checkout.";
         exit;
     }
-}
-// Check if product details are passed directly from the form (e.g., manual checkout)
-else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isset($_POST['product_name']) && isset($_POST['store_price'])) {
-    // Get individual product details from the form
-    $productId = $_POST['product_id'];
-    $productName = $_POST['product_name'];
-    $storePrice = $_POST['store_price'];
-
-    // If the product details are provided, we add them to the subtotal
-    $subtotal += $storePrice;
-
-    // Process checkout for this single product (you can adjust the logic for processing individual items)
 } else {
-    echo "No products selected for checkout.";
+    echo "Your cart is empty.";
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -67,20 +54,20 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cart</title>
+    <title>Checkout</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/checkout.css">
 </head>
 <body style="background-color: #EBEBEB;">
   <div class="container my-5">
     <div class="mb-4">
-        <a href="test_carting.php" class="text-decoration-none text-primary fw-bold back-link">&larr; Back</a>
+        <a href="cart.php" class="text-decoration-none text-primary fw-bold back-link">&larr; Back to Cart</a>
         <h2 class="fw-bold mt-3 title-header">Checkout</h2>
     </div>
     <div class="row g-4">
         <div class="col-lg-8">
             <?php
-            // Output the products in the checkout if they exist (from cart or from the form)
+            // Output the products in the checkout if they exist
             if (isset($result) && $result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $product_ID = $row['product_ID'];
@@ -101,26 +88,6 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
                         <div class="card-body">
                             <h5 class="card-title fw-bold product-title"><?php echo $product_name; ?></h5>
                             <p class="card-text text-danger fw-bold product-price">₱<?php echo number_format($store_price, 2); ?></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php
-                }
-            } else {
-                // If a product was passed directly from the form, display that product
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($productId)) {
-            ?>
-            <div class="card shadow border-0 mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <!-- Use a default or placeholder image if no image data is available -->
-                        <img src="placeholder.jpg" class="img-fluid rounded-start" alt="<?php echo $productName; ?>">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold product-title"><?php echo $productName; ?></h5>
-                            <p class="card-text text-danger fw-bold product-price">₱<?php echo number_format($storePrice, 2); ?></p>
                         </div>
                     </div>
                 </div>
@@ -168,24 +135,4 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) &&
                             <p class="mb-1">COD shipping: <span class="float-end" id="shipping-fee">₱<?php echo number_format($shipping_fee, 2); ?></span></p>
                             <hr>
                             <p><strong>Total payment: <span class="float-end text-danger" id="total-payment">₱<?php echo number_format($subtotal + $shipping_fee, 2); ?></span></strong></p>
-                        </div>
-                        <input type="hidden" name="amount" value="<?php echo ($subtotal + $shipping_fee) * 100; ?>"> <!-- Dummy amount in cents -->
-                        <div class="form-check mt-3">
-                            <input type="checkbox" class="form-check-input" id="agree" required>
-                            <label for="agree" class="form-check-label small">
-                                I agree to redirect to Paymongo Payment Gateway
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-3 w-100 fw-bold">Place Order</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-  </div>
-</body>
-</html>
-
-<?php
-$conn->close();
-?>
+              

@@ -80,6 +80,7 @@ if ($productId > 0) {
     <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
 <body>
+    <!-- Header -->
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Logo -->
@@ -93,14 +94,19 @@ if ($productId > 0) {
         
         <!-- User-specific Content -->
         <?php if ($isLoggedIn === true): ?>
+            <!-- If logged in, display welcome message and role -->
             <div class="navbar-text d-flex align-items-center">
-                <a href="pages/user/logout.php" class="btn btn-danger ml-2">Log Out</a>
+                <a href="../user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
+                <a href="../shop/add_to_cart.php" class="btn btn-outline-secondary mx-2">Cart</a>
+                <a href="../user/logout.php" class="btn btn-danger ml-2">Log Out</a>
             </div>
         <?php else: ?>
+            <!-- If not logged in, show login button -->
             <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
         <?php endif; ?>
     </div>
 </nav>
+
 
 <div class="container my-5">
     <div class="row">
@@ -142,9 +148,8 @@ if ($productId > 0) {
                 <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product['product_name']); ?>">
                 <input type="hidden" name="store_price" value="<?php echo $product['srp']; ?>">
                 <button type="submit" class="btn btn-success w-100">Proceed to Checkout</button>
-            
-    
             </form>
+
         </div>
 
         <!-- Product Specification -->
