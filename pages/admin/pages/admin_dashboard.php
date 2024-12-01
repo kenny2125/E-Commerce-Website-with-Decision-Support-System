@@ -1,3 +1,47 @@
+<?php
+// Database connection
+$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+$username = "vg2eweo4yg8eydii";
+$password = "rccstjx3or46kpl9";
+$db_name = "s0gp0gvxcx3fc7ib";
+$port = "3306";
+
+$conn = new mysqli($host, $username, $password, $db_name);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Query to calculate total sales, ongoing orders count, and total registered users
+$sql = "
+    SELECT 
+        (SELECT SUM(total) FROM tbl_orders WHERE payment_status = 'PAID' AND pickup_status = 'CLAIMED') AS total_sales,
+        (SELECT COUNT(*) FROM tbl_orders WHERE payment_status = 'PAID' AND pickup_status = 'PENDING') AS ongoing_orders_count,
+        (SELECT COUNT(*) FROM tbl_user) AS total_users
+";
+
+// Execute query
+$result = $conn->query($sql);
+
+// Initialize variables
+$total_sales = 0;
+$ongoing_orders_count = 0;
+$total_users = 0;
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $total_sales = $row['total_sales'] ?? 0; // Default to 0 if NULL
+    $ongoing_orders_count = $row['ongoing_orders_count'] ?? 0; // Default to 0 if NULL
+    $total_users = $row['total_users'] ?? 0; // Default to 0 if NULL
+}
+
+// Close the connection
+$conn->close();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,8 +127,9 @@
                         <div class="card-body">
                             <h5 class="card-title">Total Sales</h5>
                             <img src="/assets/images/Philippine Peso (PHP).png" alt="Philippine Peso" class="php" style="margin-top: 12px;">
-                            <p class="card-text">₱114,995.00</p>
+                            <p class="card-text">₱<?php echo number_format($total_sales, 2); ?></p>
                         </div>
+
                         </div>
                     </div>
                     <div class="col-6" style="margin-bottom: 30px; max-width: 220px;">
@@ -92,16 +137,18 @@
                             <div class="card-body">
                                 <h5 class="card-title">Ongoing Orders</h5>
                                 <img src="/assets/images/bx-receipt.png" alt="Receipt" class="receipt" style="margin-top: 12px;">
-                                <p class="card-text">1 Order</p>
+                                <p class="card-text">
+                                    <?php echo $ongoing_orders_count; ?> Order<?php echo $ongoing_orders_count > 1 ? 's' : ''; ?>
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-6" style="margin-bottom: 30px; max-width: 220px;">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 200px; text-align: center; box-shadow: 0 4px 10px #888383;">
                             <div class="card-body">
-                                <h5 class="card-title">No of Online Visitors per day</h5>
+                                <h5 class="card-title">No of Registered Users</h5>
                                 <img src="/assets/images/bxs-user.png" alt="User" class="user">
-                                <p class="card-text">4 Visitors</p>
+                                <p class="card-text"><?php echo $total_users; ?> User<?php echo $total_users > 1 ? 's' : ''; ?></p>
                             </div>
                         </div>
                     </div>

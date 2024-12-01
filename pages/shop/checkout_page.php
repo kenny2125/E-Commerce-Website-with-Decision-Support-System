@@ -1,64 +1,64 @@
 <?php
 // Database connection
-$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "vg2eweo4yg8eydii";
-$password = "rccstjx3or46kpl9";
-$db_name = "s0gp0gvxcx3fc7ib";
-$port = "3306";
+    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+    $username = "vg2eweo4yg8eydii";
+    $password = "rccstjx3or46kpl9";
+    $db_name = "s0gp0gvxcx3fc7ib";
+    $port = "3306";
 
-$conn = new mysqli($host, $username, $password, $db_name);
+    $conn = new mysqli($host, $username, $password, $db_name);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-// Initialize variables for subtotal and shipping fee
-$subtotal = 0;
-$shipping_fee = 150.00;  // Example shipping fee
+    // Initialize variables for subtotal and shipping fee
+    $subtotal = 0;
+    $shipping_fee = 150.00;  // Example shipping fee
 
-// Check if selected products are passed from the form (cart items)
-if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
-    $selected_product_ids = $_POST['selected_products'];  // Array of selected product IDs
-    $ids = implode(",", $selected_product_ids);  // Convert the array to a comma-separated string for the SQL query
+    // Check if selected products are passed from the form (cart items)
+    if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
+        $selected_product_ids = $_POST['selected_products'];  // Array of selected product IDs
+        $ids = implode(",", $selected_product_ids);  // Convert the array to a comma-separated string for the SQL query
 
-    // Query to fetch product details for the selected products
-    $sql = "SELECT product_ID, product_name, store_price, img_data FROM tbl_products WHERE product_ID IN ($ids)";
-    $result = $conn->query($sql);
+        // Query to fetch product details for the selected products
+        $sql = "SELECT product_ID, product_name, store_price, img_data FROM tbl_products WHERE product_ID IN ($ids)";
+        $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $product_ID = $row['product_ID'];
-            $product_name = $row['product_name'];
-            $store_price = $row['store_price'];
-            $img_data = $row['img_data'];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $product_ID = $row['product_ID'];
+                $product_name = $row['product_name'];
+                $store_price = $row['store_price'];
+                $img_data = $row['img_data'];
 
-            // Convert img_data to a base64 string for displaying
-            $img_base64 = base64_encode($img_data);
+                // Convert img_data to a base64 string for displaying
+                $img_base64 = base64_encode($img_data);
 
-            // Calculate subtotal
-            $subtotal += $store_price;
+                // Calculate subtotal
+                $subtotal += $store_price;
+            }
+        } else {
+            echo "No products selected for checkout.";
+            exit;
         }
+    }
+    // Check if product details are passed directly from the form (e.g., manual checkout)
+    else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isset($_POST['product_name']) && isset($_POST['store_price'])) {
+        // Get individual product details from the form
+        $productId = $_POST['product_id'];
+        $productName = $_POST['product_name'];
+        $storePrice = $_POST['store_price'];
+
+        // If the product details are provided, we add them to the subtotal
+        $subtotal += $storePrice;
+
+        // Process checkout for this single product (you can adjust the logic for processing individual items)
     } else {
         echo "No products selected for checkout.";
         exit;
     }
-}
-// Check if product details are passed directly from the form (e.g., manual checkout)
-else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isset($_POST['product_name']) && isset($_POST['store_price'])) {
-    // Get individual product details from the form
-    $productId = $_POST['product_id'];
-    $productName = $_POST['product_name'];
-    $storePrice = $_POST['store_price'];
-
-    // If the product details are provided, we add them to the subtotal
-    $subtotal += $storePrice;
-
-    // Process checkout for this single product (you can adjust the logic for processing individual items)
-} else {
-    echo "No products selected for checkout.";
-    exit;
-}
 
 ?>
 
