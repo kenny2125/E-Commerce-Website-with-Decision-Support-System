@@ -112,7 +112,7 @@ $result = $conn->query($sql);
                                     <td class='order-date'>{$row['order_date']}</td>
                                     <td>
                                         <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editOrderModal' onclick='editOrder({$row['order_ID']})'>Edit</button>
-                                        <button class='btn btn-danger btn-sm' onclick='deleteOrder({$row['order_ID']})'>Delete</button>
+                                      
                                     </td>
                                   </tr>";
                           }
