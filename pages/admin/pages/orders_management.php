@@ -14,10 +14,21 @@ if ($conn->connect_error) {
 }
 
 // Correct SQL query to join the tables properly based on foreign keys
-$sql = "SELECT o.order_ID, o.payment_status, o.pickup_status, o.user_ID, u.first_name, u.last_name, o.total, o.order_date, p.product_name
+$sql = "SELECT o.order_ID, 
+               o.payment_status, 
+               o.pickup_status, 
+               o.user_ID, 
+               CASE 
+                   WHEN o.user_ID = 1 THEN o.walk_name 
+                   ELSE CONCAT(u.first_name, ' ', u.last_name) 
+               END AS customer_name, 
+               o.total, 
+               o.order_date, 
+               p.product_name
         FROM tbl_orders o
-        JOIN tbl_user u ON o.user_ID = u.user_ID
-        JOIN tbl_products p ON o.product_ID = p.product_ID";  
+        LEFT JOIN tbl_user u ON o.user_ID = u.user_ID
+        JOIN tbl_products p ON o.product_ID = p.product_ID";
+
 
 $result = $conn->query($sql);
 ?>
@@ -85,31 +96,31 @@ $result = $conn->query($sql);
                       <?php
                       if ($result->num_rows > 0) {
                           while ($row = $result->fetch_assoc()) {
-                              $customer_name = $row['first_name'] . " " . $row['last_name'];
                               echo "<tr id='order-row-{$row['order_ID']}'
-                                       data-payment-status='{$row['payment_status']}'
-                                       data-pickup-status='{$row['pickup_status']}'
-                                       data-user-id='{$row['user_ID']}'
-                                       data-product-name='{$row['product_name']}'
-                                       data-total='{$row['total']}'
-                                       data-order-date='{$row['order_date']}'>
-                                      <td>{$row['order_ID']}</td>
-                                      <td class='payment-status'>{$row['payment_status']}</td>
-                                      <td class='pickup-status'>{$row['pickup_status']}</td>
-                                      <td class='customer-name'>{$customer_name}</td>
-                                      <td class='product-name'>{$row['product_name']}</td>
-                                      <td class='order-total'>₱" . number_format($row['total'], 2) . "</td>
-                                      <td class='order-date'>{$row['order_date']}</td>
-                                      <td>
-                                          <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editOrderModal' onclick='editOrder({$row['order_ID']})'>Edit</button>
-                                          <button class='btn btn-danger btn-sm' onclick='deleteOrder({$row['order_ID']})'>Delete</button>
-                                      </td>
-                                    </tr>";
+                                        data-payment-status='{$row['payment_status']}'
+                                        data-pickup-status='{$row['pickup_status']}'
+                                        data-user-id='{$row['user_ID']}'
+                                        data-product-name='{$row['product_name']}'
+                                        data-total='{$row['total']}'
+                                        data-order-date='{$row['order_date']}'>
+                                    <td>{$row['order_ID']}</td>
+                                    <td class='payment-status'>{$row['payment_status']}</td>
+                                    <td class='pickup-status'>{$row['pickup_status']}</td>
+                                    <td class='customer-name'>{$row['customer_name']}</td>
+                                    <td class='product-name'>{$row['product_name']}</td>
+                                    <td class='order-total'>₱" . number_format($row['total'], 2) . "</td>
+                                    <td class='order-date'>{$row['order_date']}</td>
+                                    <td>
+                                        <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editOrderModal' onclick='editOrder({$row['order_ID']})'>Edit</button>
+                                        <button class='btn btn-danger btn-sm' onclick='deleteOrder({$row['order_ID']})'>Delete</button>
+                                    </td>
+                                  </tr>";
                           }
                       } else {
                           echo "<tr><td colspan='8' class='text-center'>No orders found</td></tr>";
                       }
                       ?>
+
                   </tbody>
 
                     </table>
@@ -173,7 +184,7 @@ $result = $conn->query($sql);
         <h5 class="modal-title" id="addOrderModalLabel">Add Order</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="../pages/insert" method="POST">
+      <form action="../pages/insert_orders.php" method="POST">
         <div class="modal-body">
           <div class="mb-3">
             <label for="paymentStatus" class="form-label">Payment Status</label>
@@ -189,12 +200,34 @@ $result = $conn->query($sql);
             <input type="text" name="pickup_status" class="form-control" id="pickupStatus" required>
           </div>
           <div class="mb-3">
-            <label for="productName" class="form-label">Product Name</label>
-            <input type="text" name="product_name" class="form-control" id="productName" required>
+            <label for="productID" class="form-label">Select Product</label>
+            <select name="product_ID" class="form-control" id="productID" required onchange="updateTotal(this)">
+              <option value="" disabled selected>Select a product</option>
+              <?php
+              // Fetch products from the database
+              $conn = new mysqli($host, $username, $password, $db_name);
+              if ($conn->connect_error) {
+                  die("Connection failed: " . $conn->connect_error);
+              }
+              $sql = "SELECT product_ID, product_name, store_price FROM tbl_products ORDER BY product_ID DESC";
+              $result = $conn->query($sql);
+
+              if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                      echo "<option value='{$row['product_ID']}' data-price='{$row['store_price']}'>
+                              {$row['product_name']} - ₱{$row['store_price']}
+                            </option>";
+                  }
+              } else {
+                  echo "<option value=''>No products available</option>";
+              }
+              $conn->close();
+              ?>
+            </select>
           </div>
           <div class="mb-3">
             <label for="orderTotal" class="form-label">Total</label>
-            <input type="number" name="total" class="form-control" id="orderTotal" required>
+            <input type="text" name="total" class="form-control" id="orderTotal" readonly>
           </div>
           <div class="mb-3">
             <label for="orderDate" class="form-label">Ordering Date</label>
@@ -209,6 +242,15 @@ $result = $conn->query($sql);
     </div>
   </div>
 </div>
+
+<script>
+  function updateTotal(selectElement) {
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const price = selectedOption.getAttribute("data-price") || 0;
+    document.getElementById("orderTotal").value = price;
+  }
+</script>
+
 
 
 
@@ -233,7 +275,3 @@ function editOrder(orderID) {
 </body>
 </html>
 
-<?php
-// Close database connection
-$conn->close();
-?>
