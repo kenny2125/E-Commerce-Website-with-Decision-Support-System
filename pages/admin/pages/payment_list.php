@@ -154,7 +154,7 @@
                     <button class="btn btn-primary me-2" style="width: 150px; height: 35px" onclick="location.reload();">Refresh</button>
 
                     
-                    <button class='btn btn-success me-2' style="width: 150px; height: 35px" data-bs-toggle='modal' data-bs-target='#addPaymentModal'>Add Payment</button>
+                    
                     <!-- Search Bar -->
                     <!-- <input type="text" class="form-control" placeholder="Search..."> -->
                 </div>
@@ -184,7 +184,7 @@
                             echo "<td>₱ " . number_format($row['amount'], 2) . "</td>";
                             echo "<td>" . $row['cust_name'] . "</td>";
                             echo "<td>" . $row['source_type'] . "</td>";
-                            echo "<td>" . ($row['created_at'] ? date("Y-m-d H:i:s", strtotime($row['created_at'])) : 'N/A') . "</td>";
+                            echo "<td>" . ($row['created_at'] ? date("Y-m-d", strtotime($row['created_at'])) : 'N/A') . "</td>";
                             echo "<td>
                                     <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editPaymentModal-" . $row['payment_ID'] . "'>Edit</button>
                                 </td>";
