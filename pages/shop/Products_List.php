@@ -23,18 +23,9 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
 
     $conn = new mysqli($host, $username, $password, $db_name);
 
-    // Prepare the SQL query to fetch products, filtering if search is provided
+    // Prepare the SQL query to fetch products
     $query = "SELECT * FROM tbl_products";
-    if (!empty($searchQuery)) {
-        $query .= " WHERE product_name LIKE ?"; // Add a WHERE clause to filter by product name
-    }
-
-    // Prepare and execute the query
     $stmt = $conn->prepare($query);
-    if (!empty($searchQuery)) {
-        $searchTerm = '%' . $searchQuery . '%'; // Add wildcard characters for partial matching
-        $stmt->bind_param('s', $searchTerm);
-    }
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -54,6 +45,24 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
     $stmt->close();
     $conn->close();
 }
+
+// Start measuring the time taken for search operation
+$startTime = microtime(true);
+
+// Filter products by search query if present
+if (!empty($searchQuery)) {
+    // Filter through cached products (case-insensitive search)
+    $products = array_filter($products, function ($product) use ($searchQuery) {
+        return stripos($product['product_name'], $searchQuery) !== false; // Case-insensitive search
+    });
+}
+
+// End measuring the time
+$endTime = microtime(true);
+
+// Calculate the time taken to filter the products
+$searchTime = round($endTime - $startTime, 3); // Round to 3 decimal places
+
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +89,7 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
         </a>
 
         <!-- Search Form -->
-        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
+        <form action="Products_List.php" method="get" class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" name="search_query" value="<?php echo htmlspecialchars($searchQuery); ?>" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
@@ -125,7 +134,7 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
                     <?php if (!empty($searchQuery)): ?>
                         <span class="fw-bold">Search Result for:</span> "<?php echo htmlspecialchars($searchQuery); ?>", 
                     <?php endif; ?>
-                    <span class="fw-bold"><?php echo count($products); ?> results</span> found.
+                    <span class="fw-bold"><?php echo count($products); ?> result(s) found in <?php echo $searchTime; ?> secs</span>
                 </div>
             </div>
 
