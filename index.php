@@ -309,7 +309,7 @@ if (isset($_GET['search_query'])) {
 </div>
 
 <!-- DSS Section -->
-<div style="padding: 100px 0 350px; width: 100%; height: auto; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center; text-align: center; color: black;">
+<div style="padding: 100px 0px 250px; width: 100%; height: auto; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center; text-align: center; color: black;">
   <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <div style="font-size: 64px; font-family: 'Work Sans', sans-serif; font-weight: 600;">Don’t know what to buy?</div>
     <div style="font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 400; margin-top: 10px;">Check our “Parts Recommendation System” helps you figure out your needs!</div>
