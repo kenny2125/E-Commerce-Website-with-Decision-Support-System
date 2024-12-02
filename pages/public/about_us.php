@@ -199,8 +199,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
         <div class="back" id="backButton" style="margin-top: 30px; right: 20px; margin-bottom: 30px; font-size: 23px; color: #A9A9A9; margin-left: 1790px;">
             <a href="/index.php" style="text-decoration: none; color: inherit;">Back</a>
         </div>
-            <img src="/assets/images/BANNERS.png" alt="Logo" class="logo" style="width: 95%; height">
-        <div class="about-us">
+            <img src="/assets/images/BANNERS.png" alt="Logo" class="logo" style="width: 95%;">
         <h1 style="margin-top: 20px; margin-left: 65px;">About Us</h1>
             <p style="text-align: justify; margin-top: 30px; margin-left: 170px; margin-right: 170px; margin-bottom: 80px; font-size: 23px;"><strong>RPC Tech Computer Store</strong>, founded by Ryn Maglonzo in August 2024, is a business that sells desktop computer accessories and hardware. The store is known for its smooth transactions and affordable prices, attracting customers such as students, work-from-home workers, and others looking for high-quality computer parts at reasonable costs. At present, RPC Tech Computer Store operates from a single location. To meet the growing demand for its products and reach more customers, the store plans to move from its traditional sales approach—which depends on face-to-face interactions and social media—to an online selling platform. This change is expected to make the store more accessible to customers and improve how it operates.</p>
          </div>
@@ -243,9 +242,9 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
         <div class="footer-link-column" style="flex: none; margin: 0 13px;">
             <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Who are we?</p>
                 <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/aboutus.php" style="text-decoration: none; color: #fff; font-size: 14px;">About Us</a></p>
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/faq.php" style="text-decoration: none; color: #fff; font-size: 14px;">FAQ</a></p>
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/contactus.php" style="text-decoration: none; color: #fff; font-size: 14px;">Contact Us</a></p>
+                    <p style="margin: 0; text-align: left;"><a href="/pages/public/about_us.php" style="text-decoration: none; color: #fff; font-size: 14px;">About Us</a></p>
+                    <p style="margin: 0; text-align: left;"><a href="/pages/public/faq.php" style="text-decoration: none; color: #fff; font-size: 14px;">FAQ</a></p>
+                    <p style="margin: 0; text-align: left;"><a href="/pages/public/contactus.php" style="text-decoration: none; color: #fff; font-size: 14px;">Contact Us</a></p>
                 </div>
         </div>
     </div>
@@ -253,17 +252,17 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
     <div class="footer-link-column" style="flex: none; margin: 15px 13px;">
         <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Legal Terms</p>
         <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-          <p style="margin: 0; text-align: left;"><a href="pages/public/termconditions.php" style="text-decoration: none; color: #fff; font-size: 14px;">Terms & Conditions</a></p>
-          <p style="margin: 0; text-align: left;"><a href="pages/public/privacy-policy.php" style="text-decoration: none; color: #fff; font-size: 14px;">Privacy Policy</a></p>
+          <p style="margin: 0; text-align: left;"><a href="/pages/public/termconditions.php" style="text-decoration: none; color: #fff; font-size: 14px;">Terms & Conditions</a></p>
+          <p style="margin: 0; text-align: left;"><a href="/pages/public/privacy-policy.php" style="text-decoration: none; color: #fff; font-size: 14px;">Privacy Policy</a></p>
       </div>
     </div>
 
     <div class="footer-link-column" style="flex: none; margin: 15px 13px;">
         <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Guides</p>
         <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-            <p style="margin: 0; text-align: left;"><a href="pages/public/purchase-guides.php" style="text-decoration: none; color: #fff; font-size: 14px;">Purchasing Guides</a></p>
-            <p style="margin: 0; text-align: left;"><a href="pages/public/motherboard-chipset.php" style="text-decoration: none; color: #fff; font-size: 14px;">Motherboard Chipset</a></p>
-            <p style="margin: 0; text-align: left;"><a href="pages/public/power-supply-calculator.php" style="text-decoration: none; color: #fff; font-size: 14px;">Power Supply Calculator</a></p>
+            <p style="margin: 0; text-align: left;"><a href="/pages/public/purchase-guides.php" style="text-decoration: none; color: #fff; font-size: 14px;">Purchasing Guides</a></p>
+            <p style="margin: 0; text-align: left;"><a href="/pages/public/motherboard-chipset.php" style="text-decoration: none; color: #fff; font-size: 14px;">Motherboard Chipset</a></p>
+            <p style="margin: 0; text-align: left;"><a href="/pages/public/power-supply-calculator.php" style="text-decoration: none; color: #fff; font-size: 14px;">Power Supply Calculator</a></p>
         </div>
     </div>
 </div>
