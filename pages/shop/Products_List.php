@@ -4,8 +4,18 @@ session_start(); // Start the session
 $isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
 $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 
+
+// Get the search query from session if available
+$searchQuery = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : '';
+
+// You can now use $searchQuery in your SQL query to filter results based on the search
+if ($searchQuery) {
+    $sql = "SELECT * FROM tbl_products WHERE product_name LIKE '%$searchQuery%'";
+    // Continue with your database query
+}
+
 // Cache expiration time (in seconds)
-$cacheExpirationTime = 60 * 5; // 5 minutes (adjust as needed)
+$cacheExpirationTime = 60 * 30; // 5 minutes (adjust as needed)
 
 // Initialize $searchQuery as an empty string by default
 $searchQuery = isset($_GET['search_query']) ? $_GET['search_query'] : '';
