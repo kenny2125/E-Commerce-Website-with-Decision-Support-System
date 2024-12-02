@@ -76,11 +76,7 @@ $conn->close();
             <div class="col-md-2 admin-sidebar" style="background-color: #1A54C0; border-radius: 20px; margin-right: 35px; margin-left: 68px; box-shadow: 0 4px 10px #888383;">
                 <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%; margin-top: 30px;">
                     <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a href="admin_profile.php" class="nav-link link-light">
-                                Admin Profile
-                            </a>
-                        </li>
+           
                         <li>
                             <a href="#" class="nav-link link-light active" aria-current="page">
                                 Dashboard
@@ -92,12 +88,12 @@ $conn->close();
                             </a>
                         </li>
                         <li>
-                            <a href="orders_management" class="nav-link link-light">
+                            <a href="orders_management.php" class="nav-link link-light">
                                 Orders Management
                             </a>
                         </li>
                         <li>
-                            <a href="payment_list" class="nav-link link-light">
+                            <a href="payment_list.php" class="nav-link link-light">
                                 Payments List
                             </a>
                         </li>

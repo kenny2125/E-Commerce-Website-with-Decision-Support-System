@@ -215,80 +215,86 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
             </div>
 
             <?php
-                
 
-                // Make sure the user is logged in
-                if (!isset($_SESSION['user_ID'])) {
-                    die("You must be logged in to view your order history.");
-                }
+// Make sure the user is logged in
+if (!isset($_SESSION['user_ID'])) {
+    die("You must be logged in to view your order history.");
+}
 
-                // Get the user ID from the session
-                $userID = $_SESSION['user_ID'];
+// Get the user ID from the session
+$userID = $_SESSION['user_ID'];
 
-               
-                $conn = new mysqli($host, $username, $password, $db_name);
+$conn = new mysqli($host, $username, $password, $db_name);
 
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-                // Fetch orders for the logged-in user
-                $sql = "SELECT * FROM tbl_orders WHERE user_ID = $userID ORDER BY order_date DESC";
-                $result = $conn->query($sql);
+// Fetch orders for the logged-in user, with product names from tbl_products
+$sql = "
+    SELECT o.order_ID, o.payment_status, o.pickup_status, o.order_date, o.total, p.product_name
+    FROM tbl_orders o
+    JOIN tbl_products p ON o.product_ID = p.product_ID
+    WHERE o.user_ID = $userID
+    ORDER BY o.order_date DESC
+";
+$result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
-                    // Output each row of orders
-                    $orderHistory = "";
-                    while ($row = $result->fetch_assoc()) {
-                        $orderID = $row['order_ID'];
-                        $paymentStatus = $row['payment_status'];
-                        $pickupStatus = $row['pickup_status'];
-                        $orderDate = $row['order_date'];
-                        $total = number_format($row['total'], 2);
+if ($result->num_rows > 0) {
+    // Output each row of orders
+    $orderHistory = "";
+    while ($row = $result->fetch_assoc()) {
+        $orderID = $row['order_ID'];
+        $paymentStatus = $row['payment_status'];
+        $pickupStatus = $row['pickup_status'];
+        $orderDate = $row['order_date'];
+        $total = number_format($row['total'], 2);
+        $productName = $row['product_name'];
 
-                        // Format order date
-                        $orderDateFormatted = date("F j, Y", strtotime($orderDate));
+        // Format order date
+        $orderDateFormatted = date("F j, Y", strtotime($orderDate));
 
-                        // Add each order row to the table content
-                        $orderHistory .= "
-                        <tr>
-                            <td>$orderID</td>
-                            <td>Product Name</td> <!-- Assuming you will fetch product names if needed -->
-                            <td><span class='badge bg-" . ($paymentStatus == 'PENDING' ? 'warning' : 'success') . "'>$paymentStatus</span></td>
-                            <td><span class='badge bg-" . ($pickupStatus == 'Ready' ? 'primary' : 'secondary') . "'>$pickupStatus</span></td>
-                            <td>$orderDateFormatted</td>
-                            <td>₱$total</td>
-                        </tr>";
-                    }
-                    // Show the order history inside the table
-                    echo "
-                    <div id='orderHistoryContent' class='order-history'>
-                        <h2>Order History</h2>
-                        <div class='panel'>
-                            <table class='table'>
-                                <thead>
-                                    <tr>
-                                        <th>Order #</th>
-                                        <th>Product Name</th>
-                                        <th>Payment Status</th>
-                                        <th>Pickup Status</th>
-                                        <th>Order Date</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    $orderHistory
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>";
-                } else {
-                    echo "<p></p>";
-                }
+        // Add each order row to the table content
+        $orderHistory .= "
+        <tr>
+            <td>$orderID</td>
+            <td>$productName</td> <!-- Output the product name -->
+            <td><span class='badge bg-" . ($paymentStatus == 'PENDING' ? 'warning' : 'success') . "'>$paymentStatus</span></td>
+            <td><span class='badge bg-" . ($pickupStatus == 'Ready' ? 'primary' : 'secondary') . "'>$pickupStatus</span></td>
+            <td>$orderDateFormatted</td>
+            <td>₱$total</td>
+        </tr>";
+    }
+    // Show the order history inside the table
+    echo "
+    <div id='orderHistoryContent' class='order-history'>
+        <h2>Order History</h2>
+        <div class='panel'>
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Product Name</th>
+                        <th>Payment Status</th>
+                        <th>Pickup Status</th>
+                        <th>Order Date</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    $orderHistory
+                </tbody>
+            </table>
+        </div>
+    </div>";
+} else {
+    echo "<p>No orders found.</p>";
+}
 
-                $conn->close();
-                ?>
+$conn->close();
+?>
+
         </div>
 
     </div>

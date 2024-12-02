@@ -34,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "UPDATE tbl_orders SET 
             payment_status = '$payment_status', 
             pickup_status = '$pickup_status', 
-            product_name = '$product_name', 
             total = '$total',
             walk_name = '$walk_name'
             WHERE order_ID = '$order_ID'";
