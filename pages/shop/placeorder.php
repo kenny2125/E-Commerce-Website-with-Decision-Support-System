@@ -71,5 +71,12 @@ while ($row = $result->fetch_assoc()) {
 $stmt->close();
 $conn->close();
 
+// Output the success message and trigger the redirect with a delay
 echo "Order placed successfully!";
 ?>
+<script>
+    // Wait for 5 seconds before redirecting to the user profile page
+    setTimeout(function() {
+        window.location.href = '../user/user_profile.php'; // Redirect after 5 seconds
+    }, 3000);
+</script>

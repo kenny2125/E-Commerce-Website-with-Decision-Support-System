@@ -73,11 +73,13 @@
     }
 
     // Fetch product data
-    $sql = "SELECT p.product_ID, p.category, b.brand_name, p.product_name, p.srp, p.store_price, p.description, p.specification, p.quantity 
-            FROM tbl_products p
-            LEFT JOIN tbl_brands b ON p.brand_ID = b.brand_ID";
+    $sql = "
+    SELECT p.product_ID, p.category, b.brand_name, p.product_name, p.srp, p.store_price, p.description, p.specification, p.quantity 
+    FROM tbl_products p
+    LEFT JOIN tbl_brands b ON p.brand_ID = b.brand_ID
+    ORDER BY p.product_ID DESC";
 
-    $result = $conn->query($sql);
+$result = $conn->query($sql);
 ?>
 
 <nav class="navbar navbar-light bg-light">

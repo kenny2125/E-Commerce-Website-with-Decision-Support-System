@@ -1,4 +1,11 @@
 <?php
+session_start(); // Start the session
+
+// Check if the user is logged in
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
+
+// Initialize the check for admin role
+$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 // Database Connection
 $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
 $username = "vg2eweo4yg8eydii";
@@ -14,10 +21,21 @@ if ($conn->connect_error) {
 }
 
 // Correct SQL query to join the tables properly based on foreign keys
-$sql = "SELECT o.order_ID, o.payment_status, o.pickup_status, o.user_ID, u.first_name, u.last_name, o.total, o.order_date, p.product_name
+$sql = "SELECT o.order_ID, 
+               o.payment_status, 
+               o.pickup_status, 
+               o.user_ID, 
+               CASE 
+                   WHEN o.user_ID = 1 THEN o.walk_name 
+                   ELSE CONCAT(u.first_name, ' ', u.last_name) 
+               END AS customer_name, 
+               o.total, 
+               o.order_date, 
+               p.product_name
         FROM tbl_orders o
-        JOIN tbl_user u ON o.user_ID = u.user_ID
-        JOIN tbl_products p ON o.product_ID = p.product_ID";  
+        LEFT JOIN tbl_user u ON o.user_ID = u.user_ID
+        JOIN tbl_products p ON o.product_ID = p.product_ID";
+
 
 $result = $conn->query($sql);
 ?>
@@ -28,16 +46,48 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/orders_management.css">
     <title>Orders Management</title>
 </head>
-<body>
+<body style="background-color: #EBEBEB;">
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        <form class="d-flex search-bar">
+        <!-- Clickable Logo -->
+        <a href="/index.php">
+            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+        </a>
+        
+        <!-- Search Bar -->
+        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
             <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button href="pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        
+        <!-- User-specific Content -->
+        <?php if ($isLoggedIn === true): ?>
+            <!-- If logged in, display welcome message and role -->
+            <div class="navbar-text d-flex align-items-center">
+                <div class="icon-container">
+                    <!-- Cart and Profile Links -->
+                    <a href="pages/shop/carting_list.php">
+                        <img src="/assets/images/Group 204.png" alt="Cart Icon">
+                    </a>
+                    <a href="pages/user/user_profile.php">
+                        <img src="/assets/images/Group 48.png" alt="Profile Icon">
+                    </a>
+
+                    <!-- Admin Link (only visible to admins) -->
+                    <?php if ($isAdmin): ?>
+                        <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
+                            Admin Dashboard
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <!-- If not logged in, show login button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
+        <?php endif; ?>
     </div>
 </nav>
 
@@ -85,31 +135,31 @@ $result = $conn->query($sql);
                       <?php
                       if ($result->num_rows > 0) {
                           while ($row = $result->fetch_assoc()) {
-                              $customer_name = $row['first_name'] . " " . $row['last_name'];
                               echo "<tr id='order-row-{$row['order_ID']}'
-                                       data-payment-status='{$row['payment_status']}'
-                                       data-pickup-status='{$row['pickup_status']}'
-                                       data-user-id='{$row['user_ID']}'
-                                       data-product-name='{$row['product_name']}'
-                                       data-total='{$row['total']}'
-                                       data-order-date='{$row['order_date']}'>
-                                      <td>{$row['order_ID']}</td>
-                                      <td class='payment-status'>{$row['payment_status']}</td>
-                                      <td class='pickup-status'>{$row['pickup_status']}</td>
-                                      <td class='customer-name'>{$customer_name}</td>
-                                      <td class='product-name'>{$row['product_name']}</td>
-                                      <td class='order-total'>₱" . number_format($row['total'], 2) . "</td>
-                                      <td class='order-date'>{$row['order_date']}</td>
-                                      <td>
-                                          <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editOrderModal' onclick='editOrder({$row['order_ID']})'>Edit</button>
-                                          <button class='btn btn-danger btn-sm' onclick='deleteOrder({$row['order_ID']})'>Delete</button>
-                                      </td>
-                                    </tr>";
+                                        data-payment-status='{$row['payment_status']}'
+                                        data-pickup-status='{$row['pickup_status']}'
+                                        data-user-id='{$row['user_ID']}'
+                                        data-product-name='{$row['product_name']}'
+                                        data-total='{$row['total']}'
+                                        data-order-date='{$row['order_date']}'>
+                                    <td>{$row['order_ID']}</td>
+                                    <td class='payment-status'>{$row['payment_status']}</td>
+                                    <td class='pickup-status'>{$row['pickup_status']}</td>
+                                    <td class='customer-name'>{$row['customer_name']}</td>
+                                    <td class='product-name'>{$row['product_name']}</td>
+                                    <td class='order-total'>₱" . number_format($row['total'], 2) . "</td>
+                                    <td class='order-date'>{$row['order_date']}</td>
+                                    <td>
+                                        <button class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#editOrderModal' onclick='editOrder({$row['order_ID']})'>Edit</button>
+                                      
+                                    </td>
+                                  </tr>";
                           }
                       } else {
                           echo "<tr><td colspan='8' class='text-center'>No orders found</td></tr>";
                       }
                       ?>
+
                   </tbody>
 
                     </table>
@@ -131,13 +181,27 @@ $result = $conn->query($sql);
         <div class="modal-body">
             <input type="hidden" name="order_ID" id="editOrderID"> <!-- Hidden input for order ID -->
             
+            <!-- Order Number -->
             <div class="mb-3">
-                <label for="editPaymentStatus" class="form-label">Payment Status</label>
-                <input type="text" name="payment_status" class="form-control" id="editPaymentStatus" required>
+              <label for="orderNumber" class="form-label">Order Number</label>
+              <p id="orderNumber"></p> <!-- Display the order number here -->
+            </div>
+            
+            <div class="mb-3">
+              <label for="paymentStatus" class="form-label">Payment Status</label>
+              <select name="payment_status" class="form-control" id="paymentStatus" required>
+                <option value="PAID">PAID</option>
+                <option value="PENDING">PENDING</option>
+                <option value="CANCELLED">CANCELLED</option>
+              </select>
             </div>
             <div class="mb-3">
-                <label for="editPickupStatus" class="form-label">Pickup Status</label>
-                <input type="text" name="pickup_status" class="form-control" id="editPickupStatus" required>
+              <label for="pickupStatus" class="form-label">Pickup Status</label>
+              <select name="pickup_status" class="form-control" id="pickupStatus" required>
+                <option value="CLAIMED">CLAIMED</option>
+                <option value="SHIPPED">SHIPPED</option>
+                <option value="PENDING">PENDING</option>
+              </select>
             </div>
             <div class="mb-3">
                 <label for="editUserID" class="form-label">Customer ID</label>
@@ -165,6 +229,7 @@ $result = $conn->query($sql);
   </div>
 </div>
 
+
 <!-- Modal for Adding Order -->
 <div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -173,28 +238,58 @@ $result = $conn->query($sql);
         <h5 class="modal-title" id="addOrderModalLabel">Add Order</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="../pages/insert" method="POST">
+      <form action="../pages/insert_orders.php" method="POST">
         <div class="modal-body">
           <div class="mb-3">
             <label for="paymentStatus" class="form-label">Payment Status</label>
-            <input type="text" name="payment_status" class="form-control" id="paymentStatus" required>
+            <select name="payment_status" class="form-control" id="paymentStatus" required>
+              <option value="PAID">PAID</option>
+              <option value="PENDING">PENDING</option>
+              <option value="CANCELLED">CANCELLED</option>
+            </select>
           </div>
           <!-- Walk-In Name for customers without an account -->
           <div class="mb-3">
             <label for="walkName" class="form-label">Walk-In Name</label>
             <input type="text" name="walk_name" class="form-control" id="walkName" placeholder="Enter name for walk-in buyer" required>
           </div>
+            <div class="mb-3">
+              <label for="pickupStatus" class="form-label">Pickup Status</label>
+              <select name="pickup_status" class="form-control" id="pickupStatus" required>
+                <option value="CLAIMED">CLAIMED</option>
+                <option value="SHIPPED">SHIPPED</option>
+                <option value="PENDING">PENDING</option>
+              </select>
+            </div>
           <div class="mb-3">
-            <label for="pickupStatus" class="form-label">Pickup Status</label>
-            <input type="text" name="pickup_status" class="form-control" id="pickupStatus" required>
-          </div>
-          <div class="mb-3">
-            <label for="productName" class="form-label">Product Name</label>
-            <input type="text" name="product_name" class="form-control" id="productName" required>
+            <label for="productID" class="form-label">Select Product</label>
+            <select name="product_ID" class="form-control" id="productID" required onchange="updateTotal(this)">
+              <option value="" disabled selected>Select a product</option>
+              <?php
+              // Fetch products from the database
+              $conn = new mysqli($host, $username, $password, $db_name);
+              if ($conn->connect_error) {
+                  die("Connection failed: " . $conn->connect_error);
+              }
+              $sql = "SELECT product_ID, product_name, store_price FROM tbl_products ORDER BY product_ID DESC";
+              $result = $conn->query($sql);
+
+              if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                      echo "<option value='{$row['product_ID']}' data-price='{$row['store_price']}'>
+                              {$row['product_name']} - ₱{$row['store_price']}
+                            </option>";
+                  }
+              } else {
+                  echo "<option value=''>No products available</option>";
+              }
+              $conn->close();
+              ?>
+            </select>
           </div>
           <div class="mb-3">
             <label for="orderTotal" class="form-label">Total</label>
-            <input type="number" name="total" class="form-control" id="orderTotal" required>
+            <input type="text" name="total" class="form-control" id="orderTotal" readonly>
           </div>
           <div class="mb-3">
             <label for="orderDate" class="form-label">Ordering Date</label>
@@ -210,6 +305,15 @@ $result = $conn->query($sql);
   </div>
 </div>
 
+<script>
+  function updateTotal(selectElement) {
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const price = selectedOption.getAttribute("data-price") || 0;
+    document.getElementById("orderTotal").value = price;
+  }
+</script>
+
+
 
 
 
@@ -221,19 +325,19 @@ function editOrder(orderID) {
     
     // Set the modal fields with data from the selected row
     document.getElementById('editOrderID').value = orderID;
-    document.getElementById('editPaymentStatus').value = row.getAttribute('data-payment-status');
-    document.getElementById('editPickupStatus').value = row.getAttribute('data-pickup-status');
+    document.getElementById('paymentStatus').value = row.getAttribute('data-payment-status');
+    document.getElementById('pickupStatus').value = row.getAttribute('data-pickup-status');
     document.getElementById('editUserID').value = row.getAttribute('data-user-id');
     document.getElementById('editProductName').value = row.getAttribute('data-product-name');
     document.getElementById('editOrderTotal').value = row.getAttribute('data-total');
     document.getElementById('editOrderDate').value = row.getAttribute('data-order-date');
+    
+    // Update the order number on top of the modal
+    document.getElementById('orderNumber').innerText = 'Order #: ' + orderID;
 }
 </script>
+
 
 </body>
 </html>
 
-<?php
-// Close database connection
-$conn->close();
-?>

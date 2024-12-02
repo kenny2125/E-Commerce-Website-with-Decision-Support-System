@@ -76,11 +76,7 @@ $conn->close();
             <div class="col-md-2 admin-sidebar" style="background-color: #1A54C0; border-radius: 20px; margin-right: 35px; margin-left: 68px; box-shadow: 0 4px 10px #888383;">
                 <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%; margin-top: 30px;">
                     <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a href="admin_profile.php" class="nav-link link-light">
-                                Admin Profile
-                            </a>
-                        </li>
+           
                         <li>
                             <a href="#" class="nav-link link-light active" aria-current="page">
                                 Dashboard
@@ -92,12 +88,12 @@ $conn->close();
                             </a>
                         </li>
                         <li>
-                            <a href="orders_management" class="nav-link link-light">
+                            <a href="orders_management.php" class="nav-link link-light">
                                 Orders Management
                             </a>
                         </li>
                         <li>
-                            <a href="payment_list" class="nav-link link-light">
+                            <a href="payment_list.php" class="nav-link link-light">
                                 Payments List
                             </a>
                         </li>
@@ -149,12 +145,41 @@ $conn->close();
                     </div>
                     <div class="col-6" style="margin-bottom: 30px; max-width: 220px;">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 200px; text-align: center; box-shadow: 0 4px 10px #888383;">
-                            <div class="card-body">
-                                <h5 class="card-title">Top Product Categories</h5>
-                                <img src="/assets/images/GPU.png" alt="GPU" class="gpu" style="margin-top: 12px;">
-                                <p class="card-text" style="margin-top: 3px; margin-bottom: 0px;">Motherboard</p>
-                                <p class="card-text">CPU</p>
-                            </div>
+                        <?php
+                        // Database connection
+                        $conn = new mysqli($host, $username, $password, $db_name);
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
+                        }
+
+                        $sql = "SELECT p.category, COUNT(o.order_ID) AS total_sales
+                                FROM tbl_orders o
+                                JOIN tbl_products p ON o.product_ID = p.product_ID
+                                WHERE o.payment_status = 'PAID' AND o.pickup_status = 'CLAIMED'
+                                GROUP BY p.category
+                                ORDER BY total_sales DESC
+                                LIMIT 3";
+
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+                            echo '<div class="card-body" style="max-width: 200px; max-height: 200px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">';
+                            echo '<h5 class="card-title" style="font-size: 16px; margin-bottom: 10px;">Top Product Categories</h5>';
+                            
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<p class="card-text" style="font-size: 14px; font-weight: bold; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . $row['category'] . '</p>';
+                            }
+                            echo '</div>';
+                        } else {
+                            echo '<div class="card-body" style="max-width: 200px; max-height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">';
+                            echo '<p>No data available.</p>';
+                            echo '</div>';
+                        }
+                        
+
+                        
+                        ?>
+
                         </div>
                     </div>
                 </div>
@@ -162,7 +187,7 @@ $conn->close();
                 <!-- Chart Section -->
                 <div class="row" style="background-color: #fff; border-radius: 30px; box-shadow: 0 2px 5px #888383; max-width: 878px;">
                     <div class="col-12 text-center">
-                        <h3 style="margin-top: 20px; font-size: 24px;">Overall Sales in 2024</h3>
+                        <h3 style="margin-top: 20px; font-size: 24px;">Monthly Sales</h3>
                     </div>
                     <div class="col-12">
                         <div id="chart-container" class="admin-chart-container" style="height: 300px;"></div>
@@ -175,14 +200,36 @@ $conn->close();
                 <div class="row">
                     <div class="col-12">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 280px; text-align: center; box-shadow: 0 4px 10px #888383; margin-bottom: 50px;">
-                            <div class="card-body">
-                                <h5 class="card-title" style="margin-bottom: 25px;">Top Products</h5>
-                                <p class="card-text">Product 1</p>
-                                <p class="card-text">Product 2</p>
-                                <p class="card-text">Product 3</p>
-                                <p class="card-text">Product 4</p>
-                                <p class="card-text">Product 5</p>
-                            </div>
+                        <?php
+// Query to get the top 5 most sold products from tbl_orders
+$sql = "SELECT p.product_name, COUNT(o.product_ID) AS product_count 
+        FROM tbl_orders o
+        INNER JOIN tbl_products p ON o.product_ID = p.product_ID
+        WHERE o.payment_status = 'PAID' AND o.pickup_status = 'CLAIMED' 
+        GROUP BY o.product_ID
+        ORDER BY product_count DESC
+        LIMIT 5";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    echo '<div class="card-body">';
+    echo '<h5 class="card-title" style="margin-bottom: 25px;">Top Products</h5>';
+    
+    // Output the top 5 products
+    $rank = 1;
+    while ($row = $result->fetch_assoc()) {
+        echo '<p class="card-text" style="font-size: 14px; font-weight: bold; margin: 0;">' . $rank . '. ' . $row['product_name'] . '</p>';
+        $rank++;
+    }
+    echo '</div>';
+} else {
+    echo '<div class="card-body"><p>No top products available.</p></div>';
+}
+
+
+?>
+
                         </div>
                     </div>
                 </div>
@@ -190,12 +237,35 @@ $conn->close();
                 <div class="row">
                     <div class="col-12">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 280px; text-align: center; box-shadow: 0 4px 10px #888383;">
-                            <div class="card-body">
-                                <h5 class="card-title" style="margin-bottom: 25px;">Stock Alerts</h5>
-                                <p class="card-text">Product A: Low stock</p>
-                                <p class="card-text">Product B: Out of stock</p>
-                                <p class="card-text">Product C: Low stock</p>
-                            </div>
+                        <?php
+// Query to get products with low or out of stock
+$sql = "SELECT product_name, quantity FROM tbl_products 
+        WHERE quantity <= 5 
+        ORDER BY quantity ASC
+        LIMIT 5";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    echo '<div class="card-body">';
+    echo '<h5 class="card-title" style="margin-bottom: 25px;">Stock Alerts</h5>';
+    
+    // Output the stock alerts
+    while ($row = $result->fetch_assoc()) {
+        // If the quantity is 0, it's out of stock
+        if ($row['quantity'] == 0) {
+            echo '<p class="card-text" style="font-size: 14px; color: red;">' . $row['product_name'] . ': Out of stock</p>';
+        } else {
+            echo '<p class="card-text" style="font-size: 14px; color: orange;">' . $row['product_name'] . ': Low stock</p>';
+        }
+    }
+    echo '</div>';
+} else {
+    echo '<div class="card-body"><p>No stock alerts at the moment.</p></div>';
+}
+$conn->close();
+?>
+
                         </div>
                     </div>
                 
@@ -269,80 +339,108 @@ $conn->close();
   </div>
 </footer>
 
-    <script>
-        const data = [
-            { name: 'January', value: 12000 },
-            { name: 'February', value: 16000 },
-            { name: 'March', value: 18000 },
-            { name: 'April', value: 20000 },
-            { name: 'May', value: 21000 },
-            { name: 'June', value: 22000 },
-            { name: 'July', value: 23000 },
-            { name: 'August', value: 27000 },
-            { name: 'September', value: 29000 },
-            { name: 'October', value: 31000 },
-            { name: 'November', value: 33000 },
-            { name: 'December', value: 37100 },
-        ];
+<?php
+// Connect to the database
+$conn = new mysqli($host, $username, $password, $db_name);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-        const options = {
-            chart: {
-                type: 'bar',
-                height: 400,
-                toolbar: {
-                    show: false,
-                },
+// Fetch sales data for PAID and CLAIMED orders
+$sql = "SELECT SUM(total) AS total_sales, MONTH(order_date) AS month
+        FROM tbl_orders
+        WHERE payment_status = 'PAID' AND pickup_status = 'CLAIMED'
+        GROUP BY MONTH(order_date)
+        ORDER BY MONTH(order_date)";
+$result = $conn->query($sql);
+
+// Prepare data for the chart
+$data = [];
+$months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+// Initialize the data array with zeros
+for ($i = 0; $i < 12; $i++) {
+    $data[$i] = 0;
+}
+
+// Fetch the result and populate the data array
+while ($row = $result->fetch_assoc()) {
+    $month = $row['month'] - 1; // Adjust to 0-based index
+    $data[$month] = (float) $row['total_sales'];
+}
+
+$conn->close();
+?>
+
+<script>
+    // Pass PHP data to JavaScript
+    const data = <?php echo json_encode(array_map(function($month, $sales) {
+        return ['name' => $month, 'value' => $sales];
+    }, $months, $data)); ?>;
+
+    const options = {
+        chart: {
+            type: 'bar',
+            height: 400,
+            toolbar: {
+                show: false,
             },
-            series: [
-                {
-                    name: 'Sales',
-                    data: data.map(item => item.value),
-                },
-            ],
-            xaxis: {
-                categories: data.map(item => item.name),
+        },
+        series: [
+            {
+                name: 'Sales',
+                data: data.map(item => item.value),
             },
-            yaxis: {
-                labels: {
-                    formatter: val => `₱${val.toLocaleString()}`,
-                },
+        ],
+        xaxis: {
+            categories: data.map(item => item.name),
+        },
+        yaxis: {
+            labels: {
+                formatter: val => `₱${val.toLocaleString()}`,
             },
-            grid: {
-                borderColor: '#e7e7e7',
-                row: {
-                    colors: ['#f3f3f3', 'transparent'],
-                    opacity: 0.5,
-                },
+        },
+        grid: {
+            borderColor: '#e7e7e7',
+            row: {
+                colors: ['#f3f3f3', 'transparent'],
+                opacity: 0.5,
             },
-            theme: {
-                palette: 'palette1',
-            },
-        };
+        },
+        theme: {
+            palette: 'palette1',
+        },
+    };
 
-        const chart = new ApexCharts(document.getElementById('chart-container'), options);
-        chart.render();
-    </script>
-    <script>
-    function updateClock() {
-        const now = new Date();
-
-        // Format time
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-
-        // Format date
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const dateString = now.toLocaleDateString(undefined, options);
-
-        // Update the clock and date
-        document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-        document.getElementById('date').textContent = dateString;
-    }
-
-    // Update the clock every second
-    setInterval(updateClock, 1000);
-    updateClock(); // Initialize immediately
+    const chart = new ApexCharts(document.getElementById('chart-container'), options);
+    chart.render();
 </script>
+<script>
+function updateClock() {
+    const now = new Date();
+
+    // Format time (12-hour format with AM/PM)
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';  // Determine AM or PM
+    hours = hours % 12; // Convert to 12-hour format
+    hours = hours ? hours : 12; // Handle 0 hour as 12
+    const formattedHours = hours.toString().padStart(2, '0');
+
+    // Format date
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateString = now.toLocaleDateString(undefined, options);
+
+    // Update the clock and date
+    document.getElementById('clock').textContent = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+    document.getElementById('date').textContent = dateString;
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+updateClock(); // Initialize immediately
+</script>
+
 </body>
 </html>

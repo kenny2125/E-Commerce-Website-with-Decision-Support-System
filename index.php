@@ -6,6 +6,11 @@ $isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
 
 // Initialize the check for admin role
 $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
+
+
+if (isset($_GET['search_query'])) {
+    $_SESSION['search_query'] = $_GET['search_query'];
+}
 // Debugging (optional, can be removed in production)
 // echo "<h2>Session Data (Debugging)</h2>";
 // if (!empty($_SESSION)) {
@@ -75,8 +80,8 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
         
         <!-- Search Bar -->
         <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button href="pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
+            <input class="form-control me-2" type="search" name="search_query" placeholder="Search for product(s)" aria-label="Search" value="<?php echo isset($_SESSION['search_query']) ? $_SESSION['search_query'] : ''; ?>">
+            <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         
         <!-- User-specific Content -->
@@ -106,6 +111,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
         <?php endif; ?>
     </div>
 </nav>
+
 
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-2" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -380,36 +386,6 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 </body>
 </html>
 
-<script>
-    $(document).ready(function() {
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault();
-
-        var username = $('#username').val();
-        var password = $('#password').val();
-
-        $.ajax({
-            url: 'path_to_user_login.php', // Adjust path as necessary
-            method: 'POST',
-            data: { username: username, password: password },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status == 'success') {
-                    // Update UI based on response
-                    $('#loginModal').modal('hide');
-                    location.reload(); // Reload to show updated user information
-                } else {
-                    // Show error message
-                    $('#loginError').text(response.message);
-                }
-            },
-            error: function() {
-                $('#loginError').text('An error occurred. Please try again.');
-            }
-        });
-    });
-});
-</script>
 
 <script>
     $(document).ready(function() {
@@ -568,7 +544,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 </script>
 <script>
     document.getElementById("backButton").addEventListener("click", function () {
-    if (document.referrer) {.
+    if (document.referrer) {
     // Go back if there's a previous page
     window.history.back();
     } else {
