@@ -77,6 +77,7 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Cart</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/assets/css/checkout.css">
 </head>
 <body style="background-color: #EBEBEB;">
@@ -126,7 +127,7 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
 
 <div class="container my-5">
     <div class="mb-4">
-        <a href="test_carting.php" class="text-decoration-none text-primary fw-bold back-link">&larr; Back</a>
+        <a href="carting_list.php" class="text-decoration-none text-primary fw-bold back-link">&larr; Back</a>
         <h2 class="fw-bold mt-3 title-header">Checkout</h2>
     </div>
     <div class="row g-4">
@@ -213,51 +214,140 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
             <button type="submit" class="btn btn-primary mt-3 w-100 fw-bold">Place Order</button>
         </div>
     </div>
-</form>
+    </form>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Modal -->
+<div class="modal fade" id="webhookModal" tabindex="-1" aria-labelledby="webhookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="webhookModalLabel">Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="webhookMessage">Payment Successful!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Debug Button -->
+<div class="container mt-5">
+    <button type="button" class="btn btn-primary" id="debugModalButton">Show Debug Modal</button>
+</div>
 <script>
-document.getElementById('payment-method').addEventListener('change', function() {
-    var paymentMethod = this.value;
-    var form = document.getElementById('checkout-form');
-    var agreeLabel = document.getElementById('agree-label');
-    var agreeContainer = document.getElementById('agree-container');
+let lastResponse = null; // To track the last response and avoid duplicate alerts
 
-    // Set form action based on payment method
-    if (paymentMethod === 'paymongo' || paymentMethod === 'gcash' || paymentMethod === 'paymaya') {
-        form.action = 'checkout_url.php';  // Paymongo, GCash, PayMaya
-        agreeLabel.textContent = 'I agree to make payment via ' + paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1);
-        agreeContainer.style.display = 'block';  // Show agree checkbox for these payment methods
-    } else if (paymentMethod === 'cash_on_delivery') {
-        form.action = 'placeorder.php';  // COD
-        agreeLabel.textContent = 'I agree that my information is correct and valid.';
-        agreeContainer.style.display = 'block';  // Show agree checkbox for COD
-    }
-});
+// Function to fetch the webhook payload
+async function pollWebhookReceiver() {
+    try {
+        const response = await fetch('webhook_receiver.php');
+        if (response.ok) {
+            const data = await response.json();
 
-// Automatically update the hidden field with selected product IDs
-document.getElementById('checkout-form').addEventListener('submit', function(event) {
-    event.preventDefault();  // Prevent default form submission
-    
-    // Check if agreement checkbox is checked
-    if (document.getElementById('agree').checked) {
-        // Assuming you have a JavaScript array `selected_product_ids` containing the product IDs
-        var selectedProductIds = <?php echo json_encode($selected_product_ids); ?>; // Pass selected product IDs from PHP
+            console.log("Webhook data fetched:", data); // Debugging
 
-        if (selectedProductIds.length === 0) {
-            alert("No products selected for checkout.");
-            return false;
+            // Check if there's a new payment success message
+            if (data.status === 'success' && data.payload && data.payload.status === 'success' && data.payload.message !== lastResponse) {
+                lastResponse = data.payload.message; // Update the last response
+                console.log("Triggering modal for:", lastResponse); // Debugging
+                showModal();
+                await clearWebhookData(); // Clear webhook data after showing the modal
+            }
+        } else {
+            console.error('Error fetching data: ' + response.status);
         }
-
-        // Set the hidden field value with the selected product IDs
-        document.getElementById('selected_products').value = selectedProductIds.join(',');
-
-        // Now submit the form
-        this.submit();  // Submit the form to the correct action
-    } else {
-        alert('Please agree to the terms and conditions before placing the order.');
+    } catch (error) {
+        console.error('Error fetching data:', error.message);
     }
-});
+}
+
+// Function to clear the webhook data
+async function clearWebhookData() {
+    try {
+        const response = await fetch('webhook_receiver.php?clear_data=true');
+        if (response.ok) {
+            const result = await response.json();
+            if (result.status === 'success') {
+                console.log('Webhook data cleared.'); // Debugging
+            } else {
+                console.error('Failed to clear webhook data: ' + result.message);
+            }
+        } else {
+            console.error('Error clearing webhook data: ' + response.status);
+        }
+    } catch (error) {
+        console.error('Error clearing webhook data:', error.message);
+    }
+}
+
+// Function to show the modal
+function showModal() {
+    console.log("Attempting to display modal..."); // Debugging
+    const webhookModalElement = document.getElementById('webhookModal');
+
+    if (webhookModalElement) {
+        const webhookModal = new bootstrap.Modal(webhookModalElement, {
+            backdrop: 'static', // Prevent closing the modal by clicking outside
+            keyboard: false,    // Disable closing by pressing Escape
+        });
+        webhookModal.show();
+        console.log("Modal displayed successfully."); // Debugging
+    } else {
+        console.error("Modal element not found."); // Debugging
+    }
+}
+
+// Poll the webhook receiver every 1 second
+setInterval(pollWebhookReceiver, 1000);
+</script>
+
+<script>
+    document.getElementById('payment-method').addEventListener('change', function() {
+        var paymentMethod = this.value;
+        var form = document.getElementById('checkout-form');
+        var agreeLabel = document.getElementById('agree-label');
+        var agreeContainer = document.getElementById('agree-container');
+
+        // Set form action based on payment method
+        if (paymentMethod === 'paymongo' || paymentMethod === 'gcash' || paymentMethod === 'paymaya') {
+            form.action = 'checkout_url.php';  // Paymongo, GCash, PayMaya
+            agreeLabel.textContent = 'I agree to make payment via ' + paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1);
+            agreeContainer.style.display = 'block';  // Show agree checkbox for these payment methods
+        } else if (paymentMethod === 'cash_on_delivery') {
+            form.action = 'placeorder.php';  // COD
+            agreeLabel.textContent = 'I agree that my information is correct and valid.';
+            agreeContainer.style.display = 'block';  // Show agree checkbox for COD
+        }
+    });
+
+    // Automatically update the hidden field with selected product IDs
+    document.getElementById('checkout-form').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent default form submission
+        
+        // Check if agreement checkbox is checked
+        if (document.getElementById('agree').checked) {
+            // Assuming you have a JavaScript array `selected_product_ids` containing the product IDs
+            var selectedProductIds = <?php echo json_encode($selected_product_ids); ?>; // Pass selected product IDs from PHP
+
+            if (selectedProductIds.length === 0) {
+                alert("No products selected for checkout.");
+                return false;
+            }
+
+            // Set the hidden field value with the selected product IDs
+            document.getElementById('selected_products').value = selectedProductIds.join(',');
+
+            // Now submit the form
+            this.submit();  // Submit the form to the correct action
+        } else {
+            alert('Please agree to the terms and conditions before placing the order.');
+        }
+    });
 </script>
 
 </body>
