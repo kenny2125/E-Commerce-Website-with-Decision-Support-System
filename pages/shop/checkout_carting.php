@@ -231,7 +231,7 @@ document.getElementById('payment-method').addEventListener('change', function() 
 
     // Set form action based on payment method
     if (paymentMethod === 'paymongo' || paymentMethod === 'gcash' || paymentMethod === 'paymaya') {
-        form.action = 'checkout_url.php';  // Paymongo, GCash, PayMaya
+        form.action = 'url_placeorder.php';  // Paymongo, GCash, PayMaya
         agreeLabel.textContent = 'I agree to make payment via ' + paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1);
         agreeContainer.style.display = 'block';  // Show agree checkbox for these payment methods
     } else if (paymentMethod === 'cash_on_delivery') {
