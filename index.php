@@ -313,7 +313,7 @@ if (isset($_GET['search_query'])) {
   <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <div style="font-size: 64px; font-family: 'Work Sans', sans-serif; font-weight: 600;">Don’t know what to buy?</div>
     <div style="font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 400; margin-top: 10px;">Check our “Parts Recommendation System” helps you figure out your needs!</div>
-    <a href="pages/public/test_partsrecom.php" style="display: inline-block; margin-top: 20px; padding: 15px 30px; background-color: #1A54C0; color: white; font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 700; border-radius: 50px; text-decoration: none;">Get Started</a>
+    <a href="pages/public/partsrecommendationsystem.php" style="display: inline-block; margin-top: 20px; padding: 15px 30px; background-color: #1A54C0; color: white; font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 700; border-radius: 50px; text-decoration: none;">Get Started</a>
   </div>
 </div>
 
