@@ -593,3 +593,48 @@ p {
 .icon-container a:not(:last-child) {
   margin-right: 10px; /* Add right margin to all buttons except the last one */
 }
+
+/* styles.css */
+.banner-section {
+  padding: 100px 0 250px;
+  width: 100%;
+  height: auto;
+  background-image: url('../images/banner-dss.png');
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  color: black;
+}
+
+.banner-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-title {
+  font-size: 64px;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 600;
+}
+
+.banner-subtitle {
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  margin-top: 10px;
+}
+
+.banner-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 15px 30px;
+  background-color: #1A54C0;
+  color: white;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  border-radius: 50px;
+  text-decoration: none;
+}

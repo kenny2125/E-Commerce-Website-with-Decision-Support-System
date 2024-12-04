@@ -1,37 +1,11 @@
 <?php
-session_start(); // Start the session
-
-// Check if the user is logged in
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
-
-// Initialize the check for admin role
-$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
-
-
+    include 'includes/welcomemodal.php';
+    include 'includes/header.php';
+    include 'config/db_config.php';
+    
 if (isset($_GET['search_query'])) {
     $_SESSION['search_query'] = $_GET['search_query'];
 }
-// Debugging (optional, can be removed in production)
-// echo "<h2>Session Data (Debugging)</h2>";
-// if (!empty($_SESSION)) {
-//     echo "<pre>";
-//     print_r($_SESSION);
-//     echo "</pre>";
-// } else {
-//     echo "<p>No session data available.</p>";
-// }
-    // Database connection
-    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-    $username = "vg2eweo4yg8eydii";
-    $password = "rccstjx3or46kpl9";
-    $db_name = "s0gp0gvxcx3fc7ib";
-
-    $conn = new mysqli($host, $username, $password, $db_name);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
 
     // Fetch products from the database
     $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products LIMIT 6";
@@ -49,7 +23,6 @@ if (isset($_GET['search_query'])) {
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,54 +37,6 @@ if (isset($_GET['search_query'])) {
     <link rel="icon" href="assets/images/rpc-favicon.png">
 </head>
 <body>
-
-<!-- Welcome Modal -->
-<?php
-    // include 'includes/welcomemodal.php';
-?>
-
-<!-- Header -->
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Clickable Logo -->
-        <a href="index.php">
-            <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        </a>
-        
-        <!-- Search Bar -->
-        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
-            <input class="form-control me-2" type="search" name="search_query" placeholder="Search for product(s)" aria-label="Search" value="<?php echo isset($_SESSION['search_query']) ? $_SESSION['search_query'] : ''; ?>">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        
-        <!-- User-specific Content -->
-        <?php if ($isLoggedIn === true): ?>
-            <!-- If logged in, display welcome message and role -->
-            <div class="navbar-text d-flex align-items-center">
-                <div class="icon-container">
-                    <!-- Cart and Profile Links -->
-                    <a href="pages/shop/carting_list.php">
-                        <img src="/assets/images/Group 204.png" alt="Cart Icon">
-                    </a>
-                    <a href="pages/user/user_profile.php">
-                        <img src="/assets/images/Group 48.png" alt="Profile Icon">
-                    </a>
-
-                    <!-- Admin Link (only visible to admins) -->
-                    <?php if ($isAdmin): ?>
-                        <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
-                            Admin Dashboard
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php else: ?>
-            <!-- If not logged in, show login button -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
-        <?php endif; ?>
-    </div>
-</nav>
-
 
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-2" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -263,7 +188,6 @@ if (isset($_GET['search_query'])) {
     </div>
 </div>
 
-
 <!-- Featured Products -->
 <div class="featured-products-wrapper" style="margin-bottom: 100px;">
     <div class="container my-4">
@@ -272,7 +196,7 @@ if (isset($_GET['search_query'])) {
             <?php if (!empty($products)) : ?>
                 <?php foreach ($products as $product) : ?>
                     <div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
-                    <div class="card" style="width: 309.328px; height: 437.188px; display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;">
+                        <div class="card" style="width: 309.328px; height: 437.188px; display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;">
     <?php
     // Check if there is image data
     if (!empty($product['img_data'])) {
@@ -282,26 +206,25 @@ if (isset($_GET['search_query'])) {
         $imgSrc = 'path/to/default-image.jpg';
     }
     ?>
-    <div class="image-wrapper">
-        <!-- Display the product image inside the image-wrapper -->
-        <img src="<?php echo $imgSrc; ?>" class="card-img-top img-fluid" alt="Product Image">
-    </div>
-    
-    <!-- Card Body (Title and Text Centered) -->
-    <div class="card-body">
-        <h5 class="card-title"><?php echo htmlspecialchars($product['product_name']); ?></h5>
-        <p class="card-text">
-            <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
-        </p>
-    </div>
-    
-    <!-- Card Footer (Button stays at the bottom) -->
-    <div class="card-footer">
-        <a href="/pages/shop/Product_Detail.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary-footer">View Details</a>
-    </div>
-</div>
+                            <div class="image-wrapper">
+                                <!-- Display the product image inside the image-wrapper -->
+                                <img src="<?php echo $imgSrc; ?>" class="card-img-top img-fluid" alt="Product Image">
+                            </div>
+                            <!-- Card Body (Title and Text Centered) -->
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($product['product_name']); ?></h5>
+                                <p class="card-text">
+                                    <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
+                                </p>
+                            </div>
+                            <!-- Card Footer (Button stays at the bottom) -->
+                            <div class="card-footer">
+                                <a href="/pages/shop/Product_Detail.php?id=<?php echo $product['product_ID']; ?>" class="btn btn-primary-footer">View Details</a>
+                            </div>
+                        </div>
                     </div>
-                    <?php endforeach; ?><?php else : ?>
+                <?php endforeach; ?>
+            <?php else : ?>
                 <p class="text-center">No featured products available.</p>
             <?php endif; ?>
         </div>
@@ -309,80 +232,17 @@ if (isset($_GET['search_query'])) {
 </div>
 
 <!-- DSS Section -->
-<div style="padding: 100px 0px 250px; width: 100%; height: auto; background-image: url('assets/images/banner-dss.png'); background-size: cover; background-position: center; text-align: center; color: black;">
-  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <div style="font-size: 64px; font-family: 'Work Sans', sans-serif; font-weight: 600;">Don’t know what to buy?</div>
-    <div style="font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 400; margin-top: 10px;">Check our “Parts Recommendation System” helps you figure out your needs!</div>
-    <a href="pages/public/partsrecommendationsystem.php" style="display: inline-block; margin-top: 20px; padding: 15px 30px; background-color: #1A54C0; color: white; font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 700; border-radius: 50px; text-decoration: none;">Get Started</a>
-  </div>
-</div>
-
-
-<div class="content"></div>
-<footer class="footer" style="width: 100%; background-color: #122448; color: #fff; font-family: 'Lato', sans-serif; padding: 10px 0; position: relative; bottom: 0;">
-<div class="footer-container" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 10px;">
-    <div class="footer-section" style="flex: 1 1 200px; text-align: left;">
-      <img class="footer-logo" src="/assets/images/rpc-logo-white.png" alt="RPC Tech Computer Store Logo" style="width: 250px; margin-bottom: 10px; margin-left: 10px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Follow Us</p>
-            <a href="https://www.facebook.com/profile.php?id=61567195257950" target="_blank">
-                <img class="footer-social-links" src="/assets/images/fb icon.png" alt="Social Links" style="width: 20px; margin-left: 32px;">
-            </a>
-    </div>
-    
-    <div class="footer-section contact" style="flex: 1 1 200px; text-align: left; margin-top: 90px; margin-left: -50px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Contact Us</p>
-            <p class="footer-contact-item" style="display: flex; align-items: center; margin: 5px 0; font-size: 13px; color: #fff; text-decoration: none;">
-                <img class="icon" src="/assets/images/call-icon.png" alt="Phone Icon" style="width: 15px; margin-right: 10px;"> 09616952829 / 09945657044
-            </p>
-            <p class="footer-contact-item" style="display: flex; align-items: center; margin: 5px 0; font-size: 13px; color: #fff; text-decoration: none;">
-                <a href="mailto:rpctechcomputers@gmail.com"><img class="icon" src="/assets/images/gmail icon.png" alt="Email Icon" style="width: 15px; margin-right: 10px;">rpctechcomputers@gmail.com</a>
-            </p>
-    </div>
-    
-    <div class="footer-section branch" style="flex: 1 1 200px; text-align: left; margin-top: 15px; margin-left: 40px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Branches</p>
-            <p class="footer-branch-item" style="display: flex; align-items: left; margin: 5px 0; color: #fff;">
-                <img class="icon" src="/assets/images/bx-location-plus.png" alt="Branch Icon" style="width: 20px; height: 18px; margin-right: 6px;">Main Branch
-            </p>
-            <p class="footer-branch-address" style="margin: 5px 18px; font-size: 13px; width: 220px; text-align: left; color: #fff;">
-                <a href="https://www.google.com/maps/place/RPC+Tech+Computer/@15.0988169,120.6194883,1059m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3396f1d7698ed943:0x8086f35e9ed733de!8m2!3d15.0988117!4d120.6220632!16s%2Fg%2F11lmmzgj3y?hl=en&entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" target="_blank">KM 78 MC ARTHUR HI-WAY BRGY.SAGUIN, San Fernando, Philippines, 2000</a>
-            </p>
-    </div>
-    
-    <div class="footer-links" style="display: flex; padding-top: 15px; margin-right: 5px; justify-content: flex-start;">
-        <div class="footer-link-column" style="flex: none; margin: 0 13px;">
-            <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Who are we?</p>
-                <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/about_us.php" style="text-decoration: none; color: #fff; font-size: 14px;">About Us</a></p>
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/faq.php" style="text-decoration: none; color: #fff; font-size: 14px;">FAQ</a></p>
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/contactus.php" style="text-decoration: none; color: #fff; font-size: 14px;">Contact Us</a></p>
-                </div>
-        </div>
-    </div>
-
-    <div class="footer-link-column" style="flex: none; margin: 15px 13px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Legal Terms</p>
-        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-          <p style="margin: 0; text-align: left;"><a href="pages/public/termconditions.php" style="text-decoration: none; color: #fff; font-size: 14px;">Terms & Conditions</a></p>
-          <p style="margin: 0; text-align: left;"><a href="pages/public/privacy-policy.php" style="text-decoration: none; color: #fff; font-size: 14px;">Privacy Policy</a></p>
-      </div>
-    </div>
-
-    <div class="footer-link-column" style="flex: none; margin: 15px 13px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Guides</p>
-        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-            <p style="margin: 0; text-align: left;"><a href="pages/public/purchase-guides.php" style="text-decoration: none; color: #fff; font-size: 14px;">Purchasing Guides</a></p>
-            <p style="margin: 0; text-align: left;"><a href="pages/public/motherboard-chipset.php" style="text-decoration: none; color: #fff; font-size: 14px;">Motherboard Chipset</a></p>
-            <p style="margin: 0; text-align: left;"><a href="pages/public/power-supply-calculator.php" style="text-decoration: none; color: #fff; font-size: 14px;">Power Supply Calculator</a></p>
-        </div>
+<div class="banner-section">
+    <div class="banner-content">
+        <div class="banner-title">Don’t know what to buy?</div>
+        <div class="banner-subtitle">Check our “Parts Recommendation System” helps you figure out your needs!</div>
+        <a href="pages/public/partsrecommendationsystem.php" class="banner-button">Get Started</a>
     </div>
 </div>
 
-    <div class="footer-bottom" style="text-align: center; font-size: 12px; margin-top: 20px;">
-        <p style="margin: 5px 0; color: #fff;">&copy; 2022 RPC Tech Computer Store.</p>
-        <p style="margin: 5px 0; color: #fff;">All rights reserved.</p>
-    </div>
-</footer>
+<?php
+include 'includes/footer.php';
+?>
 </body>
 </html>
 
