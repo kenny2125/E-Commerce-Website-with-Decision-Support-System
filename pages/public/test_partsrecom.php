@@ -109,7 +109,7 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h1 style="text-align: center;">Product Recommendation System</h1>
+        <h1 style="text-align: center; margin-bottom: 30px;">Product Recommendation System</h1>
 
         <!-- Categories Card Container -->
 <div class="card-container mb-3" id="category-cards">
