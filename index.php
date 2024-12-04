@@ -3,23 +3,34 @@
     include 'includes/header.php';
     include 'config/db_config.php';
     
-if (isset($_GET['search_query'])) {
-    $_SESSION['search_query'] = $_GET['search_query'];
-}
+    // Cache expiry time (1 hour in seconds)
+    $cacheTime = 3600; 
 
-    // Fetch products from the database
-    $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products LIMIT 6";
-    $result = $conn->query($sql);
+    // Check if the product data is already in the session and if it's still valid
+    if (isset($_SESSION['products_cache_time']) && (time() - $_SESSION['products_cache_time'] < $cacheTime)) {
+        // Load data from the session cache
+        $products = $_SESSION['products_cache'];
+    } else {
+        // Fetch data from the database
+        $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products LIMIT 6";
+        $result = $conn->query($sql);
 
-    $products = [];
-    if ($result->num_rows > 0) {
-        // Store products in an array
-        while ($row = $result->fetch_assoc()) {
-            $products[] = $row;
+        $products = [];
+        if ($result->num_rows > 0) {
+            // Store products in an array
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+            }
+
+            // Save the fetched data into the session as cache
+            $_SESSION['products_cache'] = $products;
+            $_SESSION['products_cache_time'] = time(); // Store the cache time
         }
+
+        // Close the database connection
+        $conn->close();
     }
-    $conn->close();
-?>
+    ?>
 
 
 
@@ -38,127 +49,10 @@ if (isset($_GET['search_query'])) {
 </head>
 <body>
 
-<!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-2" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="border-radius: 20px;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">
-                    <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
-                </h5>
-            </div>
-            <div class="modal-body">
-                <div class="form-box">
-                <form action="pages/user/login.php" method="POST">
-                    <div class="input-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
-                    </div>
-                    <div class="input-group">
-                        <label for="password">Password</label>
-                        <input type="password"id="password" name="password" placeholder="••••••••" required class="input-field">
-                        <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn login-btn">Login</button>
-                    </div>
-                </form>
-                    <p>Don't have an account? 
-                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
-                        </p>
-                    <!-- Display login error message -->
-                    <?php if (isset($_SESSION['login_error'])): ?>
-                        <div id="loginError" class="error-message" style="color: red;">
-                            <?php echo $_SESSION['login_error']; ?>
-                        </div>
-                        <?php unset($_SESSION['login_error']); ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Registration Modal -->
-<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="border-radius: 20px;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registrationModalLabel"></h5>
-                <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="form-box">
-                        <h3>Create an Account</h3>
-                        <p>Already have an account? 
-                            <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
-                        </p>
-                        <form action="pages/user/user_register.php" method="post" onsubmit="return validateForm()">
-                            <div class="row">
-                                <div class="input-group">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" id="firstName" placeholder="eg. Danel" name="firstName" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="middleInitial">M.I</label>
-                                    <input type="text" id="middleInitial" placeholder="eg. T." name="middleInitial" class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" id="lastName" placeholder="eg. Oandasan" name="lastName" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="gender">Gender</label>
-                                    <input type="text" id="gender" placeholder="eg. Female" name="gender" class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="address">Address</label>
-                                    <input type="text" id="address" placeholder="eg. BLK 5 LOT 6 SAMMAR 1 HOA Luzon Ave. Old Balara, Quezon City" name="address" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" placeholder="eg. danel@gmail.com" name="email" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="age">Age</label>
-                                    <input type="number" id="age" placeholder="eg. 18" name="age" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="contactNumber">Contact Number</label>
-                                    <input type="text" id="contactNumber" placeholder="eg. 09123456789" name="contactNumber" required class="input-field">
-                                </div>
-                                <div class="input-group">   
-                                    <label for="username">Username</label>
-                                    <input type="text" id="username" placeholder="eg. jeondanel" name="username" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="passwordReg">Password</label>
-                                    <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
-                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
-                                </div>
-                                <div id="passwordFeedback" class="feedback"></div>
-                                <div class="input-group">
-                                    <label for="confirmPassword">Confirm Password</label>
-                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
-                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
-                                </div>
-                                <div id="confirmPasswordFeedback" class="feedback"></div>
-                            </div>
-                            <div class="terms">
-                                <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
-                            </div>
-                            <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-    <!-- Carousel -->
-<div id="carouselWithInterval" class="carousel slide mx-6" data-bs-ride="carousel">
+<!-- Carousel -->
+<div id="carouselWithInterval" class="carousel slide mx-2" data-bs-ride="carousel">
     <div class="carousel-inner">
         <?php for ($i = 1; $i <= 16; $i++): ?>
             <div class="carousel-item <?= $i === 1 ? 'active' : '' ?>" data-bs-interval="7000">
@@ -197,15 +91,15 @@ if (isset($_GET['search_query'])) {
                 <?php foreach ($products as $product) : ?>
                     <div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
                         <div class="card" style="width: 309.328px; height: 437.188px; display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;">
-    <?php
-    // Check if there is image data
-    if (!empty($product['img_data'])) {
-        $imgData = base64_encode($product['img_data']);
-        $imgSrc = 'data:image/jpeg;base64,' . $imgData;
-    } else {
-        $imgSrc = 'path/to/default-image.jpg';
-    }
-    ?>
+                    <?php
+                    // Check if there is image data
+                    if (!empty($product['img_data'])) {
+                        $imgData = base64_encode($product['img_data']);
+                        $imgSrc = 'data:image/jpeg;base64,' . $imgData;
+                    } else {
+                        $imgSrc = 'path/to/default-image.jpg';
+                    }
+                    ?>
                             <div class="image-wrapper">
                                 <!-- Display the product image inside the image-wrapper -->
                                 <img src="<?php echo $imgSrc; ?>" class="card-img-top img-fluid" alt="Product Image">
@@ -247,36 +141,6 @@ include 'includes/footer.php';
 </html>
 
 
-<script>
-    $(document).ready(function() {
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault();
-
-        var username = $('#username').val();
-        var password = $('#password').val();
-
-        $.ajax({
-            url: 'path_to_user_login.php', // Adjust path as necessary
-            method: 'POST',
-            data: { username: username, password: password },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status == 'success') {
-                    // Update UI based on response
-                    $('#loginModal').modal('hide');
-                    location.reload(); // Reload to show updated user information
-                } else {
-                    // Show error message
-                    $('#loginError').text(response.message);
-                }
-            },
-            error: function() {
-                $('#loginError').text('An error occurred. Please try again.');
-            }
-        });
-    });
-});
-</script>
 
 
 <script>
@@ -288,14 +152,6 @@ include 'includes/footer.php';
     });
 </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        <?php if ($openModal): ?>
-        var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
-        <?php endif; ?>
-    });
-</script>
 
 <!-- Login Modal -->
 <script>
