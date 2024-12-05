@@ -88,6 +88,10 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
                         </div>
                     </form>
                 </div>
+                <p>Don't have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
+                </p>
+
                 <!-- Loading Spinner -->
                 <div id="loadingSpinner" style="text-align: center; display: none; margin-top: 20px;">
                     <div class="spinner-border text-primary" role="status"></div>
