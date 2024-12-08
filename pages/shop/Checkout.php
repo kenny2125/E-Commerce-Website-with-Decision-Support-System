@@ -181,15 +181,18 @@ document.getElementById('payment-method').addEventListener('change', function() 
     var agreeContainer = document.getElementById('agree-container');
 
     // Set form action based on payment method
-    if (paymentMethod === 'paymongo' || paymentMethod === 'gcash' || paymentMethod === 'paymaya') {
-        form.action = 'controllers/url_placeorder.php';  // Paymongo, GCash, PayMaya
-        agreeLabel.textContent = 'I agree to make payment via ' + paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1);
-        agreeContainer.style.display = 'block';  // Show agree checkbox for these payment methods
-    } else if (paymentMethod === 'cash_on_delivery') {
-        form.action = 'controllers/placeorder.php';  // COD
-        agreeLabel.textContent = 'I agree that my information is correct and valid.';
-        agreeContainer.style.display = 'block';  // Show agree checkbox for COD
-    }
+    if (paymentMethod === 'paymongo' || paymentMethod === 'Gcash' || paymentMethod === 'Paymaya') {
+    form.action = 'controllers/url_placeorder.php';  // Paymongo, GCash, PayMaya
+    form.target = '_blank'; // Open in a new tab
+    agreeLabel.textContent = 'I agree to make payment via ' + paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1);
+    agreeContainer.style.display = 'block';  // Show agree checkbox for these payment methods
+} else if (paymentMethod === 'Cash on Delivery') {
+    form.action = 'controllers/placeorder.php';  // COD
+    form.target = '_self'; // Open in the same tab
+    agreeLabel.textContent = 'I agree that my information is correct and valid.';
+    agreeContainer.style.display = 'block';  // Show agree checkbox for COD
+}
+
 });
 
 // Automatically update the hidden field with selected product IDs
