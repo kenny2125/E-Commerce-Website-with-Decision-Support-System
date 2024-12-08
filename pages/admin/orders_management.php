@@ -189,6 +189,7 @@ $result = $conn->query($sql);
                 <option value="CLAIMED">CLAIMED</option>
                 <option value="SHIPPED">SHIPPED</option>
                 <option value="PENDING">PENDING</option>
+                <option value="CANCELLED">CANCELLED</option>
               </select>
             </div>
             <div class="mb-3">
