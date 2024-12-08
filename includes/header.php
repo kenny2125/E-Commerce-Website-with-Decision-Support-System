@@ -22,7 +22,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Clickable Logo -->
-        <a href="index.php">
+        <a href="/index.php">
             <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         </a>
         
@@ -67,7 +67,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
         <div class="modal-content" style="border-radius: 20px;">
             <div class="modal-header">
                 <h5 class="modal-title" id="loginModalLabel">
-                    <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
+                    <img src="/assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
                 </h5>
             </div>
             <div class="modal-body">
@@ -104,6 +104,83 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
     </div>
 </div>
 
+<!-- Registration Modal -->
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrationModalLabel"></h5>
+                <img src="/assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="form-box">
+                        <h3>Create an Account</h3>
+                        <p>Already have an account? 
+                            <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
+                        </p>
+                        <form action="/pages/user/user_register.php" method="post" onsubmit="return validateForm()">
+                            <div class="row">
+                                <div class="input-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" placeholder="eg. Danel" name="firstName" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="middleInitial">M.I</label>
+                                    <input type="text" id="middleInitial" placeholder="eg. T." name="middleInitial" class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" placeholder="eg. Oandasan" name="lastName" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="gender">Gender</label>
+                                    <input type="text" id="gender" placeholder="eg. Female" name="gender" class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" id="address" placeholder="eg. BLK 5 LOT 6 SAMMAR 1 HOA Luzon Ave. Old Balara, Quezon City" name="address" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" placeholder="eg. danel@gmail.com" name="email" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" placeholder="eg. 18" name="age" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="contactNumber">Contact Number</label>
+                                    <input type="text" id="contactNumber" placeholder="eg. 09123456789" name="contactNumber" required class="input-field">
+                                </div>
+                                <div class="input-group">   
+                                    <label for="username">Username</label>
+                                    <input type="text" id="username" placeholder="eg. jeondanel" name="username" required class="input-field">
+                                </div>
+                                <div class="input-group">
+                                    <label for="passwordReg">Password</label>
+                                    <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
+                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
+                                </div>
+                                <div id="passwordFeedback" class="feedback"></div>
+                                <div class="input-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
+                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
+                                </div>
+                                <div id="confirmPasswordFeedback" class="feedback"></div>
+                            </div>
+                            <div class="terms">
+                                <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
+                            </div>
+                            <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -175,85 +252,3 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
-
-
-
-
-
-<!-- Registration Modal -->
-<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="border-radius: 20px;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registrationModalLabel"></h5>
-                <img src="assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="form-box">
-                        <h3>Create an Account</h3>
-                        <p>Already have an account? 
-                            <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
-                        </p>
-                        <form action="/pages/user/user_register.php" method="post" onsubmit="return validateForm()">
-                            <div class="row">
-                                <div class="input-group">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" id="firstName" placeholder="eg. Danel" name="firstName" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="middleInitial">M.I</label>
-                                    <input type="text" id="middleInitial" placeholder="eg. T." name="middleInitial" class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" id="lastName" placeholder="eg. Oandasan" name="lastName" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="gender">Gender</label>
-                                    <input type="text" id="gender" placeholder="eg. Female" name="gender" class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="address">Address</label>
-                                    <input type="text" id="address" placeholder="eg. BLK 5 LOT 6 SAMMAR 1 HOA Luzon Ave. Old Balara, Quezon City" name="address" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" placeholder="eg. danel@gmail.com" name="email" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="age">Age</label>
-                                    <input type="number" id="age" placeholder="eg. 18" name="age" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="contactNumber">Contact Number</label>
-                                    <input type="text" id="contactNumber" placeholder="eg. 09123456789" name="contactNumber" required class="input-field">
-                                </div>
-                                <div class="input-group">   
-                                    <label for="username">Username</label>
-                                    <input type="text" id="username" placeholder="eg. jeondanel" name="username" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="passwordReg">Password</label>
-                                    <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
-                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
-                                </div>
-                                <div id="passwordFeedback" class="feedback"></div>
-                                <div class="input-group">
-                                    <label for="confirmPassword">Confirm Password</label>
-                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
-                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
-                                </div>
-                                <div id="confirmPasswordFeedback" class="feedback"></div>
-                            </div>
-                            <div class="terms">
-                                <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
-                            </div>
-                            <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

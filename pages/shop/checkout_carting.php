@@ -1,34 +1,7 @@
 
 <?php
-session_start(); // Start the session
-
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
-$userId = $_SESSION['user_ID'] ?? null;
-// Database connection
-$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "vg2eweo4yg8eydii";
-$password = "rccstjx3or46kpl9";
-$db_name = "s0gp0gvxcx3fc7ib";
-$port = "3306";
-
-$conn = new mysqli($host, $username, $password, $db_name);
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
-
-// Initialize the check for admin role
-$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
-// Debugging (optional, can be removed in production)
-// echo "<h2>Session Data (Debugging)</h2>";
-// if (!empty($_SESSION)) {
-//     echo "<pre>";
-//     print_r($_SESSION);
-//     echo "</pre>";
-// } else {
-//     echo "<p>No session data available.</p>";
-// }
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include '../../includes/header.php';
+include '../../config/db_config.php';
 
 // Fetch user data from the tbl_user table based on the logged-in user
 if ($isLoggedIn && $userId) {
