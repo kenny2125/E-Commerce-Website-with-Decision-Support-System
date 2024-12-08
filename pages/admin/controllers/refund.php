@@ -1,6 +1,6 @@
 <?php
 // Include database connection
-include '../../config/db_config.php';
+include '../../../config/db_config.php';
 
 // Fetch payment details from the database
 $payment_ID = $_POST['payment_ID']; // Assume the Payment ID is passed via POST

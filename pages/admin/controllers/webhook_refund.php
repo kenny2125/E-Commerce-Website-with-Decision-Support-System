@@ -21,49 +21,29 @@ $data = json_decode($input, true);
 // Save to a file for debugging
 file_put_contents('webhook_refund.log', $input . PHP_EOL, FILE_APPEND);
 
-if ($data && isset($data['data']['attributes']['type'])) {
-    // Extract the "type" to determine the event type
-    $eventType = $data['data']['attributes']['type'];
+// Extract the refund details
+$paymentID = $data['data']['attributes']['data']['attributes']['refunds'][0]['attributes']['payment_id'] ?? null;
 
-    if ($eventType == 'payment.refunded') {
-        // Extract the refund ID and payment ID from the PayMongo webhook payload
-        $refundID = $data['data']['id'] ?? null;
-        $paymentID = $data['data']['attributes']['payment_id'] ?? null;
+if ($paymentID && strpos($paymentID, 'pay_') === 0) {
+    // Update the payment status to REFUNDED based on the payment ID
+    $stmt = $conn->prepare("UPDATE tbl_payments SET status = 'REFUNDED' WHERE paymongo_payment_ID = ?");
+    $stmt->bind_param("s", $paymentID);
 
-        if ($refundID && $paymentID) {
-            // Update the payment status in the database to "REFUND"
-            $stmt = $conn->prepare("
-                UPDATE tbl_payments 
-                SET status = 'REFUND'
-                WHERE paymongo_payment_ID = ?
-            ");
-
-            $stmt->bind_param("s", $paymentID);
-
-            // Execute the update statement
-            if ($stmt->execute() && $stmt->affected_rows > 0) {
-                http_response_code(200); // Success - 200 OK
-                echo "Payment status updated to REFUND successfully.";
-            } else {
-                file_put_contents('webhook_refund_error.log', "DB Error (Update): " . $stmt->error . PHP_EOL, FILE_APPEND);
-                http_response_code(500); // Internal server error
-                echo "Failed to update payment status to REFUND.";
-            }
-
-            $stmt->close();
-        } else {
-            http_response_code(400); // Bad Request
-            echo "No valid refund ID or payment ID found.";
-        }
+    // Execute the update statement
+    if ($stmt->execute() && $stmt->affected_rows > 0) {
+        http_response_code(200); // Success - 200 OK
+        echo "Payment status updated to REFUNDED successfully.";
     } else {
-        // Invalid event type
-        http_response_code(400); // Bad Request
-        echo "Invalid event type.";
+        file_put_contents('webhook_refund_error.log', "DB Error (Update): " . $stmt->error . PHP_EOL, FILE_APPEND);
+        http_response_code(500); // Internal server error
+        echo "Failed to update payment status to REFUNDED.";
     }
+
+    $stmt->close();
 } else {
-    // Invalid or missing data
+    // Invalid or missing payment ID
     http_response_code(400); // Bad Request
-    echo "Invalid JSON data.";
+    echo "Invalid payment ID received.";
 }
 
 $conn->close();
