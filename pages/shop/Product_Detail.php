@@ -104,9 +104,13 @@ if (isset($_SESSION['product_' . $productId . '_cache']) && (time() - $_SESSION[
 </div>
 
 <!-- Footer -->
-<footer class="footer">
-    <!-- Footer content here -->
-</footer>
+<?php
+include '../../includes/footer.php';
+?>
+
+</body>
+</html>
+
 
 <script>
 function changeQuantity(amount) {
@@ -118,7 +122,7 @@ function changeQuantity(amount) {
 document.getElementById('addToCartForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const formData = new FormData(this);
-    fetch('addtocart.php', {
+    fetch('controllers/addtocart.php', {
         method: 'POST',
         body: formData,
     })
@@ -134,5 +138,3 @@ document.getElementById('addToCartForm').addEventListener('submit', function (e)
     });
 });
 </script>
-</body>
-</html>

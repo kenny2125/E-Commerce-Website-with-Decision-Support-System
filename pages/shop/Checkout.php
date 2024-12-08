@@ -1,21 +1,33 @@
 
 <?php
+
+
 include '../../includes/header.php';
 include '../../config/db_config.php';
 
-// Fetch user data from the tbl_user table based on the logged-in user
+// Fetch session variables for login status and user ID
+$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Check if user is logged in
+$userId = $_SESSION['user_ID'] ?? null; // Fetch user ID if logged in
+
+// Check if the user is logged in
 if ($isLoggedIn && $userId) {
     // Fetch user details from the tbl_user table
     $sql = "SELECT first_name, middle_initial, last_name, contact_number, address FROM tbl_user WHERE user_ID = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $userId);
-    $stmt->execute();
-    $stmt->bind_result($first_name, $middle_initial, $last_name, $contact_number, $address);
-    $stmt->fetch();
-    $stmt->close();
-    
-    // Concatenate the full name (first, middle, last)
-    $full_name = $first_name . " " . $middle_initial . ". " . $last_name;
+
+    if ($stmt) {
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $stmt->bind_result($first_name, $middle_initial, $last_name, $contact_number, $address);
+        $stmt->fetch();
+        $stmt->close();
+
+        // Concatenate the full name (first, middle, last)
+        $full_name = $first_name . " " . ($middle_initial ? $middle_initial . ". " : "") . $last_name;
+    } else {
+        echo "Error in preparing the SQL statement.";
+        exit;
+    }
 } else {
     // Handle the case if the user is not logged in
     echo "User not logged in.";
@@ -25,29 +37,29 @@ if ($isLoggedIn && $userId) {
 // Check if selected products are passed from the form
 if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
     // Ensure that selected_products is an array
-    $selected_product_ids = (array) $_POST['selected_products'];  // Force it to be an array
+    $selected_product_ids = (array)$_POST['selected_products']; // Force it to be an array
 
     // Check if it's an array, and then implode
     if (is_array($selected_product_ids) && count($selected_product_ids) > 0) {
-        $ids = implode(",", $selected_product_ids);  // Convert the array to a comma-separated string for the SQL query
+        $ids = implode(",", array_map('intval', $selected_product_ids)); // Sanitize product IDs
     } else {
         echo "Invalid product selection.";
         exit;
     }
-    
+
     // Proceed with the SQL query as usual
     $sql = "SELECT product_ID, product_name, store_price, img_data FROM tbl_products WHERE product_ID IN ($ids)";
     $result = $conn->query($sql);
-    
+
     // Initialize variables for subtotal calculation
     $subtotal = 0;
-    $shipping_fee = 50.00;  // Example shipping fee
+    $shipping_fee = 50.00; // Example shipping fee
 } else {
     echo "No products selected for checkout.";
     exit;
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,47 +72,6 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
 </head>
 <body style="background-color: #EBEBEB;">
 
-<!-- <link rel="stylesheet" href="../../assets/css/index.css"> -->
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Clickable Logo -->
-        <a href="/index.php">
-            <img src="../../assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        </a>
-        
-        <!-- Search Bar -->
-        <form action="/pages/shop/Products_List.php" method="get" class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button href="/pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        
-        <!-- User-specific Content -->
-        <?php if ($isLoggedIn === true): ?>
-            <!-- If logged in, display welcome message and role -->
-            <div class="navbar-text d-flex align-items-center">
-                <div class="icon-container">
-                    <!-- Cart and Profile Links -->
-                    <a href="/pages/shop/carting_list.php">
-                        <img src="/assets/images/Group 204.png" alt="Cart Icon">
-                    </a>
-                    <a href="/pages/user/user_login.php">
-                        <img src="/assets/images/Group 48.png" alt="Profile Icon">
-                    </a>
-
-                    <!-- Admin Link (only visible to admins) -->
-                    <?php if ($isAdmin): ?>
-                        <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
-                            Admin Dashboard
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php else: ?>
-            <!-- If not logged in, show login button -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
-        <?php endif; ?>
-    </div>
-</nav>
 
 
 <div class="container my-5">
@@ -194,6 +165,14 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
     </div>
 </form>
 
+
+
+</body>
+</html>
+
+<?php
+$conn->close();
+?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.getElementById('payment-method').addEventListener('change', function() {
@@ -204,11 +183,11 @@ document.getElementById('payment-method').addEventListener('change', function() 
 
     // Set form action based on payment method
     if (paymentMethod === 'paymongo' || paymentMethod === 'gcash' || paymentMethod === 'paymaya') {
-        form.action = 'url_placeorder.php';  // Paymongo, GCash, PayMaya
+        form.action = 'controllers/url_placeorder.php';  // Paymongo, GCash, PayMaya
         agreeLabel.textContent = 'I agree to make payment via ' + paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1);
         agreeContainer.style.display = 'block';  // Show agree checkbox for these payment methods
     } else if (paymentMethod === 'cash_on_delivery') {
-        form.action = 'placeorder.php';  // COD
+        form.action = 'controllers/placeorder.php';  // COD
         agreeLabel.textContent = 'I agree that my information is correct and valid.';
         agreeContainer.style.display = 'block';  // Show agree checkbox for COD
     }
@@ -238,10 +217,3 @@ document.getElementById('checkout-form').addEventListener('submit', function(eve
     }
 });
 </script>
-
-</body>
-</html>
-
-<?php
-$conn->close();
-?>

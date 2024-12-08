@@ -25,13 +25,7 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
     // Use the cached products data
     $products = $_SESSION['products_cache'];
 } else {
-    // No cache or cache expired, fetch products from the database
-    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-    $username = "vg2eweo4yg8eydii";
-    $password = "rccstjx3or46kpl9";
-    $db_name = "s0gp0gvxcx3fc7ib";
 
-    $conn = new mysqli($host, $username, $password, $db_name);
 
     // Prepare the SQL query to fetch products
     $query = "SELECT * FROM tbl_products";
@@ -82,6 +76,7 @@ $searchTime = round($endTime - $startTime, 3); // Round to 3 decimal places
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <title>Products List</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/assets/css/products_List.css">
     <link rel="icon" href="/assets/images/rpc-favicon.png">
     <script>
@@ -146,6 +141,8 @@ $searchTime = round($endTime - $startTime, 3); // Round to 3 decimal places
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<?php
+include '../../includes/footer.php';
+?>
 </body>
 </html>

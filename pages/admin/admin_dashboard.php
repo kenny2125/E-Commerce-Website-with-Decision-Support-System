@@ -1,17 +1,6 @@
 <?php
 // Database connection
-$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "vg2eweo4yg8eydii";
-$password = "rccstjx3or46kpl9";
-$db_name = "s0gp0gvxcx3fc7ib";
-$port = "3306";
-
-$conn = new mysqli($host, $username, $password, $db_name);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    include '../../config/db_config.php';
 
 // Query to calculate total sales, ongoing orders count, and total registered users
 $sql = "
@@ -40,7 +29,38 @@ if ($result->num_rows > 0) {
 $conn->close();
 ?>
 
+<?php
+// Connect to the database
+$conn = new mysqli($host, $username, $password, $db_name);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
+// Fetch sales data for PAID and CLAIMED orders
+$sql = "SELECT SUM(total) AS total_sales, MONTH(order_date) AS month
+        FROM tbl_orders
+        WHERE payment_status = 'PAID' AND pickup_status = 'CLAIMED'
+        GROUP BY MONTH(order_date)
+        ORDER BY MONTH(order_date)";
+$result = $conn->query($sql);
+
+// Prepare data for the chart
+$data = [];
+$months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+// Initialize the data array with zeros
+for ($i = 0; $i < 12; $i++) {
+    $data[$i] = 0;
+}
+
+// Fetch the result and populate the data array
+while ($row = $result->fetch_assoc()) {
+    $month = $row['month'] - 1; // Adjust to 0-based index
+    $data[$month] = (float) $row['total_sales'];
+}
+
+$conn->close();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +74,6 @@ $conn->close();
     <!-- <link rel="stylesheet" href="/assets/css/admin_dashboard.css"> -->
     <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
-
 <body style="background-color: #EFEFEF;">
     <!-- Navbar -->
     <nav class="navbar">
@@ -63,11 +82,12 @@ $conn->close();
             <a href="/index.php">
                 <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo" style="width: 240px; height: auto; max-width: 100%; margin-left: 20px; position: relative; left: 20px;">
             </a>
-            <!-- Real-Time Clock -->
-            <div class="real-time-clock" style="text-align: center; font-family: Arial, sans-serif; color: #000; margin-right: 50px;">
-    <div id="clock" style="font-size: 30px; font-weight: bold;"></div>
-    <div id="date" style="font-size: 18px; margin-top: 10px;"></div>
-</div>
+        
+        <!-- Real-Time Clock -->       
+        <div class="real-time-clock" style="text-align: center; font-family: Arial, sans-serif; color: #000; margin-right: 50px;">
+        <div id="clock" style="font-size: 30px; font-weight: bold;"></div>
+        <div id="date" style="font-size: 18px; margin-top: 10px;"></div>
+        </div>
         </div>
     </nav>
 
@@ -99,15 +119,15 @@ $conn->close();
                             </a>
                         </li>
                     </ul>
-                    <div class="container-fluid admin-dropdown">
-                <div class="d-flex justify-content-end">
-        <div class="dropdown" style="background-color: #fff; margin-top: 355px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
-        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
-                <a href="../../user/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
-            </a>
-        </div>
-    </div>
-</div>
+                                    <div class="container-fluid admin-dropdown">
+                                <div class="d-flex justify-content-end">
+                        <div class="dropdown" style="background-color: #fff; margin-top: 355px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
+                        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
+                                <a href="../../user/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
 
@@ -202,34 +222,34 @@ $conn->close();
                     <div class="col-12">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 280px; text-align: center; box-shadow: 0 4px 10px #888383; margin-bottom: 50px;">
                         <?php
-// Query to get the top 5 most sold products from tbl_orders
-$sql = "SELECT p.product_name, COUNT(o.product_ID) AS product_count 
-        FROM tbl_orders o
-        INNER JOIN tbl_products p ON o.product_ID = p.product_ID
-        WHERE o.payment_status = 'PAID' AND o.pickup_status = 'CLAIMED' 
-        GROUP BY o.product_ID
-        ORDER BY product_count DESC
-        LIMIT 5";
+                            // Query to get the top 5 most sold products from tbl_orders
+                            $sql = "SELECT p.product_name, COUNT(o.product_ID) AS product_count 
+                                    FROM tbl_orders o
+                                    INNER JOIN tbl_products p ON o.product_ID = p.product_ID
+                                    WHERE o.payment_status = 'PAID' AND o.pickup_status = 'CLAIMED' 
+                                    GROUP BY o.product_ID
+                                    ORDER BY product_count DESC
+                                    LIMIT 5";
 
-$result = $conn->query($sql);
+                            $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    echo '<div class="card-body">';
-    echo '<h5 class="card-title" style="margin-bottom: 25px;">Top Products</h5>';
-    
-    // Output the top 5 products
-    $rank = 1;
-    while ($row = $result->fetch_assoc()) {
-        echo '<p class="card-text" style="font-size: 14px; font-weight: bold; margin: 0;">' . $rank . '. ' . $row['product_name'] . '</p>';
-        $rank++;
-    }
-    echo '</div>';
-} else {
-    echo '<div class="card-body"><p>No top products available.</p></div>';
-}
+                            if ($result->num_rows > 0) {
+                                echo '<div class="card-body">';
+                                echo '<h5 class="card-title" style="margin-bottom: 25px;">Top Products</h5>';
+                                
+                                // Output the top 5 products
+                                $rank = 1;
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<p class="card-text" style="font-size: 14px; font-weight: bold; margin: 0;">' . $rank . '. ' . $row['product_name'] . '</p>';
+                                    $rank++;
+                                }
+                                echo '</div>';
+                            } else {
+                                echo '<div class="card-body"><p>No top products available.</p></div>';
+                            }
 
 
-?>
+                        ?>
 
                         </div>
                     </div>
@@ -239,33 +259,33 @@ if ($result->num_rows > 0) {
                     <div class="col-12">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 280px; text-align: center; box-shadow: 0 4px 10px #888383;">
                         <?php
-// Query to get products with low or out of stock
-$sql = "SELECT product_name, quantity FROM tbl_products 
-        WHERE quantity <= 5 
-        ORDER BY quantity ASC
-        LIMIT 5";
+                            // Query to get products with low or out of stock
+                            $sql = "SELECT product_name, quantity FROM tbl_products 
+                                    WHERE quantity <= 5 
+                                    ORDER BY quantity ASC
+                                    LIMIT 5";
 
-$result = $conn->query($sql);
+                            $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    echo '<div class="card-body">';
-    echo '<h5 class="card-title" style="margin-bottom: 25px;">Stock Alerts</h5>';
-    
-    // Output the stock alerts
-    while ($row = $result->fetch_assoc()) {
-        // If the quantity is 0, it's out of stock
-        if ($row['quantity'] == 0) {
-            echo '<p class="card-text" style="font-size: 14px; color: red;">' . $row['product_name'] . ': Out of stock</p>';
-        } else {
-            echo '<p class="card-text" style="font-size: 14px; color: orange;">' . $row['product_name'] . ': Low stock</p>';
-        }
-    }
-    echo '</div>';
-} else {
-    echo '<div class="card-body"><p>No stock alerts at the moment.</p></div>';
-}
-$conn->close();
-?>
+                            if ($result->num_rows > 0) {
+                                echo '<div class="card-body">';
+                                echo '<h5 class="card-title" style="margin-bottom: 25px;">Stock Alerts</h5>';
+                                
+                                // Output the stock alerts
+                                while ($row = $result->fetch_assoc()) {
+                                    // If the quantity is 0, it's out of stock
+                                    if ($row['quantity'] == 0) {
+                                        echo '<p class="card-text" style="font-size: 14px; color: red;">' . $row['product_name'] . ': Out of stock</p>';
+                                    } else {
+                                        echo '<p class="card-text" style="font-size: 14px; color: orange;">' . $row['product_name'] . ': Low stock</p>';
+                                    }
+                                }
+                                echo '</div>';
+                            } else {
+                                echo '<div class="card-body"><p>No stock alerts at the moment.</p></div>';
+                            }
+                            $conn->close();
+                        ?>
 
                         </div>
                     </div>
@@ -274,104 +294,12 @@ $conn->close();
             </div>
         </div>
     </div>
+        <?php
+        include '../../includes/footer.php';
+        ?>
+</body>
+</html>
 
-<div class="content"></div>
-<footer class="footer" style="width: 100%; background-color: #122448; color: #fff; font-family: 'Lato', sans-serif; padding: 10px 0; position: relative; bottom: 0;">
-  <div class="footer-container" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 10px;">
-    <div class="footer-section" style="flex: 1 1 200px; text-align: left;">
-      <img class="footer-logo" src="/assets/images/rpc-logo-white.png" alt="RPC Tech Computer Store Logo" style="width: 250px; margin-bottom: 10px; margin-left: 10px;">
-      <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Follow Us</p>
-      <a href="https://www.facebook.com/profile.php?id=61567195257950" target="_blank">
-        <img class="footer-social-links" src="/assets/images/fb icon.png" alt="Social Links" style="width: 20px; margin-left: 32px;">
-      </a>
-    </div>
-    
-    <div class="footer-section contact" style="flex: 1 1 200px; text-align: left; margin-top: 90px; margin-left: -50px;">
-      <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Contact Us</p>
-      <p class="footer-contact-item" style="display: flex; align-items: center; margin: 5px 0; font-size: 13px; color: #fff; text-decoration: none;">
-        <img class="icon" src="/assets/images/call-icon.png" alt="Phone Icon" style="width: 15px; margin-right: 10px;"> 09616952829 / 09945657044
-      </p>
-      <p class="footer-contact-item" style="display: flex; align-items: center; margin: 5px 0; font-size: 13px; color: #fff; text-decoration: none;">
-        <a href="mailto:rpctechcomputers@gmail.com"><img class="icon" src="/assets/images/gmail icon.png" alt="Email Icon" style="width: 15px; margin-right: 10px;">rpctechcomputers@gmail.com</a>
-      </p>
-    </div>
-    
-    <div class="footer-section branch" style="flex: 1 1 200px; text-align: left; margin-top: 15px; margin-left: 40px;">
-      <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Branches</p>
-      <p class="footer-branch-item" style="display: flex; align-items: left; margin: 5px 0; color: #fff;">
-        <img class="icon" src="/assets/images/bx-location-plus.png" alt="Branch Icon" style="width: 20px; height: 18px; margin-right: 6px;">Main Branch
-      </p>
-      <p class="footer-branch-address" style="margin: 5px 18px; font-size: 13px; width: 220px; text-align: left; color: #fff;">
-        <a href="https://www.google.com/maps/place/RPC+Tech+Computer/@15.0988169,120.6194883,1059m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3396f1d7698ed943:0x8086f35e9ed733de!8m2!3d15.0988117!4d120.6220632!16s%2Fg%2F11lmmzgj3y?hl=en&entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" target="_blank">KM 78 MC ARTHUR HI-WAY BRGY.SAGUIN, San Fernando, Philippines, 2000</a>
-      </p>
-    </div>
-    
-    <div class="footer-links" style="display: flex; padding-top: 15px; margin-right: 5px; justify-content: flex-start;">
-      <div class="footer-link-column" style="flex: none; margin: 0 13px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Who are we?</p>
-        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-          <p style="margin: 0; text-align: left;"><a href="pages/public/aboutus.php" style="text-decoration: none; color: #fff; font-size: 14px;">About Us</a></p>
-          <p style="margin: 0; text-align: left;"><a href="pages/public/faq.php" style="text-decoration: none; color: #fff; font-size: 14px;">FAQ</a></p>
-          <p style="margin: 0; text-align: left;"><a href="pages/public/contactus.php" style="text-decoration: none; color: #fff; font-size: 14px;">Contact Us</a></p>
-        </div>
-      </div>
-      
-      <div class="footer-link-column" style="flex: none; margin: 0 13px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Legal Terms</p>
-        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-          <p style="margin: 0; text-align: left;"><a href="pages/public/termconditions.php" style="text-decoration: none; color: #fff; font-size: 14px;">Terms & Conditions</a></p>
-          <p style="margin: 0; text-align: left;"><a href="pages/public/privacy-policy.php" style="text-decoration: none; color: #fff; font-size: 14px;">Privacy Policy</a></p>
-        </div>
-      </div>
-      
-      <div class="footer-link-column" style="flex: none; margin: 0 13px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Guides</p>
-        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-          <p style="margin: 0; text-align: left;"><a href="pages/public/purchase-guides.php" style="text-decoration: none; color: #fff; font-size: 14px;">Purchasing Guides</a></p>
-          <p style="margin: 0; text-align: left;"><a href="pages/public/motherboard-chipset.php" style="text-decoration: none; color: #fff; font-size: 14px;">Motherboard Chipset</a></p>
-          <p style="margin: 0; text-align: left;"><a href="pages/public/power-supply-calculator.php" style="text-decoration: none; color: #fff; font-size: 14px;">Power Supply Calculator</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom" style="text-align: center; font-size: 12px; margin-top: 20px;">
-    <p style="margin: 5px 0; color: #fff;">&copy; 2022 RPC Tech Computer Store.</p>
-    <p style="margin: 5px 0; color: #fff;">All rights reserved.</p>
-  </div>
-</footer>
-
-<?php
-// Connect to the database
-$conn = new mysqli($host, $username, $password, $db_name);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Fetch sales data for PAID and CLAIMED orders
-$sql = "SELECT SUM(total) AS total_sales, MONTH(order_date) AS month
-        FROM tbl_orders
-        WHERE payment_status = 'PAID' AND pickup_status = 'CLAIMED'
-        GROUP BY MONTH(order_date)
-        ORDER BY MONTH(order_date)";
-$result = $conn->query($sql);
-
-// Prepare data for the chart
-$data = [];
-$months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-// Initialize the data array with zeros
-for ($i = 0; $i < 12; $i++) {
-    $data[$i] = 0;
-}
-
-// Fetch the result and populate the data array
-while ($row = $result->fetch_assoc()) {
-    $month = $row['month'] - 1; // Adjust to 0-based index
-    $data[$month] = (float) $row['total_sales'];
-}
-
-$conn->close();
-?>
 
 <script>
     // Pass PHP data to JavaScript
@@ -442,6 +370,3 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock(); // Initialize immediately
 </script>
-
-</body>
-</html>

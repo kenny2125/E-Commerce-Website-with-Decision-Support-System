@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($image_data !== null) {
             $sql_image = "UPDATE tbl_products SET img_name = '$image_name', img_data = '$image_data' WHERE product_ID = $product_id";
             if ($conn->query($sql_image) === TRUE) {
-                echo "Image uploaded successfully and associated with product!";
+                // echo "Image uploaded successfully and associated with product!";
             } else {
                 echo "Error uploading image: " . $conn->error;
             }
