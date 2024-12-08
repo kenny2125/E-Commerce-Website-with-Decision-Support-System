@@ -30,12 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $walk_name = null;  // Registered user (no walk_name)
     }
 
-    // Update order in tbl_orders
+    // Update order in tbl_orders (no change to walk_name)
     $sql = "UPDATE tbl_orders SET 
             payment_status = '$payment_status', 
             pickup_status = '$pickup_status', 
-            total = '$total',
-            walk_name = '$walk_name'
+            total = '$total'
             WHERE order_ID = '$order_ID'";
 
     if ($conn->query($sql) === TRUE) {
