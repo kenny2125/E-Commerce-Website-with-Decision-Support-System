@@ -1,30 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/inventorymanagement.css">
-</head>
-<body style="background-color: #EBEBEB;">
 
 <?php
     // Database connection
-    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-    $username = "vg2eweo4yg8eydii";
-    $password = "rccstjx3or46kpl9";
-    $db_name = "s0gp0gvxcx3fc7ib";
-    $port = "3306";
-
-    // Create connection
-    $conn = new mysqli($host, $username, $password, $db_name);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    include '../../config/db_config.php';
 
     // Handle delete action
     if (isset($_POST['delete'])) {
@@ -82,16 +59,46 @@
 $result = $conn->query($sql);
 ?>
 
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+<?php
+
+
+
+// Fetch brand names from the database
+$brand_sql = "SELECT brand_ID, brand_name FROM tbl_brands";
+$brand_result = $conn->query($brand_sql);
+
+// Check if the query was successful
+if (!$brand_result) {
+    die("Query failed: " . $conn->error);
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Document</title>
+    
+</head>
+<body style="background-color: #EBEBEB;">
+
+
+<nav class="navbar">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap" style="display: flex; align-items: center; height: auto; background-color: #FFFFFF; box-shadow: 0 7px 3px -2px lightgrey; padding: 10px 20px; position: relative;">
         <!-- Logo -->
-        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        
-        <!-- Search Bar -->
-        <form class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <a href="/index.php">
+            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo" style="width: 240px; height: auto; max-width: 100%; margin-left: 20px; position: relative; left: 20px;">
+        </a>
+    
+    <!-- Real-Time Clock -->       
+    <div class="real-time-clock" style="text-align: center; font-family: Arial, sans-serif; color: #000; margin-right: 50px;">
+    <div id="clock" style="font-size: 30px; font-weight: bold;"></div>
+    <div id="date" style="font-size: 18px; margin-top: 10px;"></div>
+    </div>
     </div>
 </nav>
 
@@ -312,7 +319,7 @@ $conn->close();
       </div>
 
       <!-- Modal Body -->
-      <form action="insert_product.php" method="POST" enctype="multipart/form-data">
+      <form action="controllers/insert_product.php" method="POST" enctype="multipart/form-data">
         <div class="modal-body" style="height: calc(100% - 50px); overflow-y: auto;">
           <div class="row" style="height: 100%;">
             <!-- First Column: Image Section -->
@@ -334,26 +341,7 @@ $conn->close();
                 <input type="text" name="product_name" class="form-control" id="productName">
               </div>
 
-<?php
 
-// Create connection
-$conn = new mysqli($host, $username, $password, $db_name, $port);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Fetch brand names from the database
-$brand_sql = "SELECT brand_ID, brand_name FROM tbl_brands";
-$brand_result = $conn->query($brand_sql);
-
-// Check if the query was successful
-if (!$brand_result) {
-    die("Query failed: " . $conn->error);
-}
-
-?>
 
 <div class="mb-3">
     <label for="brandName" class="form-label">Brand</label>
@@ -372,10 +360,6 @@ if (!$brand_result) {
     </select>
 </div>
 
-<?php
-// Close the connection
-$conn->close();
-?>
 
                 <div class="mb-3">
                 <label for="categoryName" class="form-label">Category</label>
@@ -436,6 +420,13 @@ $conn->close();
 </div>
 
 
+<?php
+include '../../includes/footer.php';
+?>
+</body>
+</html>
+
+
 <!-- JavaScript to Preview Image -->
 <script>
   function previewImage(event) {
@@ -469,5 +460,29 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-</body>
-</html>
+<script>
+function updateClock() {
+    const now = new Date();
+
+    // Format time (12-hour format with AM/PM)
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';  // Determine AM or PM
+    hours = hours % 12; // Convert to 12-hour format
+    hours = hours ? hours : 12; // Handle 0 hour as 12
+    const formattedHours = hours.toString().padStart(2, '0');
+
+    // Format date
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateString = now.toLocaleDateString(undefined, options);
+
+    // Update the clock and date
+    document.getElementById('clock').textContent = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+    document.getElementById('date').textContent = dateString;
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+updateClock(); // Initialize immediately
+</script>

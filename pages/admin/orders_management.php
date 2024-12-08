@@ -1,24 +1,5 @@
 <?php
-session_start(); // Start the session
-
-// Check if the user is logged in
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
-
-// Initialize the check for admin role
-$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
-// Database Connection
-$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "vg2eweo4yg8eydii";
-$password = "rccstjx3or46kpl9";
-$db_name = "s0gp0gvxcx3fc7ib";
-$port = "3306";
-
-$conn = new mysqli($host, $username, $password, $db_name);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    include '../../config/db_config.php';
 
 // Correct SQL query to join the tables properly based on foreign keys
 $sql = "SELECT o.order_ID, 
@@ -34,7 +15,9 @@ $sql = "SELECT o.order_ID,
                p.product_name
         FROM tbl_orders o
         LEFT JOIN tbl_user u ON o.user_ID = u.user_ID
-        JOIN tbl_products p ON o.product_ID = p.product_ID";
+        JOIN tbl_products p ON o.product_ID = p.product_ID
+        ORDER BY o.order_ID DESC";
+
 
 
 $result = $conn->query($sql);
@@ -46,48 +29,23 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="/assets/css/orders_management.css">
+    <!-- <link rel="stylesheet" href="/assets/css/orders_management.css"> -->
     <title>Orders Management</title>
 </head>
 <body style="background-color: #EBEBEB;">
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Clickable Logo -->
+<!-- Header  -->
+<nav class="navbar">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap" style="display: flex; align-items: center; height: auto; background-color: #FFFFFF; box-shadow: 0 7px 3px -2px lightgrey; padding: 10px 20px; position: relative;">
+        <!-- Logo -->
         <a href="/index.php">
-            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo" style="width: 240px; height: auto; max-width: 100%; margin-left: 20px; position: relative; left: 20px;">
         </a>
-        
-        <!-- Search Bar -->
-        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button href="pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        
-        <!-- User-specific Content -->
-        <?php if ($isLoggedIn === true): ?>
-            <!-- If logged in, display welcome message and role -->
-            <div class="navbar-text d-flex align-items-center">
-                <div class="icon-container">
-                    <!-- Cart and Profile Links -->
-                    <a href="pages/shop/carting_list.php">
-                        <img src="/assets/images/Group 204.png" alt="Cart Icon">
-                    </a>
-                    <a href="pages/user/user_profile.php">
-                        <img src="/assets/images/Group 48.png" alt="Profile Icon">
-                    </a>
-
-                    <!-- Admin Link (only visible to admins) -->
-                    <?php if ($isAdmin): ?>
-                        <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
-                            Admin Dashboard
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php else: ?>
-            <!-- If not logged in, show login button -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
-        <?php endif; ?>
+    
+    <!-- Real-Time Clock -->       
+    <div class="real-time-clock" style="text-align: center; font-family: Arial, sans-serif; color: #000; margin-right: 50px;">
+    <div id="clock" style="font-size: 30px; font-weight: bold;"></div>
+    <div id="date" style="font-size: 18px; margin-top: 10px;"></div>
+    </div>
     </div>
 </nav>
 
@@ -119,15 +77,15 @@ $result = $conn->query($sql);
                             </a>
                         </li>
                     </ul>
-                    <div class="container-fluid admin-dropdown">
-                <div class="d-flex justify-content-end">
-        <div class="dropdown" style="background-color: #fff; margin-top: 355px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
-        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
-                <a href="../../user/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
-            </a>
-        </div>
-    </div>
-</div>
+                                      <div class="container-fluid admin-dropdown">
+                                  <div class="d-flex justify-content-end">
+                          <div class="dropdown" style="background-color: #fff; margin-top: 355px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
+                          <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
+                                  <a href="../../user/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
+                              </a>
+                          </div>
+                      </div>
+                  </div>
                 </div>
             </div>
 
@@ -138,7 +96,7 @@ $result = $conn->query($sql);
                     <h5 class="me-auto">Orders Management</h5>
                     <button class="btn btn-primary me-2">Refresh</button>
                     <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#addOrderModal">Add Order</button>
-                    <input type="text" class="form-control" placeholder="Search...">
+       
                 </div>
             </div>
             <div class="row">
@@ -263,7 +221,7 @@ $result = $conn->query($sql);
         <h5 class="modal-title" id="addOrderModalLabel">Add Order</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="../pages/insert_orders.php" method="POST">
+      <form action="controllers/insert_orders.php" method="POST">
         <div class="modal-body">
           <div class="mb-3">
             <label for="paymentStatus" class="form-label">Payment Status</label>
@@ -330,6 +288,10 @@ $result = $conn->query($sql);
   </div>
 </div>
 
+
+</body>
+</html>
+
 <script>
   function updateTotal(selectElement) {
     const selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -337,10 +299,6 @@ $result = $conn->query($sql);
     document.getElementById("orderTotal").value = price;
   }
 </script>
-
-
-
-
 
 <script>
 // Function to edit the order data in the modal
@@ -361,8 +319,29 @@ function editOrder(orderID) {
     document.getElementById('orderNumber').innerText = 'Order #: ' + orderID;
 }
 </script>
+<script>
+function updateClock() {
+    const now = new Date();
 
+    // Format time (12-hour format with AM/PM)
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';  // Determine AM or PM
+    hours = hours % 12; // Convert to 12-hour format
+    hours = hours ? hours : 12; // Handle 0 hour as 12
+    const formattedHours = hours.toString().padStart(2, '0');
 
-</body>
-</html>
+    // Format date
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateString = now.toLocaleDateString(undefined, options);
 
+    // Update the clock and date
+    document.getElementById('clock').textContent = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+    document.getElementById('date').textContent = dateString;
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+updateClock(); // Initialize immediately
+</script>

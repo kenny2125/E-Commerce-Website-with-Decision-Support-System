@@ -47,7 +47,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 
                     <!-- Admin Link (only visible to admins) -->
                     <?php if ($isAdmin): ?>
-                        <a href="/pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
+                        <a href="/pages/admin/admin_dashboard.php" class="btn btn-outline-danger ms-3">
                             Admin Dashboard
                         </a>
                     <?php endif; ?>

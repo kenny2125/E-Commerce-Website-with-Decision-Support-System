@@ -1,24 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/payment_list.css">
-</head>
-<body style="background-color: #EBEBEB";>
 <?php
-    // Database connection
-    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-    $username = "vg2eweo4yg8eydii";
-    $password = "rccstjx3or46kpl9";
-    $db_name = "s0gp0gvxcx3fc7ib";
-    $port = "3306";
-
-    // Create connection
-    $conn = new mysqli($host, $username, $password, $db_name);
+    include '../../config/db_config.php';
 
     // Fetch payment data
     $sql = "
@@ -76,22 +57,35 @@
     $payments_query = "SELECT payment_ID, status, cust_name, amount, source_type, created_at FROM tbl_payments";
     $result = $conn->query($payments_query);
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Document</title>
+    
+</head>
+<body style="background-color: #EBEBEB";>
 <!-- Navigation -->
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Logo -->
-        <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
+<nav class="navbar">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap" style="display: flex; align-items: center; height: auto; background-color: #FFFFFF; box-shadow: 0 7px 3px -2px lightgrey; padding: 10px 20px; position: relative;">
+            <!-- Logo -->
+            <a href="/index.php">
+                <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo" style="width: 240px; height: auto; max-width: 100%; margin-left: 20px; position: relative; left: 20px;">
+            </a>
         
-        <!-- Search Bar -->
-        <form class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
+        <!-- Real-Time Clock -->       
+        <div class="real-time-clock" style="text-align: center; font-family: Arial, sans-serif; color: #000; margin-right: 50px;">
+        <div id="clock" style="font-size: 30px; font-weight: bold;"></div>
+        <div id="date" style="font-size: 18px; margin-top: 10px;"></div>
+        </div>
+        </div>
 </nav>
 
 <div class="container-fluid" style="padding: 50px;">
+        <!-- Sidebar -->
         <div class="row">
             <!-- Sidebar Section -->
             <div class="col-md-2 admin-sidebar" style="background-color: #1A54C0; border-radius: 20px; margin-right: 35px; margin-left: 68px; box-shadow: 0 4px 10px #888383;">
@@ -119,33 +113,29 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="container-fluid admin-dropdown">
-                <div class="d-flex justify-content-end">
-        <div class="dropdown" style="background-color: #fff; margin-top: 355px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
-        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
-                <a href="../../user/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
-            </a>
-        </div>
-    </div>
-</div>
+                                        <div class="container-fluid admin-dropdown">
+                                    <div class="d-flex justify-content-end">
+                            <div class="dropdown" style="background-color: #fff; margin-top: 355px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
+                            <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
+                                    <a href="../../user/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
 
         <!-- 2nd Column: Inventory -->
         <div class="col-9">
-                <!-- Table Header -->
             <div class="row">
                 <div class="col-12 d-flex align-items-center mb-3">
                     <img src="../../../assets/vectors/cash.svg" alt="Product Image" class="me-3" style="width: auto; height: 50px">
                     <h5 class="me-auto">Payments List</h5>
                     <!-- Refresh Button -->
                     <button class="btn btn-primary me-2" style="width: 150px; height: 35px" onclick="location.reload();">Refresh</button>
+                    <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#addPaymentModal">Add Payment</button>
 
-                    
-                    
-                    <!-- Search Bar -->
-                    <!-- <input type="text" class="form-control" placeholder="Search..."> -->
                 </div>
             </div>
 
@@ -232,6 +222,14 @@
                 </tbody>
             </table>
 
+
+
+
+
+</div>
+
+
+
 <!-- Add Payment Modal -->
 <div class="modal fade" id="addPaymentModal" tabindex="-1" aria-labelledby="addPaymentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -243,35 +241,71 @@
             <div class="modal-body">
                 <!-- Form that calls insert_payment.php -->
                 <form id="addPaymentForm" method="POST">
-    <div class="mb-3">
-        <label for="new-status" class="form-label">Status</label>
-        <select class="form-control" name="status" id="new-status" required>
-            <option value="PAID">PAID</option>
-            <option value="REFUNDED">REFUNDED</option>
-        </select>
-    </div>
+                    <div class="mb-3">
+                        <label for="new-status" class="form-label">Status</label>
+                        <select class="form-control" name="status" id="new-status" required>
+                            <option value="PAID">PAID</option>
+                            <option value="REFUNDED">REFUNDED</option>
+                        </select>
+                    </div>
 
-    <div class="mb-3">
-        <label for="new-amount" class="form-label">Amount</label>
-        <input type="text" class="form-control" name="amount" id="new-amount" required>
-    </div>
+                    <div class="mb-3">
+                        <label for="new-amount" class="form-label">Amount</label>
+                        <input type="text" class="form-control" name="amount" id="new-amount" required>
+                    </div>
 
-    <div class="mb-3">
-        <label for="new-cust_name" class="form-label">Customer Name</label>
-        <input type="text" class="form-control" name="cust_name" id="new-cust_name" required>
-    </div>
+                    <div class="mb-3">
+                        <label for="new-cust_name" class="form-label">Customer Name</label>
+                        <input type="text" class="form-control" name="cust_name" id="new-cust_name" required>
+                    </div>
 
-    <div class="mb-3">
-        <label for="new-source_type" class="form-label">Payment Method</label>
-        <select class="form-control" name="source_type" id="new-source_type" required>
-            <option value="GCASH">GCASH</option>
-            <option value="MAYA">MAYA</option>
-            <option value="CASH">CASH</option>
-        </select>
-    </div>
+                    <div class="mb-3">
+                        <label for="new-source_type" class="form-label">Payment Method</label>
+                        <select class="form-control" name="source_type" id="new-source_type" required>
+                            <option value="GCASH">GCASH</option>
+                            <option value="MAYA">MAYA</option>
+                            <option value="CASH">CASH</option>
+                        </select>
+                    </div>
 
-    <button type="submit" class="btn btn-success">Add Payment</button>
-</form>
+                    <button type="submit" class="btn btn-success">Add Payment</button>
+                </form>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+function updateClock() {
+    const now = new Date();
+
+    // Format time (12-hour format with AM/PM)
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';  // Determine AM or PM
+    hours = hours % 12; // Convert to 12-hour format
+    hours = hours ? hours : 12; // Handle 0 hour as 12
+    const formattedHours = hours.toString().padStart(2, '0');
+
+    // Format date
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateString = now.toLocaleDateString(undefined, options);
+
+    // Update the clock and date
+    document.getElementById('clock').textContent = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+    document.getElementById('date').textContent = dateString;
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+updateClock(); // Initialize immediately
+</script>
 
 <script>
     // Prevent the default form submission
@@ -282,7 +316,7 @@
         var formData = new FormData(this);
 
         // Send data via AJAX (fetch API)
-        fetch('insert_payment.php', {
+        fetch('controllers/insert_payment.php', {
             method: 'POST',
             body: formData
         })
@@ -300,23 +334,3 @@
         // });
     });
 </script>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-        </tbody>
-    </table>
-</div>
-
-
-        </div>
-
-    </div>
-
-</div>
-
-</body>
-</html>
