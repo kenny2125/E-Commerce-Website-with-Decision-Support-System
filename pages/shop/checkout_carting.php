@@ -51,23 +51,29 @@ if ($isLoggedIn && $userId) {
 
 // Check if selected products are passed from the form
 if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
-    $selected_product_ids = $_POST['selected_products'];  // Array of selected product IDs
-    $ids = implode(",", $selected_product_ids);  // Convert the array to a comma-separated string for the SQL query
+    // Ensure that selected_products is an array
+    $selected_product_ids = (array) $_POST['selected_products'];  // Force it to be an array
 
-    // echo "<pre> Selected Product IDs: " . print_r($selected_product_ids, true) . "</pre>";
+    // Check if it's an array, and then implode
+    if (is_array($selected_product_ids) && count($selected_product_ids) > 0) {
+        $ids = implode(",", $selected_product_ids);  // Convert the array to a comma-separated string for the SQL query
+    } else {
+        echo "Invalid product selection.";
+        exit;
+    }
     
-    // Query to fetch product details for the selected products
+    // Proceed with the SQL query as usual
     $sql = "SELECT product_ID, product_name, store_price, img_data FROM tbl_products WHERE product_ID IN ($ids)";
     $result = $conn->query($sql);
-
+    
     // Initialize variables for subtotal calculation
     $subtotal = 0;
     $shipping_fee = 50.00;  // Example shipping fee
 } else {
-    // If no products were selected
     echo "No products selected for checkout.";
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -225,7 +231,7 @@ document.getElementById('payment-method').addEventListener('change', function() 
 
     // Set form action based on payment method
     if (paymentMethod === 'paymongo' || paymentMethod === 'gcash' || paymentMethod === 'paymaya') {
-        form.action = 'checkout_url.php';  // Paymongo, GCash, PayMaya
+        form.action = 'url_placeorder.php';  // Paymongo, GCash, PayMaya
         agreeLabel.textContent = 'I agree to make payment via ' + paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1);
         agreeContainer.style.display = 'block';  // Show agree checkbox for these payment methods
     } else if (paymentMethod === 'cash_on_delivery') {
