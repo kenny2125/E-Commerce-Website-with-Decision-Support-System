@@ -102,7 +102,7 @@ if (isset($_SESSION['product_' . $productId . '_cache']) && (time() - $_SESSION[
                     <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" required>
                     <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity(1)">+</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                <button type="submit" class="btn btn-primary" style="margin-left: 40px;">Add to Cart</button>
             </form>
             <div id="cartMessage" class="mt-3"></div>
         </div>
