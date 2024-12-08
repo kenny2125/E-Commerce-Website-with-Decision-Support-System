@@ -22,7 +22,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <!-- Clickable Logo -->
-        <a href="index.php">
+        <a href="/index.php">
             <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         </a>
         
