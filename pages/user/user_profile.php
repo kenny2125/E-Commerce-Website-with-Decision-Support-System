@@ -32,7 +32,46 @@
 
 <body>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/information.css">
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
+</head>
+
+<style>
+    .sidebar-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        cursor: pointer;
+        color: #FFFFFF;
+        margin-bottom: 5px;
+    }
+
+    .sidebar-item.active {
+        background-color: #007bff; /* Highlight color */
+        border-radius: 8px;
+    }
+
+    .sidebar-item .icon {
+        margin-right: 10px;
+    }
+</style>
+
+<body>
+
 <?php
+        include '../../includes/header.php';
+        include '../../config/db_config.php';
+
+
+
 include '../../includes/header.php';
 include '../../config/db_config.php';
 
@@ -41,7 +80,7 @@ $user_ID = $_SESSION['user_ID']; // Get the user ID from the session
 
 // Make sure $user_ID is valid
 if (empty($user_ID)) {
-    die("User ID is not set properly.");
+    die("You need to log in.");
 }
 
 // Fetch user data from the database
@@ -82,6 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     }
 }
 ?>
+
     <div class="container">
         <div class="row">
             <!-- Sidebar -->

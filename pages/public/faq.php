@@ -1,7 +1,4 @@
-<?php
-include '../../includes/header.php';
-include '../../config/db_config.php';
-?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +15,10 @@ include '../../config/db_config.php';
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
- 
+<?php
+include '../../includes/header.php';
+include '../../config/db_config.php';
+?>
 
 <div class="container">
         <!-- Back button -->
