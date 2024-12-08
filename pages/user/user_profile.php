@@ -1,44 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/information.css">
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
+</head>
+
+<style>
+    .sidebar-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        cursor: pointer;
+        color: #FFFFFF;
+        margin-bottom: 5px;
+    }
+
+    .sidebar-item.active {
+        background-color: #007bff; /* Highlight color */
+        border-radius: 8px;
+    }
+
+    .sidebar-item .icon {
+        margin-right: 10px;
+    }
+</style>
+
+<body>
+
 <?php
-// Start the session at the very beginning
-session_start();
+        include '../../includes/header.php';
+        include '../../config/db_config.php';
 
 
-// Check if the user is logged in
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
 
-// Initialize the check for admin role
-$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
-// Debugging (optional, can be removed in production)
-// echo "<h2>Session Data (Debugging)</h2>";
-// if (!empty($_SESSION)) {
-//     echo "<pre>";
-//     print_r($_SESSION);
-//     echo "</pre>";
-// } else {
-//     echo "<p>No session data available.</p>";
-// }
-
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
-// Database connection
-$host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "vg2eweo4yg8eydii";
-$password = "rccstjx3or46kpl9";
-$db_name = "s0gp0gvxcx3fc7ib";
-
-// Create connection
-$conn = new mysqli($host, $username, $password, $db_name);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Ensure user is logged in by checking if user_ID is set in session
-$user_ID = $_SESSION['user_ID']; // Get the user ID from the session
 
 // Make sure $user_ID is valid
 if (empty($user_ID)) {
-    die("User ID is not set properly.");
+    die("You need to log in.");
 }
 
 // Fetch user data from the database
@@ -79,81 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/information.css">
-</head>
-
-<style>
-    .sidebar-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 20px;
-        cursor: pointer;
-        color: #FFFFFF;
-        margin-bottom: 5px;
-    }
-
-    .sidebar-item.active {
-        background-color: #007bff; /* Highlight color */
-        border-radius: 8px;
-    }
-
-    .sidebar-item .icon {
-        margin-right: 10px;
-    }
-</style>
-
-<body>
-    <!-- Header Section with Search Bar and Logo -->
-    <!-- <link rel="stylesheet" href="../../assets/css/index.css"> -->
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Clickable Logo -->
-        <a href="../../index.php">
-            <img src="../../assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        </a>
-        
-        <!-- Search Bar -->
-        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button href="../../pages/shop/Products_List.php" class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        
-        <!-- User-specific Content -->
-        <?php if ($isLoggedIn === true): ?>
-            <!-- If logged in, display welcome message and role -->
-            <div class="navbar-text d-flex align-items-center">
-                <div class="icon-container">
-                    <!-- Cart and Profile Links -->
-                    <a href="../../pages/shop/carting_list.php">
-                        <img src="/assets/images/Group 204.png" alt="Cart Icon">
-                    </a>
-                    <a href="../../pages/user/user_profile.php">
-                        <img src="/assets/images/Group 48.png" alt="Profile Icon">
-                    </a>
-
-                    <!-- Admin Link (only visible to admins) -->
-                    <?php if ($isAdmin): ?>
-                        <a href="pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
-                            Admin Dashboard
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php else: ?>
-            <!-- If not logged in, show login button -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
-        <?php endif; ?>
-    </div>
-</nav>
 
     <div class="container">
         <div class="row">
