@@ -1,10 +1,23 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <link rel="stylesheet" href="/assets/css/orders_management.css"> -->
+    <link rel="icon" href="/assets/images/rpc-favicon.png"> 
+    <title>Orders Management</title>
+</head>
 <?php
     include '../../config/db_config.php';
 
 // Correct SQL query to join the tables properly based on foreign keys
 $sql = "SELECT o.order_ID, 
                o.payment_status, 
-               o.pickup_status, 
+               o.pickup_status,
+               o.payment_method, 
                o.user_ID, 
                CASE 
                    WHEN o.user_ID = 1 THEN o.walk_name 
@@ -22,16 +35,6 @@ $sql = "SELECT o.order_ID,
 
 $result = $conn->query($sql);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <link rel="stylesheet" href="/assets/css/orders_management.css"> -->
-    <title>Orders Management</title>
-</head>
 <body style="background-color: #EBEBEB;">
 <!-- Header  -->
 <nav class="navbar">
@@ -107,6 +110,7 @@ $result = $conn->query($sql);
                             <th>Order #</th>
                             <th>Payment Status</th>
                             <th>Pickup Status</th>
+                            <th>Payment Method</th>
                             <th>Customer Name</th>
                             <th>Product Name</th>
                             <th>Total</th>
@@ -128,6 +132,7 @@ $result = $conn->query($sql);
                                     <td>{$row['order_ID']}</td>
                                     <td class='payment-status'>{$row['payment_status']}</td>
                                     <td class='pickup-status'>{$row['pickup_status']}</td>
+                                    <td class='pickup-status'>{$row['payment_method']}</td>
                                     <td class='customer-name'>{$row['customer_name']}</td>
                                     <td class='product-name'>{$row['product_name']}</td>
                                     <td class='order-total'>₱" . number_format($row['total'], 2) . "</td>
@@ -160,7 +165,7 @@ $result = $conn->query($sql);
         <h5 class="modal-title" id="editOrderModalLabel">Edit Order</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="update_order.php" method="POST">
+      <form action="controllers/update_order.php" method="POST">
         <div class="modal-body">
             <input type="hidden" name="order_ID" id="editOrderID"> <!-- Hidden input for order ID -->
             
@@ -231,19 +236,33 @@ $result = $conn->query($sql);
               <option value="CANCELLED">CANCELLED</option>
             </select>
           </div>
+          
           <!-- Walk-In Name for customers without an account -->
           <div class="mb-3">
             <label for="walkName" class="form-label">Walk-In Name</label>
             <input type="text" name="walk_name" class="form-control" id="walkName" placeholder="Enter name for walk-in buyer" required>
           </div>
-            <div class="mb-3">
-              <label for="pickupStatus" class="form-label">Pickup Status</label>
-              <select name="pickup_status" class="form-control" id="pickupStatus" required>
-                <option value="CLAIMED">CLAIMED</option>
-                <option value="SHIPPED">SHIPPED</option>
-                <option value="PENDING">PENDING</option>
-              </select>
-            </div>
+
+          <!-- New Payment Method Dropdown -->
+          <div class="mb-3">
+            <label for="paymentMethod" class="form-label">Payment Method</label>
+            <select name="payment_method" class="form-control" id="paymentMethod" required>
+              <option value="Walk In">Walk In</option>
+              <option value="Cash on Delivery">Cash on Delivery</option>
+              <option value="Gcash">GCASH</option>
+              <option value="Paymaya">PAYMAYA</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="pickupStatus" class="form-label">Pickup Status</label>
+            <select name="pickup_status" class="form-control" id="pickupStatus" required>
+              <option value="CLAIMED">CLAIMED</option>
+              <option value="SHIPPED">SHIPPED</option>
+              <option value="PENDING">PENDING</option>
+            </select>
+          </div>
+          
           <div class="mb-3">
             <label for="productID" class="form-label">Select Product</label>
             <select name="product_ID" class="form-control" id="productID" required onchange="updateTotal(this)">
@@ -270,10 +289,12 @@ $result = $conn->query($sql);
               ?>
             </select>
           </div>
+
           <div class="mb-3">
             <label for="orderTotal" class="form-label">Total</label>
             <input type="text" name="total" class="form-control" id="orderTotal" readonly>
           </div>
+          
           <div class="mb-3">
             <label for="orderDate" class="form-label">Ordering Date</label>
             <input type="date" name="order_date" class="form-control" id="orderDate" required>
@@ -287,6 +308,7 @@ $result = $conn->query($sql);
     </div>
   </div>
 </div>
+
 
 
 </body>

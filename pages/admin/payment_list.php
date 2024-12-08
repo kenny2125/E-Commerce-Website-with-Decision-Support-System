@@ -12,8 +12,8 @@
         source_type, 
         external_reference_number, 
         created_at 
-    FROM tbl_payments;
-    ";
+    FROM tbl_payments
+    ORDER BY payment_ID DESC;";  // Ensures the latest payments come first
 
     $result = $conn->query($sql);
 
@@ -44,19 +44,6 @@
 ?>
 
 
-<?php
-// Database connection
-    $conn = new mysqli($host, $username, $password, $db_name);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Fetch payments data
-    $payments_query = "SELECT payment_ID, status, cust_name, amount, source_type, created_at FROM tbl_payments";
-    $result = $conn->query($payments_query);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +52,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>Document</title>
-    
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
 <body style="background-color: #EBEBEB";>
 <!-- Navigation -->

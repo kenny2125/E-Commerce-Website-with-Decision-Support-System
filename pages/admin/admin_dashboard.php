@@ -1,3 +1,17 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <title>Admin Dashboard</title>
+    <!-- <link rel="stylesheet" href="/assets/css/admin_dashboard.css"> -->
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
+</head>
 <?php
 // Database connection
     include '../../config/db_config.php';
@@ -61,20 +75,8 @@ while ($row = $result->fetch_assoc()) {
 
 $conn->close();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <title>Admin Dashboard</title>
-    <!-- <link rel="stylesheet" href="/assets/css/admin_dashboard.css"> -->
-    <link rel="icon" href="/assets/images/rpc-favicon.png">
-</head>
 <body style="background-color: #EFEFEF;">
+
     <!-- Navbar -->
     <nav class="navbar">
         <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap" style="display: flex; align-items: center; height: auto; background-color: #FFFFFF; box-shadow: 0 7px 3px -2px lightgrey; padding: 10px 20px; position: relative;">

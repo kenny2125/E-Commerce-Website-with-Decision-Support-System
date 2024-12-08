@@ -129,11 +129,10 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
             </div>
             <div class="mb-3">
                 <label for="payment-method" class="form-label fw-bold">Payment Method</label>
-                <select id="payment-method" class="form-select">
-                  
-                    <option value="gcash">GCash</option>
-                    <option value="paymaya">PayMaya</option>
-                    <option value="cash_on_delivery">Cash on Delivery</option>
+                <select id="payment-method" name="payment_method" class="form-select">
+                    <option value="Gcash">GCash</option>
+                    <option value="Paymaya">PayMaya</option>
+                    <option value="Cash on Delivery">Cash on Delivery</option>
                 </select>
             </div>
             <div class="mb-3" id="agree-container">

@@ -82,7 +82,7 @@ if (!$brand_result) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>Document</title>
-    
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
 <body style="background-color: #EBEBEB;">
 
@@ -151,7 +151,7 @@ if (!$brand_result) {
                     <img src="../../../assets/vectors/inventory.svg" alt="Product Image" class="me-3" style="width: auto; height: 50px">
                     <h5 class="me-auto">Inventory Management</h5>
                     <!-- Refresh Button -->
-                    <button class="btn btn-primary me-2" style="width: 150px; height: 35px">Refresh</button>
+                    <button class="btn btn-primary me-2" style="width: 150px; height: 35px " onclick="location.reload()">Refresh</button>
                     <!-- Add Product Button -->
                     <button class="btn btn-primary me-2" style="width: 150px; height: 35px" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
                     <!-- Search Bar -->
