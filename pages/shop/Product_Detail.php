@@ -1,7 +1,5 @@
 <?php
-session_start();
-
-// Include database connection
+include '../../includes/header.php';
 include '../../config/db_config.php';
 
 // Product ID from URL or testing
@@ -59,25 +57,7 @@ if (isset($_SESSION['product_' . $productId . '_cache']) && (time() - $_SESSION[
     <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
 <body>
-<!-- Navbar -->
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <img src="assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        <form class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <?php if ($isLoggedIn): ?>
-            <div class="navbar-text d-flex align-items-center">
-                <a href="../user/user_profile.php" class="btn btn-outline-primary mx-2">Profile</a>
-                <a href="../shop/carting_list.php" class="btn btn-outline-secondary mx-2">Cart</a>
-                <a href="../user/logout.php" class="btn btn-danger ml-2">Log Out</a>
-            </div>
-        <?php else: ?>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
-        <?php endif; ?>
-    </div>
-</nav>
+
 
 <div class="container my-5">
     <div class="row">

@@ -1,8 +1,8 @@
 <?php
-session_start(); // Start the session
 
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
-$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
+include '../../includes/header.php';
+include '../../config/db_config.php';
+
 
 
 // Get the search query from session if available
@@ -92,37 +92,7 @@ $searchTime = round($endTime - $startTime, 3); // Round to 3 decimal places
 </head>
 <body style="background-color: #EBEBEB;">
 
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <a href="../../index.php">
-            <img src="../../assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        </a>
 
-        <!-- Search Form -->
-        <form action="Products_List.php" method="get" class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for product(s)" name="search_query" value="<?php echo htmlspecialchars($searchQuery); ?>" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-
-        <?php if ($isLoggedIn === true): ?>
-            <div class="navbar-text d-flex align-items-center">
-                <a href="../../pages/shop/carting_list.php">
-                    <img src="/assets/images/Group 204.png" alt="Cart Icon">
-                </a>
-                <a href="../../pages/user/user_profile.php">
-                    <img src="/assets/images/Group 48.png" alt="Profile Icon">
-                </a>
-                <?php if ($isAdmin): ?>
-                    <a href="../../pages/admin/pages/admin_dashboard.php" class="btn btn-outline-danger ms-3">
-                        Admin Dashboard
-                    </a>
-                <?php endif; ?>
-            </div>
-        <?php else: ?>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
-        <?php endif; ?>
-    </div>
-</nav>
 
 <div class="container d-flex" style="padding: 30px">
     <div class="row">
