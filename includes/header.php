@@ -4,8 +4,11 @@ session_start(); // Start the session
 // Check if the user is logged in
 $isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
 
-// Initialize the check for admin role
+// Check if the user is an admin
 $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
+
+// Load the user ID
+$user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
 
 // Debugging (optional, can be removed in production)
 // echo "<h2>Session Data (Debugging)</h2>";
@@ -27,7 +30,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
         </a>
         
 <!-- Search Bar -->
-            <form action="<?php echo basename($_SERVER['SCRIPT_NAME']) === 'Products_List.php' ? 'Products_List.php' : 'pages/shop/Products_List.php'; ?>" 
+            <form action="<?php echo basename($_SERVER['SCRIPT_NAME']) === 'Products_List.php' ? 'Products_List.php' : '/pages/shop/Products_List.php'; ?>" 
                 method="get" 
                 class="d-flex search-bar">
                 <input class="form-control me-2" 

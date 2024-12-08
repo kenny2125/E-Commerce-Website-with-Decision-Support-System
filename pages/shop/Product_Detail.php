@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Product Detail Page</title>
+    <link rel="stylesheet" href="/assets/css/product-detail.css">
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
+</head>
+<body>
+
 <?php
 include '../../includes/header.php';
 include '../../config/db_config.php';
@@ -44,21 +56,6 @@ if (isset($_SESSION['product_' . $productId . '_cache']) && (time() - $_SESSION[
     }
 }
 ?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Product Detail Page</title>
-    <link rel="stylesheet" href="/assets/css/product-detail.css">
-    <link rel="icon" href="/assets/images/rpc-favicon.png">
-</head>
-<body>
-
-
 <div class="container my-5">
     <div class="row">
         <div class="col-md-3 text-center">
@@ -122,7 +119,7 @@ function changeQuantity(amount) {
 document.getElementById('addToCartForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const formData = new FormData(this);
-    fetch('controllers/addtocart.php', {
+    fetch('addtocart.php', {
         method: 'POST',
         body: formData,
     })
@@ -138,3 +135,4 @@ document.getElementById('addToCartForm').addEventListener('submit', function (e)
     });
 });
 </script>
+
