@@ -16,7 +16,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
 // } else {
 //     echo "<p>No session data available.</p>";
 // }
-    // Database connection
+    
 ?>
 
 <nav class="navbar navbar-light bg-light">
@@ -46,7 +46,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
             <div class="navbar-text d-flex align-items-center">
                 <div class="icon-container">
                     <!-- Cart and Profile Links -->
-                    <a href="/pages/shop/carting_list.php">
+                    <a href="/pages/shop/Carts_List.php">
                         <img src="/assets/images/Group 204.png" alt="Cart Icon">
                     </a>
                     <a href="/pages/user/user_profile.php">
