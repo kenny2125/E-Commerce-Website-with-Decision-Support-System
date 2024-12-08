@@ -4,7 +4,8 @@
 // Correct SQL query to join the tables properly based on foreign keys
 $sql = "SELECT o.order_ID, 
                o.payment_status, 
-               o.pickup_status, 
+               o.pickup_status,
+               o.payment_method, 
                o.user_ID, 
                CASE 
                    WHEN o.user_ID = 1 THEN o.walk_name 
@@ -107,6 +108,7 @@ $result = $conn->query($sql);
                             <th>Order #</th>
                             <th>Payment Status</th>
                             <th>Pickup Status</th>
+                            <th>Payment Method</th>
                             <th>Customer Name</th>
                             <th>Product Name</th>
                             <th>Total</th>
@@ -128,6 +130,7 @@ $result = $conn->query($sql);
                                     <td>{$row['order_ID']}</td>
                                     <td class='payment-status'>{$row['payment_status']}</td>
                                     <td class='pickup-status'>{$row['pickup_status']}</td>
+                                    <td class='pickup-status'>{$row['payment_method']}</td>
                                     <td class='customer-name'>{$row['customer_name']}</td>
                                     <td class='product-name'>{$row['product_name']}</td>
                                     <td class='order-total'>₱" . number_format($row['total'], 2) . "</td>
