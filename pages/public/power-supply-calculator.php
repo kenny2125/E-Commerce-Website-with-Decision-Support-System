@@ -209,6 +209,11 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
                 <label for="cpu-select" style="margin-right: 15px; font-weight: 700; font-size: 24px;">CPU:</label>
                 <select id="cpu-select" style="padding: 20px; font-size: 22px; border: 2px solid #1a54c0; border-radius: 5px; background-color: #fff; color: #000; transition: border-color 0.3s; width: 350px;">
                     <option value="0">Select CPU </option>
+                    <option value="125">AMD Ryzen 9 (125W)</option>
+                    <option value="65">Intel Core i3 (65W)</option>
+                    <option value="95">Intel Core i5 (95W)</option>
+                    <option value="125">Intel Core i7 (125W)</option>
+                    <option value="135">Intel Core i9 (135W)</option>
                     <option value="65">Ryzen 3 (65W)</option>
                     <option value="95">Ryzen 5 (95W)</option>
                     <option value="105">Ryzen 7 (105W)</option>
@@ -219,8 +224,14 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
                 <label for="gpu-select" style="margin-right: 15px; font-weight: 700; font-size: 24px;">GPU:</label>
                 <select id="gpu-select" style="padding: 20px; font-size: 22px; border: 2px solid #1a54c0; border-radius: 5px; background-color: #fff; color: #000; transition: border-color 0.3s; width: 350px;">
                     <option value="0">Select GPU</option>
+                    <option value="150">AMD Radeon RX 6600 (150W)</option>
+                    <option value="200">AMD Radeon RX 6700 (200W)</option>
+                    <option value="250">AMD Radeon RX 6800 (250W)</option>
+                    <option value="300">AMD Radeon RX 6900 (300W)</option>
                     <option value="170">NVIDIA RTX 3060 (170W)</option>
                     <option value="220">NVIDIA RTX 3070 (220W)</option>
+                    <option value="250">NVIDIA RTX 3080 (250W)</option>
+                    <option value="300">NVIDIA RTX 3090 (300W)</option>
                 </select>
             </div>
         </div>

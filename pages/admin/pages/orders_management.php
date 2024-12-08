@@ -91,20 +91,45 @@ $result = $conn->query($sql);
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <div class="col-3">
-            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 100%;">
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item"><a href="#" class="nav-link active">Dashboard</a></li>
-                    <li><a href="#" class="nav-link link-dark">Admin Profile</a></li>
-                    <li><a href="#" class="nav-link link-dark">Payments List</a></li>
-                    <li><a href="#" class="nav-link link-dark">Inventory Management</a></li>
-                    <li><a href="#" class="nav-link link-dark">Orders Management</a></li>
-                </ul>
-            </div>
+<div class="container-fluid" style="padding: 50px;">
+        <div class="row">
+            <!-- Sidebar Section -->
+            <div class="col-md-2 admin-sidebar" style="background-color: #1A54C0; border-radius: 20px; margin-right: 35px; margin-left: 68px; box-shadow: 0 4px 10px #888383;">
+                <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%; margin-top: 30px;">
+                    <ul class="nav nav-pills flex-column mb-auto">
+           
+                        <li>
+                            <a href="admin_dashboard.php" class="nav-link link-light">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="inventory_management.php" class="nav-link link-light">
+                                Inventory Management
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link link-light active" aria-current="page">
+                                Orders Management
+                            </a>
+                        </li>
+                        <li>
+                            <a href="payment_list.php" class="nav-link link-light">
+                                Payments List
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="container-fluid admin-dropdown">
+                <div class="d-flex justify-content-end">
+        <div class="dropdown" style="background-color: #fff; margin-top: 355px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
+        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
+                <a href="../../user/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
+            </a>
         </div>
+    </div>
+</div>
+                </div>
+            </div>
 
         <!-- Orders Management -->
         <div class="col-9">

@@ -91,57 +91,46 @@
     </div>
 </nav>
 
-<!-- Main Content -->
-<div class="container-fluid" style="padding: 50px">
-    <div class="row">
-        <!-- 1st Column: Sidebar -->
-        <div class="col-3">
-            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 100%;">
-         
-                <hr>
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link link-dark" aria-current="page">
-                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-                            Admin Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link active">
-                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-                            Payments List
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-                            Inventory Management
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                            Orders Management
-                        </a>
-                    </li>
-                </ul>
-                <hr>
-                <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong>John Kenny Q. Reyes</strong>
-                    </a>
-                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+<div class="container-fluid" style="padding: 50px;">
+        <div class="row">
+            <!-- Sidebar Section -->
+            <div class="col-md-2 admin-sidebar" style="background-color: #1A54C0; border-radius: 20px; margin-right: 35px; margin-left: 68px; box-shadow: 0 4px 10px #888383;">
+                <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 100%; margin-top: 30px;">
+                    <ul class="nav nav-pills flex-column mb-auto">
+           
+                        <li>
+                            <a href="admin_dashboard.php" class="nav-link link-light">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="inventory_management.php" class="nav-link link-light">
+                                Inventory Management
+                            </a>
+                        </li>
+                        <li>
+                            <a href="orders_management.php" class="nav-link link-light">
+                                Orders Management
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link link-light active" aria-current="page">
+                                Payments List
+                            </a>
+                        </li>
                     </ul>
+                    <div class="container-fluid admin-dropdown">
+                <div class="d-flex justify-content-end">
+        <div class="dropdown" style="background-color: #fff; margin-top: 355px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
+        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
+                <a href="../../user/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
+            </a>
+        </div>
+    </div>
+</div>
                 </div>
             </div>
-        </div>
+
 
         <!-- 2nd Column: Inventory -->
         <div class="col-9">
