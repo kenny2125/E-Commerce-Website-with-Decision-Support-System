@@ -65,7 +65,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>Document</title>
-    
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
 <body style="background-color: #EBEBEB";>
 <!-- Navigation -->
