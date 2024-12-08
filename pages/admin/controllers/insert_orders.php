@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($conn->query($sql) === TRUE) {
         // Redirect back to orders management page with success message
-        header("Location: orders_management.php?success=Order added successfully.");
+        header("Location: ../orders_management.php?success=Order added successfully.");
         exit;
     } else {
         // Error handling

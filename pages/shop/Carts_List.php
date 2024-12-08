@@ -232,7 +232,7 @@ $result = $conn->query($sql);
 
 <div class="container mt-5">
     <h3>Cart List</h3>
-    <form method="POST" action="checkout_carting.php">
+    <form method="POST" action="Checkout.php">
         <div class="row">
             <?php
             if ($result->num_rows > 0) {
