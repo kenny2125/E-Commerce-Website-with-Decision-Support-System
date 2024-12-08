@@ -25,13 +25,7 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
     // Use the cached products data
     $products = $_SESSION['products_cache'];
 } else {
-    // No cache or cache expired, fetch products from the database
-    $host = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-    $username = "vg2eweo4yg8eydii";
-    $password = "rccstjx3or46kpl9";
-    $db_name = "s0gp0gvxcx3fc7ib";
 
-    $conn = new mysqli($host, $username, $password, $db_name);
 
     // Prepare the SQL query to fetch products
     $query = "SELECT * FROM tbl_products";

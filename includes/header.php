@@ -26,11 +26,19 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
             <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
         </a>
         
-        <!-- Search Bar -->
-        <form action="pages/shop/Products_List.php" method="get" class="d-flex search-bar">
-            <input class="form-control me-2" type="search" name="search_query" placeholder="Search for product(s)" aria-label="Search" value="<?php echo isset($_SESSION['search_query']) ? $_SESSION['search_query'] : ''; ?>">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+<!-- Search Bar -->
+            <form action="<?php echo basename($_SERVER['SCRIPT_NAME']) === 'Products_List.php' ? 'Products_List.php' : 'pages/shop/Products_List.php'; ?>" 
+                method="get" 
+                class="d-flex search-bar">
+                <input class="form-control me-2" 
+                    type="search" 
+                    name="search_query" 
+                    placeholder="Search for product(s)" 
+                    aria-label="Search" 
+                    value="<?php echo isset($_SESSION['search_query']) ? $_SESSION['search_query'] : ''; ?>">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
         
         <!-- User-specific Content -->
         <?php if ($isLoggedIn === true): ?>
