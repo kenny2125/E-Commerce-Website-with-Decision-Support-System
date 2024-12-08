@@ -25,7 +25,7 @@ if ($data && isset($data['data']['attributes']['type'])) {
     // Extract the "type" to determine the event type
     $eventType = $data['data']['attributes']['type'];
 
-    if ($eventType == 'payment.refund') {
+    if ($eventType == 'payment.refunded') {
         // Extract the refund ID and payment ID from the PayMongo webhook payload
         $refundID = $data['data']['id'] ?? null;
         $paymentID = $data['data']['attributes']['payment_id'] ?? null;
