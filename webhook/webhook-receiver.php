@@ -22,11 +22,14 @@ $data = json_decode($input, true);
 file_put_contents('webhook.log', $input . PHP_EOL, FILE_APPEND);
 
 if ($data && isset($data['data']['attributes']['type'])) {
-    // Extract the "type" to determine the event type (payment.paid)
+    // Extract the "type" to determine the event type (e.g., payment.paid)
     $eventType = $data['data']['attributes']['type'];
 
     if ($eventType == 'payment.paid') {
-        // Extract the payment details from the 'payment.paid' event
+        // Extract the payment ID from the PayMongo webhook payload
+        $paymongoPayID = isset($data['data']['id']) ? $data['data']['id'] : null;
+
+        // Extract the payment details
         $attributes = $data['data']['attributes']['data']['attributes'];
         $amount = isset($attributes['amount']) ? $attributes['amount'] / 100 : 0; // Convert amount to decimal
         $fee = isset($attributes['fee']) ? $attributes['fee'] / 100 : 0; // Convert fee to decimal
@@ -48,38 +51,33 @@ if ($data && isset($data['data']['attributes']['type'])) {
             VALUES 
             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
-        
-// Insert the payment data into the database
-            $stmt = $conn->prepare("
-                INSERT INTO tbl_payments 
-                (paymongo_payment_ID, amount, fee, net_amount, status, external_reference_number, source_type, created_at, updated_at, cust_name, phone) 
-                VALUES 
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ");
 
-            $stmt->bind_param("sddssssssss", 
-                $data['data']['id'], // paymongo_payment_ID
-                $amount, 
-                $fee, 
-                $netAmount, 
-                $status, 
-                $externalReferenceNumber, 
-                $sourceType, 
-                $createdAt, 
-                $updatedAt,
-                $customerName,
-                $phone
-            );
+        $stmt->bind_param(
+            "sddssssssss",
+            $paymongoPayID, // paymongo_payment_ID
+            $amount, 
+            $fee, 
+            $netAmount, 
+            $status, 
+            $externalReferenceNumber, 
+            $sourceType, 
+            $createdAt, 
+            $updatedAt,
+            $customerName,
+            $phone
+        );
 
-            // Execute the insert statement
-            if ($stmt->execute()) {
-                http_response_code(200); // Success - 200 OK
-                echo "Inserted new payment record successfully (payment.paid).";
-            } else {
-                file_put_contents('webhook_error.log', "DB Error (Insert): " . $stmt->error . PHP_EOL, FILE_APPEND);
-                http_response_code(500); // Internal server error
-                echo "Failed to insert new payment record (payment.paid).";
-            }
+        // Execute the insert statement
+        if ($stmt->execute()) {
+            http_response_code(200); // Success - 200 OK
+            echo "Inserted new payment record successfully (payment.paid).";
+        } else {
+            file_put_contents('webhook_error.log', "DB Error (Insert): " . $stmt->error . PHP_EOL, FILE_APPEND);
+            http_response_code(500); // Internal server error
+            echo "Failed to insert new payment record (payment.paid).";
+        }
+
+        $stmt->close();
     } else {
         // Invalid event type
         http_response_code(400); // Bad Request
