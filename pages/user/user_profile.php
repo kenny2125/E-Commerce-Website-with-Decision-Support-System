@@ -90,6 +90,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/information.css">
 </head>
+
+<style>
+    .sidebar-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        cursor: pointer;
+        color: #FFFFFF;
+        margin-bottom: 5px;
+    }
+
+    .sidebar-item.active {
+        background-color: #007bff; /* Highlight color */
+        border-radius: 8px;
+    }
+
+    .sidebar-item .icon {
+        margin-right: 10px;
+    }
+</style>
+
 <body>
     <!-- Header Section with Search Bar and Logo -->
     <!-- <link rel="stylesheet" href="../../assets/css/index.css"> -->
@@ -134,20 +155,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     </div>
 </nav>
 
-    
     <div class="container">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 sidebar">
-                <div class="sidebar-item active" id="myProfile">
+            <div class="col-md-3 sidebar" style="background-color: #1A54C0; padding: 30px; border-radius: 20px">
+                <div class="sidebar-item" id="myProfile">
                     <span class="material-icons icon">person</span>
-                    <span>My Profile</span>
+                    <span class="tab">My Profile</span>
                 </div>
                 <div class="sidebar-item" id="orderHistorySidebar">
                     <span class="material-icons icon">history</span>
-                    <span>Order History</span>
+                    <span class="tab">Order History</span>
                 </div>
-                <a href="logout.php" class="btn btn-danger ml-2">Log Out</a>
+                <a href="logout.php" class="btn btn-danger ml-2" style="margin-top: 350px; margin-left: 55px;">Log Out</a>
             </div>
             
             <!-- Profile Content -->
@@ -169,6 +189,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                             <div class="col-md-4">
                                 <label>Last Name</label>
                                 <input type="text" name="last_name" id="lastName" value="<?= $user['last_name']; ?>" disabled>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Age</label>
+                                <input type="text" name="age" id="age" value="<?= $user['age']; ?>" disabled>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Gender</label>
+                                <input type="text" name="gender" id="gender" value="<?= $user['gender']; ?>" disabled>
                             </div>
                         </div>
                         
@@ -194,9 +222,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                                 <label>Contact Number</label>
                                 <input type="text" name="contact_number" id="contactNumber" value="<?= $user['contact_number']; ?>" disabled>
                             </div>
-                        </div>
-
-                        <div class="row mt-3">
                             <div class="col-md-12">
                                 <label>Email</label>
                                 <input type="email" name="email" id="email" value="<?= $user['email']; ?>" disabled>
@@ -357,30 +382,47 @@ $conn->close();
         </div>
     </div>
 </div>
-    <script>
-        document.getElementById('myProfile').addEventListener('click', function() {
-            document.getElementById('profileContent').style.display = 'block';
-            document.getElementById('orderHistoryContent').style.display = 'none';
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Show only "My Profile" content by default
+        document.getElementById('profileContent').style.display = 'block';
+        document.getElementById('orderHistoryContent').style.display = 'none';
+
+        // Highlight "My Profile" tab by default
+        document.getElementById('myProfile').classList.add('active');
+    });
+
+    // Event listener for "My Profile" tab
+    document.getElementById('myProfile').addEventListener('click', function () {
+        // Show "My Profile" content and hide "Order History" content
+        document.getElementById('profileContent').style.display = 'block';
+        document.getElementById('orderHistoryContent').style.display = 'none';
+
+        // Update tab highlight
+        setActiveTab(this);
+    });
+
+    // Event listener for "Order History" tab
+    document.getElementById('orderHistorySidebar').addEventListener('click', function () {
+        // Show "Order History" content and hide "My Profile" content
+        document.getElementById('orderHistoryContent').style.display = 'block';
+        document.getElementById('profileContent').style.display = 'none';
+
+        // Update tab highlight
+        setActiveTab(this);
+    });
+
+    // Function to update active tab highlight
+    function setActiveTab(activeTab) {
+        // Remove "active" class from all sidebar items
+        var tabs = document.querySelectorAll('.sidebar-item');
+        tabs.forEach(function (tab) {
+            tab.classList.remove('active');
         });
 
-        document.getElementById('orderHistorySidebar').addEventListener('click', function() {
-            document.getElementById('orderHistoryContent').style.display = 'block';
-            document.getElementById('profileContent').style.display = 'none';
-        });
-
-        document.getElementById('editProfile').addEventListener('click', function() {
-            // Toggle the disabled attribute of the inputs
-            var inputs = document.querySelectorAll('#firstName, #middleInitial, #lastName, #username, #password, #address, #contactNumber, #email');
-            var saveButton = document.getElementById('saveProfile');
-            
-            inputs.forEach(function(input) {
-                input.disabled = false;
-            });
-
-            // Hide the "Edit Profile" button and show the "Save Changes" button
-            this.style.display = 'none';
-            saveButton.style.display = 'inline-block';
-        });
-    </script>
+        // Add "active" class to the selected tab
+        activeTab.classList.add('active');
+    }
+</script>
 </body>
 </html>
