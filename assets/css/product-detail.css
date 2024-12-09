@@ -112,25 +112,10 @@ body {
     }
 }
 
-.row{
-    margin-bottom: -150px;
-}
 
-.col-md-3 {
-    background-color: #FFF;
-    width: 29%;
-    margin-left: 7px;
-    margin-right: 50px;
-    margin-top: 80px;
-    margin-bottom: 270px;
-    box-shadow: 0 2px 8px #1A54C0;
-    border-radius: 30px;
-}
 
 .mx-2 {
-    width: 50px; 
-    text-align: center;
-    margin-left: 105px;
+    
 }
 
 /* Hide the input number controls */
@@ -171,7 +156,6 @@ body {
 .text-justify {
     text-align: justify;
 }
-
 
 .modal-content {
     border-radius: 8px;

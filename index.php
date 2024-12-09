@@ -29,6 +29,7 @@
     }
     $conn->close();
 ?>
+
     <!-- Carousel -->
 <div id="carouselWithInterval" class="carousel slide mx-6" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -59,7 +60,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Featured Products -->
 <div class="featured-products-wrapper" style="margin-bottom: 100px;">
