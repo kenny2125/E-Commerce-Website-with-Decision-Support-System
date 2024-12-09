@@ -81,8 +81,10 @@ include '../../config/db_config.php';
             KM 78 MC ARTHUR HI-WAY BRGY.SAGUIN, San Fernando, Philippines, 2000
         </p>
     </div>
-
 </div>
+</div>
+<?php
+include '../../includes/footer.php';
+?>
 </body>
-
 </html>
