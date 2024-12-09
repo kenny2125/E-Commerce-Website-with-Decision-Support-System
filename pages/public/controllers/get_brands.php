@@ -1,5 +1,5 @@
 <?php
-include('db_config.php');
+include '../../../config/db_config.php';
 
 // Get the selected category from the URL parameter
 $selected_category = $_GET['category']; // e.g., 'CPU'
