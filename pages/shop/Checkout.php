@@ -147,7 +147,7 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
                 <p class="mb-1" style="text-align: left;">Product subtotal: <span class="float-end" id="product-subtotal">₱<?php echo number_format($subtotal, 2); ?></span></p>
                 <p class="mb-1" style="text-align: left;">COD shipping: <span class="float-end" id="shipping-fee">₱<?php echo number_format($shipping_fee, 2); ?></span></p>
                 <hr>
-                <p><strong>Total payment: <span class="float-end text-danger" id="total-payment">₱<?php echo number_format($subtotal + $shipping_fee, 2); ?></span></strong></p>
+                <p style="text-align: left;"><strong>Total payment: <span class="float-end text-danger" id="total-payment">₱<?php echo number_format($subtotal + $shipping_fee, 2); ?></span></strong></p>
             </div>
             <input type="hidden" name="amount" value="<?php echo ($subtotal + $shipping_fee) * 100; ?>"> <!-- Dummy amount in cents -->
             <input type="hidden" id="selected_products" name="selected_products" value=""> <!-- Hidden field for selected product IDs -->

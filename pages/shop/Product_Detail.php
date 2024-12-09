@@ -14,7 +14,7 @@
 <body>
 
 <?php
-// include '../../includes/header.php';
+include '../../includes/header.php';
 include '../../config/db_config.php';
 
 // Product ID from URL or testing
@@ -83,233 +83,39 @@ $user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
 // }
     
 ?>
-<?php
-session_start(); // Start the session
-
-// Check if the user is logged in
-$isLoggedIn = $_SESSION['isLoggedIn'] ?? false; // Safe check for isLoggedIn
-
-// Check if the user is an admin
-$isAdmin = ($_SESSION['role'] ?? '') === 'admin'; // Check if role is 'admin'
-
-// Load the user ID
-$user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
-
-// Debugging (optional, can be removed in production)
-// echo "<h2>Session Data (Debugging)</h2>";
-// if (!empty($_SESSION)) {
-//     echo "<pre>";
-//     print_r($_SESSION);
-//     echo "</pre>";
-// } else {
-//     echo "<p>No session data available.</p>";
-// }
-    
-?>
-
-
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-        <!-- Clickable Logo -->
-        <a href="/index.php">
-            <img src="/assets/images/rpc-logo-black.png" alt="Logo" class="logo">
-        </a>
-        
-<!-- Search Bar -->
-            <form action="<?php echo basename($_SERVER['SCRIPT_NAME']) === 'Products_List.php' ? 'Products_List.php' : '/pages/shop/Products_List.php'; ?>" 
-                method="get" 
-                class="d-flex search-bar">
-                <input class="form-control me-2" 
-                    type="search" 
-                    name="search_query" 
-                    placeholder="Search for product(s)" 
-                    aria-label="Search" 
-                    value="<?php echo isset($_SESSION['search_query']) ? $_SESSION['search_query'] : ''; ?>">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-
-        
-        <!-- User-specific Content -->
-        <?php if ($isLoggedIn === true): ?>
-            <!-- If logged in, display welcome message and role -->
-            <div class="navbar-text d-flex align-items-center">
-                <div class="icon-container">
-                    <!-- Cart and Profile Links -->
-                    <a href="/pages/shop/Carts_List.php">
-                        <img src="/assets/images/Group 204.png" alt="Cart Icon">
-                    </a>
-                    <a href="/pages/user/user_profile.php">
-                        <img src="/assets/images/Group 48.png" alt="Profile Icon">
-                    </a>
-
-                    <!-- Admin Link (only visible to admins) -->
-                    <?php if ($isAdmin): ?>
-                        <a href="/pages/admin/admin_dashboard.php" class="btn btn-outline-danger ms-3">
-                            Admin Dashboard
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php else: ?>
-            <!-- If not logged in, show login button -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Log In</button>
-        <?php endif; ?>
-    </div>
-</nav>
-
-
-<!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-2" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="border-radius: 20px;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">
-                    <img src="/assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
-                </h5>
-            </div>
-            <div class="modal-body">
-                <!-- Form content -->
-                <div id="modalContent" class="form-box">
-                    <form id="loginForm">
-                        <div class="input-group">
-                            <label for="username">Username</label>
-                            <input type="text" id="username" name="username" placeholder="eg.jeondanel" required class="input-field">
-                        </div>
-                        <div class="input-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" name="password" placeholder="••••••••" required class="input-field">
-                            <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon" style="cursor: pointer;">
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn login-btn">Login</button>
-                        </div>
-                    </form>
-                </div>
-                <p>Don't have an account? 
-                            <a href="#" class="create-account" data-toggle="modal" data-target="#registrationModal" data-dismiss="modal">Create Account</a>
-                </p>
-
-                <!-- Loading Spinner -->
-                <div id="loadingSpinner" style="text-align: center; display: none; margin-top: 20px;">
-                    <div class="spinner-border text-primary" role="status"></div>
-                    <p>Processing...</p>
-                </div>
-                <!-- Error message -->
-                <div id="loginError" class="error-message" style="color: red; display: none; margin-top: 10px;"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Registration Modal -->
-<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="border-radius: 20px;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registrationModalLabel"></h5>
-                <img src="/assets/images/rpc-logo-black.png" alt="RPC Computer Store" class="rpc-logo">
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="form-box">
-                        <h3>Create an Account</h3>
-                        <p>Already have an account? 
-                            <a href="#" class="create-account" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Log In</a>
-                        </p>
-                        <form action="/pages/user/user_register.php" method="post" onsubmit="return validateForm()">
-                            <div class="row">
-                                <div class="input-group">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" id="firstName" placeholder="eg. Danel" name="firstName" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="middleInitial">M.I</label>
-                                    <input type="text" id="middleInitial" placeholder="eg. T." name="middleInitial" class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" id="lastName" placeholder="eg. Oandasan" name="lastName" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="gender">Gender</label>
-                                    <input type="text" id="gender" placeholder="eg. Female" name="gender" class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="address">Address</label>
-                                    <input type="text" id="address" placeholder="eg. BLK 5 LOT 6 SAMMAR 1 HOA Luzon Ave. Old Balara, Quezon City" name="address" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" placeholder="eg. danel@gmail.com" name="email" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="age">Age</label>
-                                    <input type="number" id="age" placeholder="eg. 18" name="age" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="contactNumber">Contact Number</label>
-                                    <input type="text" id="contactNumber" placeholder="eg. 09123456789" name="contactNumber" required class="input-field">
-                                </div>
-                                <div class="input-group">   
-                                    <label for="username">Username</label>
-                                    <input type="text" id="username" placeholder="eg. jeondanel" name="username" required class="input-field">
-                                </div>
-                                <div class="input-group">
-                                    <label for="passwordReg">Password</label>
-                                    <input type="password" id="passwordReg" class="form-control input-field" placeholder="Enter password" name="passwordReg" required>
-                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon1" style="cursor: pointer;">
-                                </div>
-                                <div id="passwordFeedback" class="feedback"></div>
-                                <div class="input-group">
-                                    <label for="confirmPassword">Confirm Password</label>
-                                    <input type="password" id="confirmPassword" class="form-control input-field" placeholder="Confirm password" name="confirmPassword" required>
-                                    <img src="/assets/images/closed.png" alt="Toggle Password" class="toggle-password" id="togglePasswordIcon2" style="cursor: pointer;">
-                                </div>
-                                <div id="confirmPasswordFeedback" class="feedback"></div>
-                            </div>
-                            <div class="terms">
-                                <input type="checkbox" name="terms" required/> Agree to <a href="#">Terms and Conditions</a>
-                            </div>
-                            <button type="submit" name="signUp" class="btn btn-primary mt-3">SIGN UP</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="container my-5">
-    <div class="row">
-        <div class="col-md-3 text-center">
-            <?php
-            $imgSrc = $product['img_data']
-                ? 'data:image/jpeg;base64,' . base64_encode($product['img_data'])
-                : 'path/to/default-image.jpg';
-            ?>
-            <img src="<?php echo $imgSrc; ?>" class="img-fluid rounded" alt="Product Image">
-        </div>
+    <div class="row" style="margin-top: 80px;">
+    <div class="col-md-3 text-center" style="background-color: #FFF; width: 380px; height: 400px; margin-left: 7px; margin-right: 50px; margin-top: -10px; margin-bottom: 100px; box-shadow: 0 2px 8px #1A54C0; border-radius: 30px; overflow: hidden;">
+    <?php
+    $imgSrc = $product['img_data']
+        ? 'data:image/jpeg;base64,' . base64_encode($product['img_data'])
+        : 'path/to/default-image.jpg';
+    ?>
+    <img src="<?php echo $imgSrc; ?>" class="img-fluid rounded" alt="Product Image" style="object-fit: contain; width: 100%; height: 100%;">
+</div>
+
         <div class="col-md-4">
-            <h2 class="fw-bold"><?php echo htmlspecialchars($product['product_name']); ?></h2>
-            <p><strong>Stock Available:</strong> 
+            <h2 class="fw-bold" ><?php echo htmlspecialchars($product['product_name']); ?></h2>
+            <p style="text-align: left; font-size: 18px;"><strong>Stock Available:</strong> 
                 <?php if ($product['quantity'] > 0): ?>
                     <span class="text-success">In Stock</span>
                 <?php else: ?>
                     <span class="text-danger">Out of Stock</span>
                 <?php endif; ?>
             </p>
-            <p><strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?></p>
-            <p class="text-justify"><strong>Description:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
+            <p style="text-align: left; font-size: 18px;"><strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?></p> 
+            <p style="text-align: justify; font-size: 18px;"><strong>Description:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
 
             <form id="addToCartForm" method="post">
                 <input type="hidden" name="product_id" value="<?php echo $product['product_ID']; ?>">
                 <div class="d-flex align-items-center my-3">
                     <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity(-1)">-</button>
-                    <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" required>
+                    <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" style="width: 50px; text-align: center; margin-left: 105px;" required>
                     <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity(1)">+</button>
                 </div>
                 <?php if ($product['quantity'] > 0): ?>
-                    <button type="submit" class="btn btn-primary" style="margin-left: 40px;">Add to Cart</button>
+                    <button type="submit" class="btn btn-primary" style="height: 40px; font-size: 16px; border-radius: 74px; background-color: #1A54C0; padding: 0 25px; margin-left: 40px; position: relative; right: 40px; /* Move the login button to the left */ color: #FFFFFF;">Add to Cart</button>
                 <?php else: ?>
                     <button type="button" class="btn btn-secondary" style="margin-left: 40px;" disabled>Out of Stock</button>
                 <?php endif; ?>
@@ -317,7 +123,7 @@ $user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
             </form>
             <div id="cartMessage" class="mt-3"></div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="text-align: justify; font-size: 18px;">
             <h4 class="fw-bold">Specification</h4>
             <ul>
                 <?php
