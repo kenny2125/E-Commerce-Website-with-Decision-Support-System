@@ -112,7 +112,7 @@
 
 
     .category-cards-wrapper {
-        overflow-x: auto;
+        
         display: flex;
         flex-wrap: wrap;
         max-height: 400px; /* Restrict the height to 2 rows */
