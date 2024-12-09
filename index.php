@@ -18,7 +18,7 @@
         include 'includes/header.php';
         include 'config/db_config.php';
     // Fetch products from the database
-    $sql = "SELECT product_ID, product_name, srp, img_data FROM tbl_products LIMIT 6";
+    $sql = "SELECT product_ID, product_name, store_price, img_data FROM tbl_products LIMIT 6";
     $result = $conn->query($sql);
 
     $products = [];
@@ -89,7 +89,7 @@
             <div class="card-body">
                 <h5 class="card-title"><?php echo htmlspecialchars($product['product_name']); ?></h5>
                 <p class="card-text">
-                    <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
+                    <strong>Price:</strong> ₱<?php echo number_format($product['store_price'], 2); ?><br>
                 </p>
             </div>
             
@@ -119,68 +119,6 @@
 <?php include 'includes/footer.php'; ?>
 </body>
 </html>
-
-<script>
-    $(document).ready(function() {
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault();
-
-        var username = $('#username').val();
-        var password = $('#password').val();
-
-        $.ajax({
-            url: 'path_to_user_login.php', // Adjust path as necessary
-            method: 'POST',
-            data: { username: username, password: password },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status == 'success') {
-                    // Update UI based on response
-                    $('#loginModal').modal('hide');
-                    location.reload(); // Reload to show updated user information
-                } else {
-                    // Show error message
-                    $('#loginError').text(response.message);
-                }
-            },
-            error: function() {
-                $('#loginError').text('An error occurred. Please try again.');
-            }
-        });
-    });
-});
-</script>
-
-<script>
-    $(document).ready(function() {
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault();
-
-        var username = $('#username').val();
-        var password = $('#password').val();
-
-        $.ajax({
-            url: 'path_to_user_login.php', // Adjust path as necessary
-            method: 'POST',
-            data: { username: username, password: password },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status == 'success') {
-                    // Update UI based on response
-                    $('#loginModal').modal('hide');
-                    location.reload(); // Reload to show updated user information
-                } else {
-                    // Show error message
-                    $('#loginError').text(response.message);
-                }
-            },
-            error: function() {
-                $('#loginError').text('An error occurred. Please try again.');
-            }
-        });
-    });
-});
-</script>
 
 
 <script>

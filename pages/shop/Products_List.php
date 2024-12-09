@@ -21,16 +21,11 @@
 include '../../includes/header.php';
 include '../../config/db_config.php';
 
-
-
 // Get the search query from session if available
 $searchQuery = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : '';
 
-// You can now use $searchQuery in your SQL query to filter results based on the search
-if ($searchQuery) {
-    $sql = "SELECT * FROM tbl_products WHERE product_name LIKE '%$searchQuery%'";
-    // Continue with your database query
-}
+// Get the category filter if present
+$categoryFilter = isset($_GET['category']) ? $_GET['category'] : '';
 
 // Cache expiration time (in seconds)
 $cacheExpirationTime = 60 * 30; // 5 minutes (adjust as needed)
@@ -44,9 +39,20 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
     $products = $_SESSION['products_cache'];
 } else {
 
-
     // Prepare the SQL query to fetch products
     $query = "SELECT * FROM tbl_products";
+    
+    // Add category filter if set
+    if (!empty($categoryFilter)) {
+        $query .= " WHERE category = '$categoryFilter'";
+    }
+    
+    // Prepare for search filter
+    if (!empty($searchQuery)) {
+        $query .= !empty($categoryFilter) ? " AND product_name LIKE '%$searchQuery%'" : " WHERE product_name LIKE '%$searchQuery%'";
+    }
+
+    // Execute the query
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $result = $stmt->get_result();

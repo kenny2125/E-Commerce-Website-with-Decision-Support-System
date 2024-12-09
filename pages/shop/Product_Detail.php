@@ -83,47 +83,49 @@ $user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
 // }
     
 ?>
-
 <div class="container my-5">
     <div class="row" style="margin-top: 80px;">
-    <div class="col-md-3 text-center" style="background-color: #FFF; width: 380px; height: 400px; margin-left: 7px; margin-right: 50px; margin-top: -10px; margin-bottom: 100px; box-shadow: 0 2px 8px #1A54C0; border-radius: 30px; overflow: hidden;">
-    <?php
-    $imgSrc = $product['img_data']
-        ? 'data:image/jpeg;base64,' . base64_encode($product['img_data'])
-        : 'path/to/default-image.jpg';
-    ?>
-    <img src="<?php echo $imgSrc; ?>" class="img-fluid rounded" alt="Product Image" style="object-fit: contain; width: 100%; height: 100%;">
-</div>
+        <!-- Product Image Column -->
+        <div class="col-12 col-md-3 text-center d-flex justify-content-center" style="background-color: #FFF; height: 400px; margin-left: 7px; margin-right: 50px; margin-top: -10px; margin-bottom: 100px; box-shadow: 0 2px 8px #1A54C0; border-radius: 30px; overflow: hidden;">
+            <?php
+            $imgSrc = $product['img_data']
+                ? 'data:image/jpeg;base64,' . base64_encode($product['img_data'])
+                : 'path/to/default-image.jpg';
+            ?>
+            <img src="<?php echo $imgSrc; ?>" class="img-fluid rounded" alt="Product Image" style="object-fit: contain; max-width: 100%; max-height: 100%;">
+        </div>
 
-        <div class="col-md-4">
-            <h2 class="fw-bold" ><?php echo htmlspecialchars($product['product_name']); ?></h2>
-            <p style="text-align: left; font-size: 18px;"><strong>Stock Available:</strong> 
+        <!-- Product Info Column -->
+        <div class="col-12 col-md-4">
+            <h2 class="fw-bold"><?php echo htmlspecialchars($product['product_name']); ?></h2>
+            <p style="text-align: left; font-size: 18px;"><strong>Stock Available:</strong>
                 <?php if ($product['quantity'] > 0): ?>
                     <span class="text-success">In Stock</span>
                 <?php else: ?>
                     <span class="text-danger">Out of Stock</span>
                 <?php endif; ?>
             </p>
-            <p style="text-align: left; font-size: 18px;"><strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?></p> 
+            <p style="text-align: left; font-size: 18px;"><strong>Price:</strong> ₱<?php echo number_format($product['store_price'], 2); ?></p>
             <p style="text-align: justify; font-size: 18px;"><strong>Description:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
 
             <form id="addToCartForm" method="post">
                 <input type="hidden" name="product_id" value="<?php echo $product['product_ID']; ?>">
                 <div class="d-flex align-items-center my-3">
                     <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity(-1)">-</button>
-                    <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" style="width: 50px; text-align: center; margin-left: 105px;" required>
+                    <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" style="width: 50px; text-align: center;" required>
                     <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity(1)">+</button>
                 </div>
                 <?php if ($product['quantity'] > 0): ?>
-                    <button type="submit" class="btn btn-primary" style="height: 40px; font-size: 16px; border-radius: 74px; background-color: #1A54C0; padding: 0 25px; margin-left: 40px; position: relative; right: 40px; /* Move the login button to the left */ color: #FFFFFF;">Add to Cart</button>
+                    <button type="submit" class="btn btn-primary" style="height: 40px; font-size: 16px; border-radius: 74px; background-color: #1A54C0; ">Add to Cart</button>
                 <?php else: ?>
-                    <button type="button" class="btn btn-secondary" style="margin-left: 40px;" disabled>Out of Stock</button>
+                    <button type="button" class="btn btn-secondary" disabled>Out of Stock</button>
                 <?php endif; ?>
-
             </form>
             <div id="cartMessage" class="mt-3"></div>
         </div>
-        <div class="col-md-4" style="text-align: justify; font-size: 18px;">
+
+        <!-- Product Specifications Column -->
+        <div class="col-12 col-md-4" style="text-align: justify; font-size: 18px;">
             <h4 class="fw-bold">Specification</h4>
             <ul>
                 <?php
@@ -139,6 +141,7 @@ $user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
         </div>
     </div>
 </div>
+
 
 <!-- Footer -->
 <?php include '../../includes/footer.php'; ?>
