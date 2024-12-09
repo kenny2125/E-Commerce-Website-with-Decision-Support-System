@@ -6,30 +6,9 @@
     <title>Profile Page</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/information.css">
+    <link rel="stylesheet" href="../../assets/css/user_profile.css">
     <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
-
-<style>
-    .sidebar-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 20px;
-        cursor: pointer;
-        color: #FFFFFF;
-        margin-bottom: 5px;
-    }
-
-    .sidebar-item.active {
-        background-color: #007bff; /* Highlight color */
-        border-radius: 8px;
-    }
-
-    .sidebar-item .icon {
-        margin-right: 10px;
-    }
-</style>
-
 <body>
 
 <?php
@@ -93,35 +72,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
 }
 ?>
 
-
-    <div class="container">
+    <div class="container" style="display: flex; flex: 1; margin-top: 90px; padding-bottom: 100px;">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 sidebar" style="background-color: #1A54C0; padding: 30px; border-radius: 20px">
-                <div class="sidebar-item" id="myProfile">
-                    <span class="material-icons icon">person</span>
-                    <span class="tab">My Profile</span>
-                </div>
-                <div class="sidebar-item" id="orderHistorySidebar">
-                    <span class="material-icons icon">history</span>
-                    <span class="tab">Order History</span>
-                </div>
-                <a href="logout.php" class="btn btn-danger ml-2" style="margin-top: 350px; margin-left: 55px;">Log Out</a>
-            </div>
+            <div class="col-md-3 sidebar" style="background-color: #1A54C0; padding: 30px; border-radius: 20px; width: 250px; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; position: relative; min-height: 70vh;">
+    <div class="sidebar-item" id="myProfile" style="display: flex; align-items: center; padding: 10px 20px; cursor: pointer; font-size: 16px; color: #FFFFFF; text-transform: capitalize; margin-bottom: 5px; transition: background-color 0.3s ease;">
+        <span class="material-icons icon">person</span>
+        <span class="tab" style="width: 115px;">My Profile</span>
+    </div>
+    <div class="sidebar-item" id="orderHistorySidebar" style="display: flex; align-items: center; padding: 10px 20px; cursor: pointer; font-size: 16px; color: #FFFFFF; text-transform: capitalize; margin-bottom: 5px; transition: background-color 0.3s ease;">
+        <span class="material-icons icon">history</span>
+        <span class="tab" style="width: 115px;">Order History</span>
+    </div>
+    <a href="logout.php" class="btn btn-danger ml-2" style="margin-top: auto; margin-left: 55px;">Log Out</a>
+</div>
+
             
             <!-- Profile Content -->
             <div class="col-md-9 profile-content" id="profileContent">
                 <h2>My Profile</h2>
-                <div class="section-header">Basic Information</div>
                 <form method="POST">
-                    <div class="info-section">
+                    <div class="info-section" style="background-color: #f8f8f8; padding: 10px; margin-top: 20px; height: 380px;">
                         <!-- First Name, M.I., and Last Name in one row -->
                         <div class="row">
                             <div class="col-md-4">
                                 <label>First Name</label>
                                 <input type="text" name="first_name" id="firstName" value="<?= $user['first_name']; ?>" disabled>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-1">
                                 <label>M.I.</label>
                                 <input type="text" name="middle_initial" id="middleInitial" value="<?= $user['middle_initial']; ?>" disabled>
                             </div>
@@ -129,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                                 <label>Last Name</label>
                                 <input type="text" name="last_name" id="lastName" value="<?= $user['last_name']; ?>" disabled>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-1">
                                 <label>Age</label>
                                 <input type="text" name="age" id="age" value="<?= $user['age']; ?>" disabled>
                             </div>
@@ -141,13 +119,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                         
                         <!-- Username and Password in second row, these fields are disabled -->
                         <div class="row mt-3">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <label>Username</label>
                                 <input type="text" name="username" id="username" value="<?= $user['username']; ?>" disabled>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <label>Password</label>
                                 <input type="password" name="password" id="password" value="********" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Email</label>
+                                <input type="text" name="email" id="email" value="<?= $user['email']; ?>" disabled>
                             </div>
                         </div>
 
@@ -160,10 +142,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                             <div class="col-md-6">
                                 <label>Contact Number</label>
                                 <input type="text" name="contact_number" id="contactNumber" value="<?= $user['contact_number']; ?>" disabled>
-                            </div>
-                            <div class="col-md-12">
-                                <label>Email</label>
-                                <input type="email" name="email" id="email" value="<?= $user['email']; ?>" disabled>
                             </div>
                         </div>
                     </div>
@@ -257,8 +235,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     }
     $conn->close();
     ?>
+
+        </div>
+    </div>
+</div>
         <?php
-    // include '../../includes/footer.php';
+    include '../../includes/footer.php';
 ?>
         </div>
 
@@ -269,7 +251,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Show only "My Profile" content by default
         document.getElementById('profileContent').style.display = 'block';
         document.getElementById('orderHistoryContent').style.display = 'none';
 

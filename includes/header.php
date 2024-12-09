@@ -42,7 +42,6 @@ $user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
                     value="<?php echo isset($_SESSION['search_query']) ? $_SESSION['search_query'] : ''; ?>">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-
         
         <!-- User-specific Content -->
         <?php if ($isLoggedIn === true): ?>
