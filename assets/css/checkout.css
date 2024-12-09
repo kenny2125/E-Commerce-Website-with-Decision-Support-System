@@ -147,7 +147,7 @@ body {
     padding: 0 25px;
     margin-right: 20px; /* Adjust spacing for better placement */
     position: relative;
-    right: 40px; /* Move the login button to the left */
+    
   }
   
   .btn-primary:hover {

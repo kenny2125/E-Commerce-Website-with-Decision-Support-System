@@ -32,46 +32,7 @@
 
 <body>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/information.css">
-    <link rel="icon" href="/assets/images/rpc-favicon.png">
-</head>
-
-<style>
-    .sidebar-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 20px;
-        cursor: pointer;
-        color: #FFFFFF;
-        margin-bottom: 5px;
-    }
-
-    .sidebar-item.active {
-        background-color: #007bff; /* Highlight color */
-        border-radius: 8px;
-    }
-
-    .sidebar-item .icon {
-        margin-right: 10px;
-    }
-</style>
-
-<body>
-
 <?php
-        include '../../includes/header.php';
-        include '../../config/db_config.php';
-
-
-
 include '../../includes/header.php';
 include '../../config/db_config.php';
 
@@ -99,18 +60,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     $firstName = $_POST['first_name'];
     $middleInitial = $_POST['middle_initial'];
     $lastName = $_POST['last_name'];
-    $username = $_POST['username'];
-    $password = $_POST['password']; // Hash the password before saving
     $address = $_POST['address'];
     $contactNumber = $_POST['contact_number'];
     $email = $_POST['email'];
 
-    // Hash password if changed
-    $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
+    // Hash password only if it's provided, else use the existing password
+    $hashedPassword = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
 
-    // Update user data in the database
-    $updateSql = "UPDATE tbl_user SET first_name = '$firstName', middle_initial = '$middleInitial', last_name = '$lastName', username = '$username', password = '$hashedPassword', address = '$address', contact_number = '$contactNumber', email = '$email' WHERE user_ID = $user_ID";
-    
+    // Update user data in the database (excluding username and password)
+    $updateSql = "UPDATE tbl_user SET 
+                    first_name = '$firstName', 
+                    middle_initial = '$middleInitial', 
+                    last_name = '$lastName', 
+                    address = '$address', 
+                    contact_number = '$contactNumber', 
+                    email = '$email' 
+                    WHERE user_ID = $user_ID";
+
+    // Only add password to the query if it's changed
+    if (!empty($_POST['password'])) {
+        $updateSql .= ", password = '$hashedPassword'";
+    }
+
     if ($conn->query($updateSql)) {
         echo "Profile updated successfully";
         // Refresh the user data after updating
@@ -121,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     }
 }
 ?>
+
 
     <div class="container">
         <div class="row">
@@ -167,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                             </div>
                         </div>
                         
-                        <!-- Username and Password in second row -->
+                        <!-- Username and Password in second row, these fields are disabled -->
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label>Username</label>
@@ -205,150 +177,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                     </div>
                 </form>
             </div>
-
-            <?php
-
-// Make sure the user is logged in
-if (!isset($_SESSION['user_ID'])) {
-    die("You must be logged in to view your order history.");
-}
-
-// Get the user ID from the session
-$userID = $_SESSION['user_ID'];
-
-$conn = new mysqli($host, $username, $password, $db_name);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Fetch orders for the logged-in user, with product names from tbl_products
-$sql = "
-    SELECT o.order_ID, o.payment_status, o.pickup_status, o.order_date, o.total, p.product_name
-    FROM tbl_orders o
-    JOIN tbl_products p ON o.product_ID = p.product_ID
-    WHERE o.user_ID = $userID
-    ORDER BY o.order_date DESC
-";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // Output each row of orders
-    $orderHistory = "";
-    while ($row = $result->fetch_assoc()) {
-        $orderID = $row['order_ID'];
-        $paymentStatus = $row['payment_status'];
-        $pickupStatus = $row['pickup_status'];
-        $orderDate = $row['order_date'];
-        $total = number_format($row['total'], 2);
-        $productName = $row['product_name'];
-
-        // Format order date
-        $orderDateFormatted = date("F j, Y", strtotime($orderDate));
-
-        // Add each order row to the table content
-        $orderHistory .= "
-        <tr>
-            <td>$orderID</td>
-            <td>$productName</td> <!-- Output the product name -->
-            <td><span class='badge bg-" . ($paymentStatus == 'PENDING' ? 'warning' : 'success') . "'>$paymentStatus</span></td>
-            <td><span class='badge bg-" . ($pickupStatus == 'Ready' ? 'primary' : 'secondary') . "'>$pickupStatus</span></td>
-            <td>$orderDateFormatted</td>
-            <td>₱$total</td>
-        </tr>";
+            
+<?php
+    // Make sure the user is logged in
+    if (!isset($_SESSION['user_ID'])) {
+        die("You must be logged in to view your order history.");
     }
-    // Show the order history inside the table
-    echo "
-    <div id='orderHistoryContent' class='order-history'>
-        <h2>Order History</h2>
-        <div class='panel'>
-            <table class='table'>
-                <thead>
-                    <tr>
-                        <th>Order #</th>
-                        <th>Product Name</th>
-                        <th>Payment Status</th>
-                        <th>Pickup Status</th>
-                        <th>Order Date</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    $orderHistory
-                </tbody>
-            </table>
-        </div>
-    </div>";
-} else {
-    echo "<p>No orders found.</p>";
-}
-
-$conn->close();
+    // Get the user ID from the session
+    $userID = $_SESSION['user_ID'];
+    
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    // Fetch orders for the logged-in user, with product names from tbl_products
+    $sql = "
+        SELECT o.order_ID, o.payment_status, o.pickup_status, o.order_date, o.total, p.product_name
+        FROM tbl_orders o
+        JOIN tbl_products p ON o.product_ID = p.product_ID
+        WHERE o.user_ID = $userID
+        ORDER BY o.order_date DESC
+    ";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        // Output each row of orders
+        $orderHistory = "";
+        while ($row = $result->fetch_assoc()) {
+            $orderID = $row['order_ID'];
+            $paymentStatus = $row['payment_status'];
+            $pickupStatus = $row['pickup_status'];
+            $orderDate = $row['order_date'];
+            $total = number_format($row['total'], 2);
+            $productName = $row['product_name'];
+            // Format order date
+            $orderDateFormatted = date("F j, Y", strtotime($orderDate));
+            // Add each order row to the table content
+            $orderHistory .= "
+            <tr>
+                <td>$orderID</td>
+                <td>$productName</td> <!-- Output the product name -->
+                <td><span class='badge bg-" . ($paymentStatus == 'PENDING' ? 'warning' : 'success') . "'>$paymentStatus</span></td>
+                <td><span class='badge bg-" . ($pickupStatus == 'Ready' ? 'primary' : 'secondary') . "'>$pickupStatus</span></td>
+                <td>$orderDateFormatted</td>
+                <td>₱$total</td>
+                <td>
+                    <!-- Cancel Button -->
+                    <form method='POST' action='cancel_order.php'>
+                        <input type='hidden' name='order_ID' value='$orderID'>
+                        <button type='submit' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to cancel this order?\")'>Cancel</button>
+                    </form>
+                </td>
+            </tr>";
+        }
+        // Show the order history inside the table
+        echo "
+        <div id='orderHistoryContent' class='col-md-9 order-history-content'>
+            <h2>Order History</h2>
+            <div class='panel'>
+                <table class='table'>
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Product Name</th>
+                            <th>Payment Status</th>
+                            <th>Pickup Status</th>
+                            <th>Order Date</th>
+                            <th>Total</th>
+                            <th>Action</th> <!-- New column for cancel button -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        $orderHistory
+                    </tbody>
+                </table>
+            </div>
+        </div>";
+    } else {
+        echo "<p>No orders found.</p>";
+    }
+    $conn->close();
+    ?>
+        <?php
+    // include '../../includes/footer.php';
 ?>
-
         </div>
 
     </div>
 
-    <footer class="footer" style="width: 100%; background-color: #122448; color: #fff; font-family: 'Lato', sans-serif; padding: 10px 0; position: relative; bottom: 0;">
-<div class="footer-container" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 10px;">
-    <div class="footer-section" style="flex: 1 1 200px; text-align: left;">
-      <img class="footer-logo" src="/assets/images/rpc-logo-white.png" alt="RPC Tech Computer Store Logo" style="width: 250px; margin-bottom: 10px; margin-left: 10px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Follow Us</p>
-            <a href="https://www.facebook.com/profile.php?id=61567195257950" target="_blank">
-                <img class="footer-social-links" src="/assets/images/fb icon.png" alt="Social Links" style="width: 20px; margin-left: 32px;">
-            </a>
-    </div>
-    
-    <div class="footer-section contact" style="flex: 1 1 200px; text-align: left; margin-top: 90px; margin-left: -50px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Contact Us</p>
-            <p class="footer-contact-item" style="display: flex; align-items: center; margin: 5px 0; font-size: 13px; color: #fff; text-decoration: none;">
-                <img class="icon" src="/assets/images/call-icon.png" alt="Phone Icon" style="width: 15px; margin-right: 10px;"> 09616952829 / 09945657044
-            </p>
-            <p class="footer-contact-item" style="display: flex; align-items: center; margin: 5px 0; font-size: 13px; color: #fff; text-decoration: none;">
-                <a href="mailto:rpctechcomputers@gmail.com"><img class="icon" src="/assets/images/gmail icon.png" alt="Email Icon" style="width: 15px; margin-right: 10px;">rpctechcomputers@gmail.com</a>
-            </p>
-    </div>
-    
-    <div class="footer-section branch" style="flex: 1 1 200px; text-align: left; margin-top: 15px; margin-left: 40px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Branches</p>
-            <p class="footer-branch-item" style="display: flex; align-items: left; margin: 5px 0; color: #fff;">
-                <img class="icon" src="/assets/images/bx-location-plus.png" alt="Branch Icon" style="width: 20px; height: 18px; margin-right: 6px;">Main Branch
-            </p>
-            <p class="footer-branch-address" style="margin: 5px 18px; font-size: 13px; width: 220px; text-align: left; color: #fff;">
-                <a href="https://www.google.com/maps/place/RPC+Tech+Computer/@15.0988169,120.6194883,1059m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3396f1d7698ed943:0x8086f35e9ed733de!8m2!3d15.0988117!4d120.6220632!16s%2Fg%2F11lmmzgj3y?hl=en&entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" target="_blank">KM 78 MC ARTHUR HI-WAY BRGY.SAGUIN, San Fernando, Philippines, 2000</a>
-            </p>
-    </div>
-    
-    <div class="footer-links" style="display: flex; padding-top: 15px; margin-right: 5px; justify-content: flex-start;">
-        <div class="footer-link-column" style="flex: none; margin: 0 13px;">
-            <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Who are we?</p>
-                <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/aboutus.php" style="text-decoration: none; color: #fff; font-size: 14px;">About Us</a></p>
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/faq.php" style="text-decoration: none; color: #fff; font-size: 14px;">FAQ</a></p>
-                    <p style="margin: 0; text-align: left;"><a href="pages/public/contactus.php" style="text-decoration: none; color: #fff; font-size: 14px;">Contact Us</a></p>
-                </div>
-        </div>
-    </div>
+</body>
+</html>
 
-    <div class="footer-link-column" style="flex: none; margin: 15px 13px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Legal Terms</p>
-        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-          <p style="margin: 0; text-align: left;"><a href="pages/public/termconditions.php" style="text-decoration: none; color: #fff; font-size: 14px;">Terms & Conditions</a></p>
-          <p style="margin: 0; text-align: left;"><a href="pages/public/privacy-policy.php" style="text-decoration: none; color: #fff; font-size: 14px;">Privacy Policy</a></p>
-      </div>
-    </div>
-
-    <div class="footer-link-column" style="flex: none; margin: 15px 13px;">
-        <p class="footer-heading" style="text-align: left; font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #fff;">Guides</p>
-        <div class="footer-link-list" style="display: flex; flex-direction: column; gap: 8px; font-weight: 300; text-align: left;">
-            <p style="margin: 0; text-align: left;"><a href="pages/public/purchase-guides.php" style="text-decoration: none; color: #fff; font-size: 14px;">Purchasing Guides</a></p>
-            <p style="margin: 0; text-align: left;"><a href="pages/public/motherboard-chipset.php" style="text-decoration: none; color: #fff; font-size: 14px;">Motherboard Chipset</a></p>
-            <p style="margin: 0; text-align: left;"><a href="pages/public/power-supply-calculator.php" style="text-decoration: none; color: #fff; font-size: 14px;">Power Supply Calculator</a></p>
-        </div>
-    </div>
-</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Show only "My Profile" content by default
@@ -390,6 +308,17 @@ $conn->close();
         // Add "active" class to the selected tab
         activeTab.classList.add('active');
     }
+
+    // Enable the input fields when edit profile is clicked
+    document.getElementById('editProfile').addEventListener('click', function() {
+        var inputs = document.querySelectorAll('#profileContent input');
+        inputs.forEach(function(input) {
+            // Enable all inputs except username and password
+            if (input.id !== 'username' && input.id !== 'password') {
+                input.disabled = false; // Enable all inputs except username and password
+            }
+        });
+        document.getElementById('saveProfile').style.display = 'inline'; // Show save button
+        document.getElementById('editProfile').style.display = 'none'; // Hide edit button
+    });
 </script>
-</body>
-</html>
