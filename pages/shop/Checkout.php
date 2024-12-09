@@ -123,9 +123,9 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
             <h5 class="fw-bold section-title">Purchase Information</h5>
             <!-- Customer Information -->
             <div class="mt-3">
-                <p class="mb-1"><strong>Name:</strong> <span id="customer-name"><?php echo $full_name; ?></span></p>
-                <p class="mb-1"><strong>Contact:</strong> <span id="customer-contact"><?php echo $contact_number; ?></span></p>
-                <p class="mb-3"><strong>Address:</strong> <span id="customer-address"><?php echo $address; ?></span></p>
+                <p class="mb-1" style="text-align: left;"><strong>Name:</strong> <span id="customer-name"><?php echo $full_name; ?></span></p>
+                <p class="mb-1" style="text-align: left;"><strong>Contact:</strong> <span id="customer-contact"><?php echo $contact_number; ?></span></p>
+                <p class="mb-3" style="text-align: left;"><strong>Address:</strong> <span id="customer-address"><?php echo $address; ?></span></p>
             </div>
             <div class="mb-3">
                 <label for="payment-method" class="form-label fw-bold">Payment Method</label>
@@ -144,8 +144,8 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
         <div class="card-body">
             <h5 class="fw-bold section-title">Order Review</h5>
             <div class="mt-3">
-                <p class="mb-1">Product subtotal: <span class="float-end" id="product-subtotal">₱<?php echo number_format($subtotal, 2); ?></span></p>
-                <p class="mb-1">COD shipping: <span class="float-end" id="shipping-fee">₱<?php echo number_format($shipping_fee, 2); ?></span></p>
+                <p class="mb-1" style="text-align: left;">Product subtotal: <span class="float-end" id="product-subtotal">₱<?php echo number_format($subtotal, 2); ?></span></p>
+                <p class="mb-1" style="text-align: left;">COD shipping: <span class="float-end" id="shipping-fee">₱<?php echo number_format($shipping_fee, 2); ?></span></p>
                 <hr>
                 <p><strong>Total payment: <span class="float-end text-danger" id="total-payment">₱<?php echo number_format($subtotal + $shipping_fee, 2); ?></span></strong></p>
             </div>
