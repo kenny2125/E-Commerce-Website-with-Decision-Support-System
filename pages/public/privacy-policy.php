@@ -24,7 +24,7 @@ include '../../config/db_config.php';
         <div class="back" id="backButton" style="margin-top: 30px; right: 20px; margin-bottom: 30px; font-size: 23px; color: #A9A9A9; margin-left: 1790px;">
             <a href="/index.php" style="text-decoration: none; color: inherit;">Back</a>
         </div>
-            <img src="/assets/images/BANNERS (3).png" alt="Logo" class="logo" style="width: 95%;">>
+            <img src="/assets/images/BANNERS (4).png" alt="Logo" class="logo" style="width: 95%;">>
         
     <h1 class="terms-and-condition" style="margin-top: 20px; margin-left: 65px;"><img src="/assets/images/Group 349.png" alt="Call Icon" style="margin-right:10px;">Privacy Policy</h1>
 
