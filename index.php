@@ -9,6 +9,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
     <title>RPC Tech Computer Store</title>
     <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/header.css">
     <link rel="icon" href="assets/images/rpc-favicon.png">
 </head>
 <body>

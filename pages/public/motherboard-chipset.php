@@ -34,7 +34,7 @@ include '../../config/db_config.php';
 	<p class="blank-line">&nbsp;</p>
 	<div class="step-2" style="text-align: justify; margin-bottom: 10px; margin-left: 140px; margin-right: 170px; font-size: 20px; font-weight: bold;">Step 2:</div>
     <div class="step2-content" style="text-align: justify; margin-bottom: 5px; margin-left: 190px; margin-right: 170px; font-size: 20px;">Find the system model as per picture.</div>
-    <img class="chipset-step-icon" alt="" src="/assets/images/image 37.png" style="width: 50%; height: auto; margin-left: 190px;">
+    <img class="chipset-step-icon" alt="" src="/assets/images/DXDIAG.png" style="width: 50%; height: auto; margin-left: 190px;">
     <div class="in-this-example" style="text-align: justify; margin-bottom: 80px; margin-left: 190px; margin-right: 170px; font-size: 20px;">In this example, the Motherboard Chipset is B450M</div>
 </div>
 
