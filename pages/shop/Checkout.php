@@ -159,11 +159,10 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
                     I agree that my information is correct and valid.
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary mt-3 w-100 fw-bold">Place Order</button>
+            <button type="submit" class="btn btn-primary mt-3 w-100 fw-bold" style="margin-left: 40px;">Place Order</button>
         </div>
     </div>
 </form>
-
 
 
 </body>

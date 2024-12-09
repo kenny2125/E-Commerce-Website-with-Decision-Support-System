@@ -90,11 +90,11 @@
         </div>
 
         <!-- Checkout Button -->
-        <button type="submit" class="btn btn-primary mt-3">Proceed to Checkout</button>
+        <div style="text-align: right; margin-top: 20px;">
+    <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+</div>
     </form>
 </div>
-
-
 </body>
 </html>
 
