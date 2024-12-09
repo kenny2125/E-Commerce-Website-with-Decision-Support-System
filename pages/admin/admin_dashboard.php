@@ -168,7 +168,7 @@ if (isset($_SESSION['user_ID'])) {
                 <div class="row">
                     <div class="col-6" style="margin-bottom: 30px; max-width: 220px;">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 200px; text-align: center; box-shadow: 0 4px 10px #888383;">
-                        <div class="card-body">
+                        <div class="card-body" >
                             <h5 class="card-title">Total Sales</h5>
                             <img src="/assets/images/Philippine Peso (PHP).png" alt="Philippine Peso" class="php" style="margin-top: 12px;">
                             <p class="card-text">₱<?php echo number_format($total_sales, 2); ?></p>
@@ -216,7 +216,7 @@ if (isset($_SESSION['user_ID'])) {
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {
-                            echo '<div class="card-body" style="max-width: 200px; max-height: 200px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">';
+                            echo '<div class="card-body" style="max-width: 200px; height: 500px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">';
                             echo '<h5 class="card-title" style="font-size: 16px; margin-bottom: 10px;">Top Product Categories</h5>';
                             
                             while ($row = $result->fetch_assoc()) {
@@ -266,7 +266,7 @@ if (isset($_SESSION['user_ID'])) {
                             $result = $conn->query($sql);
 
                             if ($result->num_rows > 0) {
-                                echo '<div class="card-body">';
+                                echo '<div class="card-body" style="height: 900px;>';
                                 echo '<h5 class="card-title" style="margin-bottom: 25px;">Top Products</h5>';
                                 
                                 // Output the top 5 products
