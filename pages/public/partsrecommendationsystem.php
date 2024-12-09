@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parts Recommendation System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
     <link rel="stylesheet" href="/assets/css/partsrecommendationsystem.css">
+    <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
 <body>
 
@@ -14,12 +18,8 @@
     include '../../config/db_config.php';
 ?>
 
-
-
-
-
     <div class="container mt-4">
-        <h1 style="text-align: center;">Product Recommendation System</h1>
+        <h1 style="text-align: center;">Parts Recommendation System</h1>
 
         <!-- Categories Card Container -->
         <div class="container">
@@ -113,9 +113,8 @@
 <div id="product-list" class="mt-3"></div>
 
 
-
-
-
+</body>
+</html>
 
 
 <script>
@@ -191,6 +190,3 @@ document.getElementById('price-slider').addEventListener('input', function() {
 
 
 </script>
-
-</body>
-</html>

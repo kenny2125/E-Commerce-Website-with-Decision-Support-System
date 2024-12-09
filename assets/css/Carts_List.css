@@ -82,10 +82,10 @@ height: 40px;
 font-size: 16px;
 border-radius: 74px;
 background-color: #1A54C0;
-padding: 0 25px;
+
 margin-right: 20px; /* Adjust spacing for better placement */
 position: relative;
-right: 40px; /* Move the login button to the left */
+
 }
 
 .btn-primary:hover {
@@ -127,6 +127,6 @@ transition: transform 0.3s ease, background-color 0.3s ease;
 .btn-primary {
     width: 100%; /* Full width login button */
     margin: 0; /* Align with other buttons */
-    left: -5px; /* Reset right position */
+    
 }
 }
