@@ -58,8 +58,8 @@ $user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
 
                     <!-- Admin Link (only visible to admins) -->
                     <?php if ($isAdmin): ?>
-                        <a href="/pages/admin/admin_dashboard.php" class="btn btn-outline-danger ms-3">
-                            Admin Dashboard
+                        <a href="/pages/admin/admin_dashboard.php">
+                            <img src="/assets/images/Group 446.png" alt="Admin Icon">
                         </a>
                     <?php endif; ?>
                 </div>
