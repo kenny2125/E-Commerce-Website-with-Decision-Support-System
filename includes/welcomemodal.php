@@ -14,7 +14,7 @@
                 <img src="/assets/images/welcome icon.png" alt="Welcome Icon" class="mb-3">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary">Browse Products Now!</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='../pages/shop/Products_List.php';">Browse Products Now!</button>
             </div>
         </div>
     </div>
