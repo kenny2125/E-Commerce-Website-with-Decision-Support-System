@@ -291,7 +291,13 @@ $user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
         </div>
         <div class="col-md-4">
             <h2 class="fw-bold"><?php echo htmlspecialchars($product['product_name']); ?></h2>
-            <p><strong>Stock Available:</strong> <span class="text-success">In Stock</span></p>
+            <p><strong>Stock Available:</strong> 
+                <?php if ($product['quantity'] > 0): ?>
+                    <span class="text-success">In Stock</span>
+                <?php else: ?>
+                    <span class="text-danger">Out of Stock</span>
+                <?php endif; ?>
+            </p>
             <p><strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?></p>
             <p class="text-justify"><strong>Description:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
 
@@ -302,7 +308,12 @@ $user_ID = $_SESSION['user_ID'] ?? null; // Safely get the user ID if set
                     <input type="number" name="quantity" id="quantity" class="form-control mx-2" value="1" min="1" required>
                     <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity(1)">+</button>
                 </div>
-                <button type="submit" class="btn btn-primary" style="margin-left: 40px;">Add to Cart</button>
+                <?php if ($product['quantity'] > 0): ?>
+                    <button type="submit" class="btn btn-primary" style="margin-left: 40px;">Add to Cart</button>
+                <?php else: ?>
+                    <button type="button" class="btn btn-secondary" style="margin-left: 40px;" disabled>Out of Stock</button>
+                <?php endif; ?>
+
             </form>
             <div id="cartMessage" class="mt-3"></div>
         </div>
