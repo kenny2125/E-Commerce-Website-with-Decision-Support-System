@@ -60,18 +60,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     $firstName = $_POST['first_name'];
     $middleInitial = $_POST['middle_initial'];
     $lastName = $_POST['last_name'];
-    $username = $_POST['username'];
-    $password = $_POST['password']; // Hash the password before saving
     $address = $_POST['address'];
     $contactNumber = $_POST['contact_number'];
     $email = $_POST['email'];
 
-    // Hash password if changed
-    $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
+    // Hash password only if it's provided, else use the existing password
+    $hashedPassword = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
 
-    // Update user data in the database
-    $updateSql = "UPDATE tbl_user SET first_name = '$firstName', middle_initial = '$middleInitial', last_name = '$lastName', username = '$username', password = '$hashedPassword', address = '$address', contact_number = '$contactNumber', email = '$email' WHERE user_ID = $user_ID";
-    
+    // Update user data in the database (excluding username and password)
+    $updateSql = "UPDATE tbl_user SET 
+                    first_name = '$firstName', 
+                    middle_initial = '$middleInitial', 
+                    last_name = '$lastName', 
+                    address = '$address', 
+                    contact_number = '$contactNumber', 
+                    email = '$email' 
+                    WHERE user_ID = $user_ID";
+
+    // Only add password to the query if it's changed
+    if (!empty($_POST['password'])) {
+        $updateSql .= ", password = '$hashedPassword'";
+    }
+
     if ($conn->query($updateSql)) {
         echo "Profile updated successfully";
         // Refresh the user data after updating
@@ -82,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     }
 }
 ?>
+
 
     <div class="container">
         <div class="row">
@@ -128,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                             </div>
                         </div>
                         
-                        <!-- Username and Password in second row -->
+                        <!-- Username and Password in second row, these fields are disabled -->
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label>Username</label>
@@ -302,7 +313,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     document.getElementById('editProfile').addEventListener('click', function() {
         var inputs = document.querySelectorAll('#profileContent input');
         inputs.forEach(function(input) {
-            input.disabled = false; // Enable all inputs
+            // Enable all inputs except username and password
+            if (input.id !== 'username' && input.id !== 'password') {
+                input.disabled = false; // Enable all inputs except username and password
+            }
         });
         document.getElementById('saveProfile').style.display = 'inline'; // Show save button
         document.getElementById('editProfile').style.display = 'none'; // Hide edit button

@@ -192,8 +192,12 @@ if (!$brand_result) {
                                 echo "<td>" . $row['category'] . "</td>";
                                 echo "<td>" . $row['brand_name'] . "</td>";
                                 echo "<td>" . $row['product_name'] . "</td>";
-                                echo "<td>Available</td>"; // Static status placeholder
-                                echo "<td>" . $row['quantity'] . "</td>"; // Quantity field
+                                if ($row['quantity'] > 0) {
+                                    echo "<td>Available</td>"; // Status when quantity is positive
+                                } else {
+                                    echo "<td>Out of Stock</td>"; // Status when quantity is 0 or less
+                                }
+                                echo "<td>" . $row['quantity'] . "</td>"; // Display quantity
                                 echo "<td>₱ " . number_format($row['store_price'], 2) . "</td>";
                                 echo "<td>
                                         <form method='post' style='display:inline;'>

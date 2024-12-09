@@ -242,9 +242,11 @@ $conn->close();
                                 // Output the top 5 products
                                 $rank = 1;
                                 while ($row = $result->fetch_assoc()) {
-                                    echo '<p class="card-text" style="font-size: 14px; font-weight: bold; margin: 0;">' . $rank . '. ' . $row['product_name'] . '</p>';
+                                    echo '<p class="card-text" style="font-size: 17px; font-weight: bold; margin: 10px 0; text-align: left;">' . $rank . '. ' . $row['product_name'] . '</p>';
                                     $rank++;
                                 }
+                                
+                                
                                 echo '</div>';
                             } else {
                                 echo '<div class="card-body"><p>No top products available.</p></div>';
@@ -270,22 +272,34 @@ $conn->close();
                             $result = $conn->query($sql);
 
                             if ($result->num_rows > 0) {
-                                echo '<div class="card-body">';
-                                echo '<h5 class="card-title" style="margin-bottom: 25px;">Stock Alerts</h5>';
-                                
+                                echo '<div class="card-body" style="padding: 15px; overflow: hidden;">';
+                                echo '<h5 class="card-title" style="margin-bottom: 25px; font-size: 18px;">Stock Alerts</h5>';
+                            
                                 // Output the stock alerts
                                 while ($row = $result->fetch_assoc()) {
                                     // If the quantity is 0, it's out of stock
+                                    $productName = $row['product_name'];
+                                    $maxLength = 30; // Set a max length for the product name
+                            
                                     if ($row['quantity'] == 0) {
-                                        echo '<p class="card-text" style="font-size: 14px; color: red;">' . $row['product_name'] . ': Out of stock</p>';
+                                        // Truncate the product name if it's too long
+                                        if (strlen($productName) > $maxLength) {
+                                            $productName = substr($productName, 0, $maxLength) . '...';
+                                        }
+                                        echo '<p class="card-text" style="color: red; font-size: 18px; font-weight: bold; margin: 10px 0; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Out of stock: ' . $productName . '</p>';
                                     } else {
-                                        echo '<p class="card-text" style="font-size: 14px; color: orange;">' . $row['product_name'] . ': Low stock</p>';
+                                        // Truncate the product name if it's too long
+                                        if (strlen($productName) > $maxLength) {
+                                            $productName = substr($productName, 0, $maxLength) . '...';
+                                        }
+                                        echo '<p class="card-text" style="color: orange; font-size: 18px; margin: 10px 0; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Low stock: ' . $productName . '</p>';
                                     }
                                 }
                                 echo '</div>';
                             } else {
-                                echo '<div class="card-body"><p>No stock alerts at the moment.</p></div>';
+                                echo '<div class="card-body" style="padding: 15px;"><p>No stock alerts at the moment.</p></div>';
                             }
+                            
                             $conn->close();
                         ?>
 
