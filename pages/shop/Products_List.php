@@ -21,16 +21,11 @@
 include '../../includes/header.php';
 include '../../config/db_config.php';
 
-
-
 // Get the search query from session if available
 $searchQuery = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : '';
 
-// You can now use $searchQuery in your SQL query to filter results based on the search
-if ($searchQuery) {
-    $sql = "SELECT * FROM tbl_products WHERE product_name LIKE '%$searchQuery%'";
-    // Continue with your database query
-}
+// Get the category filter if present
+$categoryFilter = isset($_GET['category']) ? $_GET['category'] : '';
 
 // Cache expiration time (in seconds)
 $cacheExpirationTime = 60 * 30; // 5 minutes (adjust as needed)
@@ -44,9 +39,20 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
     $products = $_SESSION['products_cache'];
 } else {
 
-
     // Prepare the SQL query to fetch products
     $query = "SELECT * FROM tbl_products";
+    
+    // Add category filter if set
+    if (!empty($categoryFilter)) {
+        $query .= " WHERE category = '$categoryFilter'";
+    }
+    
+    // Prepare for search filter
+    if (!empty($searchQuery)) {
+        $query .= !empty($categoryFilter) ? " AND product_name LIKE '%$searchQuery%'" : " WHERE product_name LIKE '%$searchQuery%'";
+    }
+
+    // Execute the query
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -85,17 +91,34 @@ $endTime = microtime(true);
 // Calculate the time taken to filter the products
 $searchTime = round($endTime - $startTime, 3); // Round to 3 decimal places
 
+// Fetch categories from the database
+$categoriesQuery = "SELECT DISTINCT category FROM tbl_products";
+$categoriesResult = $conn->query($categoriesQuery);
 ?>
 
 <div class="container d-flex" style="padding: 30px">
     <div class="row">
-        <div class="col-3">
+        <div class="col-3"> 
             <div class="container-main p-3">
                 <h4 class="category mb-4">Category</h4>
                 <div class="p-3">
                     <h4 class="mb-4">Filters</h4>
                     <form method="GET" action="">
-                        <!-- Filters can be added here -->
+                        <!-- Category Filter Cards -->
+                        <div class="row">
+                            <?php
+                            if ($categoriesResult && $categoriesResult->num_rows > 0) {
+                                while ($categoryRow = $categoriesResult->fetch_assoc()) {
+                                    $categoryName = $categoryRow['category'];
+                                    // Add "active" class if the category is selected
+                                    $activeClass = ($categoryName == $categoryFilter) ? 'active' : '';
+                                    echo "<div class='col-12 mb-3'>
+                                            <a href='?category=$categoryName' class='btn btn-primary w-100 $activeClass'>$categoryName</a>
+                                        </div>";
+                                }
+                            }
+                            ?>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -125,7 +148,7 @@ $searchTime = round($endTime - $startTime, 3); // Round to 3 decimal places
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($product['product_name']); ?></h5>
                             <p class="card-text">
-                                <strong>Price:</strong> ₱<?php echo number_format($product['srp'], 2); ?><br>
+                                <strong>Price:</strong> ₱<?php echo number_format($product['store_price'], 2); ?><br>
                             </p>
                         </div>
                         <div class="card-footer">
