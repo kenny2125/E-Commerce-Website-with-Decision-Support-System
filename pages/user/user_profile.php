@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     }
     // Get the user ID from the session
     $userID = $_SESSION['user_ID'];
-    $conn = new mysqli($host, $username, $password, $db_name);
+    
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
