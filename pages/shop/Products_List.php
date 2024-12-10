@@ -113,7 +113,7 @@ $categoriesResult = $conn->query($categoriesQuery);
                                     // Add "active" class if the category is selected
                                     $activeClass = ($categoryName == $categoryFilter) ? 'active' : '';
                                     echo "<div class='col-12 mb-3'>
-                                            <a href='?category=$categoryName' class='btn btn-primary w-100 $activeClass'>$categoryName</a>
+                                            <a href='?category=$categoryName' class='btn btn-primary w-100 $activeClass' style='text-align: center; padding: 7px; border-radius: 20px;'>$categoryName</a>
                                         </div>";
                                 }
                             }
