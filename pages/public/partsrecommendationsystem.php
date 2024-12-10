@@ -28,72 +28,93 @@
         <div class="container">
             <div class="category-cards-wrapper">
                 <div class="row" id="category-cards">
-                    <?php
-                    // Categories and their specific titles/descriptions
-                    $categories = [
-                        "CPU" => [
-                            "title" => "To Boost FPS",
-                            "description" => "Upgrade your CPU to boost FPS and gaming performance."
-                        ],
-                        "RAM" => [
-                            "title" => "For Better Multitasking",
-                            "description" => "Upgrade your RAM for smoother multitasking and faster performance."
-                        ],
-                        "Motherboard" => [
-                            "title" => "For Better Connectivity",
-                            "description" => "Upgrade your motherboard for better connectivity and system performance."
-                        ],
-                        "Video Card" => [
-                            "title" => "To Enhance Graphics",
-                            "description" => "Upgrade your Video Card for enhanced graphics performance and rendering."
-                        ],
-                        "Computer Case" => [
-                            "title" => "For Improved Cooling",
-                            "description" => "Upgrade your computer case for better airflow and cooling."
-                        ],
-                        "Solid State Drive" => [
-                            "title" => "For Faster Storage",
-                            "description" => "Upgrade your SSD for faster data transfer speeds and improved system performance."
-                        ],
-                        "Hard Disk Drive" => [
-                            "title" => "For More Storage",
-                            "description" => "Upgrade your HDD for additional storage capacity."
-                        ],
-                        "CPU Cooler" => [
-                            "title" => "For Better Cooling",
-                            "description" => "Upgrade your CPU cooler to ensure your CPU stays cool during intensive tasks."
-                        ],
-                        "Power Supply" => [
-                            "title" => "For Stable Power",
-                            "description" => "Upgrade your power supply for more stable and efficient power delivery."
-                        ],
-                        "Monitor" => [
-                            "title" => "For Better Display",
-                            "description" => "Upgrade your monitor for better resolution and a smoother viewing experience."
-                        ]
-                    ];
+                <div class="row" id="category-cards">
+    <?php
+    // Categories and their specific titles/descriptions
+    $categories = [
+        "CPU" => [
+            "title" => "To Boost FPS",
+            "description" => "Upgrade your CPU to boost FPS and gaming performance.",
+            "image" => "../../assets/images/categories/CPU.png" // Manually specify the image
+        ],
+        "RAM" => [
+            "title" => "For Better Multitasking",
+            "description" => "Upgrade your RAM for smoother multitasking and faster performance.",
+            "image" => "../../assets/images/categories/RAM.png" // Manually specify the image
+        ],
+        "Motherboard" => [
+            "title" => "For Better Connectivity",
+            "description" => "Upgrade your motherboard for better connectivity and system performance.",
+            "image" => "../../assets/images/categories/Motherboard.png" // Manually specify the image
+        ],
+        "Video Card" => [
+            "title" => "To Enhance Graphics",
+            "description" => "Upgrade your Video Card for enhanced graphics performance and rendering.",
+            "image" => "../../assets/images/categories/VideoCard.png" // Manually specify the image
+        ],
+        "Computer Case" => [
+            "title" => "For Improved Cooling",
+            "description" => "Upgrade your computer case for better airflow and cooling.",
+            "image" => "../../assets/images/categories/ComputerCase.png" // Manually specify the image
+        ],
+        "Solid State Drive" => [
+            "title" => "For Faster Storage",
+            "description" => "Upgrade your SSD for faster data transfer speeds and improved system performance.",
+            "image" => "../../assets/images/categories/SolidStateDrive.png" // Manually specify the image
+        ],
+        "Hard Disk Drive" => [
+            "title" => "For More Storage",
+            "description" => "Upgrade your HDD for additional storage capacity.",
+            "image" => "../../assets/images/categories/HardDiskDrive.png" // Manually specify the image
+        ],
+        "CPU Cooler" => [
+            "title" => "For Better Cooling",
+            "description" => "Upgrade your CPU cooler to ensure your CPU stays cool during intensive tasks.",
+            "image" => "../../assets/images/categories/CPUCooler.png" // Manually specify the image
+        ],
+        "Power Supply" => [
+            "title" => "For Stable Power",
+            "description" => "Upgrade your power supply for more stable and efficient power delivery.",
+            "image" => "../../assets/images/categories/PowerSupply.png" // Manually specify the image
+        ],
+        "Monitor" => [
+            "title" => "For Better Display",
+            "description" => "Upgrade your monitor for better resolution and a smoother viewing experience.",
+            "image" => "../../assets/images/categories/Monitor.png" // Manually specify the image
+        ]
+    ];
 
-                    // Loop through categories and create a card for each
-                    foreach ($categories as $category => $details) {
-                        echo "
-                        <div class='col-lg-3 col-md-4 col-sm-6 mb-4'>
-                            <div class='card' id='card-$category'>
-                                <div class='card-body'>
-                                    <h5 class='card-title'>{$details['title']}</h5>
-                                    <p class='card-text'>{$details['description']}</p>
-                                    <button class='btn btn-primary category-btn' onclick='fetchBrands(\"$category\")'>$category</button>
-                                </div>
-                            </div>
-                        </div>";
-                    }
-                    ?>
+    // Loop through categories and create a card for each
+    foreach ($categories as $category => $details) {
+        // Use the manually defined image source
+        $imageSrc = file_exists($details['image']) ? $details['image'] : "https://via.placeholder.com/200";
+
+        echo "
+        <div class='col-lg-3'>
+            <div class='card' id='card-$category'>
+                <img src='$imageSrc' class='card-img-top' alt='Category Image'>
+                <div class='card-body'>
+                    <h5 class='card-title'>{$details['title']}</h5>
+                    <p class='card-text'>{$details['description']}</p>
+                    <button class='btn btn-primary category-btn' onclick='fetchBrands(\"$category\")'>$category</button>
                 </div>
+            </div>
+        </div>";
+    }
+    ?>
+</div>
+
+
+
+
+</div>
+
             </div>
         </div>
 
 
 <!-- Brand Selection Container (Initially hidden) -->
-<div id="brand-selection" class="d-flex flex-column justify-content-center align-items-center vh-10" style="display: none;">
+<div id="brand-selection" class="d-flex flex-column justify-content-center align-items-center vh-10" style="display: none; margin:150px">
     <h3 id="select-brand-title" style="display: none;">Select a Brand</h3> <!-- Initially hidden title -->
     <div id="brand-buttons"></div>
 </div>

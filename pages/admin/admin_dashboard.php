@@ -75,6 +75,36 @@ while ($row = $result->fetch_assoc()) {
 
 $conn->close();
 ?>
+<?php
+// Start the session
+session_start();
+
+// Include the database configuration
+include '../../config/db_config.php';
+
+// Check if user is logged in
+if (isset($_SESSION['user_ID'])) {
+    $user_ID = $_SESSION['user_ID'];
+
+    // Fetch the full name of the user from the database
+    $sql = "SELECT CONCAT(first_name, ' ', middle_initial, '. ', last_name) AS full_name FROM tbl_user WHERE user_ID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_ID);  // Bind the user_ID to the SQL query
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if the user exists
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $full_name = $row['full_name'];
+    } else {
+        $full_name = 'Unknown User';
+    }
+} else {
+    $full_name = 'Guest';  // If the user is not logged in
+}
+?>
+
 <body style="background-color: #EFEFEF;">
 
     <!-- Navbar -->
@@ -124,7 +154,7 @@ $conn->close();
                                     <div class="container-fluid admin-dropdown">
                                 <div class="d-flex justify-content-end">
                         <div class="dropdown" style="background-color: #fff; margin-top: 355px; margin-bottom: 20px; border-radius: 20px; padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 10px;">
-                        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;">John Kenny Q. Reyes</strong>
+                        <img src="/assets/images/Vector.png" alt="Vector" class="vector" style="margin-left: -15px; margin-right: 9px; margin-top: 3px;"><strong style="margin-right: 9.3px; text-align: center;"><?php echo $full_name; ?></strong>
                                 <a href="../user/logout.php" class="btn" style="background-color: #1A54C0; color: #fff; margin-left: 35px; margin-top: 10px; padding-right: 20px; padding-left: 20px;">Log Out</a>
                             </a>
                         </div>
@@ -138,7 +168,7 @@ $conn->close();
                 <div class="row">
                     <div class="col-6" style="margin-bottom: 30px; max-width: 220px;">
                         <div class="card admin-card" style="background-color: #fff; border-radius: 30px; height: 200px; text-align: center; box-shadow: 0 4px 10px #888383;">
-                        <div class="card-body">
+                        <div class="card-body" >
                             <h5 class="card-title">Total Sales</h5>
                             <img src="/assets/images/Philippine Peso (PHP).png" alt="Philippine Peso" class="php" style="margin-top: 12px;">
                             <p class="card-text">₱<?php echo number_format($total_sales, 2); ?></p>
@@ -186,7 +216,7 @@ $conn->close();
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {
-                            echo '<div class="card-body" style="max-width: 200px; max-height: 200px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">';
+                            echo '<div class="card-body" style="max-width: 200px; height: 500px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">';
                             echo '<h5 class="card-title" style="font-size: 16px; margin-bottom: 10px;">Top Product Categories</h5>';
                             
                             while ($row = $result->fetch_assoc()) {
@@ -236,7 +266,7 @@ $conn->close();
                             $result = $conn->query($sql);
 
                             if ($result->num_rows > 0) {
-                                echo '<div class="card-body">';
+                                echo '<div class="card-body" style="height: 900px;>';
                                 echo '<h5 class="card-title" style="margin-bottom: 25px;">Top Products</h5>';
                                 
                                 // Output the top 5 products

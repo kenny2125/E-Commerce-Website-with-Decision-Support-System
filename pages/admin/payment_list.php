@@ -172,13 +172,39 @@
                                     <div class='modal-body'>
                                         <form method='post'>
                                             <input type='hidden' name='payment_ID' value='" . $row['payment_ID'] . "'>
-                                            <!-- Other form fields for editing -->
+
+                                            <div class='mb-3'>
+                                                <label for='edit-status' class='form-label'>Status</label>
+                                                <select class='form-control' name='status' id='edit-status' required>
+                                                    <option value='PAID'" . ($row['status'] == 'PAID' ? ' selected' : '') . ">PAID</option>
+                                                    <option value='REFUNDED'" . ($row['status'] == 'REFUNDED' ? ' selected' : '') . ">REFUNDED</option>
+                                                </select>
+                                            </div>
+
+                                            <div class='mb-3'>
+                                                <label for='edit-amount' class='form-label'>Amount</label>
+                                                <input type='text' class='form-control' name='amount' id='edit-amount' value='" . $row['amount'] . "' required>
+                                            </div>
+
+                                            <div class='mb-3'>
+                                                <label for='edit-cust_name' class='form-label'>Customer Name</label>
+                                                <input type='text' class='form-control' name='cust_name' id='edit-cust_name' value='" . $row['cust_name'] . "' required>
+                                            </div>
+
+                                            <div class='mb-3'>
+                                                <label for='edit-source_type' class='form-label'>Payment Method</label>
+                                                <select class='form-control' name='source_type' id='edit-source_type' required>
+                                                    <option value='CASH'" . ($row['source_type'] == 'CASH' ? ' selected' : '') . ">CASH</option>
+                                                </select>
+                                            </div>
+
                                             <button type='submit' name='edit' class='btn btn-primary'>Save Changes</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>";
+
                     }
                 } else {
                     echo "<tr><td colspan='7' class='text-center'>No payments found</td></tr>";
@@ -228,8 +254,6 @@
                     <div class="mb-3">
                         <label for="new-source_type" class="form-label">Payment Method</label>
                         <select class="form-control" name="source_type" id="new-source_type" required>
-                            <option value="GCASH">GCASH</option>
-                            <option value="MAYA">MAYA</option>
                             <option value="CASH">CASH</option>
                         </select>
                     </div>

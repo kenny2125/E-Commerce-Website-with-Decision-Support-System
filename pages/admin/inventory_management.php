@@ -81,7 +81,7 @@ if (!$brand_result) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Document</title>
+    <title>Inventory Management</title>
     <link rel="icon" href="/assets/images/rpc-favicon.png">
 </head>
 <body style="background-color: #EBEBEB;">
@@ -281,7 +281,7 @@ if (!$brand_result) {
                                 
                                                     <div class='d-flex align-items-center'>
                                                         <label for='quantity-" . $row['product_ID'] . "' class='me-2'>Quantity</label>
-                                                        <input type='number' class='form-control mx-2' name='quantity' id='quantity-" . $row['product_ID'] . "' value='" . $row['quantity'] . "' min='1' style='width: 60px;'>
+                                                        <input type='number' class='form-control mx-2' name='quantity' id='quantity-" . $row['product_ID'] . "' value='" . $row['quantity'] . "' min='0' style='width: 60px;'>
                                                     </div>
                                                     
                                                     <button type='submit' name='edit' class='btn btn-primary mt-3'>Save Changes</button>
