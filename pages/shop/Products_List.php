@@ -21,11 +21,16 @@
 include '../../includes/header.php';
 include '../../config/db_config.php';
 
+
+
 // Get the search query from session if available
 $searchQuery = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : '';
 
-// Get the category filter if present
-$categoryFilter = isset($_GET['category']) ? $_GET['category'] : '';
+// You can now use $searchQuery in your SQL query to filter results based on the search
+if ($searchQuery) {
+    $sql = "SELECT * FROM tbl_products WHERE product_name LIKE '%$searchQuery%'";
+    // Continue with your database query
+}
 
 // Cache expiration time (in seconds)
 $cacheExpirationTime = 60 * 30; // 5 minutes (adjust as needed)
@@ -39,20 +44,9 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
     $products = $_SESSION['products_cache'];
 } else {
 
+
     // Prepare the SQL query to fetch products
     $query = "SELECT * FROM tbl_products";
-    
-    // Add category filter if set
-    if (!empty($categoryFilter)) {
-        $query .= " WHERE category = '$categoryFilter'";
-    }
-    
-    // Prepare for search filter
-    if (!empty($searchQuery)) {
-        $query .= !empty($categoryFilter) ? " AND product_name LIKE '%$searchQuery%'" : " WHERE product_name LIKE '%$searchQuery%'";
-    }
-
-    // Execute the query
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -105,20 +99,39 @@ $categoriesResult = $conn->query($categoriesQuery);
                     <h4 class="mb-4">Filters</h4>
                     <form method="GET" action="">
                         <!-- Category Filter Cards -->
-                        <div class="row">
-                            <?php
-                            if ($categoriesResult && $categoriesResult->num_rows > 0) {
-                                while ($categoryRow = $categoriesResult->fetch_assoc()) {
-                                    $categoryName = $categoryRow['category'];
-                                    // Add "active" class if the category is selected
-                                    $activeClass = ($categoryName == $categoryFilter) ? 'active' : '';
-                                    echo "<div class='col-12 mb-3'>
-                                            <a href='?category=$categoryName' class='btn btn-primary w-100 $activeClass' style='text-align: center; padding: 7px; border-radius: 20px;'>$categoryName</a>
-                                        </div>";
-                                }
-                            }
-                            ?>
-                        </div>
+<div class="row">
+    <div class="col-12 mb-3">
+        <a href="?category=CPU" class="btn btn-primary w-100">CPU</a>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="?category=RAM" class="btn btn-primary w-100">RAM</a>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="?category=Motherboard" class="btn btn-primary w-100">Motherboard</a>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="?category=Video%20Card" class="btn btn-primary w-100">Video Card</a>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="?category=Computer%20Case" class="btn btn-primary w-100">Computer Case</a>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="?category=Solid%20State%20Drive" class="btn btn-primary w-100">Solid State Drive</a>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="?category=Hard%20Disk%20Drive" class="btn btn-primary w-100">Hard Disk Drive</a>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="?category=CPU%20Cooler" class="btn btn-primary w-100">CPU Cooler</a>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="?category=Power%20Supply" class="btn btn-primary w-100">Power Supply</a>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="?category=Monitor" class="btn btn-primary w-100">Monitor</a>
+    </div>
+</div>
+
                     </form>
                 </div>
             </div>
