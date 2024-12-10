@@ -100,35 +100,35 @@ $categoriesResult = $conn->query($categoriesQuery);
                     <form method="GET" action="">
                         <!-- Category Filter Cards -->
 <div class="row">
-    <div class="col-12 mb-3">
-        <a href="?category=CPU" class="btn btn-primary w-100">CPU</a>
+    <div class="col-12 mb-3" >
+        <a href="?category=CPU" class="btn btn-primary w-100" style="padding: 7px;">CPU</a>
     </div>
     <div class="col-12 mb-3">
-        <a href="?category=RAM" class="btn btn-primary w-100">RAM</a>
+        <a href="?category=RAM" class="btn btn-primary w-100" style="padding: 7px;">RAM</a>
     </div>
     <div class="col-12 mb-3">
-        <a href="?category=Motherboard" class="btn btn-primary w-100">Motherboard</a>
+        <a href="?category=Motherboard" class="btn btn-primary w-100" style="padding: 7px;">Motherboard</a>
     </div>
     <div class="col-12 mb-3">
-        <a href="?category=Video%20Card" class="btn btn-primary w-100">Video Card</a>
+        <a href="?category=Video%20Card" class="btn btn-primary w-100" style="padding: 7px;">Video Card</a>
     </div>
     <div class="col-12 mb-3">
-        <a href="?category=Computer%20Case" class="btn btn-primary w-100">Computer Case</a>
+        <a href="?category=Computer%20Case" class="btn btn-primary w-100" style="padding: 7px;">Computer Case</a>
     </div>
     <div class="col-12 mb-3">
-        <a href="?category=Solid%20State%20Drive" class="btn btn-primary w-100">Solid State Drive</a>
+        <a href="?category=Solid%20State%20Drive" class="btn btn-primary w-100" style="padding: 7px;">Solid State Drive</a>
     </div>
     <div class="col-12 mb-3">
-        <a href="?category=Hard%20Disk%20Drive" class="btn btn-primary w-100">Hard Disk Drive</a>
+        <a href="?category=Hard%20Disk%20Drive" class="btn btn-primary w-100" style="padding: 7px;">Hard Disk Drive</a>
     </div>
     <div class="col-12 mb-3">
-        <a href="?category=CPU%20Cooler" class="btn btn-primary w-100">CPU Cooler</a>
+        <a href="?category=CPU%20Cooler" class="btn btn-primary w-100" style="padding: 7px;">CPU Cooler</a>
     </div>
     <div class="col-12 mb-3">
-        <a href="?category=Power%20Supply" class="btn btn-primary w-100">Power Supply</a>
+        <a href="?category=Power%20Supply" class="btn btn-primary w-100" style="padding: 7px;">Power Supply</a>
     </div>
     <div class="col-12 mb-3">
-        <a href="?category=Monitor" class="btn btn-primary w-100">Monitor</a>
+        <a href="?category=Monitor" class="btn btn-primary w-100" style="padding: 7px;">Monitor</a>
     </div>
 </div>
 
