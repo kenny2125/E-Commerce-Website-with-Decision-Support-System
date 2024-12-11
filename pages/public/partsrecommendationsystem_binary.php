@@ -128,7 +128,7 @@
     <div id="reset-button-container" style="display: none;">
         <button onclick="window.location.reload();" class="btn btn-danger mt-3">Reset</button>
     </div>
-    <input type="range" id="price-slider" class="form-range" min="0" max="99999" step="500" value="10000" 
+    <input type="range" id="price-slider" class="form-range" min="0" max="99999" step="1000" value="10000" 
            style="width: 80%; margin: 0 auto;">
 
 </div>
@@ -191,13 +191,30 @@ function fetchBrands(category) {
 }
 // Fetch products once the brand is selected
 function fetchProducts(category, brand) {
+    const fetchStartTime = performance.now(); // Record fetch start time
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'controllers/get_products.php?category=' + category + '&brand=' + brand, true);
     xhr.onload = function() {
         if (xhr.status === 200) {
+            const fetchEndTime = performance.now(); // Record fetch end time
+            const fetchDuration = (fetchEndTime - fetchStartTime).toFixed(2); // Calculate fetch duration
+            
             allProducts = JSON.parse(xhr.responseText);  // Store all products fetched
             filteredProducts = allProducts;  // Initially, display all products
+            
+            // Display fetch time
+            displayFetchTime(fetchDuration);
+
+            const renderStartTime = performance.now(); // Record rendering start time
             displayProducts(filteredProducts);  // Display products
+            const renderEndTime = performance.now(); // Record rendering end time
+
+            const renderDuration = (renderEndTime - renderStartTime).toFixed(2); // Calculate render duration
+            const totalDuration = (renderEndTime - fetchStartTime).toFixed(2); // Total duration
+            
+            // Display rendering time and total time
+            displayRenderTime(renderDuration, totalDuration);
+
             filterProducts();  // Apply initial filter based on slider value
             document.getElementById('price-slider-container').style.display = 'block'; // Show price slider
         }
@@ -237,15 +254,33 @@ function displayProducts(products) {
 }
 
 
-
-
-
 // Filter products based on the selected price range
 function filterProducts() {
     const maxPrice = parseInt(document.getElementById('price-slider').value, 10); // Get the slider value as an integer
-    // Filter products based on max price (convert product store_price to an integer for comparison)
-    filteredProducts = allProducts.filter(product => parseInt(product.store_price, 10) <= maxPrice);
+    
+    // Use binary search to determine the cutoff index
+    const index = binarySearch(allProducts, maxPrice);
+    
+    // Get the products up to the cutoff index
+    filteredProducts = index === -1 ? [] : allProducts.slice(0, index + 1);
+    
     displayProducts(filteredProducts);  // Update the displayed products
+}
+
+
+// Binary search function
+function binarySearch(products, maxPrice) {
+    let low = 0, high = products.length - 1, result = -1;
+    while (low <= high) {
+        const mid = Math.floor((low + high) / 2);
+        if (parseInt(products[mid].store_price, 10) <= maxPrice) {
+            result = mid; // Store the last valid index
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return result;
 }
 
 // Event listener for slider change to dynamically filter products
@@ -255,5 +290,33 @@ document.getElementById('price-slider').addEventListener('input', function () {
     filterProducts();  // Apply the filter with the new slider value
 });
 
+// Event listener for slider change to dynamically filter products
+document.getElementById('price-slider').addEventListener('input', function () {
+    const value = parseInt(this.value, 10); // Get the slider value as an integer
+    document.getElementById('price-value').textContent = value; // Update displayed value
+    filterProducts();  // Apply the filter with the new slider value
+});
+
+// Display fetch time
+function displayFetchTime(fetchDuration) {
+    let timingElement = document.getElementById('fetch-time');
+    if (!timingElement) {
+        timingElement = document.createElement('p');
+        timingElement.id = 'fetch-time';
+        document.getElementById('product-list').insertAdjacentElement('beforebegin', timingElement);
+    }
+    timingElement.innerHTML = `Fetching data took ${fetchDuration} ms.`;
+}
+
+// Display render and total time
+function displayRenderTime(renderDuration, totalDuration) {
+    let timingElement = document.getElementById('render-time');
+    if (!timingElement) {
+        timingElement = document.createElement('p');
+        timingElement.id = 'render-time';
+        document.getElementById('product-list').insertAdjacentElement('beforebegin', timingElement);
+    }
+    timingElement.innerHTML = `Rendering products took ${renderDuration} ms. Total time: ${totalDuration} ms.`;
+}
 
 </script>
