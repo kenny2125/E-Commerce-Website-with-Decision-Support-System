@@ -21,6 +21,7 @@
     $sql = "SELECT product_ID, product_name, store_price, img_data FROM tbl_products LIMIT 6";
     $result = $conn->query($sql);
 
+    
     $products = [];
     if ($result->num_rows > 0) {
         // Store products in an array
