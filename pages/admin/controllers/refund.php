@@ -1,9 +1,18 @@
 <?php
+require __DIR__ . '/../../../vendor/autoload.php'; // Load Dotenv
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
+$dotenv->load();
+
 // Include database connection
 include '../../../config/db_config.php';
 
 // Fetch payment details from the database
-$payment_ID = $_POST['payment_ID']; // Assume the Payment ID is passed via POST
+$payment_ID = $_POST['payment_ID'] ?? null;
+
+if (!$payment_ID) {
+    echo "Payment ID is required.";
+    exit;
+}
 
 $sql = "SELECT amount, paymongo_payment_ID FROM tbl_payments WHERE payment_ID = ?";
 $stmt = $conn->prepare($sql);
@@ -14,7 +23,7 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     // Fetch the payment details
     $payment = $result->fetch_assoc();
-    $amount = $payment['amount'] * 100; // Convert to centavos if required by PayMongo
+    $amount = $payment['amount'] * 100; // Convert to centavos
     $paymongo_payment_ID = $payment['paymongo_payment_ID'];
 } else {
     echo "No payment found for the given Payment ID.";
@@ -28,8 +37,11 @@ $conn->close();
 // Initialize cURL for refund request
 $curl = curl_init();
 
+$paymongoApiKey = $_ENV['PAYMONGO_API_KEY']; // From .env
+$paymongoSecret = $_ENV['PAYMONGO_SECRET']; // From .env
+
 curl_setopt_array($curl, [
-    CURLOPT_URL => "https://api.paymongo.com/refunds",
+    CURLOPT_URL => "https://api.paymongo.com/v1/refunds",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
     CURLOPT_MAXREDIRS => 10,
@@ -47,7 +59,7 @@ curl_setopt_array($curl, [
     ]),
     CURLOPT_HTTPHEADER => [
         "accept: application/json",
-        "authorization: Basic c2tfdGVzdF90dGdxaGQ5RUFEQWFOS1NZSHdHWHZXd3M6",
+        "authorization: Basic " . base64_encode("$paymongoApiKey:$paymongoSecret"), // Secure credentials
         "content-type: application/json"
     ],
 ]);

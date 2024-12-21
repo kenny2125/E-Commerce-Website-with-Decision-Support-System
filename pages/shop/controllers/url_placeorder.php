@@ -4,6 +4,10 @@ session_start();
 $isLoggedIn = $_SESSION['isLoggedIn'] ?? false;
 $userId = $_SESSION['user_ID'] ?? null;
 
+require __DIR__ . '/../../../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
+$dotenv->load();
+
 include '../../../config/db_config.php';
 
 if ($isLoggedIn && $userId) {
@@ -56,6 +60,10 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
     }
 
     $amount = ($subtotal + $shipping_fee) * 100;
+
+    $paymongoApiKey = $_ENV['PAYMONGO_API_KEY'];
+    $paymongoSecret = $_ENV['PAYMONGO_SECRET'];
+
     $curl = curl_init();
     curl_setopt_array($curl, [
         CURLOPT_URL => "https://api.paymongo.com/v1/links",
@@ -75,7 +83,7 @@ if (isset($_POST['selected_products']) && !empty($_POST['selected_products'])) {
         ]),
         CURLOPT_HTTPHEADER => [
             "accept: application/json",
-            "authorization: Basic c2tfdGVzdF90dGdxaGQ5RUFEQWFOS1NZSHdHWHZXd3M6",
+            "authorization: Basic " . base64_encode("$paymongoApiKey:$paymongoSecret"),
             "content-type: application/json"
         ],
     ]);
