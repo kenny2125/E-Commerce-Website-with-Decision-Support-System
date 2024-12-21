@@ -42,7 +42,7 @@ A live, interactive prototype of the website was created using Figma to provide 
 
 ## Database Schema
 
-![Screenshot of the website](assets/preview/Schema.png)
+
 
 
 ## License
