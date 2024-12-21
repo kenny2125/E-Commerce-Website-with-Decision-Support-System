@@ -37,8 +37,13 @@ This is an E-Commerce Website with a Decision Support System, built to help user
 
 A live, interactive prototype of the website was created using Figma to provide a realistic user experience with working links and navigation. 
 
-
 - View the prototype in [Figma](https://www.figma.com/design/oZP1HryJzSm8Dqhd2I4RLX/RPC-COMPUTER-STORE-UI?node-id=0-1&t=O13xXVhRiLg3ys4W-1)
+
+
+## Database Schema
+
+![Screenshot of the website](assets/preview/Schema.png)
+
 
 ## License
 
