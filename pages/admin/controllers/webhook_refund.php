@@ -1,18 +1,6 @@
 <?php
 // Database connection
-$servername = "erxv1bzckceve5lh.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "vg2eweo4yg8eydii";
-$password = "rccstjx3or46kpl9";
-$dbname = "s0gp0gvxcx3fc7ib";
-$port = "3306";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname, $port);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Database connection failed: " . $conn->connect_error);
-}
+include '../../../config/db_config.php';
 
 // Log incoming request
 $input = file_get_contents('php://input'); // Capture raw POST data

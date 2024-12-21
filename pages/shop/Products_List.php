@@ -21,37 +21,25 @@
 include '../../includes/header.php';
 include '../../config/db_config.php';
 
-
-
-// Get the search query from session if available
 $searchQuery = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : '';
 
-// You can now use $searchQuery in your SQL query to filter results based on the search
 if ($searchQuery) {
     $sql = "SELECT * FROM tbl_products WHERE product_name LIKE '%$searchQuery%'";
-    // Continue with your database query
 }
 
-// Cache expiration time (in seconds)
-$cacheExpirationTime = 60 * 30; // 5 minutes (adjust as needed)
+$cacheExpirationTime = 60 * 30;
 
-// Initialize $searchQuery as an empty string by default
 $searchQuery = isset($_GET['search_query']) ? $_GET['search_query'] : '';
 
-// Cache check and logic for product list
 if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_time'] < $cacheExpirationTime)) {
-    // Use the cached products data
     $products = $_SESSION['products_cache'];
 } else {
 
-
-    // Prepare the SQL query to fetch products
     $query = "SELECT * FROM tbl_products";
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Fetch the products
     $products = [];
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -59,33 +47,25 @@ if (isset($_SESSION['products_cache']) && (time() - $_SESSION['products_cache_ti
         }
     }
 
-    // Store the products and cache time in the session
     $_SESSION['products_cache'] = $products;
     $_SESSION['products_cache_time'] = time();
 
-    // Close the database connection
     $stmt->close();
     $conn->close();
 }
 
-// Start measuring the time taken for search operation
 $startTime = microtime(true);
 
-// Filter products by search query if present
 if (!empty($searchQuery)) {
-    // Filter through cached products (case-insensitive search)
     $products = array_filter($products, function ($product) use ($searchQuery) {
-        return stripos($product['product_name'], $searchQuery) !== false; // Case-insensitive search
+        return stripos($product['product_name'], $searchQuery) !== false;
     });
 }
 
-// End measuring the time
 $endTime = microtime(true);
 
-// Calculate the time taken to filter the products
-$searchTime = round($endTime - $startTime, 3); // Round to 3 decimal places
+$searchTime = round($endTime - $startTime, 3);
 
-// Fetch categories from the database
 $categoriesQuery = "SELECT DISTINCT category FROM tbl_products";
 $categoriesResult = $conn->query($categoriesQuery);
 ?>
@@ -98,7 +78,6 @@ $categoriesResult = $conn->query($categoriesQuery);
                 <div class="p-3">
                     <h4 class="mb-4">Filters</h4>
                     <form method="GET" action="">
-                        <!-- Category Filter Cards -->
 <div class="row">
     <div class="col-12 mb-3" >
         <a href="?category=CPU" class="btn btn-primary w-100" style="padding: 7px;">CPU</a>
@@ -147,7 +126,6 @@ $categoriesResult = $conn->query($categoriesQuery);
                 </div>
             </div>
 
-            <!-- Dynamic Product Cards -->
             <div class="row">
                 <?php foreach ($products as $product): ?>
                 <div class="col-md-4 mb-4">

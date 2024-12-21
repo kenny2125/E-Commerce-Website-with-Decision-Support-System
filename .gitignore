@@ -1,0 +1,39 @@
+# Environment files
+.env
+.env.*
+
+# Dependencies
+/vendor/
+composer.lock
+/node_modules/
+package-lock.json
+yarn.lock
+
+# System files
+.DS_Store
+Thumbs.db
+*.log
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cache and temp files
+/tmp/
+.cache/
+
+# Uploaded files
+/public/uploads/
+
+# Compiled files
+/public/build/
+*.class
+*.o
+*.so
+*.exe
+
+# Secrets
+*.key
+*.pem

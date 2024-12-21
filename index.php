@@ -17,14 +17,14 @@
         include 'includes/welcomemodal.php';
         include 'includes/header.php';
         include 'config/db_config.php';
-    // Fetch products from the database
+    
     $sql = "SELECT product_ID, product_name, store_price, img_data FROM tbl_products LIMIT 6";
     $result = $conn->query($sql);
 
     
     $products = [];
     if ($result->num_rows > 0) {
-        // Store products in an array
+      
         while ($row = $result->fetch_assoc()) {
             $products[] = $row;
         }
@@ -73,7 +73,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
                     <div class="card" style="width: 309.328px; height: 437.188px; display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd;">
                     <?php
-                    // Check if there is image data
+                 
                     if (!empty($product['img_data'])) {
                         $imgData = base64_encode($product['img_data']);
                         $imgSrc = 'data:image/jpeg;base64,' . $imgData;

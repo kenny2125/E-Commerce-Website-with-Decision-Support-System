@@ -15,15 +15,14 @@
 include '../../includes/header.php';
 include '../../config/db_config.php';
 
-// Ensure user is logged in by checking if user_ID is set in session
-$user_ID = $_SESSION['user_ID']; // Get the user ID from the session
 
-// Make sure $user_ID is valid
+$user_ID = $_SESSION['user_ID'];
+
+
 if (empty($user_ID)) {
     die("You need to log in.");
 }
 
-// Fetch user data from the database
 $sql = "SELECT * FROM tbl_user WHERE user_ID = $user_ID";
 $result = $conn->query($sql);
 
@@ -34,7 +33,7 @@ if ($result->num_rows > 0) {
     exit();
 }
 
-// Save changes if form is submitted
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     $firstName = $_POST['first_name'];
     $middleInitial = $_POST['middle_initial'];
@@ -43,10 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     $contactNumber = $_POST['contact_number'];
     $email = $_POST['email'];
 
-    // Hash password only if it's provided, else use the existing password
     $hashedPassword = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
 
-    // Update user data in the database (excluding username and password)
     $updateSql = "UPDATE tbl_user SET 
                     first_name = '$firstName', 
                     middle_initial = '$middleInitial', 
@@ -56,14 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                     email = '$email' 
                     WHERE user_ID = $user_ID";
 
-    // Only add password to the query if it's changed
+
     if (!empty($_POST['password'])) {
         $updateSql .= ", password = '$hashedPassword'";
     }
 
     if ($conn->query($updateSql)) {
         echo "Profile updated successfully";
-        // Refresh the user data after updating
+
         $result = $conn->query($sql);
         $user = $result->fetch_assoc();
     } else {
@@ -157,18 +154,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
             </div>
             
 <?php
-    // Make sure the user is logged in
+
     if (!isset($_SESSION['user_ID'])) {
         die("You must be logged in to view your order history.");
     }
-    // Get the user ID from the session
+
     $userID = $_SESSION['user_ID'];
     
-    // Check connection
+
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    // Fetch orders for the logged-in user, with product names from tbl_products
+
     $sql = "
         SELECT o.order_ID, o.payment_status, o.pickup_status, o.order_date, o.total, p.product_name
         FROM tbl_orders o
@@ -178,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
     ";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        // Output each row of orders
+
         $orderHistory = "";
         while ($row = $result->fetch_assoc()) {
             $orderID = $row['order_ID'];
@@ -187,9 +184,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
             $orderDate = $row['order_date'];
             $total = number_format($row['total'], 2);
             $productName = $row['product_name'];
-            // Format order date
+
             $orderDateFormatted = date("F j, Y", strtotime($orderDate));
-            // Add each order row to the table content
+
             $orderHistory .= "
             <tr>
                 <td>$orderID</td>
@@ -207,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                 </td>
             </tr>";
         }
-        // Show the order history inside the table
+
         echo "
         <div id='orderHistoryContent' class='col-md-9 order-history-content'>
             <h2>Order History</h2>
@@ -254,52 +251,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
         document.getElementById('profileContent').style.display = 'block';
         document.getElementById('orderHistoryContent').style.display = 'none';
 
-        // Highlight "My Profile" tab by default
+   
         document.getElementById('myProfile').classList.add('active');
     });
 
-    // Event listener for "My Profile" tab
+
     document.getElementById('myProfile').addEventListener('click', function () {
-        // Show "My Profile" content and hide "Order History" content
+ 
         document.getElementById('profileContent').style.display = 'block';
         document.getElementById('orderHistoryContent').style.display = 'none';
 
-        // Update tab highlight
+
         setActiveTab(this);
     });
 
-    // Event listener for "Order History" tab
+
     document.getElementById('orderHistorySidebar').addEventListener('click', function () {
-        // Show "Order History" content and hide "My Profile" content
+
         document.getElementById('orderHistoryContent').style.display = 'block';
         document.getElementById('profileContent').style.display = 'none';
 
-        // Update tab highlight
+
         setActiveTab(this);
     });
 
-    // Function to update active tab highlight
+
     function setActiveTab(activeTab) {
-        // Remove "active" class from all sidebar items
+
         var tabs = document.querySelectorAll('.sidebar-item');
         tabs.forEach(function (tab) {
             tab.classList.remove('active');
         });
 
-        // Add "active" class to the selected tab
+   
         activeTab.classList.add('active');
     }
 
-    // Enable the input fields when edit profile is clicked
+
     document.getElementById('editProfile').addEventListener('click', function() {
         var inputs = document.querySelectorAll('#profileContent input');
         inputs.forEach(function(input) {
-            // Enable all inputs except username and password
+
             if (input.id !== 'username' && input.id !== 'password') {
-                input.disabled = false; // Enable all inputs except username and password
+                input.disabled = false; 
             }
         });
-        document.getElementById('saveProfile').style.display = 'inline'; // Show save button
-        document.getElementById('editProfile').style.display = 'none'; // Hide edit button
+        document.getElementById('saveProfile').style.display = 'inline'; 
+        document.getElementById('editProfile').style.display = 'none';
     });
 </script>
