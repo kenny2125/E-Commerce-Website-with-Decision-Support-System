@@ -1,6 +1,6 @@
 # E-Commerce Website with Decision Support System
 
-![Screenshot of the website](assets/preview%20Homepage.png)
+![Screenshot of the website](assets/preview/Homepage.png)
 
 
 This is an E-Commerce Website with a Decision Support System, built to help users select compatible computer parts based on their preferences (e.g., budget, usage). The website allows customers to purchase desktop hardware and peripherals from RPC Tech Computer Store with secure payment integration using Paymongo.
